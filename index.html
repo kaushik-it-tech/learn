@@ -1,866 +1,462 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevDocs - Web Development & Programming Learning Portal</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter & Fira Code -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        code, pre, .font-mono { font-family: 'Fira Code', monospace; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(156,163,175,0.5); border-radius: 3px; }
-        .dark .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.5); }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Learn Web: HTML, CSS and JavaScript tutorials</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<style>
+:root{--bg:#f2f5f9;--panel:#fff;--ink:#14213d;--mute:#5a6580;--line:#d9e0ea;--acc:#14213d;--onacc:#fff;--hl:#87ceeb;--html:#87ceeb;--css:#2e86de;--js:#e5a900;--code:#0f172a;--codeink:#e6edf7;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1320;--panel:#151d2e;--ink:#e8edf6;--mute:#94a0b8;--line:#26314a;--acc:#87ceeb;--onacc:#14213d;--code:#080c15;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1320;--panel:#151d2e;--ink:#e8edf6;--mute:#94a0b8;--line:#26314a;--acc:#87ceeb;--onacc:#14213d;--code:#080c15;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--panel);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;padding:10px 20px;flex-wrap:wrap}
+.logo{font-weight:600;font-size:20px;margin-right:8px}
+nav{display:flex;gap:6px}
+nav button,.run,.nx{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;border-radius:6px;cursor:pointer}
+nav button[aria-current=true]{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
+nav i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--css);outline-offset:2px}
+.spacer{flex:1}
+#lang{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+#ex{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;display:flex;align-items:center;justify-content:center;padding:16px}#ex[hidden]{display:none}
+.exb{background:var(--panel);color:var(--ink);max-width:640px;width:100%;max-height:90vh;overflow:auto;border-radius:10px;padding:22px}
+.opt{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:6px;margin:6px 0;cursor:pointer}.opt:has(input:checked){background:var(--hl);color:#14213d}
+.cert{border:8px double #87ceeb;padding:28px;text-align:center;background:#fff;color:#14213d;margin:14px 0}.cert h1{font-size:30px}
+@media print{body>*:not(#ex){display:none!important}#ex{position:static;background:none;padding:0}.exb{max-height:none;overflow:visible;padding:0}.noprint{display:none!important}}
+.cmd{border:1px solid var(--line);border-radius:8px;padding:6px 14px 12px;margin:10px 0}.cmd h4{margin:8px 0 4px}.cmd p{margin:6px 0}.cmd textarea{display:block;width:100%;background:var(--code);color:var(--codeink);border:1px solid var(--line);padding:10px;border-radius:6px;font:14px "JetBrains Mono",monospace;resize:vertical;margin:4px 0 8px}.cmd iframe{display:block;width:100%;height:110px;border:1px solid var(--line);border-radius:6px;margin-top:8px;background:#fff}.cmd pre{background:var(--code);color:var(--codeink);padding:10px;border-radius:6px;overflow:auto;margin:4px 0 8px;font:14px "JetBrains Mono",monospace}
+#q{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:180px}
+.wrap{display:grid;grid-template-columns:250px 1fr;max-width:1200px;margin:0 auto}
+aside{padding:20px;border-right:1px solid var(--line);position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto}
+aside h3{margin:0 0 8px;font-size:15px;color:var(--mute);font-weight:600}
+aside a{display:block;padding:6px 10px;border-radius:6px;color:var(--ink);text-decoration:none;margin-bottom:2px}
+aside a:hover{background:var(--line)}
+aside a[aria-current=page]{background:var(--hl);color:#14213d;font-weight:600}
+main{padding:28px clamp(16px,4vw,48px);min-width:0}
+h1{font-size:clamp(28px,4vw,40px);margin:0 0 6px;line-height:1.15}
+.lede{color:var(--mute);margin:0 0 18px;max-width:70ch}
+main p,main li{max-width:72ch}
+code{font-family:"JetBrains Mono",ui-monospace,monospace;background:var(--line);padding:1px 5px;border-radius:4px;font-size:.9em}
+.lab{border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;margin:20px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-weight:600}
+.run{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:320px}
+textarea{width:100%;height:100%;min-height:320px;border:0;resize:vertical;background:var(--code);color:var(--codeink);font:14px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:14px;tab-size:2}
+iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+@media (max-width:800px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}.split{grid-template-columns:1fr}#q{width:100%}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
 </head>
-<body class="h-full bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-200 overflow-hidden">
+<body>
+<header>
+<span class="logo">Learn Web</span>
+<nav id="tabs" aria-label="Languages"></nav>
+<span class="spacer"></span>
+<input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons">
+<button class="nx" id="exbtn">Exam</button>
+<select id="lang" aria-label="Language"><option value="en">English</option><option value="ru">Русский</option><option value="es">Español</option><option value="hi">हिन्दी</option></select>
+</header>
+<div class="wrap">
+<aside><h3 id="ah"></h3><div id="list"></div></aside>
+<main>
+<h1 id="t"></h1><p class="lede" id="d"></p><div id="body"></div>
+<section class="lab" aria-label="Try it yourself">
+<div class="bar"><span id="tryl">Try it yourself</span><button class="run" id="run">Run code</button></div>
+<div class="split"><textarea id="ed" spellcheck="false" aria-label="Code editor"></textarea><iframe id="out" title="Result" sandbox="allow-scripts"></iframe></div>
+</section>
+<div class="pn"><button class="nx" id="prev">Previous</button><button class="nx" id="next">Next lesson</button></div>
+</main>
+</div>
+<div id="ex" hidden role="dialog" aria-modal="true"><div class="exb" id="exb"></div></div>
+<script>
+var L={
+html:{n:"HTML",c:"var(--html)",items:[
+["intro","HTML introduction","HTML is the markup language that gives a web page its structure.","<p>Every page is a tree of <b>elements</b>. An element has an opening tag, content and a closing tag, like <code>&lt;p&gt;Hello&lt;/p&gt;</code>. Edit the code below and press Run.</p>","<!DOCTYPE html>\n<html>\n<body>\n  <h1>My first page</h1>\n  <p>Hello, web!</p>\n</body>\n</html>"],
+["headings","Headings and paragraphs","Headings outline the page; paragraphs hold the text.","<p>Use <code>h1</code> for the main title and <code>h2</code> to <code>h6</code> for sub-sections. Use one <code>h1</code> per page.</p>","<h1>Main title</h1>\n<h2>Section</h2>\n<h3>Sub-section</h3>\n<p>A paragraph of text.</p>\n<p>Use <strong>strong</strong> for importance and <em>em</em> for emphasis.</p>"],
+["links","Links and images","Connect pages with <a> and show pictures with <img>.","<p>The <code>href</code> attribute sets where a link goes. Images need an <code>alt</code> text that describes them for people who can’t see them.</p>","<a href=\"https://developer.mozilla.org\" target=\"_blank\">Visit MDN</a>\n<br><br>\n<img alt=\"A blue square\" width=\"120\" height=\"80\"\n src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect width='120' height='80' fill='%232e86de'/%3E%3C/svg%3E\">"],
+["lists","Lists and tables","Show items in order, out of order, or in a grid.","<p><code>ul</code> makes a bulleted list, <code>ol</code> a numbered one, and <code>table</code> arranges data in rows and columns.</p>","<ul><li>Apples</li><li>Pears</li></ul>\n<ol><li>Wake up</li><li>Code</li></ol>\n<table border=\"1\" cellpadding=\"6\">\n  <tr><th>Language</th><th>Job</th></tr>\n  <tr><td>HTML</td><td>Structure</td></tr>\n  <tr><td>CSS</td><td>Style</td></tr>\n</table>"],
+["forms","Forms","Collect input from people with form controls.","<p>Pair every <code>input</code> with a <code>label</code>. The <code>required</code> attribute makes the browser check the field before sending.</p>","<form>\n  <label>Name <input name=\"n\" required></label><br><br>\n  <label>Email <input type=\"email\" name=\"e\"></label><br><br>\n  <label><input type=\"checkbox\"> Subscribe</label><br><br>\n  <button>Send</button>\n</form>"]]},
+css:{n:"CSS",c:"var(--css)",items:[
+["selectors","CSS selectors","Selectors choose which elements a rule styles.","<p>A rule is <code>selector { property: value; }</code>. You can select by tag (<code>p</code>), class (<code>.card</code>) or id (<code>#top</code>).</p>","<style>\n  p { color: teal; }\n  .big { font-size: 28px; }\n  #top { background: gold; }\n</style>\n<p>Teal paragraph</p>\n<p class=\"big\">Big paragraph</p>\n<p id=\"top\">Gold paragraph</p>"],
+["colors","Colors and text","Control color, fonts and spacing of text.","<p>Colors can be names, hex (<code>#ff0</code>), <code>rgb()</code> or <code>hsl()</code>. Set <code>line-height</code> around 1.5 for readable text.</p>","<style>\n  body { font-family: Georgia, serif; line-height: 1.6; }\n  h1 { color: hsl(210, 80%, 45%); letter-spacing: 1px; }\n  p { color: #444; text-align: justify; }\n</style>\n<h1>Styled heading</h1>\n<p>Typography is most of what a web page is made of, so small changes here go a long way.</p>"],
+["box","The box model","Every element is a box: content, padding, border, margin.","<p>Padding is inside the border, margin is outside. <code>box-sizing: border-box</code> makes <code>width</code> include padding and border, which is easier to reason about.</p>","<style>\n  div { box-sizing: border-box; width: 240px; padding: 20px;\n        border: 4px solid navy; margin: 30px; background: #eef; }\n</style>\n<div>Padding, border and margin in action.</div>"],
+["flex","Flexbox","Lay out items in a row or column with ease.","<p>Set <code>display: flex</code> on a parent. Then use <code>justify-content</code> (main axis), <code>align-items</code> (cross axis) and <code>gap</code>.</p>","<style>\n  .row { display: flex; justify-content: space-between;\n         align-items: center; gap: 10px; height: 120px; background: #eee; }\n  .row div { background: coral; padding: 14px; color: #fff; }\n</style>\n<div class=\"row\"><div>One</div><div>Two</div><div>Three</div></div>"],
+["responsive","Responsive design","Make a layout adapt to the screen width.","<p>Media queries apply rules only when a condition is true. Resize the result panel or your window to see the columns stack.</p>","<style>\n  .g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }\n  .g div { background: #2e86de; color: #fff; padding: 20px; }\n  @media (max-width: 420px) { .g { grid-template-columns: 1fr; } }\n</style>\n<div class=\"g\"><div>A</div><div>B</div><div>C</div></div>"]]},
+js:{n:"JavaScript",c:"var(--js)",items:[
+["vars","Variables and types","Store values with let and const.","<p>Use <code>const</code> by default and <code>let</code> when the value changes. Common types are string, number, boolean, array and object.</p>","<p id=\"o\"></p>\n<script>\n  const name = \"Ada\";\n  let age = 36;\n  age = age + 1;\n  document.getElementById(\"o\").textContent = name + \" is \" + age;\n<\/script>"],
+["functions","Functions","Name a block of code so you can reuse it.","<p>A function takes inputs (parameters) and can return an output. Arrow functions are a short form.</p>","<p id=\"o\"></p>\n<script>\n  function add(a, b) { return a + b; }\n  const square = n => n * n;\n  o.textContent = \"2 + 3 = \" + add(2, 3) + \", 4 squared = \" + square(4);\n<\/script>"],
+["dom","The DOM","Change the page from JavaScript.","<p>The DOM is the live tree of the page. Select an element, then change its text, style or attributes.</p>","<h2 id=\"h\">Hello</h2>\n<script>\n  const h = document.getElementById(\"h\");\n  h.textContent = \"Changed by JavaScript\";\n  h.style.color = \"tomato\";\n<\/script>"],
+["events","Events","React to clicks, typing and more.","<p><code>addEventListener</code> runs your function when something happens. The event object tells you the details.</p>","<button id=\"b\">Click me</button>\n<p id=\"c\">0 clicks</p>\n<script>\n  let n = 0;\n  b.addEventListener(\"click\", () => { n++; c.textContent = n + \" clicks\"; });\n<\/script>"],
+["loops","Arrays and loops","Work with lists of values.","<p>Arrays hold ordered values. Methods like <code>map</code> and <code>filter</code> build new arrays without manual loops.</p>","<ul id=\"u\"></ul>\n<script>\n  const nums = [1, 2, 3, 4, 5];\n  const even = nums.filter(n => n % 2 === 0).map(n => n * 10);\n  for (const v of even) {\n    const li = document.createElement(\"li\");\n    li.textContent = v;\n    u.appendChild(li);\n  }\n<\/script>"]]}
+};
+L.html.items.push(
+["semantic","Semantic layout","Use elements that describe what content is.","<p>Tags like <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>section</code> and <code>footer</code> help screen readers and search engines understand your page.</p>","<style>header,footer{background:#14213d;color:#fff;padding:8px}nav a{margin-right:10px}</style>\n<header><h2>My Site</h2></header>\n<nav><a href=\"#\">Home</a><a href=\"#\">About</a></nav>\n<main><article><h3>Post title</h3><p>Post text.</p></article></main>\n<footer>2026</footer>"],
+["attrs","Classes, ids and attributes","Attributes add extra information to elements.","<p>An <code>id</code> must be unique on a page. A <code>class</code> can be shared by many elements, and is how you target groups for CSS and JavaScript. <code>title</code> shows a tooltip.</p>","<style>.note{background:#fff3c4;padding:8px}#main{border-left:4px solid orange;padding-left:8px}</style>\n<p id=\"main\" title=\"Hover me\">Unique paragraph</p>\n<p class=\"note\">Note one</p>\n<p class=\"note\">Note two</p>"],
+["media","Audio and video","Embed media without plugins.","<p>Use <code>audio</code> and <code>video</code> with the <code>controls</code> attribute and a <code>src</code> file. Add <code>&lt;track&gt;</code> captions for accessibility. Put your own file path in <code>src</code>; this example has none.</p>","<audio controls src=\"your-sound.mp3\"></audio>\n<br><br>\n<video controls width=\"280\" src=\"your-video.mp4\">\n  Your browser does not support video.\n</video>"],
+["inputs","Input types","Pick the right control for the data.","<p>Types like <code>date</code>, <code>number</code>, <code>range</code> and <code>color</code> give people native pickers, and validate on mobile keyboards too.</p>","<p><label>Date <input type=\"date\"></label></p>\n<p><label>Age <input type=\"number\" min=\"1\" max=\"99\"></label></p>\n<p><label>Volume <input type=\"range\"></label></p>\n<p><label>Color <input type=\"color\"></label></p>\n<p><select><option>Pick one</option><option>HTML</option><option>CSS</option></select></p>"],
+["best","HTML best practices","Habits that keep pages clean and accessible.","<p>Always declare <code>&lt;!DOCTYPE html&gt;</code> and <code>lang</code>, write lowercase tags, give images <code>alt</code> text, use one <code>h1</code>, and close every element.</p>","<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Good page</title>\n</head>\n<body>\n  <h1>A well-formed page</h1>\n</body>\n</html>"]
+);
+L.css.items.push(
+["bg","Backgrounds and borders","Decorate boxes with color, gradients and rounded corners.","<p>Use <code>background</code> for colors and gradients, <code>border-radius</code> for curves and <code>box-shadow</code> for depth.</p>","<style>\n  .c{width:220px;padding:24px;color:#fff;border-radius:14px;\n     background:linear-gradient(135deg,#2e86de,#8e44ad);\n     box-shadow:0 6px 16px rgba(0,0,0,.3);border:3px dashed #fff}\n</style>\n<div class=\"c\">A decorated box</div>"],
+["units","Units and variables","Size things with relative units and reuse values.","<p><code>px</code> is fixed. <code>rem</code> scales with the root font size, <code>%</code> with the parent, <code>vw</code> with the screen. Custom properties like <code>--brand</code> store values you reuse.</p>","<style>\n  :root{--brand:#e4572e}\n  h2{font-size:2rem;color:var(--brand)}\n  .half{width:50%;background:var(--brand);color:#fff;padding:1rem}\n</style>\n<h2>Units</h2>\n<div class=\"half\">50% wide</div>"],
+["position","Position","Place elements exactly where you need them.","<p><code>relative</code> offsets from the normal spot and creates a reference. <code>absolute</code> positions inside the nearest positioned parent. <code>sticky</code> sticks while scrolling.</p>","<style>\n  .box{position:relative;height:140px;background:#eee}\n  .tag{position:absolute;top:10px;right:10px;background:crimson;color:#fff;padding:4px 8px}\n</style>\n<div class=\"box\">Parent<span class=\"tag\">New</span></div>"],
+["grid","CSS Grid","Build two-dimensional layouts.","<p>Grid places items in rows and columns. Use <code>grid-template-columns</code>, <code>gap</code> and <code>grid-column</code> to span cells.</p>","<style>\n  .g{display:grid;grid-template-columns:1fr 2fr 1fr;gap:8px}\n  .g div{background:#1b998b;color:#fff;padding:16px}\n  .wide{grid-column:1 / 4;background:#14213d!important}\n</style>\n<div class=\"g\"><div class=\"wide\">Header</div><div>Nav</div><div>Content</div><div>Ads</div></div>"],
+["anim","Transitions and animations","Add smooth movement.","<p><code>transition</code> animates changes between states such as hover. <code>@keyframes</code> defines a repeating animation. Respect people who prefer reduced motion.</p>","<style>\n  .b{display:inline-block;padding:12px 20px;background:#2e86de;color:#fff;transition:transform .2s}\n  .b:hover{transform:scale(1.15)}\n  .s{width:40px;height:40px;background:coral;animation:m 2s infinite alternate}\n  @keyframes m{to{transform:translateX(200px)}}\n  @media (prefers-reduced-motion:reduce){.s{animation:none}}\n</style>\n<div class=\"b\">Hover me</div><br><br><div class=\"s\"></div>"]
+);
+L.js.items.push(
+["if","Conditionals","Make decisions in code.","<p><code>if</code>, <code>else if</code> and <code>else</code> run code depending on a condition. Use <code>===</code> to compare values strictly.</p>","<p id=\"o\"></p>\n<script>\n  const hour = new Date().getHours();\n  let msg;\n  if (hour < 12) msg = \"Good morning\";\n  else if (hour < 18) msg = \"Good afternoon\";\n  else msg = \"Good evening\";\n  o.textContent = msg;\n<\/script>"],
+["objects","Objects","Group related data under names.","<p>An object holds key/value pairs. Read with <code>obj.key</code>, and keep lists of objects to model real data.</p>","<pre id=\"o\"></pre>\n<script>\n  const user = { name: \"Sam\", langs: [\"HTML\", \"CSS\"], active: true };\n  user.langs.push(\"JS\");\n  o.textContent = user.name + \" knows \" + user.langs.join(\", \");\n<\/script>"],
+["timers","Timers","Run code later or repeatedly.","<p><code>setTimeout</code> runs once after a delay in milliseconds. <code>setInterval</code> repeats, and <code>clearInterval</code> stops it.</p>","<h2 id=\"t\">0</h2>\n<script>\n  let n = 0;\n  const id = setInterval(() => {\n    t.textContent = ++n;\n    if (n === 10) clearInterval(id);\n  }, 500);\n<\/script>"],
+["validate","Form validation","Check input before accepting it.","<p>Listen for the <code>submit</code> event, call <code>preventDefault()</code> to stop the page reloading, then check the values and show a clear message.</p>","<form id=\"f\"><input id=\"e\" placeholder=\"Email\"> <button>Join</button></form>\n<p id=\"m\"></p>\n<script>\n  f.addEventListener(\"submit\", e => {\n    e.preventDefault();\n    const ok = /^\\S+@\\S+\\.\\S+$/.test(document.getElementById(\"e\").value);\n    m.textContent = ok ? \"Thanks!\" : \"Enter a valid email, like you@mail.com\";\n  });\n<\/script>"],
+["classes","Classes and errors","Build reusable blueprints and handle failure.","<p>A <code>class</code> creates objects with shared methods. <code>try</code>/<code>catch</code> keeps one error from stopping the whole script.</p>","<pre id=\"o\"></pre>\n<script>\n  class Counter {\n    constructor() { this.n = 0; }\n    inc() { this.n++; return this; }\n  }\n  const c = new Counter().inc().inc();\n  let out = \"count: \" + c.n;\n  try { JSON.parse(\"{bad json\"); }\n  catch (err) { out += \"\\ncaught: \" + err.name; }\n  o.textContent = out;\n<\/script>"]
+);
+L.html.items.push(
+[`editors`,`HTML editors`,`Write HTML in any text editor.`,`<p>A plain-text editor such as VS Code or Notepad is enough. Save the file as <code>index.html</code> and open it in a browser.</p>`,`<h1>Edited anywhere</h1>\n<p>Save as index.html, then open it.</p>'`],
+[`basic`,`HTML basic`,`The skeleton every page shares.`,`<p><code>&lt;!DOCTYPE html&gt;</code> declares HTML5. <code>html</code> wraps the page, <code>head</code> holds information about it, and <code>body</code> holds what people see.</p>`,`<!DOCTYPE html>\n<html>\n<head><title>Skeleton</title></head>\n<body><p>Visible content</p></body>\n</html>'`],
+[`elements`,`HTML elements`,`Tag + content + closing tag.`,`<p>Some elements are empty (<code>br</code>, <code>hr</code>, <code>img</code>) and have no closing tag. Elements can be nested inside each other.</p>`,`<p>A paragraph with <em>nested <strong>elements</strong></em>.</p>\n<hr>\nLine one<br>Line two'`],
+[`styles`,`HTML styles`,`Style one element with the style attribute.`,`<p>The <code>style</code> attribute takes CSS declarations. It is quick, but a stylesheet is better for many elements.</p>`,`<p style='color:tomato;font-size:24px;background:#eee'>Styled inline</p>'`],
+[`formatting`,`HTML formatting`,`Elements that change how text looks and means.`,`<p>Use <code>strong</code> and <code>em</code> for meaning, and <code>mark</code>, <code>small</code>, <code>del</code>, <code>ins</code>, <code>sub</code>, <code>sup</code> for the rest.</p>`,`<p><strong>Important</strong>, <em>stressed</em>, <mark>marked</mark>, <small>small</small>, <del>old</del> <ins>new</ins>, H<sub>2</sub>O, x<sup>2</sup></p>'`],
+[`quotes`,`Quotations and citations`,`Mark quoted text correctly.`,`<p><code>blockquote</code> is a long quote, <code>q</code> a short inline one, <code>cite</code> a work title and <code>abbr</code> an abbreviation.</p>`,`<blockquote cite='https://example.com'>A long quotation sits in its own block.</blockquote>\n<p>She said <q>hello</q> in <cite>My Book</cite>. <abbr title='HyperText Markup Language'>HTML</abbr></p>'`],
+[`comments`,`HTML comments`,`Notes the browser ignores.`,`<p>Comments start with <code>&lt;!--</code> and end with <code>--&gt;</code>. Use them for notes or to hide code while testing.</p>`,`<!-- This is hidden -->\n<p>Visible</p>\n<!-- <p>Also hidden</p> -->'`],
+[`colors`,`HTML colors`,`Name, hex, RGB, HSL.`,`<p>Set colors with names, <code>#rrggbb</code>, <code>rgb()</code>, <code>hsl()</code> and add transparency with <code>rgba()</code>.</p>`,`<p style='background:tomato'>Name</p>\n<p style='background:#2e86de'>Hex</p>\n<p style='background:rgb(27,153,139)'>RGB</p>\n<p style='background:hsl(45,100%,60%)'>HSL</p>\n<p style='background:rgba(0,0,0,.2)'>RGBA</p>'`],
+[`csshtml`,`CSS in HTML`,`Three ways to add CSS.`,`<p><b>Inline</b> (style attribute), <b>internal</b> (a <code>style</code> element in the head) and <b>external</b> (a <code>link</code> to a .css file). External is best for whole sites.</p>`,`<style>p{color:teal}</style>\n<p>Internal CSS</p>\n<p style='color:crimson'>Inline wins</p>\n<!-- External: <link rel='stylesheet' href='style.css'> -->'`],
+[`images`,`HTML images`,`Show pictures with img.`,`<p>Use <code>src</code>, <code>alt</code>, <code>width</code> and <code>height</code>. Wrap in <code>a</code> to make a clickable image, and <code>picture</code> to offer several sources.</p>`,`<img alt='Green square' width='100' height='100' src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%231b998b%27/%3E%3C/svg%3E'>'`],
+[`title`,`Page title and favicon`,`Name the tab and give it an icon.`,`<p>The <code>title</code> element names the tab and search results. A favicon is set with <code>link rel=icon</code> in the head.</p>`,`<head>\n  <title>My page title</title>\n  <link rel='icon' href='favicon.ico'>\n</head>\n<body><p>See the browser tab.</p></body>'`],
+[`tables`,`HTML tables`,`Rows, cells, headers and spans.`,`<p><code>tr</code> is a row, <code>th</code> a header cell and <code>td</code> a data cell. Use <code>thead</code>, <code>tbody</code>, <code>colspan</code> and <code>rowspan</code> for structure.</p>`,`<style>td,th{border:1px solid #888;padding:6px}table{border-collapse:collapse}</style>\n<table>\n<thead><tr><th>Item</th><th colspan='2'>Price</th></tr></thead>\n<tbody><tr><td>Pen</td><td>2</td><td>USD</td></tr></tbody>\n</table>'`],
+[`blocks`,`Block, inline and div`,`How elements flow on the page.`,`<p>Block elements (<code>div</code>, <code>p</code>, <code>h1</code>) start a new line and fill the width. Inline elements (<code>span</code>, <code>a</code>) sit within text. <code>div</code> and <code>span</code> are neutral containers for styling.</p>`,`<div style='background:#cde'>Block div</div>\n<p>Text with <span style='color:red'>an inline span</span>.</p>'`],
+[`buttons`,`HTML buttons`,`Clickable controls.`,`<p>Use <code>button</code> for actions. Set <code>type</code> to <code>button</code>, <code>submit</code> or <code>reset</code>.</p>`,`<button type='button' onclick='alert(1)'>Click me</button>\n<button disabled>Disabled</button>'`],
+[`iframes`,`HTML iframes`,`Embed another page.`,`<p>An <code>iframe</code> shows another document inside your page. Always add a <code>title</code>. Sites can refuse to be embedded, and this preview may block external pages.</p>`,`<iframe src='about:blank' title='Empty frame' width='300' height='120' style='border:2px solid #888'></iframe>'`],
+[`scripts`,`JavaScript in HTML`,`Add behavior with script.`,`<p>Put code in a <code>script</code> element, or load a file with <code>src</code>. Scripts at the end of the body run after the page has loaded.</p>`,`<p id='x'>Before</p>\n<script>document.getElementById('x').textContent='After';<\/script>'`],
+[`filepaths`,`File paths`,`Point to files correctly.`,`<p><code>img.png</code> is in the same folder, <code>images/img.png</code> in a subfolder, <code>/images/img.png</code> from the site root and <code>../img.png</code> one level up.</p>`,`<!-- same folder  --> <img src='pic.jpg'>\n<!-- subfolder    --> <img src='images/pic.jpg'>\n<!-- root         --> <img src='/images/pic.jpg'>\n<!-- parent       --> <img src='../pic.jpg'>\n<p>Paths are shown as comments.</p>'`],
+[`head`,`HTML head and meta`,`Information about the page.`,`<p>The head can hold <code>title</code>, <code>meta</code>, <code>link</code>, <code>style</code> and <code>script</code>. Meta tags set charset, viewport and description.</p>`,`<head>\n  <meta charset='utf-8'>\n  <meta name='viewport' content='width=device-width, initial-scale=1'>\n  <meta name='description' content='Free tutorials'>\n  <title>Head demo</title>\n</head>\n<body><p>Head contents are invisible.</p></body>'`],
+[`layout`,`HTML layout`,`Arrange a page in regions.`,`<p>Combine semantic elements with CSS grid or flexbox for header, navigation, main content, sidebar and footer.</p>`,`<style>\n.p{display:grid;grid-template:auto 1fr auto / 120px 1fr;gap:6px;height:240px}\n.p>*{background:#dde;padding:8px}.h,.f{grid-column:1/3}\n</style>\n<div class='p'><header class='h'>Header</header><nav>Nav</nav><main>Main</main><footer class='f'>Footer</footer></div>'`],
+[`responsive`,`HTML responsive`,`Pages that fit every screen.`,`<p>Add the viewport meta tag, use <code>max-width:100%</code> on images and media queries or flexible layouts for the rest.</p>`,`<style>img{max-width:100%;height:auto}.row{display:flex;flex-wrap:wrap;gap:8px}.row div{flex:1 1 140px;background:#2e86de;color:#fff;padding:12px}</style>\n<div class='row'><div>One</div><div>Two</div><div>Three</div></div>'`],
+[`code`,`Computer code elements`,`Show code and keys.`,`<p><code>code</code> for code, <code>kbd</code> for keyboard input, <code>samp</code> for output, <code>var</code> for variables and <code>pre</code> keeps spacing.</p>`,`<p>Press <kbd>Ctrl</kbd>+<kbd>S</kbd>. Output: <samp>Saved</samp>. Set <var>x</var> to 5.</p>\n<pre><code>function hi() {\n  return 'hi';\n}</code></pre>'`],
+[`entities`,`Entities, symbols and emojis`,`Type reserved or special characters.`,`<p>Write <code>&amp;lt;</code> for &lt;, <code>&amp;amp;</code> for &amp;, <code>&amp;copy;</code> for ©. Emojis are just Unicode characters, so UTF-8 is needed.</p>`,`<p>&lt;tag&gt; &amp; &copy; &euro; &hearts; &#9733;</p>\n<p style='font-size:32px'>&#128512; &#127775; &#128640;</p>'`],
+[`charset`,`Charsets and URL encoding`,`Text encoding in files and links.`,`<p>Declare <code>&lt;meta charset='utf-8'&gt;</code> so every language displays correctly. URLs can only hold safe characters, so others become <code>%</code> codes: a space is <code>%20</code>.</p>`,`<script>\nconst s='a b&c/ü';\ndocument.write('<p>'+encodeURIComponent(s)+'</p>');\ndocument.write('<p>'+decodeURIComponent('a%20b')+'</p>');\n<\/script>'`],
+[`formattrs`,`Form attributes`,`Control where and how a form sends.`,`<p><code>action</code> is the URL, <code>method</code> is get or post, <code>target</code> chooses where the response opens, <code>autocomplete</code> and <code>novalidate</code> adjust browser help.</p>`,`<form action='/submit' method='post' autocomplete='off'>\n  <input name='q' placeholder='Search' required>\n  <button>Send</button>\n</form>'`],
+[`formels`,`Form elements`,`Beyond input.`,`<p>Use <code>select</code>, <code>datalist</code>, <code>textarea</code>, <code>fieldset</code> with <code>legend</code>, and <code>output</code> to build full forms.</p>`,`<fieldset><legend>Profile</legend>\n<input list='l' placeholder='Pick a language'>\n<datalist id='l'><option>HTML</option><option>CSS</option></datalist><br>\n<textarea rows='3' cols='24'>Bio</textarea>\n</fieldset>'`],
+[`canvas`,`HTML canvas`,`Draw with JavaScript.`,`<p>The <code>canvas</code> element is a bitmap you paint with the 2D context: shapes, text and images.</p>`,`<canvas id='c' width='260' height='120' style='border:1px solid #888'></canvas>\n<script>\nconst g=c.getContext('2d');\ng.fillStyle='#2e86de';g.fillRect(10,10,100,60);\ng.beginPath();g.arc(190,60,40,0,7);g.fillStyle='tomato';g.fill();\n<\/script>'`],
+[`svg`,`HTML SVG`,`Scalable vector graphics.`,`<p>SVG shapes are elements, so they stay sharp at any size and can be styled with CSS.</p>`,`<svg width='260' height='120'>\n  <rect x='10' y='10' width='100' height='60' fill='#1b998b'/>\n  <circle cx='190' cy='60' r='40' fill='orange'/>\n  <text x='10' y='105'>SVG</text>\n</svg>'`],
+[`youtube`,`HTML YouTube`,`Embed a video player.`,`<p>Use an <code>iframe</code> with the video’s embed URL. Replace <code>VIDEO_ID</code> with a real ID. External embeds may be blocked in this preview but work on your own site.</p>`,`<iframe width='280' height='160' src='https://www.youtube.com/embed/VIDEO_ID' title='Video' allowfullscreen></iframe>'`],
+[`geo`,`Geolocation API`,`Ask for the visitor’s position.`,`<p><code>navigator.geolocation.getCurrentPosition</code> needs permission and a secure page. It is often blocked inside this preview, so handle the error.</p>`,`<p id='o'>Asking...</p>\n<script>\nif(navigator.geolocation)navigator.geolocation.getCurrentPosition(\n p=>o.textContent=p.coords.latitude+', '+p.coords.longitude,\n e=>o.textContent='Not available: '+e.message);\nelse o.textContent='Unsupported';\n<\/script>'`],
+[`drag`,`Drag and drop API`,`Move elements with the mouse.`,`<p>Set <code>draggable</code>, then handle <code>dragstart</code>, <code>dragover</code> (call <code>preventDefault</code>) and <code>drop</code>.</p>`,`<style>#z{height:80px;border:2px dashed #888;margin-top:10px}#d{width:60px;background:gold;padding:6px}</style>\n<div id='d' draggable='true'>Drag me</div><div id='z'>Drop here</div>\n<script>\nd.ondragstart=e=>e.dataTransfer.setData('t','d');\nz.ondragover=e=>e.preventDefault();\nz.ondrop=e=>{e.preventDefault();z.appendChild(d)};\n<\/script>'`],
+[`popover`,`Popover API`,`Built-in pop-ups with no JavaScript.`,`<p>Give an element the <code>popover</code> attribute and point a button at it with <code>popovertarget</code>.</p>`,`<button popovertarget='p'>Toggle popover</button>\n<div id='p' popover style='padding:16px'>Hello from a popover.</div>'`],
+[`storage`,`Web storage API`,`Keep data in the browser.`,`<p><code>localStorage</code> persists, <code>sessionStorage</code> lasts until the tab closes. Both store strings. This sandboxed preview blocks storage, so the example catches the error; it works on your own page.</p>`,`<p id='o'></p>\n<script>\ntry{localStorage.setItem('n','Ada');o.textContent='Saved: '+localStorage.getItem('n')}\ncatch(e){o.textContent='Storage blocked here: '+e.name}\n<\/script>'`],
+[`workers`,`Web workers API`,`Run heavy code off the main thread.`,`<p>A worker runs a script in the background and talks to the page with <code>postMessage</code>, so the page stays responsive.</p>`,`<p id='o'>Working...</p>\n<script>\ntry{\nconst b=new Blob(['onmessage=e=>{let s=0;for(let i=0;i<=e.data;i++)s+=i;postMessage(s)}']);\nconst w=new Worker(URL.createObjectURL(b));\nw.onmessage=e=>o.textContent='Sum: '+e.data;\nw.postMessage(1e7);\n}catch(e){o.textContent='Workers blocked: '+e.name}\n<\/script>'`],
+[`sse`,`Server-sent events API`,`Receive live updates from a server.`,`<p><code>EventSource</code> keeps a connection open so a server can push messages. It needs a real server endpoint, so this is a pattern to copy rather than run here.</p>`,`<p id='o'>Waiting...</p>\n<script>\n// Needs a server that sends text/event-stream\ntry{\nconst s=new EventSource('/updates');\ns.onmessage=e=>o.textContent=e.data;\ns.onerror=()=>o.textContent='No server at /updates';\n}catch(e){o.textContent=e.name}\n<\/script>`]
+);
+L.css.items.push(
+[`cssintro`,`CSS introduction`,`CSS styles how HTML looks.`,`<p>CSS (Cascading Style Sheets) controls color, layout and fonts. HTML gives structure; CSS gives appearance.</p>`,`<style>\nh1{color:#2e86de;text-align:center}\n</style>\n<h1>Styled by CSS</h1>`],
+[`csssyntax`,`CSS syntax`,`Selector, property, value.`,`<p>A rule is <code>selector{property:value;}</code>. Several declarations are separated by semicolons.</p>`,`<style>\np{color:crimson;font-size:20px;text-align:center}\n</style>\n<p>Three declarations on one selector</p>`],
+[`csshowto`,`CSS how to`,`Inline, internal or external.`,`<p>External files linked with <code>link</code> are best. Internal uses <code>style</code> in the head. Inline uses the <code>style</code> attribute.</p>`,`<style>p{color:teal}</style>\n<p>Internal</p>\n<p style='color:purple'>Inline</p>\n<!-- <link rel='stylesheet' href='style.css'> -->`],
+[`csscomments`,`CSS comments`,`Notes inside a stylesheet.`,`<p>Comments start with <code>/*</code> and end with <code>*/</code>. They can span lines.</p>`,`<style>\n/* This is a comment */\np{color:green;/* inline note */}\n</style>\n<p>Green text</p>`],
+[`csserrors`,`CSS errors`,`Mistakes are ignored, not announced.`,`<p>CSS never shows an error message. A typo just means the declaration is skipped, so check spelling, colons, semicolons and braces.</p>`,`<style>\np{colour:red;}   /* wrong property: ignored */\nh1{color:blue}    /* correct */\n</style>\n<h1>Works</h1><p>Not red</p>`],
+[`cssborders`,`CSS borders`,`Style the edge of a box.`,`<p>Set <code>border-width</code>, <code>border-style</code> and <code>border-color</code>, or the shorthand <code>border</code>. Style one side with <code>border-left</code> etc.</p>`,`<style>\n.a{border:3px solid navy;padding:8px}\n.b{border-left:8px double tomato;padding:8px;margin-top:10px}\n</style>\n<div class='a'>All sides</div><div class='b'>Left only</div>`],
+[`cssmargins`,`CSS margins`,`Space outside an element.`,`<p>Margin shorthand goes top, right, bottom, left. <code>margin:0 auto</code> centers a block with a set width. Vertical margins can collapse.</p>`,`<style>\ndiv{width:200px;background:#cde;margin:20px auto;padding:10px}\n</style>\n<div>Centered</div>`],
+[`csspadding`,`CSS padding`,`Space inside an element.`,`<p>Padding sits between content and border. <code>padding:10px 20px</code> is vertical then horizontal.</p>`,`<style>\np{background:gold;padding:30px 60px;display:inline-block}\n</style>\n<p>Padded</p>`],
+[`csssize`,`Height and width`,`Set the size of elements.`,`<p>Use <code>width</code>, <code>height</code>, <code>min-</code> and <code>max-</code> variants. Block elements default to full width.</p>`,`<style>\ndiv{width:50%;height:80px;background:#1b998b;color:#fff;min-width:150px}\n</style>\n<div>Half width</div>`],
+[`cssoutline`,`CSS outline`,`A line outside the border.`,`<p>Outlines do not take space and can be offset. Never remove focus outlines without a replacement.</p>`,`<style>\np{outline:3px dashed tomato;outline-offset:6px;margin:16px}\n</style>\n<p>Outlined</p>`],
+[`csstext`,`CSS text`,`Align, decorate and space text.`,`<p>Key properties: <code>text-align</code>, <code>text-decoration</code>, <code>text-transform</code>, <code>letter-spacing</code>, <code>line-height</code>, <code>text-indent</code>.</p>`,`<style>\nh2{text-align:center;text-transform:uppercase;letter-spacing:3px}\np{text-indent:30px;line-height:1.8;text-decoration:underline wavy teal}\n</style>\n<h2>Title</h2><p>Some body text to style.</p>`],
+[`cssfonts`,`CSS fonts`,`Choose family, size and weight.`,`<p>List fallbacks in <code>font-family</code>. Use <code>font-size</code>, <code>font-weight</code>, <code>font-style</code> and the <code>font</code> shorthand.</p>`,`<style>\np{font:italic 700 22px Georgia,serif}\n.s{font-family:Arial,sans-serif;font-weight:300}\n</style>\n<p>Serif bold italic</p><p class='s'>Sans light</p>`],
+[`cssicons`,`CSS icons`,`Use symbols as icons.`,`<p>Icon libraries load a font or SVG. Without libraries you can use Unicode symbols or inline SVG and size them with CSS.</p>`,`<style>.i{font-size:32px;color:#e4572e;margin-right:10px}</style>\n<span class='i'>&#9733;</span><span class='i'>&#9829;</span><span class='i'>&#9728;</span>`],
+[`csslinks`,`CSS links`,`Style all four link states.`,`<p>Order matters: <code>a:link</code>, <code>a:visited</code>, <code>a:hover</code>, <code>a:active</code>.</p>`,`<style>\na:link{color:#2e86de}a:visited{color:purple}\na:hover{color:tomato;text-decoration:none}a:active{color:black}\n</style>\n<a href='#x'>Hover over me</a>`],
+[`csslists`,`CSS lists`,`Change markers and spacing.`,`<p><code>list-style-type</code> picks the marker, <code>list-style-position</code> places it, and <code>list-style:none</code> removes it.</p>`,`<style>\nul{list-style-type:square}ol{list-style-type:upper-roman}\n.n{list-style:none;padding:0}\n</style>\n<ul><li>Square</li></ul><ol><li>Roman</li></ol><ul class='n'><li>No marker</li></ul>`],
+[`csstables`,`CSS tables`,`Make tables readable.`,`<p>Use <code>border-collapse</code>, padding, and <code>:nth-child(even)</code> for striped rows.</p>`,`<style>\ntable{border-collapse:collapse;width:100%}\nth,td{padding:8px;border-bottom:1px solid #ccc;text-align:left}\ntr:nth-child(even){background:#f0f4f8}th{background:#14213d;color:#fff}\n</style>\n<table><tr><th>Name</th><th>Role</th></tr><tr><td>Ann</td><td>Dev</td></tr><tr><td>Raj</td><td>Design</td></tr></table>`],
+[`cssdisplay`,`CSS display`,`Block, inline, none, flex, grid.`,`<p><code>display</code> sets how an element takes part in layout. <code>none</code> removes it; <code>visibility:hidden</code> hides it but keeps its space.</p>`,`<style>\nspan.b{display:block;background:#cde}\np.h{display:none}\n</style>\n<span class='b'>Span as block</span><p class='h'>Hidden</p><p>Visible</p>`],
+[`cssmaxwidth`,`CSS max-width`,`Flexible but capped.`,`<p><code>max-width</code> lets an element shrink on small screens yet never exceed a limit, which beats a fixed width.</p>`,`<style>div{max-width:300px;background:#fde;padding:10px;margin:auto}</style>\n<div>Resize the preview: this box shrinks but never passes 300px.</div>`],
+[`cssoffsets`,`Position offsets`,`top, right, bottom, left.`,`<p>Offsets move positioned elements. They have no effect on <code>static</code>.</p>`,`<style>\n.p{position:relative;height:120px;background:#eee}\n.q{position:absolute;bottom:8px;left:8px;background:navy;color:#fff;padding:6px}\n</style>\n<div class='p'><div class='q'>Bottom left</div></div>`],
+[`cssz`,`CSS z-index`,`Stack overlapping elements.`,`<p>Higher <code>z-index</code> sits on top. It works on positioned elements and flex/grid items.</p>`,`<style>\ndiv{position:absolute;width:100px;height:80px}\n.a{background:tomato;z-index:2;left:20px;top:20px}\n.b{background:#2e86de;z-index:1;left:60px;top:50px}\n</style>\n<div class='a'>Top</div><div class='b'>Under</div>`],
+[`cssoverflow`,`CSS overflow`,`Handle content that is too big.`,`<p>Values: <code>visible</code>, <code>hidden</code>, <code>scroll</code>, <code>auto</code>. Use <code>overflow-x</code> and <code>overflow-y</code> to split them.</p>`,`<style>div{width:180px;height:70px;overflow:auto;border:2px solid #888}</style>\n<div>This is a lot of text that does not fit in the small box so the box scrolls instead of spilling. More text here, and more again.</div>`],
+[`cssfloat`,`CSS float`,`Wrap text around an element.`,`<p>Float is mainly for images inside text. Use <code>clear</code> to stop wrapping. Use flexbox or grid for page layout.</p>`,`<style>.f{float:left;width:70px;height:70px;background:gold;margin:0 10px 6px 0}</style>\n<div class='f'></div><p>Text wraps around the floated box. Text wraps around the floated box. Text wraps around the floated box.</p>`],
+[`cssinline`,`CSS inline-block`,`Inline flow with block sizing.`,`<p>An <code>inline-block</code> sits in a line yet accepts width, height and vertical margins.</p>`,`<style>.k{display:inline-block;width:80px;height:50px;background:#1b998b;margin:4px;color:#fff}</style>\n<div class='k'>A</div><div class='k'>B</div><div class='k'>C</div>`],
+[`cssalign`,`CSS align`,`Center and align in several ways.`,`<p>Horizontal: <code>margin:auto</code> or <code>text-align:center</code>. Vertical and both: flexbox <code>align-items</code> and <code>justify-content</code>, or <code>place-items:center</code> in grid.</p>`,`<style>.c{display:grid;place-items:center;height:140px;background:#eee}</style>\n<div class='c'>Centered both ways</div>`],
+[`csscomb`,`CSS combinators`,`Select by relationship.`,`<p>Descendant (space), child (<code>&gt;</code>), adjacent sibling (<code>+</code>), general sibling (<code>~</code>).</p>`,`<style>\ndiv p{color:blue}div>p{font-weight:700}h2+p{background:#ffd}\n</style>\n<h2>Head</h2><p>Right after h2</p><div><p>Child</p><section><p>Descendant only</p></section></div>`],
+[`csspc`,`Pseudo-classes`,`Style a state.`,`<p>Examples: <code>:hover</code>, <code>:focus</code>, <code>:first-child</code>, <code>:nth-child(n)</code>, <code>:not()</code>, <code>:checked</code>.</p>`,`<style>\nbutton:hover{background:gold}li:first-child{font-weight:700}li:nth-child(odd){color:teal}\ninput:focus{outline:3px solid orange}\n</style>\n<button>Hover</button><ul><li>One</li><li>Two</li><li>Three</li></ul><input placeholder='Focus me'>`],
+[`csspe`,`Pseudo-elements`,`Style part of an element.`,`<p><code>::before</code> and <code>::after</code> insert generated content. <code>::first-line</code>, <code>::first-letter</code> and <code>::selection</code> style parts of text.</p>`,`<style>\np::first-letter{font-size:2.4em;color:crimson}\n.t::after{content:' (new)';color:green}\n::selection{background:gold}\n</style>\n<p>Drop-cap paragraph. Select me.</p><p class='t'>Title</p>`],
+[`cssopacity`,`CSS opacity`,`Make things see-through.`,`<p><code>opacity</code> goes from 0 to 1 and fades the element and its children. <code>rgba()</code> fades only a background.</p>`,`<style>.o{background:#e4572e;color:#000;padding:10px;margin:4px}</style>\n<div class='o' style='opacity:.4'>opacity .4</div>\n<div class='o' style='background:rgba(228,87,46,.4)'>rgba background</div>`],
+[`cssnav`,`Navigation bars`,`Horizontal menu from a list.`,`<p>A nav is a list of links. Remove list styling, then lay items out with flex.</p>`,`<style>\nul{display:flex;list-style:none;margin:0;padding:0;background:#14213d}\nli a{display:block;padding:12px 16px;color:#fff;text-decoration:none}\nli a:hover{background:#2e86de}\n</style>\n<ul><li><a href='#'>Home</a></li><li><a href='#'>News</a></li><li><a href='#'>Contact</a></li></ul>`],
+[`cssdrop`,`CSS dropdowns`,`Show a menu on hover.`,`<p>Hide the menu, then reveal it with <code>:hover</code> on the parent. Add <code>:focus-within</code> so keyboard users get it too.</p>`,`<style>\n.d{position:relative;display:inline-block}\n.m{display:none;position:absolute;background:#eee;min-width:120px}\n.d:hover .m,.d:focus-within .m{display:block}\n.m a{display:block;padding:8px}\n</style>\n<div class='d'><button>Menu</button><div class='m'><a href='#'>One</a><a href='#'>Two</a></div></div>`],
+[`cssattr`,`Attribute selectors`,`Select by attribute.`,`<p><code>[type]</code>, <code>[type='text']</code>, <code>[href^='https']</code> (starts with), <code>[href$='.pdf']</code> (ends with), <code>[class*='btn']</code> (contains).</p>`,`<style>\ninput[type='text']{background:#ffd}a[href^='https']{color:green}a[href$='.pdf']{color:red}\n</style>\n<input type='text'><input type='number'><br><a href='https://x.com'>https</a> <a href='a.pdf'>pdf</a>`],
+[`cssforms`,`CSS forms`,`Style inputs and buttons.`,`<p>Style inputs with padding, border and radius. Set <code>box-sizing:border-box</code> so widths behave. Style <code>:focus</code> clearly.</p>`,`<style>\ninput,textarea{width:100%;padding:10px;border:2px solid #aaa;border-radius:6px;box-sizing:border-box;margin:4px 0}\ninput:focus,textarea:focus{border-color:#2e86de;outline:none}\nbutton{background:#2e86de;color:#fff;border:0;padding:10px 18px;border-radius:6px}\n</style>\n<input placeholder='Name'><textarea placeholder='Message'></textarea><button>Send</button>`],
+[`csscounters`,`CSS counters`,`Number things automatically.`,`<p>Create with <code>counter-reset</code>, increase with <code>counter-increment</code>, and show with <code>counter()</code> in <code>content</code>.</p>`,`<style>\nbody{counter-reset:s}h3::before{counter-increment:s;content:'Section ' counter(s) ': '}\n</style>\n<h3>Intro</h3><h3>Body</h3><h3>End</h3>`],
+[`cssinherit`,`CSS inheritance`,`What passes from parent to child.`,`<p>Text properties such as <code>color</code> and <code>font-family</code> inherit. Box properties such as <code>border</code> do not. Force it with <code>inherit</code>, <code>initial</code> or <code>unset</code>.</p>`,`<style>\nsection{color:crimson;border:2px solid #888}\nsection p{border:inherit}\n</style>\n<section><p>Color inherited, border forced</p></section>`],
+[`cssspec`,`CSS specificity`,`Which rule wins.`,`<p>Inline styles beat ids, ids beat classes, classes beat tags. With equal specificity, the later rule wins.</p>`,`<style>\np{color:blue}.k{color:green}#i{color:red}\n</style>\n<p class='k' id='i'>Red: id wins</p><p class='k'>Green: class beats tag</p>`],
+[`cssimp`,`CSS !important`,`Override everything, sparingly.`,`<p><code>!important</code> beats normal specificity. It makes code hard to maintain, so use it only for utility overrides.</p>`,`<style>\n#a{color:blue}p{color:orange!important}\n</style>\n<p id='a'>Orange despite the id</p>`],
+[`cssmath`,`CSS math functions`,`Calculate in CSS.`,`<p><code>calc()</code> mixes units. <code>min()</code>, <code>max()</code> and <code>clamp(min, ideal, max)</code> make fluid sizes.</p>`,`<style>\n.a{width:calc(100% - 60px);background:#cde}\nh2{font-size:clamp(1rem,4vw,2.4rem)}\n</style>\n<div class='a'>100% minus 60px</div><h2>Fluid heading</h2>`],
+[`cssgrad`,`CSS gradients`,`Smooth color transitions.`,`<p><code>linear-gradient</code>, <code>radial-gradient</code> and <code>conic-gradient</code> create images from colors.</p>`,`<style>\ndiv{height:60px;margin:6px;color:#fff;padding:6px}\n</style>\n<div style='background:linear-gradient(90deg,#e4572e,#ffc857)'>Linear</div>\n<div style='background:radial-gradient(circle,#2e86de,#14213d)'>Radial</div>\n<div style='background:conic-gradient(#e4572e,#ffc857,#1b998b,#e4572e)'>Conic</div>`],
+[`cssshadow`,`CSS shadows`,`Shadows for boxes and text.`,`<p><code>box-shadow: x y blur spread color</code> and <code>text-shadow: x y blur color</code>. Add <code>inset</code> for inner shadows.</p>`,`<style>\n.b{width:160px;padding:20px;margin:20px;box-shadow:6px 8px 14px rgba(0,0,0,.35)}\nh2{text-shadow:2px 2px 4px #888}\n</style>\n<div class='b'>Box shadow</div><h2>Text shadow</h2>`],
+[`csstexteff`,`CSS text effects`,`Wrapping, overflow and writing.`,`<p><code>text-overflow:ellipsis</code> needs <code>overflow:hidden</code> and <code>white-space:nowrap</code>. <code>word-wrap</code> breaks long words.</p>`,`<style>.e{width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;border:1px solid #888}</style>\n<div class='e'>This sentence is too long for the box</div>`],
+[`css2d`,`CSS 2D transforms`,`Move, rotate, scale, skew.`,`<p><code>translate()</code>, <code>rotate()</code>, <code>scale()</code> and <code>skew()</code> change how an element is drawn without moving others.</p>`,`<style>\ndiv{display:inline-block;width:70px;height:70px;background:#2e86de;margin:30px;color:#fff}\n</style>\n<div style='transform:rotate(20deg)'>Rotate</div><div style='transform:scale(1.4)'>Scale</div><div style='transform:skew(20deg)'>Skew</div>`],
+[`css3d`,`CSS 3D transforms`,`Add depth.`,`<p>Set <code>perspective</code> on the parent, then use <code>rotateX</code>, <code>rotateY</code> or <code>translateZ</code> on the child.</p>`,`<style>\n.s{perspective:400px;padding:30px}\n.c{width:120px;height:80px;background:#e4572e;color:#fff;transform:rotateY(45deg);transition:transform .6s}\n.c:hover{transform:rotateY(0)}\n</style>\n<div class='s'><div class='c'>Hover</div></div>`],
+[`csstip`,`CSS tooltips`,`Text that appears on hover.`,`<p>Position a hidden element next to the trigger and show it on hover or focus.</p>`,`<style>\n.t{position:relative;display:inline-block;margin:30px;border-bottom:1px dotted}\n.t span{visibility:hidden;position:absolute;bottom:125%;left:0;background:#14213d;color:#fff;padding:5px 8px;white-space:nowrap}\n.t:hover span,.t:focus span{visibility:visible}\n</style>\n<div class='t' tabindex='0'>Hover me<span>Tooltip text</span></div>`],
+[`cssfilter`,`CSS image filters`,`Blur, grayscale and more.`,`<p><code>filter</code> accepts <code>blur()</code>, <code>grayscale()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>hue-rotate()</code> and <code>drop-shadow()</code>.</p>`,`<style>div{width:90px;height:60px;display:inline-block;margin:6px;background:linear-gradient(135deg,#e4572e,#2e86de)}</style>\n<div></div><div style='filter:grayscale(1)'></div><div style='filter:blur(3px)'></div><div style='filter:hue-rotate(120deg)'></div>`],
+[`cssfit`,`object-fit and position`,`Fit images in fixed boxes.`,`<p><code>object-fit</code> (<code>cover</code>, <code>contain</code>, <code>fill</code>) controls cropping. <code>object-position</code> chooses which part stays visible.</p>`,`<style>img{width:160px;height:90px;object-fit:cover;object-position:left;border:1px solid #888}</style>\n<img alt='Demo' src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27300%27%3E%3Crect width=%27150%27 height=%27300%27 fill=%27%23e4572e%27/%3E%3Crect x=%27150%27 width=%27150%27 height=%27300%27 fill=%27%232e86de%27/%3E%3C/svg%3E'>`],
+[`cssbtn`,`CSS buttons`,`Make button designs.`,`<p>Remove default borders, add padding, radius, colors and hover and focus states.</p>`,`<style>\n.b{background:#1b998b;color:#fff;border:0;padding:10px 22px;border-radius:24px;cursor:pointer;transition:background .2s}\n.b:hover{background:#127a6f}.b:focus-visible{outline:3px solid gold}\n.o{background:none;border:2px solid #1b998b;color:#1b998b}\n</style>\n<button class='b'>Primary</button> <button class='b o'>Outline</button>`],
+[`csscols`,`Multiple columns`,`Flow text like a newspaper.`,`<p>Use <code>column-count</code> or <code>column-width</code>, plus <code>column-gap</code> and <code>column-rule</code>.</p>`,`<style>div{column-count:3;column-gap:20px;column-rule:1px solid #888}</style>\n<div>Text can flow across several columns automatically. This is useful for long articles on wide screens, where one very long line is hard to read.</div>`],
+[`cssvars`,`CSS variables`,`Reusable custom properties.`,`<p>Define with <code>--name</code> (usually on <code>:root</code>) and read with <code>var(--name,fallback)</code>. Change one value to re-theme everything.</p>`,`<style>\n:root{--main:#e4572e;--pad:14px}\n.a{background:var(--main);padding:var(--pad);color:#fff}\n.dark{--main:#14213d}\n</style>\n<div class='a'>Default</div><div class='a dark'>Overridden variable</div>`],
+[`cssflexc`,`Flex container`,`Properties set on the parent.`,`<p><code>flex-direction</code>, <code>flex-wrap</code>, <code>justify-content</code>, <code>align-items</code>, <code>align-content</code>, <code>gap</code>.</p>`,`<style>\n.f{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:8px;height:130px;background:#eee}\n.f div{background:#2e86de;color:#fff;padding:12px}\n</style>\n<div class='f'><div>1</div><div>2</div><div>3</div></div>`],
+[`cssflexi`,`Flex items`,`Properties set on children.`,`<p><code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code>, <code>order</code> and <code>align-self</code>.</p>`,`<style>\n.f{display:flex;gap:6px;background:#eee;height:100px}\n.f div{background:#1b998b;color:#fff;padding:10px}\n.g{flex-grow:1}.l{order:-1;align-self:flex-end}\n</style>\n<div class='f'><div>Fixed</div><div class='g'>Grows</div><div class='l'>First, bottom</div></div>`],
+[`cssgridc`,`Grid container and items`,`Template areas and spans.`,`<p>Use <code>grid-template-columns</code>, <code>grid-template-areas</code>, <code>repeat()</code>, <code>minmax()</code> and <code>auto-fit</code> for responsive grids.</p>`,`<style>\n.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}\n.g div{background:#8e44ad;color:#fff;padding:14px}\n</style>\n<div class='g'><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div></div>`],
+[`csssup`,`CSS @supports`,`Use features only where supported.`,`<p><code>@supports (property:value)</code> applies rules only if the browser understands them, which gives safe fallbacks.</p>`,`<style>\n.a{background:#ccc;padding:10px}\n@supports (display:grid){.a{background:#1b998b;color:#fff}}\n</style>\n<div class='a'>Green when grid is supported</div>`],
+[`cssviewport`,`Responsive: viewport and images`,`Make pages and media fit.`,`<p>Add <code>meta viewport</code>. Use <code>max-width:100%;height:auto</code> for images and <code>aspect-ratio</code> for video frames so they scale.</p>`,`<style>.v{width:100%;max-width:320px;aspect-ratio:16/9;background:#14213d;color:#fff;display:grid;place-items:center}</style>\n<!-- <meta name='viewport' content='width=device-width, initial-scale=1'> -->\n<div class='v'>16:9 box</div>`]
+);
+L.js.items.push(
+[`jsintro`,`JS introduction`,`JavaScript makes pages interactive.`,`<p>JavaScript runs in the browser, changes HTML and CSS, reacts to people and talks to servers. It is also used on servers with Node.js.</p>`,`<h2 id='o'></h2>\n<script>\no.textContent='Hello from JavaScript';\n<\/script>`],
+[`jswhere`,`JS where to`,`Inline, in the head, or from a file.`,`<p>Put code in a <code>script</code> element or load a file with <code>src</code>. Add <code>defer</code> to run after the page is parsed. Event attributes like <code>onclick</code> also hold code.</p>`,`<button onclick='o.textContent=\'Clicked\''>Attribute</button>\n<p id='o'></p>\n<!-- <script src='app.js' defer><\/script> -->`],
+[`jsoutput`,`JS output`,`Four ways to show results.`,`<p><code>textContent</code> or <code>innerHTML</code> write into the page, <code>console.log</code> writes to the developer console, and <code>alert</code> opens a dialog.</p>`,`<p id='a'></p><div id='b'></div>\n<script>\na.textContent='Plain text';\nb.innerHTML='<b>Bold</b> via innerHTML';\nconsole.log('See the console');\n<\/script>`],
+[`jssyntax`,`JS syntax`,`Statements, case and comments.`,`<p>Statements end with semicolons. JavaScript is case-sensitive. Use <code>//</code> for line comments and <code>/* */</code> for blocks.</p>`,`<p id='o'></p>\n<script>\n// one line comment\nlet myVar=5; let myvar=6; /* different names */\no.textContent=myVar+' and '+myvar;\n<\/script>`],
+[`jsops`,`JS operators`,`Math, comparison and logic.`,`<p>Arithmetic <code>+ - * / % **</code>, comparison <code>=== !== &lt; &gt;</code>, logic <code>&amp;&amp; || !</code> and the nullish operator <code>??</code>.</p>`,`<pre id='o'></pre>\n<script>\nlet x=7;\no.textContent=[x%3,x**2,x===7,x>5&&x<10,null??'default'].join('\\n');\n<\/script>`],
+[`jsloopsall`,`JS loops`,`Repeat code.`,`<p><code>for</code> counts, <code>while</code> repeats while true, <code>for...of</code> walks values. Use <code>break</code> and <code>continue</code> to control them.</p>`,`<pre id='o'></pre>\n<script>\nlet t='';\nfor(let i=1;i<=3;i++)t+='for '+i+'\\n';\nlet n=3;while(n>0){t+='while '+n+'\\n';n--;}\nfor(const c of 'JS')t+=c+' ';\no.textContent=t;\n<\/script>`],
+[`jsstrings`,`JS strings`,`Text and its methods.`,`<p>Common methods: <code>length</code>, <code>slice</code>, <code>toUpperCase</code>, <code>includes</code>, <code>replace</code>, <code>split</code>, <code>trim</code>, <code>padStart</code>.</p>`,`<pre id='o'></pre>\n<script>\nconst s='  Hello World  '.trim();\no.textContent=[s.length,s.toUpperCase(),s.slice(0,5),s.includes('World'),s.replace('World','JS'),s.split(' ')].join('\\n');\n<\/script>`],
+[`jsnumbers`,`JS numbers`,`Integers, decimals and conversion.`,`<p>All numbers are 64-bit floats, so <code>0.1+0.2</code> is not exactly 0.3. Use <code>toFixed</code>, <code>parseInt</code>, <code>parseFloat</code>, <code>Number()</code> and check <code>isNaN</code>.</p>`,`<pre id='o'></pre>\n<script>\no.textContent=[0.1+0.2,(0.1+0.2).toFixed(2),parseInt('42px'),Number('abc'),isNaN('abc'),(1234.5).toLocaleString()].join('\\n');\n<\/script>`],
+[`jsscope`,`JS scope`,`Where variables are visible.`,`<p><code>let</code> and <code>const</code> live in their block. <code>var</code> lives in the whole function. Variables outside functions are global.</p>`,`<pre id='o'></pre>\n<script>\nlet g='global';\nfunction f(){var a='function';if(true){let b='block';var c='var leaks';}return a+' '+c+' '+typeof b;}\no.textContent=g+', '+f();\n<\/script>`],
+[`jsdates`,`JS dates`,`Work with date and time.`,`<p>Create with <code>new Date()</code>. Read parts with <code>getFullYear</code>, <code>getMonth</code> (0-11) and <code>getDay</code>. Format with <code>toLocaleDateString</code>.</p>`,`<pre id='o'></pre>\n<script>\nconst d=new Date(2026,10,1);\nd.setDate(d.getDate()+30);\no.textContent=[d.getFullYear(),d.getMonth()+1,d.toLocaleDateString('en-IN',{dateStyle:'full'}),d.toISOString()].join('\\n');\n<\/script>`],
+[`jsarrays`,`JS arrays`,`Lists and their methods.`,`<p><code>push</code>, <code>pop</code>, <code>slice</code>, <code>sort</code>, <code>find</code>, <code>filter</code>, <code>map</code> and <code>reduce</code> cover most work.</p>`,`<pre id='o'></pre>\n<script>\nconst a=[5,1,4];a.push(9);\no.textContent=[a.sort((x,y)=>x-y),a.map(x=>x*2),a.filter(x=>x>3),a.reduce((s,x)=>s+x,0),a.indexOf(4)].join('\\n');\n<\/script>`],
+[`jssets`,`JS sets`,`Collections of unique values.`,`<p>A <code>Set</code> ignores duplicates. Use <code>add</code>, <code>has</code>, <code>delete</code> and <code>size</code>. Spread it to get an array.</p>`,`<p id='o'></p>\n<script>\nconst s=new Set([1,2,2,3,3,3]);s.add(4);\no.textContent='Unique: '+[...s]+' size '+s.size+' has 2? '+s.has(2);\n<\/script>`],
+[`jsmaps`,`JS maps`,`Key/value pairs with any key type.`,`<p>A <code>Map</code> keeps insertion order and allows objects as keys. Use <code>set</code>, <code>get</code>, <code>has</code> and iterate with <code>for...of</code>.</p>`,`<pre id='o'></pre>\n<script>\nconst m=new Map([['apple',3]]);m.set('pear',5);\nlet t='';for(const [k,v] of m)t+=k+' = '+v+'\\n';\no.textContent=t+'size '+m.size;\n<\/script>`],
+[`jsiter`,`JS iterations`,`More ways to loop.`,`<p><code>forEach</code> for arrays, <code>for...in</code> for object keys, <code>Object.entries</code> for pairs, and <code>entries()</code> for index + value.</p>`,`<pre id='o'></pre>\n<script>\nlet t='';const p={a:1,b:2};\n[10,20].forEach((v,i)=>t+=i+':'+v+' ');\nfor(const k in p)t+='\\n'+k+'='+p[k];\nfor(const [i,v] of ['x','y'].entries())t+='\\n'+i+v;\no.textContent=t;\n<\/script>`],
+[`jsmath`,`JS math`,`The Math object.`,`<p><code>Math.round</code>, <code>floor</code>, <code>ceil</code>, <code>max</code>, <code>min</code>, <code>sqrt</code>, <code>pow</code>, <code>PI</code> and <code>random</code>.</p>`,`<pre id='o'></pre>\n<script>\no.textContent=[Math.round(4.6),Math.floor(4.9),Math.max(3,8,1),Math.sqrt(81),Math.PI.toFixed(3),1+Math.floor(Math.random()*6)+' (dice)'].join('\\n');\n<\/script>`],
+[`jsregexp`,`JS RegExp`,`Pattern matching.`,`<p>A pattern like <code>/[a-z]+@[a-z]+/i</code> works with <code>test</code>, <code>match</code> and <code>replace</code>. Flags: <code>g</code> global, <code>i</code> ignore case.</p>`,`<pre id='o'></pre>\n<script>\nconst t='Call 98765 or 12345';\no.textContent=[/[0-9]{5}/.test(t),t.match(/[0-9]{5}/g),t.replace(/[0-9]/g,'#'),/hello/i.test('HELLO')].join('\\n');\n<\/script>`],
+[`jstypes`,`JS data types`,`What kinds of values exist.`,`<p>Primitives: string, number, bigint, boolean, undefined, null, symbol. Everything else is an object. Check with <code>typeof</code>.</p>`,`<pre id='o'></pre>\n<script>\nconst v=['a',1,10n,true,undefined,null,Symbol('s'),[],{},()=>1];\no.textContent=v.map(x=>typeof x).join(', ')+'\\nArray? '+Array.isArray([]);\n<\/script>`],
+[`jserrors`,`JS errors`,`Handle problems safely.`,`<p><code>try</code> runs risky code, <code>catch</code> handles the error, <code>finally</code> always runs and <code>throw</code> raises your own error.</p>`,`<pre id='o'></pre>\n<script>\nlet t='';\ntry{null.x;}catch(e){t+=e.name+': '+e.message+'\\n';}\ntry{throw new Error('Custom');}catch(e){t+=e.message+'\\n';}finally{t+='finally ran';}\no.textContent=t;\n<\/script>`],
+[`jsdebug`,`JS debugging`,`Find bugs.`,`<p>Open the browser developer tools (F12). Use <code>console.log</code>, <code>console.table</code>, <code>console.error</code>, breakpoints and the <code>debugger</code> statement.</p>`,`<p id='o'>Open DevTools (F12) on your own page to see the console.</p>\n<script>\nconsole.table([{a:1,b:2},{a:3,b:4}]);\nconsole.error('Something went wrong');\n// debugger;  // pauses when DevTools is open\n<\/script>`],
+[`jsstyle`,`JS style guide`,`Habits for readable code.`,`<p>Use meaningful camelCase names, <code>const</code> by default, <code>===</code>, small functions, consistent indentation, and comments that explain why.</p>`,`<pre id='o'></pre>\n<script>\nconst MAX_ITEMS=3;\nfunction totalPrice(prices){return prices.slice(0,MAX_ITEMS).reduce((sum,p)=>sum+p,0);}\no.textContent=totalPrice([10,20,30,40]);\n<\/script>`],
+[`jsversions`,`JS versions`,`ECMAScript editions.`,`<p>ES5 (2009) added strict mode. ES6 (2015) brought <code>let</code>, <code>const</code>, arrows, classes, promises and modules. Since then one update arrives each year, such as <code>?.</code> and <code>??</code>, <code>at()</code> and <code>Object.groupBy</code>.</p>`,`<pre id='o'></pre>\n<script>\nconst u={a:{b:1}};\no.textContent=[u?.a?.b,u?.x?.y,[1,2,3].at(-1),typeof structuredClone].join('\\n');\n<\/script>`],
+[`jsnav`,`JS DOM navigation`,`Move through the tree.`,`<p>Use <code>parentElement</code>, <code>children</code>, <code>firstElementChild</code>, <code>nextElementSibling</code>, <code>closest()</code> and <code>querySelectorAll</code>.</p>`,`<ul id='l'><li>One</li><li id='t'>Two</li><li>Three</li></ul><p id='o'></p>\n<script>\no.textContent='Next: '+t.nextElementSibling.textContent+', parent: '+t.parentElement.id+', items: '+l.children.length;\n<\/script>`],
+[`jswindow`,`JS window API`,`The browser window.`,`<p><code>window</code> gives size (<code>innerWidth</code>), <code>location</code>, <code>history</code>, <code>navigator</code>, <code>screen</code> and timers.</p>`,`<pre id='o'></pre>\n<script>\no.textContent=[innerWidth+' x '+innerHeight,navigator.language,screen.width+' wide screen',matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'].join('\\n');\n<\/script>`],
+[`jsfetch`,`JS fetch API`,`Request data from a server.`,`<p><code>fetch(url)</code> returns a promise. Check <code>response.ok</code>, then call <code>json()</code>. Network access is blocked in this preview, so the example handles the failure; it works on your own site.</p>`,`<p id='o'>Loading...</p>\n<script>\nfetch('https://jsonplaceholder.typicode.com/todos/1')\n.then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})\n.then(d=>o.textContent=d.title)\n.catch(e=>o.textContent='Request failed (blocked here): '+e.message);\n<\/script>`],
+[`jsjson`,`JS JSON`,`Text format for data.`,`<p><code>JSON.stringify</code> turns objects into text and <code>JSON.parse</code> turns text back. Keys and strings need double quotes in JSON.</p>`,`<pre id='o'></pre>\n<script>\nconst txt=JSON.stringify({name:'Ada',langs:['JS','CSS']},null,2);\nconst back=JSON.parse(txt);\no.textContent=txt+'\\nname: '+back.name;\n<\/script>`],
+[`jsweb`,`JS web APIs`,`Browser features you can call.`,`<p>Beyond the DOM, browsers offer <code>IntersectionObserver</code>, Clipboard, Geolocation, Notifications, Web Storage, <code>URL</code> and <code>FormData</code>. Check support before using one.</p>`,`<pre id='o'></pre>\n<script>\nconst u=new URL('https://site.com/a?x=1&y=2');\no.textContent=[u.hostname,u.searchParams.get('y'),'IntersectionObserver' in window,'clipboard' in navigator].join('\\n');\n<\/script>`],
+[`jstemporal`,`JS Temporal`,`The modern date and time API.`,`<p><code>Temporal</code> replaces many problems of <code>Date</code>: time zones, immutability and calendars. Support is still arriving, so test for it.</p>`,`<pre id='o'></pre>\n<script>\nif(typeof Temporal!=='undefined'){o.textContent=Temporal.Now.plainDateISO().add({days:10}).toString();}\nelse{o.textContent='Temporal is not available in this browser yet. Use Date for now.';}\n<\/script>`],
+[`jsadvfn`,`JS advanced functions`,`Closures, rest, spread, bind.`,`<p>A closure keeps access to outer variables. Rest (<code>...args</code>) collects arguments, spread expands them. <code>bind</code> fixes <code>this</code>.</p>`,`<pre id='o'></pre>\n<script>\nfunction counter(){let n=0;return()=>++n;}\nconst c=counter();c();c();\nconst sum=(...a)=>a.reduce((s,x)=>s+x,0);\nconst hi=function(g){return g+', '+this.name;}.bind({name:'Ada'});\no.textContent=[c(),sum(...[1,2,3]),hi('Hello'),(function(a,b=10){return a+b})(1)].join('\\n');\n<\/script>`],
+[`jsadvobj`,`JS advanced objects`,`Destructuring, spread, getters.`,`<p>Destructuring unpacks values. Spread copies objects. <code>Object.entries</code> lists pairs, getters compute values and <code>Object.freeze</code> locks an object.</p>`,`<pre id='o'></pre>\n<script>\nconst p={first:'Ada',last:'Lovelace',get full(){return this.first+' '+this.last}};\nconst {first,...rest}=p;\nconst q={...p,age:36};Object.freeze(q);\no.textContent=[first,Object.keys(rest),p.full,Object.entries(q).length,Object.isFrozen(q)].join('\\n');\n<\/script>`],
+[`jsasync`,`JS asynchronous`,`Promises and async/await.`,`<p>A promise represents a future result. <code>async</code> functions use <code>await</code> to pause until it resolves, and <code>try/catch</code> handles failure.</p>`,`<pre id='o'>start</pre>\n<script>\nconst wait=(ms,v)=>new Promise(r=>setTimeout(()=>r(v),ms));\nasync function run(){\n  o.textContent+='\\nwaiting...';\n  const a=await wait(500,'first');\n  const [b,c]=await Promise.all([wait(300,'second'),wait(300,'third')]);\n  o.textContent+='\\n'+a+', '+b+', '+c;\n}\nrun();\n<\/script>`],
+[`jsmodules`,`JS modules`,`Split code into files.`,`<p>Mark a script with <code>type='module'</code>, then <code>export</code> from one file and <code>import</code> in another. Modules are strict, deferred and scoped. This demo runs a module inline.</p>`,`<p id='o'></p>\n<script type='module'>\n// math.js:  export const add=(a,b)=>a+b;\n// main.js:  import {add} from './math.js';\nconst add=(a,b)=>a+b;\ndocument.getElementById('o').textContent='Module ran, 2+3='+add(2,3);\n<\/script>`],
+[`jsproxy`,`JS meta and proxy`,`Intercept object operations.`,`<p>A <code>Proxy</code> wraps an object and traps reads and writes. <code>Reflect</code> performs the default action. <code>Symbol</code> makes unique keys.</p>`,`<pre id='o'></pre>\n<script>\nconst p=new Proxy({},{\n get:(t,k)=>k in t?t[k]:'no '+String(k),\n set(t,k,v){if(typeof v!=='number')throw new TypeError('numbers only');return Reflect.set(t,k,v);}\n});\np.age=30;let t=p.age+', '+p.name;\ntry{p.x='a'}catch(e){t+=', '+e.message}\no.textContent=t;\n<\/script>`],
+[`jstyped`,`JS typed arrays`,`Fixed-type binary data.`,`<p>Typed arrays such as <code>Uint8Array</code> and <code>Float32Array</code> store numbers compactly and wrap values to their range. They are used for graphics, audio and files.</p>`,`<pre id='o'></pre>\n<script>\nconst a=new Uint8Array(3);a[0]=255;a[1]=256;a[2]=-1;\nconst f=new Float32Array([0.1,0.2]);\no.textContent=[a.join(','),f[0],a.byteLength+' bytes'].join('\\n');\n<\/script>`],
+[`jsgraphics`,`JS graphics`,`Animate on a canvas.`,`<p>Use <code>requestAnimationFrame</code> to redraw each frame and move shapes a little each time.</p>`,`<canvas id='c' width='280' height='100' style='border:1px solid #888'></canvas>\n<script>\nconst g=c.getContext('2d');let x=0;\nfunction f(){g.clearRect(0,0,280,100);g.fillStyle='tomato';g.beginPath();g.arc(x,50,16,0,7);g.fill();x=(x+2)%280;requestAnimationFrame(f);}\nf();\n<\/script>`],
+[`jsajax`,`JS AJAX`,`Older way to load data.`,`<p>AJAX updates part of a page without reloading. <code>XMLHttpRequest</code> is the old API; <code>fetch</code> is the modern one. Requests here are blocked, so errors are handled.</p>`,`<p id='o'>Loading...</p>\n<script>\nconst x=new XMLHttpRequest();\nx.onload=()=>o.textContent='Status '+x.status;\nx.onerror=()=>o.textContent='Blocked in preview (works on your site)';\nx.open('GET','https://jsonplaceholder.typicode.com/todos/1');x.send();\n<\/script>`],
+[`jsjquery`,`JS jQuery`,`A classic helper library.`,`<p>jQuery shortens DOM code: <code>$('selector')</code> selects, then chain methods. It loads from a CDN and needs internet. New projects usually use plain JavaScript.</p>`,`<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'><\/script>\n<p class='x'>Click me</p><p class='x'>Or me</p>\n<script>\nif(window.jQuery)$('.x').on('click',function(){$(this).css('color','tomato').text('Done');});\nelse document.body.append('jQuery could not load');\n<\/script>`],
+[`jsjsonp`,`JS JSONP`,`An old cross-domain trick.`,`<p>JSONP loads a <code>script</code> whose reply calls your function with the data. It is insecure and replaced by CORS with <code>fetch</code>. This demo fakes the server reply locally.</p>`,`<pre id='o'></pre>\n<script>\nfunction handle(data){o.textContent='Callback got: '+JSON.stringify(data);}\n// a server would reply with this text as a script:\nhandle({user:'Ada',id:7});\n<\/script>`],
+[`jshtmlfirst`,`JS HTML first`,`Use HTML features before JavaScript.`,`<p>Many tasks need no script: <code>details</code> for toggles, <code>dialog</code>, <code>popover</code>, <code>required</code> validation and CSS <code>:target</code>. Add JavaScript only for what HTML cannot do.</p>`,`<details><summary>Open me</summary>Hidden content, no JavaScript.</details>\n<br><button popovertarget='p'>Popover</button>\n<div id='p' popover style='padding:12px'>Also no JavaScript</div>`],
+[`jsproject`,`JS project: counter`,`Build a small app.`,`<p>Combine variables, events, functions and the DOM. Try adding a reset button or saving the value.</p>`,`<style>button{font-size:20px;padding:6px 14px}#n{font-size:48px;margin:10px 0}</style>\n<div id='n'>0</div>\n<button id='d'>-</button> <button id='r'>Reset</button> <button id='i'>+</button>\n<script>\nlet c=0;\nconst show=()=>n.textContent=c;\ni.onclick=()=>{c++;show();};\nd.onclick=()=>{c--;show();};\nr.onclick=()=>{c=0;show();};\n<\/script>`]
+);
+L.c={n:"C",c:"#8e44ad",items:[]};
+L.c.items.push(
+[`cintro`,`C introduction`,`A fast, low-level language.`,`<p>C powers operating systems, embedded devices and databases. It is compiled: you write source code, a compiler turns it into a program. Many later languages (C++, Java, C#) borrow its syntax.</p>`,`#include <stdio.h>\n\nint main() {\n  printf("Hello, C!\\n");\n  return 0;\n}`,`Hello, C!`],
+[`cstart`,`C get started`,`Install a compiler and build.`,`<p>Install <code>gcc</code> (or use an online compiler or an IDE like Code::Blocks). Save as <code>main.c</code>, compile with <code>gcc main.c -o main</code> and run <code>./main</code>.</p>`,`/* Terminal:\n   gcc main.c -o main\n   ./main\n*/\n#include <stdio.h>\nint main() {\n  printf("It works\\n");\n  return 0;\n}`,`It works`],
+[`csyntax`,`C syntax`,`Parts of a C program.`,`<p><code>#include</code> loads a library. <code>main()</code> is where execution starts. Statements end with <code>;</code>. Braces group code. <code>return 0</code> reports success.</p>`,`#include <stdio.h>\n\nint main() {\n  printf("Syntax\\n");\n  return 0;\n}`,`Syntax`],
+[`coutput`,`C output`,`Print with printf.`,`<p><code>printf</code> prints text. <code>\\n</code> starts a new line and <code>\\t</code> adds a tab. Format codes insert values: <code>%d</code> int, <code>%f</code> float, <code>%c</code> char, <code>%s</code> string.</p>`,`#include <stdio.h>\nint main() {\n  printf("Line 1\\nLine 2\\n");\n  printf("Age %d, pi %.2f, grade %c\\n", 20, 3.14159, 'A');\n  return 0;\n}`,`Line 1\nLine 2\nAge 20, pi 3.14, grade A`],
+[`ccomments`,`C comments`,`Notes for humans.`,`<p><code>//</code> comments one line, <code>/* ... */</code> comments many lines.</p>`,`#include <stdio.h>\nint main() {\n  // single line\n  /* multi\n     line */\n  printf("Comments ignored\\n");\n  return 0;\n}`,`Comments ignored`],
+[`cvars`,`C variables`,`Named storage for values.`,`<p>Declare with a type: <code>int age = 20;</code>. Names use letters, digits and underscores and cannot start with a digit. Declare several at once: <code>int a=1, b=2;</code>.</p>`,`#include <stdio.h>\nint main() {\n  int age = 20;\n  float price = 9.99;\n  char grade = 'B';\n  printf("%d %.2f %c\\n", age, price, grade);\n  return 0;\n}`,`20 9.99 B`],
+[`ctypes`,`C data types`,`Sizes and formats.`,`<p><code>char</code> 1 byte, <code>int</code> usually 4, <code>float</code> 4, <code>double</code> 8. Use <code>sizeof</code> to check on your machine.</p>`,`#include <stdio.h>\nint main() {\n  printf("%zu %zu %zu %zu\\n", sizeof(char), sizeof(int), sizeof(float), sizeof(double));\n  return 0;\n}`,`1 4 4 8`],
+[`cconv`,`C type conversion`,`Implicit and explicit casts.`,`<p>Mixed types convert automatically, and integer division drops decimals. Cast with <code>(float)</code> to force a decimal result.</p>`,`#include <stdio.h>\nint main() {\n  int a = 5, b = 2;\n  printf("%d\\n", a / b);\n  printf("%.2f\\n", (float) a / b);\n  return 0;\n}`,`2\n2.50`],
+[`cconst`,`C constants`,`Values that cannot change.`,`<p>Use <code>const</code> to protect a variable. Write constant names in capitals by habit. <code>#define</code> makes a text replacement.</p>`,`#include <stdio.h>\n#define MAX 100\nint main() {\n  const float PI = 3.14;\n  printf("%.2f %d\\n", PI, MAX);\n  return 0;\n}`,`3.14 100`],
+[`cops`,`C operators`,`Arithmetic, comparison, logic.`,`<p>Arithmetic <code>+ - * / %</code>, assignment <code>+= -=</code>, comparison <code>== != &lt; &gt;</code>, logic <code>&amp;&amp; || !</code>, and <code>++</code> / <code>--</code>.</p>`,`#include <stdio.h>\nint main() {\n  int x = 10;\n  x += 5; x++;\n  printf("%d %d %d\\n", x, x % 4, x > 10 && x < 20);\n  return 0;\n}`,`16 0 1`],
+[`cbool`,`C booleans`,`True and false.`,`<p>C treats 0 as false and any other value as true. Include <code>stdbool.h</code> for <code>bool</code>, <code>true</code> and <code>false</code>.</p>`,`#include <stdio.h>\n#include <stdbool.h>\nint main() {\n  bool ok = true;\n  printf("%d %d\\n", ok, 5 > 9);\n  return 0;\n}`,`1 0`],
+[`cif`,`C if...else`,`Choose between paths.`,`<p>Use <code>if</code>, <code>else if</code>, <code>else</code>, or the short form <code>cond ? a : b</code>.</p>`,`#include <stdio.h>\nint main() {\n  int t = 18;\n  if (t < 12) printf("Morning\\n");\n  else if (t < 17) printf("Afternoon\\n");\n  else printf("Evening\\n");\n  return 0;\n}`,`Evening`],
+[`cswitch`,`C switch`,`Many choices on one value.`,`<p>Each <code>case</code> needs <code>break</code> or execution falls through. <code>default</code> catches the rest.</p>`,`#include <stdio.h>\nint main() {\n  int d = 3;\n  switch (d) {\n    case 1: printf("Mon\\n"); break;\n    case 3: printf("Wed\\n"); break;\n    default: printf("Other\\n");\n  }\n  return 0;\n}`,`Wed`],
+[`cwhile`,`C while loop`,`Repeat while true.`,`<p><code>do { } while</code> runs at least once. Make sure the condition eventually becomes false.</p>`,`#include <stdio.h>\nint main() {\n  int i = 1;\n  while (i <= 3) { printf("%d ", i); i++; }\n  printf("\\n");\n  return 0;\n}`,`1 2 3`],
+[`cfor`,`C for loop`,`Count with a loop.`,`<p><code>for (start; condition; step)</code> keeps everything about the count in one line.</p>`,`#include <stdio.h>\nint main() {\n  for (int i = 0; i < 5; i += 2) printf("%d ", i);\n  printf("\\n");\n  return 0;\n}`,`0 2 4`],
+[`cbreak`,`C break and continue`,`Leave or skip.`,`<p><code>break</code> exits the loop. <code>continue</code> skips to the next round.</p>`,`#include <stdio.h>\nint main() {\n  for (int i = 1; i <= 6; i++) {\n    if (i == 2) continue;\n    if (i == 5) break;\n    printf("%d ", i);\n  }\n  printf("\\n");\n  return 0;\n}`,`1 3 4`],
+[`carrays`,`C arrays`,`Many values of one type.`,`<p>Index starts at 0. C does not check bounds, so stay inside the size. Get the length with <code>sizeof(a)/sizeof(a[0])</code>.</p>`,`#include <stdio.h>\nint main() {\n  int a[] = {10, 20, 30};\n  int n = sizeof(a) / sizeof(a[0]);\n  for (int i = 0; i < n; i++) printf("%d ", a[i]);\n  printf("\\n");\n  return 0;\n}`,`10 20 30`],
+[`cstrings`,`C strings`,`Character arrays ending in 0.`,`<p>A string is a <code>char</code> array ending with <code>'\\0'</code>. Use <code>string.h</code>: <code>strlen</code>, <code>strcpy</code>, <code>strcat</code>, <code>strcmp</code>.</p>`,`#include <stdio.h>\n#include <string.h>\nint main() {\n  char s[20] = "Hello";\n  strcat(s, " C");\n  printf("%s %zu %d\\n", s, strlen(s), strcmp("a", "a"));\n  return 0;\n}`,`Hello C 7 0`],
+[`cinput`,`C user input`,`Read with scanf and fgets.`,`<p><code>scanf("%d", &amp;n)</code> reads a number (note the <code>&amp;</code>). Use <code>fgets</code> to read a whole line safely.</p>`,`#include <stdio.h>\nint main() {\n  int n;\n  char name[30];\n  printf("Number: ");\n  scanf("%d", &n);\n  getchar();\n  printf("Name: ");\n  fgets(name, 30, stdin);\n  printf("%d %s", n, name);\n  return 0;\n}`,`Number: 7\nName: Ada\n7 Ada`],
+[`caddr`,`C memory address`,`Where a variable lives.`,`<p><code>&amp;x</code> gives the address of <code>x</code>. Print it with <code>%p</code>. The value differs every run.</p>`,`#include <stdio.h>\nint main() {\n  int x = 5;\n  printf("%d at %p\\n", x, (void*) &x);\n  return 0;\n}`,`5 at 0x7ffd...  (address varies)`],
+[`cptr`,`C pointers`,`Variables that hold addresses.`,`<p>Declare with <code>*</code>. <code>p = &amp;x</code> stores an address; <code>*p</code> reads or changes the value there (dereference). Arrays decay to pointers.</p>`,`#include <stdio.h>\nint main() {\n  int x = 5, *p = &x;\n  *p = 9;\n  printf("%d %d\\n", x, *p);\n  int a[] = {1, 2, 3};\n  printf("%d\\n", *(a + 2));\n  return 0;\n}`,`9 9\n3`],
+[`cfunc`,`C functions`,`Reusable blocks.`,`<p>Define a return type, name and parameters. Declare a prototype above <code>main</code> if the definition comes after it.</p>`,`#include <stdio.h>\nint square(int n);\nint main() {\n  printf("%d\\n", square(6));\n  return 0;\n}\nint square(int n) { return n * n; }`,`36`],
+[`cparams`,`Function parameters`,`Pass values and arrays.`,`<p>Arguments are copied. An array parameter becomes a pointer, so pass the size too.</p>`,`#include <stdio.h>\nint sum(int a[], int n) {\n  int s = 0;\n  for (int i = 0; i < n; i++) s += a[i];\n  return s;\n}\nint main() {\n  int v[] = {1, 2, 3, 4};\n  printf("%d\\n", sum(v, 4));\n  return 0;\n}`,`10`],
+[`cref`,`Pass by reference`,`Change the caller's variable.`,`<p>Pass the address and use a pointer parameter, as in a swap.</p>`,`#include <stdio.h>\nvoid swap(int *a, int *b) { int t = *a; *a = *b; *b = t; }\nint main() {\n  int x = 1, y = 2;\n  swap(&x, &y);\n  printf("%d %d\\n", x, y);\n  return 0;\n}`,`2 1`],
+[`cscope`,`C scope`,`Where names are visible.`,`<p>Local variables exist only inside their block. Globals are visible everywhere but make code harder to follow.</p>`,`#include <stdio.h>\nint g = 100;\nint main() {\n  int x = 5;\n  { int x = 9; printf("%d ", x); }\n  printf("%d %d\\n", x, g);\n  return 0;\n}`,`9 5 100`],
+[`cmath`,`C math functions`,`math.h helpers.`,`<p>Include <code>math.h</code>: <code>sqrt</code>, <code>pow</code>, <code>ceil</code>, <code>floor</code>, <code>fabs</code>. Link with <code>-lm</code> on some systems.</p>`,`#include <stdio.h>\n#include <math.h>\nint main() {\n  printf("%.1f %.0f %.0f %.1f\\n", sqrt(49), pow(2, 5), ceil(4.1), fabs(-3.5));\n  return 0;\n}`,`7.0 32 5 3.5`],
+[`crecur`,`C recursion`,`A function that calls itself.`,`<p>Needs a base case to stop. Each call uses stack memory, so very deep recursion can crash.</p>`,`#include <stdio.h>\nint fact(int n) { return n <= 1 ? 1 : n * fact(n - 1); }\nint main() {\n  printf("%d\\n", fact(5));\n  return 0;\n}`,`120`],
+[`cfptr`,`C function pointers`,`Store a function in a variable.`,`<p>Declare as <code>int (*f)(int,int)</code>. Used for callbacks and menus.</p>`,`#include <stdio.h>\nint add(int a, int b) { return a + b; }\nint mul(int a, int b) { return a * b; }\nint main() {\n  int (*f)(int, int) = mul;\n  printf("%d %d\\n", add(2, 3), f(2, 3));\n  return 0;\n}`,`5 6`],
+[`cfwrite`,`C create and write files`,`Save text to a file.`,`<p><code>fopen(name, "w")</code> creates or overwrites. Use <code>"a"</code> to append. Write with <code>fprintf</code> and always <code>fclose</code>.</p>`,`#include <stdio.h>\nint main() {\n  FILE *f = fopen("data.txt", "w");\n  if (f == NULL) { printf("Error\\n"); return 1; }\n  fprintf(f, "Hello file\\n");\n  fclose(f);\n  printf("Saved\\n");\n  return 0;\n}`,`Saved`],
+[`cfread`,`C read files`,`Read text from a file.`,`<p>Open with <code>"r"</code> and read lines with <code>fgets</code> until it returns NULL.</p>`,`#include <stdio.h>\nint main() {\n  char line[100];\n  FILE *f = fopen("data.txt", "r");\n  if (!f) { printf("Missing\\n"); return 1; }\n  while (fgets(line, 100, f)) printf("%s", line);\n  fclose(f);\n  return 0;\n}`,`Hello file`],
+[`cstruct`,`C structures`,`Group different types.`,`<p>A <code>struct</code> bundles related fields. Access with <code>.</code>; use <code>-&gt;</code> through a pointer.</p>`,`#include <stdio.h>\n#include <string.h>\nstruct Student { char name[20]; int age; };\nint main() {\n  struct Student s = {"Ada", 21};\n  printf("%s %d\\n", s.name, s.age);\n  return 0;\n}`,`Ada 21`],
+[`cnested`,`Nested structs and arrays of structs`,`Structs inside structs, and lists of them.`,`<p>Fields can be other structs, and you can make arrays of structs.</p>`,`#include <stdio.h>\nstruct Pt { int x, y; };\nstruct Line { struct Pt a, b; };\nint main() {\n  struct Line l = {{0, 0}, {3, 4}};\n  struct Pt p[2] = {{1, 2}, {5, 6}};\n  printf("%d %d\\n", l.b.y, p[1].x);\n  return 0;\n}`,`4 5`],
+[`cstructptr`,`Structs and pointers`,`Use -> on struct pointers.`,`<p>Pass struct pointers to avoid copying. <code>p-&gt;x</code> equals <code>(*p).x</code>.</p>`,`#include <stdio.h>\nstruct Pt { int x, y; };\nvoid move(struct Pt *p) { p->x += 10; }\nint main() {\n  struct Pt a = {1, 2};\n  move(&a);\n  printf("%d %d\\n", a.x, a.y);\n  return 0;\n}`,`11 2`],
+[`cunion`,`C unions`,`Fields share one memory slot.`,`<p>A <code>union</code> holds one member at a time; its size is the largest member. Writing one overwrites the others.</p>`,`#include <stdio.h>\nunion U { int i; float f; };\nint main() {\n  union U u; u.i = 7;\n  printf("%d %zu\\n", u.i, sizeof(u));\n  return 0;\n}`,`7 4`],
+[`ctypedef`,`C typedef`,`Give a type a shorter name.`,`<p><code>typedef</code> removes the need to write <code>struct</code> each time.</p>`,`#include <stdio.h>\ntypedef struct { int x, y; } Point;\nint main() {\n  Point p = {3, 4};\n  printf("%d\\n", p.x + p.y);\n  return 0;\n}`,`7`],
+[`cpadding`,`C struct padding`,`Hidden gaps for alignment.`,`<p>The compiler adds padding so fields sit on aligned addresses. Ordering fields from large to small can shrink the struct.</p>`,`#include <stdio.h>\nstruct A { char c; int i; char d; };\nstruct B { int i; char c; char d; };\nint main() {\n  printf("%zu %zu\\n", sizeof(struct A), sizeof(struct B));\n  return 0;\n}`,`12 8`],
+[`cenum`,`C enums`,`Named integer constants.`,`<p><code>enum</code> assigns names to numbers starting at 0 unless you set values.</p>`,`#include <stdio.h>\nenum Level { LOW, MEDIUM = 5, HIGH };\nint main() {\n  enum Level l = HIGH;\n  printf("%d %d\\n", LOW, l);\n  return 0;\n}`,`0 6`],
+[`cmalloc`,`C allocate and access memory`,`malloc gives memory at run time.`,`<p><code>malloc(bytes)</code> returns a pointer, or NULL on failure. Use <code>sizeof</code>, check the result, and use it like an array.</p>`,`#include <stdio.h>\n#include <stdlib.h>\nint main() {\n  int *a = malloc(3 * sizeof(int));\n  if (a == NULL) return 1;\n  for (int i = 0; i < 3; i++) a[i] = i * 10;\n  printf("%d %d\\n", a[1], a[2]);\n  free(a);\n  return 0;\n}`,`10 20`],
+[`crealloc`,`C reallocate memory`,`Resize a block.`,`<p><code>realloc</code> grows or shrinks a block and may move it. Store the result in a temporary pointer so you do not lose the original on failure.</p>`,`#include <stdio.h>\n#include <stdlib.h>\nint main() {\n  int *a = malloc(2 * sizeof(int));\n  a[0] = 1; a[1] = 2;\n  int *t = realloc(a, 4 * sizeof(int));\n  if (t == NULL) { free(a); return 1; }\n  a = t; a[3] = 4;\n  printf("%d %d\\n", a[1], a[3]);\n  free(a);\n  return 0;\n}`,`2 4`],
+[`cfree`,`C deallocate memory`,`Free what you allocate.`,`<p>Every <code>malloc</code> needs one <code>free</code>. Set the pointer to NULL afterwards. Forgetting causes a memory leak.</p>`,`#include <stdio.h>\n#include <stdlib.h>\nint main() {\n  int *p = malloc(sizeof(int));\n  *p = 42;\n  printf("%d\\n", *p);\n  free(p);\n  p = NULL;\n  return 0;\n}`,`42`],
+[`cmemmistake`,`C memory mistakes`,`Common bugs.`,`<p>Leaks, use after free, double free, writing outside an array, using uninitialized pointers and forgetting to check for NULL. Tools like Valgrind and AddressSanitizer find them.</p>`,`/* Compile with: gcc -fsanitize=address main.c */\n#include <stdlib.h>\nint main() {\n  int *p = malloc(4);\n  free(p);\n  /* *p = 1;   use after free: never do this */\n  /* free(p);  double free: never do this   */\n  return 0;\n}`,`(no output)`],
+[`cnull`,`C NULL and errors`,`Detect failure.`,`<p>Many functions return NULL or -1 on failure. Check results before using them. <code>perror</code> and <code>errno</code> describe the problem.</p>`,`#include <stdio.h>\nint main() {\n  FILE *f = fopen("missing.txt", "r");\n  if (f == NULL) { perror("fopen"); return 1; }\n  fclose(f);\n  return 0;\n}`,`fopen: No such file or directory`],
+[`cvalid`,`C input validation`,`Never trust input.`,`<p>Check what <code>scanf</code> returns and range-check values before using them.</p>`,`#include <stdio.h>\nint main() {\n  int n;\n  if (scanf("%d", &n) != 1 || n < 1 || n > 10) {\n    printf("Enter 1 to 10\\n");\n    return 1;\n  }\n  printf("OK %d\\n", n);\n  return 0;\n}`,`(input abc)\nEnter 1 to 10`],
+[`cdate`,`C date and time`,`time.h basics.`,`<p><code>time(NULL)</code> returns seconds since 1970. <code>localtime</code> and <code>strftime</code> format it.</p>`,`#include <stdio.h>\n#include <time.h>\nint main() {\n  time_t now = time(NULL);\n  char b[40];\n  strftime(b, 40, "%Y-%m-%d", localtime(&now));\n  printf("%s\\n", b);\n  return 0;\n}`,`2026-11-01  (today's date)`],
+[`crandom`,`C random numbers`,`rand and srand.`,`<p>Seed once with <code>srand(time(NULL))</code>, then use <code>rand() % n</code> for 0 to n-1.</p>`,`#include <stdio.h>\n#include <stdlib.h>\n#include <time.h>\nint main() {\n  srand(time(NULL));\n  printf("%d\\n", rand() % 6 + 1);\n  return 0;\n}`,`4  (random 1 to 6)`],
+[`cmacro`,`C macros`,`Text replacement by the preprocessor.`,`<p><code>#define</code> can take arguments. Wrap parameters in parentheses. <code>#ifdef</code> compiles code conditionally.</p>`,`#include <stdio.h>\n#define SQ(x) ((x) * (x))\nint main() {\n  printf("%d\\n", SQ(3 + 1));\n  return 0;\n}`,`16`],
+[`cstorage`,`C storage classes`,`auto, static, extern, register.`,`<p>A <code>static</code> local keeps its value between calls. <code>extern</code> refers to a variable defined in another file.</p>`,`#include <stdio.h>\nvoid count() { static int n = 0; n++; printf("%d ", n); }\nint main() {\n  count(); count(); count();\n  printf("\\n");\n  return 0;\n}`,`1 2 3`],
+[`cbits`,`C bitwise operators`,`Work on individual bits.`,`<p><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code>. Shifting left by n multiplies by 2 to the power n.</p>`,`#include <stdio.h>\nint main() {\n  int a = 6, b = 3;\n  printf("%d %d %d %d %d\\n", a & b, a | b, a ^ b, a << 1, a >> 1);\n  return 0;\n}`,`2 7 5 12 3`],
+[`cfixed`,`C fixed-width integers`,`Exact sizes with stdint.h.`,`<p><code>int8_t</code>, <code>uint16_t</code>, <code>int32_t</code>, <code>uint64_t</code> have the same size on every platform.</p>`,`#include <stdio.h>\n#include <stdint.h>\nint main() {\n  uint8_t x = 255; x++;\n  int32_t y = 100000;\n  printf("%u %d %zu\\n", x, y, sizeof(int64_t));\n  return 0;\n}`,`0 100000 8`],
+[`ccmd`,`C command-line arguments`,`Pass values when launching.`,`<p><code>main(int argc, char *argv[])</code>: <code>argc</code> counts arguments, <code>argv[0]</code> is the program name.</p>`,`#include <stdio.h>\nint main(int argc, char *argv[]) {\n  printf("%d args\\n", argc);\n  for (int i = 0; i < argc; i++) printf("%s\\n", argv[i]);\n  return 0;\n}`,`(run: ./main hi)\n2 args\n./main\nhi`],
+[`csearch`,`C searching (DSA)`,`Linear and binary search.`,`<p>Linear search checks each item. Binary search halves a sorted array each step, so it is much faster on big data.</p>`,`#include <stdio.h>\nint bsearch2(int a[], int n, int t) {\n  int lo = 0, hi = n - 1;\n  while (lo <= hi) {\n    int m = (lo + hi) / 2;\n    if (a[m] == t) return m;\n    if (a[m] < t) lo = m + 1; else hi = m - 1;\n  }\n  return -1;\n}\nint main() {\n  int a[] = {1, 3, 5, 7, 9};\n  printf("%d\\n", bsearch2(a, 5, 7));\n  return 0;\n}`,`3`],
+[`csort`,`C sorting (DSA)`,`Bubble sort.`,`<p>Bubble sort swaps neighbours that are out of order. It is simple but slow (O(n squared)). Real code uses <code>qsort</code>.</p>`,`#include <stdio.h>\nint main() {\n  int a[] = {5, 2, 9, 1}, n = 4;\n  for (int i = 0; i < n - 1; i++)\n    for (int j = 0; j < n - 1 - i; j++)\n      if (a[j] > a[j + 1]) { int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; }\n  for (int i = 0; i < n; i++) printf("%d ", a[i]);\n  printf("\\n");\n  return 0;\n}`,`1 2 5 9`],
+[`cstack`,`C stacks and queues (DSA)`,`Last-in first-out and first-in first-out.`,`<p>A stack pushes and pops at one end (LIFO). A queue adds at the back and removes from the front (FIFO). Both fit in an array.</p>`,`#include <stdio.h>\nint main() {\n  int s[10], top = -1;\n  s[++top] = 1; s[++top] = 2; s[++top] = 3;\n  printf("pop %d\\n", s[top--]);\n  int q[10], f = 0, r = 0;\n  q[r++] = 1; q[r++] = 2;\n  printf("dequeue %d\\n", q[f++]);\n  return 0;\n}`,`pop 3\ndequeue 1`],
+[`clist`,`C linked lists (DSA)`,`Nodes linked by pointers.`,`<p>Each node stores data and a pointer to the next. Insert at the head in constant time.</p>`,`#include <stdio.h>\n#include <stdlib.h>\nstruct N { int v; struct N *next; };\nint main() {\n  struct N *h = NULL;\n  for (int i = 1; i <= 3; i++) {\n    struct N *n = malloc(sizeof *n);\n    n->v = i; n->next = h; h = n;\n  }\n  for (struct N *p = h; p; p = p->next) printf("%d ", p->v);\n  printf("\\n");\n  return 0;\n}`,`3 2 1`],
+[`cbigo`,`C Big O (DSA)`,`How cost grows with input.`,`<p>Big O describes growth: O(1) constant, O(log n) binary search, O(n) one loop, O(n log n) good sorting, O(n squared) nested loops.</p>`,`#include <stdio.h>\nint main() {\n  int n = 5, ops = 0;\n  for (int i = 0; i < n; i++)\n    for (int j = 0; j < n; j++) ops++;\n  printf("n=%d ops=%d\\n", n, ops);\n  return 0;\n}`,`n=5 ops=25`]
+);
+L.cpp={n:"C++",c:"#00599c",items:[]};
+L.cpp.items.push(
+[`ppintro`,`C++ introduction and get started`,`C with classes, built for speed.`,`<p>C++ extends C with objects, templates and a big standard library (STL). It is used in games, browsers and finance. Install <code>g++</code> (or an IDE), save as <code>main.cpp</code>, compile with <code>g++ main.cpp -o main</code> and run <code>./main</code>.</p>`,`#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << "Hello, C++!" << endl;\n  return 0;\n}`,`Hello, C++!`],
+[`ppsyntax`,`C++ syntax and comments`,`Parts of a program.`,`<p><code>#include</code> loads a header, <code>main()</code> starts the program, statements end with <code>;</code>. Comment with <code>//</code> or <code>/* */</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  // single line\n  /* multi\n     line */\n  cout << "Syntax" << endl;\n  return 0;\n}`,`Syntax`],
+[`ppout`,`C++ output`,`Print with cout.`,`<p><code>cout</code> with <code>&lt;&lt;</code> prints values. <code>endl</code> or <code>"\\n"</code> starts a new line.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Age: " << 20 << endl;\n  cout << "One\\nTwo\\n";\n  return 0;\n}`,`Age: 20\nOne\nTwo`],
+[`ppvars`,`C++ variables`,`Named storage.`,`<p>Declare with a type: <code>int age = 20;</code>. Use <code>const</code> for fixed values and <code>auto</code> to let the compiler infer the type.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int age = 20;\n  double price = 9.5;\n  const char grade = 'A';\n  auto n = 7;\n  cout << age << " " << price << " " << grade << " " << n << endl;\n  return 0;\n}`,`20 9.5 A 7`],
+[`ppinput`,`C++ user input`,`Read with cin.`,`<p><code>cin &gt;&gt; x</code> reads one value. Use <code>getline(cin, s)</code> to read a whole line with spaces.</p>`,`#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n  int n; string name;\n  cout << "Number: "; cin >> n;\n  cin.ignore();\n  cout << "Name: "; getline(cin, name);\n  cout << n << " " << name << endl;\n  return 0;\n}`,`Number: 7\nName: Ada Lovelace\n7 Ada Lovelace`],
+[`pptypes`,`C++ data types`,`Sizes and kinds.`,`<p><code>int</code>, <code>double</code>, <code>float</code>, <code>char</code>, <code>bool</code>, <code>string</code>. Check sizes with <code>sizeof</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  cout << sizeof(int) << " " << sizeof(double) << " " << sizeof(char) << " " << sizeof(bool) << endl;\n  return 0;\n}`,`4 8 1 1`],
+[`ppops`,`C++ operators and booleans`,`Arithmetic, comparison, logic.`,`<p><code>+ - * / %</code>, <code>== != &lt; &gt;</code>, <code>&amp;&amp; || !</code>. Integer division drops decimals. <code>bool</code> prints as 1 or 0 unless you use <code>boolalpha</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int a = 7, b = 2;\n  cout << a / b << " " << a % b << " " << (double) a / b << endl;\n  cout << boolalpha << (a > b && b > 0) << endl;\n  return 0;\n}`,`3 1 3.5\ntrue`],
+[`ppstr`,`C++ strings`,`The string class.`,`<p>Include <code>string</code>. Join with <code>+</code>, use <code>length()</code>, <code>substr</code>, <code>find</code>, <code>append</code> and index with <code>[]</code>.</p>`,`#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n  string s = "Hello";\n  s += " World";\n  cout << s << " " << s.length() << " " << s.substr(0, 5) << " " << s[1] << " " << s.find("World") << endl;\n  return 0;\n}`,`Hello World 11 Hello e 6`],
+[`ppmath`,`C++ math`,`cmath functions.`,`<p>Include <code>cmath</code> for <code>sqrt</code>, <code>pow</code>, <code>round</code>, <code>ceil</code>, <code>floor</code>, <code>abs</code>. <code>max</code> and <code>min</code> need no header.</p>`,`#include <iostream>\n#include <cmath>\nusing namespace std;\nint main() {\n  cout << sqrt(64) << " " << pow(2, 10) << " " << round(2.6) << " " << max(3, 8) << endl;\n  return 0;\n}`,`8 1024 3 8`],
+[`ppif`,`C++ if...else and switch`,`Make decisions.`,`<p>Use <code>if</code>, <code>else if</code>, <code>else</code>, the ternary <code>?:</code> and <code>switch</code> with <code>break</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int t = 18, d = 3;\n  if (t < 12) cout << "Morning" << endl;\n  else cout << "Later" << endl;\n  switch (d) {\n    case 1: cout << "Mon" << endl; break;\n    case 3: cout << "Wed" << endl; break;\n    default: cout << "Other" << endl;\n  }\n  return 0;\n}`,`Later\nWed`],
+[`ppwhile`,`C++ while loop`,`Repeat while true.`,`<p><code>while</code> checks first; <code>do...while</code> runs at least once.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int i = 1;\n  while (i <= 3) { cout << i << " "; i++; }\n  cout << endl;\n  return 0;\n}`,`1 2 3`],
+[`ppfor`,`C++ for loop`,`Counting and ranges.`,`<p>Classic <code>for</code> counts. The range-based <code>for (auto x : items)</code> walks a collection.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  for (int i = 0; i < 3; i++) cout << i << " ";\n  int a[] = {10, 20, 30};\n  for (int x : a) cout << x << " ";\n  cout << endl;\n  return 0;\n}`,`0 1 2 10 20 30`],
+[`ppbreak`,`C++ break and continue`,`Stop or skip.`,`<p><code>break</code> leaves the loop, <code>continue</code> jumps to the next round.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  for (int i = 1; i <= 6; i++) {\n    if (i == 2) continue;\n    if (i == 5) break;\n    cout << i << " ";\n  }\n  cout << endl;\n  return 0;\n}`,`1 3 4`],
+[`pparr`,`C++ arrays`,`Fixed-size lists.`,`<p>Index starts at 0, and there is no bounds checking. Use <code>sizeof(a)/sizeof(a[0])</code> for the length.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int a[3] = {5, 6, 7};\n  a[1] = 60;\n  int n = sizeof(a) / sizeof(a[0]);\n  for (int i = 0; i < n; i++) cout << a[i] << " ";\n  cout << endl;\n  return 0;\n}`,`5 60 7`],
+[`ppstruct`,`C++ structures and enums`,`Group data, name constants.`,`<p>A <code>struct</code> bundles fields. <code>enum</code> names integer constants; <code>enum class</code> keeps names scoped and safer.</p>`,`#include <iostream>\nusing namespace std;\nstruct Car { string brand; int year; };\nenum class Level { Low, High };\nint main() {\n  Car c = {"Tata", 2024};\n  Level l = Level::High;\n  cout << c.brand << " " << c.year << " " << (int) l << endl;\n  return 0;\n}`,`Tata 2024 1`],
+[`ppref`,`C++ references`,`Another name for a variable.`,`<p>A reference (<code>int &amp;r = x;</code>) must be set when created and always points to the same variable. Changing it changes the original.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int x = 5;\n  int &r = x;\n  r = 9;\n  cout << x << " " << r << endl;\n  return 0;\n}`,`9 9`],
+[`pppointer`,`C++ pointers`,`Variables that store addresses.`,`<p><code>&amp;x</code> is the address, <code>*p</code> reads the value there. A pointer can change targets and can be <code>nullptr</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int x = 5;\n  int *p = &x;\n  *p = 8;\n  cout << x << " " << *p << " " << (p != nullptr) << endl;\n  return 0;\n}`,`8 8 1`],
+[`ppmem`,`C++ memory management`,`new and delete.`,`<p><code>new</code> allocates on the heap and <code>delete</code> frees it (<code>delete[]</code> for arrays). Prefer smart pointers such as <code>unique_ptr</code> in modern code.</p>`,`#include <iostream>\n#include <memory>\nusing namespace std;\nint main() {\n  int *p = new int(42);\n  cout << *p << endl;\n  delete p;\n  auto u = make_unique<int>(7);\n  cout << *u << endl;\n  return 0;\n}`,`42\n7`],
+[`ppfunc`,`C++ functions and parameters`,`Reusable blocks.`,`<p>Define a return type and parameters. Default values and references work as parameters. Use <code>void</code> when nothing is returned.</p>`,`#include <iostream>\nusing namespace std;\nint add(int a, int b = 10) { return a + b; }\nvoid inc(int &n) { n++; }\nint main() {\n  int x = 1; inc(x);\n  cout << add(2, 3) << " " << add(2) << " " << x << endl;\n  return 0;\n}`,`5 12 2`],
+[`ppover`,`C++ function overloading`,`Same name, different parameters.`,`<p>The compiler picks the version by argument types or count.</p>`,`#include <iostream>\nusing namespace std;\nint twice(int x) { return x * 2; }\ndouble twice(double x) { return x * 2.0; }\nint main() {\n  cout << twice(4) << " " << twice(2.5) << endl;\n  return 0;\n}`,`8 5`],
+[`ppscope`,`C++ scope`,`Where names are visible.`,`<p>Locals live inside their braces. Globals are visible everywhere. <code>::x</code> reaches the global when a local hides it.</p>`,`#include <iostream>\nusing namespace std;\nint x = 100;\nint main() {\n  int x = 5;\n  cout << x << " " << ::x << endl;\n  return 0;\n}`,`5 100`],
+[`pprecur`,`C++ recursion`,`A function calling itself.`,`<p>Needs a base case. Each call uses stack space.</p>`,`#include <iostream>\nusing namespace std;\nint fact(int n) { return n <= 1 ? 1 : n * fact(n - 1); }\nint main() {\n  cout << fact(5) << endl;\n  return 0;\n}`,`120`],
+[`pplambda`,`C++ lambda`,`Small unnamed functions.`,`<p>Syntax: <code>[capture](params){ body }</code>. Capture outside variables by value <code>[=]</code> or by reference <code>[&amp;]</code>.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int k = 3;\n  auto mul = [k](int x) { return x * k; };\n  cout << mul(5) << endl;\n  return 0;\n}`,`15`],
+[`ppoop`,`C++ OOP, classes and objects`,`Model things as objects.`,`<p>A <code>class</code> bundles data (attributes) and functions (methods). Create objects from it. OOP gives encapsulation, inheritance, polymorphism and abstraction.</p>`,`#include <iostream>\nusing namespace std;\nclass Car {\npublic:\n  string brand = "Tata";\n  int year = 2024;\n};\nint main() {\n  Car c;\n  cout << c.brand << " " << c.year << endl;\n  return 0;\n}`,`Tata 2024`],
+[`ppmethods`,`C++ class methods`,`Functions inside a class.`,`<p>Define inside the class, or outside using <code>ClassName::method</code>.</p>`,`#include <iostream>\nusing namespace std;\nclass Car {\npublic:\n  int speed = 0;\n  void fast() { speed += 10; }\n  int get();\n};\nint Car::get() { return speed; }\nint main() {\n  Car c; c.fast(); c.fast();\n  cout << c.get() << endl;\n  return 0;\n}`,`20`],
+[`ppctor`,`C++ constructors`,`Run when an object is created.`,`<p>A constructor has the class name and no return type. Use an initializer list to set fields, and a destructor <code>~Name()</code> for cleanup.</p>`,`#include <iostream>\nusing namespace std;\nclass Car {\npublic:\n  string brand; int year;\n  Car(string b, int y) : brand(b), year(y) {}\n  ~Car() { cout << "bye " << brand << endl; }\n};\nint main() {\n  Car c("Tata", 2024);\n  cout << c.brand << " " << c.year << endl;\n  return 0;\n}`,`Tata 2024\nbye Tata`],
+[`ppaccess`,`C++ access specifiers and encapsulation`,`public, private, protected.`,`<p>Make data <code>private</code> and expose it through getters and setters, so the class controls how it changes.</p>`,`#include <iostream>\nusing namespace std;\nclass Account {\nprivate:\n  int balance = 0;\npublic:\n  void deposit(int n) { if (n > 0) balance += n; }\n  int get() { return balance; }\n};\nint main() {\n  Account a; a.deposit(50); a.deposit(-5);\n  cout << a.get() << endl;\n  return 0;\n}`,`50`],
+[`ppfriend`,`C++ friend functions`,`Outside access to private members.`,`<p>A <code>friend</code> function is not a member but may read private data. Use it sparingly.</p>`,`#include <iostream>\nusing namespace std;\nclass Box {\n  int w = 5;\n  friend void show(Box b);\n};\nvoid show(Box b) { cout << b.w << endl; }\nint main() {\n  Box b; show(b);\n  return 0;\n}`,`5`],
+[`ppinherit`,`C++ inheritance`,`Reuse a parent class.`,`<p>A derived class gets the base class members: <code>class Car : public Vehicle</code>. Use <code>protected</code> for members children may use.</p>`,`#include <iostream>\nusing namespace std;\nclass Vehicle { public: void honk() { cout << "Beep" << endl; } };\nclass Car : public Vehicle { public: string brand = "Tata"; };\nint main() {\n  Car c; c.honk();\n  cout << c.brand << endl;\n  return 0;\n}`,`Beep\nTata`],
+[`pppoly`,`C++ polymorphism`,`Many forms through virtual functions.`,`<p>Mark a base method <code>virtual</code> and <code>override</code> it. Calls through a base pointer then run the derived version.</p>`,`#include <iostream>\nusing namespace std;\nclass Animal { public: virtual void sound() { cout << "..." << endl; } virtual ~Animal() {} };\nclass Dog : public Animal { public: void sound() override { cout << "Woof" << endl; } };\nint main() {\n  Animal *a = new Dog();\n  a->sound();\n  delete a;\n  return 0;\n}`,`Woof`],
+[`pptemplate`,`C++ templates`,`One function for many types.`,`<p><code>template &lt;typename T&gt;</code> lets the compiler generate code for each type you use.</p>`,`#include <iostream>\nusing namespace std;\ntemplate <typename T>\nT bigger(T a, T b) { return a > b ? a : b; }\nint main() {\n  cout << bigger(3, 9) << " " << bigger(2.5, 1.5) << " " << bigger<string>("a", "b") << endl;\n  return 0;\n}`,`9 2.5 b`],
+[`ppfiles`,`C++ files`,`Write and read with fstream.`,`<p>Include <code>fstream</code>. <code>ofstream</code> writes, <code>ifstream</code> reads. Check that the file opened.</p>`,`#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n  ofstream out("data.txt");\n  out << "Hello file" << endl;\n  out.close();\n  ifstream in("data.txt");\n  string line;\n  while (getline(in, line)) cout << line << endl;\n  return 0;\n}`,`Hello file`],
+[`ppdate`,`C++ date and time`,`ctime basics.`,`<p><code>time(0)</code> gives seconds since 1970. <code>ctime</code> converts it to readable text.</p>`,`#include <iostream>\n#include <ctime>\nusing namespace std;\nint main() {\n  time_t now = time(0);\n  cout << ctime(&now);\n  return 0;\n}`,`Sun Nov  1 10:30:00 2026  (current time)`],
+[`pperr`,`C++ errors and debugging`,`Types of mistakes.`,`<p>Syntax errors stop compiling, runtime errors crash the program, logic errors give wrong answers. Debug with <code>cout</code> prints, compiler warnings (<code>-Wall</code>) and a debugger such as gdb.</p>`,`// Compile with warnings:  g++ -Wall -g main.cpp\n#include <iostream>\nusing namespace std;\nint main() {\n  int x = 5;\n  cout << "x = " << x << endl;  // debug print\n  return 0;\n}`,`x = 5`],
+[`ppexc`,`C++ exceptions`,`try, throw, catch.`,`<p>Throw on error and catch where you can recover. Catch standard errors with <code>exception</code> and <code>what()</code>.</p>`,`#include <iostream>\n#include <stdexcept>\nusing namespace std;\nint main() {\n  try {\n    int age = 15;\n    if (age < 18) throw runtime_error("Too young");\n  } catch (const exception &e) {\n    cout << e.what() << endl;\n  }\n  return 0;\n}`,`Too young`],
+[`ppvalid`,`C++ input validation`,`Reject bad input.`,`<p>If <code>cin</code> fails, clear the error and ignore the rest of the line before asking again.</p>`,`#include <iostream>\n#include <limits>\nusing namespace std;\nint main() {\n  int n;\n  while (!(cin >> n) || n < 1 || n > 10) {\n    cin.clear();\n    cin.ignore(numeric_limits<streamsize>::max(), '\\n');\n    cout << "Enter 1 to 10: ";\n  }\n  cout << "OK " << n << endl;\n  return 0;\n}`,`(input: abc, then 4)\nEnter 1 to 10: OK 4`],
+[`ppvector`,`C++ STL and vectors`,`Growable arrays.`,`<p>The STL gives ready-made containers. A <code>vector</code> grows automatically: <code>push_back</code>, <code>pop_back</code>, <code>size</code>, <code>at</code>.</p>`,`#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n  vector<int> v = {3, 1, 2};\n  v.push_back(9);\n  for (int x : v) cout << x << " ";\n  cout << "size " << v.size() << endl;\n  return 0;\n}`,`3 1 2 9 size 4`],
+[`pplist`,`C++ list`,`Doubly linked list.`,`<p>A <code>list</code> inserts and removes anywhere in constant time, but has no <code>[]</code> access. Use <code>push_front</code> and <code>push_back</code>.</p>`,`#include <iostream>\n#include <list>\nusing namespace std;\nint main() {\n  list<int> l = {2, 3};\n  l.push_front(1); l.push_back(4);\n  for (int x : l) cout << x << " ";\n  cout << endl;\n  return 0;\n}`,`1 2 3 4`],
+[`ppstack`,`C++ stacks and queues`,`LIFO and FIFO.`,`<p>A <code>stack</code> uses <code>push</code>, <code>top</code>, <code>pop</code>. A <code>queue</code> uses <code>push</code>, <code>front</code>, <code>pop</code>.</p>`,`#include <iostream>\n#include <stack>\n#include <queue>\nusing namespace std;\nint main() {\n  stack<int> s; s.push(1); s.push(2);\n  queue<int> q; q.push(1); q.push(2);\n  cout << s.top() << " " << q.front() << endl;\n  return 0;\n}`,`2 1`],
+[`ppdeque`,`C++ deque`,`Add or remove at both ends.`,`<p>A <code>deque</code> supports <code>push_front</code>, <code>push_back</code> and <code>[]</code> access.</p>`,`#include <iostream>\n#include <deque>\nusing namespace std;\nint main() {\n  deque<int> d = {2, 3};\n  d.push_front(1); d.push_back(4);\n  cout << d[0] << " " << d.back() << " " << d.size() << endl;\n  return 0;\n}`,`1 4 4`],
+[`ppset`,`C++ sets`,`Sorted unique values.`,`<p>A <code>set</code> keeps unique items in order. Use <code>insert</code>, <code>count</code>, <code>erase</code>.</p>`,`#include <iostream>\n#include <set>\nusing namespace std;\nint main() {\n  set<int> s = {5, 1, 5, 3};\n  s.insert(2);\n  for (int x : s) cout << x << " ";\n  cout << s.count(3) << endl;\n  return 0;\n}`,`1 2 3 5 1`],
+[`ppmap`,`C++ maps`,`Key-value pairs.`,`<p>A <code>map</code> stores sorted key-value pairs. Access with <code>[]</code>, search with <code>find</code>.</p>`,`#include <iostream>\n#include <map>\nusing namespace std;\nint main() {\n  map<string, int> age = {{"Ravi", 30}};\n  age["Ada"] = 36;\n  for (auto &p : age) cout << p.first << "=" << p.second << " ";\n  cout << endl;\n  return 0;\n}`,`Ada=36 Ravi=30`],
+[`ppiter`,`C++ iterators`,`Pointers into containers.`,`<p><code>begin()</code> and <code>end()</code> give iterators. Use <code>*it</code> for the value and <code>++it</code> to move.</p>`,`#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n  vector<int> v = {4, 5, 6};\n  for (auto it = v.begin(); it != v.end(); ++it) cout << *it << " ";\n  cout << endl;\n  return 0;\n}`,`4 5 6`],
+[`ppalgo`,`C++ algorithms`,`sort, find, count and more.`,`<p>Include <code>algorithm</code>. They work on iterator ranges: <code>sort</code>, <code>reverse</code>, <code>find</code>, <code>count</code>, <code>max_element</code>.</p>`,`#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n  vector<int> v = {5, 2, 9, 1};\n  sort(v.begin(), v.end());\n  for (int x : v) cout << x << " ";\n  cout << *max_element(v.begin(), v.end()) << endl;\n  return 0;\n}`,`1 2 5 9 9`],
+[`ppns`,`C++ namespaces`,`Avoid name clashes.`,`<p>A <code>namespace</code> groups names. Use <code>name::item</code>. Avoid <code>using namespace std;</code> in large projects.</p>`,`#include <iostream>\nnamespace Math { int twice(int x) { return x * 2; } }\nint main() {\n  std::cout << Math::twice(21) << std::endl;\n  return 0;\n}`,`42`],
+[`ppadd`,`C++ how to: add two numbers`,`Read two numbers and add.`,`<p>Read with <code>cin</code> and print the sum.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int a, b;\n  cout << "Two numbers: ";\n  cin >> a >> b;\n  cout << "Sum = " << a + b << endl;\n  return 0;\n}`,`Two numbers: 4 6\nSum = 10`],
+[`pprand`,`C++ how to: random numbers`,`Use the random library.`,`<p>Modern way: a <code>mt19937</code> engine seeded by <code>random_device</code> and a distribution.</p>`,`#include <iostream>\n#include <random>\nusing namespace std;\nint main() {\n  random_device rd;\n  mt19937 gen(rd());\n  uniform_int_distribution<int> dice(1, 6);\n  cout << dice(gen) << endl;\n  return 0;\n}`,`4  (random 1 to 6)`]
+);
+var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
+var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
+var TR={
+"html-intro":{ru:["Введение в HTML","HTML — язык разметки, который задаёт структуру веб-страницы.","<p>Каждая страница — это дерево <b>элементов</b>. У элемента есть открывающий тег, содержимое и закрывающий тег, например <code>&lt;p&gt;Hello&lt;/p&gt;</code>. Измените код ниже и нажмите «Запустить».</p>"],es:["Introducción a HTML","HTML es el lenguaje de marcado que da estructura a una página web.","<p>Cada página es un árbol de <b>elementos</b>. Un elemento tiene una etiqueta de apertura, contenido y una etiqueta de cierre, como <code>&lt;p&gt;Hello&lt;/p&gt;</code>. Edita el código de abajo y pulsa Ejecutar.</p>"],hi:["HTML परिचय","HTML वह मार्कअप भाषा है जो वेब पेज को उसकी संरचना देती है।","<p>हर पेज <b>एलिमेंट्स</b> का एक ट्री होता है। एलिमेंट में एक ओपनिंग टैग, कंटेंट और क्लोज़िंग टैग होता है, जैसे <code>&lt;p&gt;Hello&lt;/p&gt;</code>। नीचे का कोड बदलें और Run दबाएँ।</p>"]},
+"html-headings":{ru:["Заголовки и абзацы","Заголовки задают структуру страницы, абзацы содержат текст.","<p>Используйте <code>h1</code> для главного заголовка и <code>h2</code>–<code>h6</code> для подразделов. На странице должен быть один <code>h1</code>.</p>"],es:["Encabezados y párrafos","Los encabezados esquematizan la página; los párrafos contienen el texto.","<p>Usa <code>h1</code> para el título principal y <code>h2</code> a <code>h6</code> para las subsecciones. Usa un solo <code>h1</code> por página.</p>"],hi:["हेडिंग और पैराग्राफ","हेडिंग पेज की रूपरेखा बनाती हैं; पैराग्राफ में टेक्स्ट होता है।","<p>मुख्य शीर्षक के लिए <code>h1</code> और उप-भागों के लिए <code>h2</code> से <code>h6</code> का उपयोग करें। हर पेज पर केवल एक <code>h1</code> रखें।</p>"]},
+"html-links":{ru:["Ссылки и изображения","Связывайте страницы с помощью <a> и показывайте картинки с помощью <img>.","<p>Атрибут <code>href</code> задаёт, куда ведёт ссылка. Изображениям нужен текст <code>alt</code>, описывающий их для тех, кто не может их видеть.</p>"],es:["Enlaces e imágenes","Conecta páginas con <a> y muestra imágenes con <img>.","<p>El atributo <code>href</code> indica a dónde lleva un enlace. Las imágenes necesitan un texto <code>alt</code> que las describa para quienes no pueden verlas.</p>"],hi:["लिंक और इमेज","<a> से पेज जोड़ें और <img> से तस्वीरें दिखाएँ।","<p><code>href</code> एट्रिब्यूट बताता है कि लिंक कहाँ जाएगा। इमेज में <code>alt</code> टेक्स्ट होना चाहिए जो उन लोगों के लिए उसका वर्णन करे जो उसे देख नहीं सकते।</p>"]},
+"html-lists":{ru:["Списки и таблицы","Показывайте элементы по порядку, без порядка или в виде сетки.","<p><code>ul</code> создаёт маркированный список, <code>ol</code> — нумерованный, а <code>table</code> расставляет данные по строкам и столбцам.</p>"],es:["Listas y tablas","Muestra elementos en orden, sin orden o en una cuadrícula.","<p><code>ul</code> crea una lista con viñetas, <code>ol</code> una numerada y <code>table</code> organiza datos en filas y columnas.</p>"],hi:["लिस्ट और टेबल","आइटम क्रम में, बिना क्रम के या ग्रिड में दिखाएँ।","<p><code>ul</code> बुलेट वाली लिस्ट बनाता है, <code>ol</code> नंबर वाली, और <code>table</code> डेटा को पंक्तियों और कॉलम में सजाता है।</p>"]},
+"html-forms":{ru:["Формы","Собирайте данные от людей с помощью элементов формы.","<p>Связывайте каждый <code>input</code> с <code>label</code>. Атрибут <code>required</code> заставляет браузер проверить поле перед отправкой.</p>"],es:["Formularios","Recoge datos de las personas con controles de formulario.","<p>Empareja cada <code>input</code> con un <code>label</code>. El atributo <code>required</code> hace que el navegador revise el campo antes de enviar.</p>"],hi:["फ़ॉर्म","फ़ॉर्म कंट्रोल से लोगों से जानकारी लें।","<p>हर <code>input</code> के साथ एक <code>label</code> जोड़ें। <code>required</code> एट्रिब्यूट ब्राउज़र को भेजने से पहले फ़ील्ड जाँचने को कहता है।</p>"]}
+};
+var lang="en";try{lang=localStorage.getItem("lw-lang")||"en"}catch(e){}if(!UI[lang])lang="en";
+function lt(k,it){var x=TR[k+"-"+it[0]];x=x&&x[lang];return x||[it[1],it[2],it[3]]}
+function applyUI(){var u=UI[lang];document.documentElement.lang=lang;$("lang").value=lang;$("q").placeholder=u.q;$("q").setAttribute("aria-label",u.q);$("tryl").textContent=u.tr;$("run").textContent=u.run;$("prev").textContent=u.pv;$("next").textContent=u.nx;$("exbtn").textContent=EX[lang].b}
 
-    <!-- TOP HEADER / NAVBAR -->
-    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex-none z-30 shadow-sm">
-        <!-- Upper Nav Row -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-            <!-- Logo & Mobile Menu Toggle -->
-            <div class="flex items-center gap-3">
-                <button id="mobile-menu-btn" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-brand-600 p-2 rounded-lg focus:outline-none">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-                <a href="#" class="flex items-center gap-2 font-bold text-xl text-brand-600 dark:text-brand-500 tracking-tight">
-                    <i class="fa-solid fa-code text-2xl"></i>
-                    <span>DevDocs</span>
-                </a>
-            </div>
+function flat(){var a=[];for(var k in L)L[k].items.forEach(function(it,i){a.push([k,i])});return a}
+function parse(){var h=location.hash.slice(1).split("-");var l=h.shift(),s=h.join("-");if(L[l]){var i=L[l].items.findIndex(function(x){return x[0]===s});cur={l:l,i:i<0?0:i}}else cur={l:"html",i:0}}
+function tabs(){$("tabs").innerHTML="";for(var k in L){(function(k){var b=document.createElement("button");b.innerHTML='<i style="background:'+L[k].c+'"></i>'+L[k].n;b.setAttribute("aria-current",k===cur.l);b.onclick=function(){location.hash=k+"-"+L[k].items[0][0]};$("tabs").appendChild(b)})(k)}}
+function side(){var q=$("q").value.toLowerCase(),box=$("list");box.innerHTML="";$("ah").textContent=L[cur.l].n+" "+UI[lang].tut;
+L[cur.l].items.forEach(function(it,i){if(q&&(it[1]+it[2]+lt(cur.l,it)[0]).toLowerCase().indexOf(q)<0)return;var a=document.createElement("a");a.href="#"+cur.l+"-"+it[0];a.textContent=lt(cur.l,it)[0];if(i===cur.i)a.setAttribute("aria-current","page");box.appendChild(a)})}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">Expected output. C needs a compiler, so copy the code into one (gcc or an online compiler) to run it.</div><pre>'+it[5]+'</pre></body>'}else $("out").srcdoc=$("ed").value}
 
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-md relative hidden sm:block">
-                <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="global-search" placeholder="Search tutorials, functions, tags..." 
-                           class="w-full pl-9 pr-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 border border-transparent rounded-lg focus:outline-none focus:border-brand-500 focus:bg-white dark:focus:bg-gray-800 transition">
-                </div>
-                <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-80 overflow-y-auto z-50 p-2"></div>
-            </div>
+var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
+C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
+C(`p`,`h`,`Defines a paragraph of text.`,`<p>Text</p>`,`<p>Hello, web!</p>`);
+C(`a`,`h`,`Creates a hyperlink to another page or resource.`,`<a href="URL">link text</a>`,`<a href="https://example.com">Visit</a>`);
+C(`href`,`h`,`Attribute of a that sets where the link goes.`,`<a href="URL">text</a>`,`<a href="https://example.com">Go</a>`);
+C(`img`,`h`,`Embeds an image in the page.`,`<img src="file" alt="description">`,`<img src="x.png" alt="A sleeping cat">`);
+C(`alt`,`h`,`Text description of an image, shown if it fails to load and read by screen readers.`,`<img src="file" alt="text">`,`<img src="x.png" alt="A sleeping cat">`);
+C(`ul`,`h`,`Unordered (bulleted) list. Items go inside li.`,`<ul><li>item</li></ul>`,`<ul><li>Apples</li><li>Pears</li></ul>`);
+C(`ol`,`h`,`Ordered (numbered) list.`,`<ol><li>item</li></ol>`,`<ol><li>Mix</li><li>Bake</li></ol>`);
+C(`table`,`h`,`Shows data in rows (tr) and cells (td, th).`,`<table><tr><th>head</th></tr><tr><td>cell</td></tr></table>`,`<table border="1"><tr><th>Name</th><th>Age</th></tr><tr><td>Asha</td><td>20</td></tr></table>`);
+C(`input`,`h`,`Form control where the user types or chooses a value.`,`<input type="text" name="n">`,`<input type="text" placeholder="Your name">`);
+C(`label`,`h`,`Caption tied to a form control. Clicking it focuses the field.`,`<label for="id">Text</label>`,`<label for="n">Name</label> <input id="n">`);
+C(`required`,`h`,`Attribute that forces a field to be filled before submit.`,`<input required>`,`<form><input required><button>Send</button></form>`);
+C(`color`,`c`,`Sets the text color.`,`color: value;`,`color: crimson;`);
+C(`padding`,`c`,`Adds space inside an element, between content and border.`,`padding: size;`,`padding: 12px;\nbackground: skyblue;`);
+C(`margin`,`c`,`Adds space outside an element.`,`margin: size;`,`margin: 24px;\nbackground: skyblue;`);
+C(`text-align`,`c`,`Aligns text horizontally.`,`text-align: left | center | right;`,`text-align: center;`);
+C(`display`,`c`,`Sets how an element is laid out: block, inline, flex, grid or none.`,`display: value;`,`display: flex;\njustify-content: center;`);
+C(`calc`,`c`,`Calculates a value, mixing different units.`,`width: calc(a + b);`,`width: calc(100% - 40px);\nbackground: skyblue;`);
+C(`const`,`j`,`Declares a variable that cannot be reassigned.`,`const name = value;`,`const pi = 3.14;\nconsole.log(pi);`);
+C(`let`,`j`,`Declares a variable that can change. It lives inside its block.`,`let name = value;`,`let n = 1;\nn = n + 1;\nconsole.log(n);`);
+C(`console.log`,`j`,`Prints a value for debugging.`,`console.log(value);`,`console.log("Sum:", 2 + 3);`);
+C(`addEventListener`,`j`,`Runs a function when an event happens on an element.`,`element.addEventListener("event", function);`,`document.body.addEventListener("click", function(){\n  console.log("clicked");\n});`);
+C(`setTimeout`,`j`,`Runs a function once after a delay in milliseconds.`,`setTimeout(function, ms);`,`setTimeout(function(){ console.log("later"); }, 1000);`);
+C(`setInterval`,`j`,`Runs a function again and again every given milliseconds.`,`setInterval(function, ms);`,`var i = 0;\nvar t = setInterval(function(){\n  console.log(++i);\n  if (i === 3) clearInterval(t);\n}, 500);`);
+C(`push`,`j`,`Adds an item to the end of an array.`,`array.push(item);`,`const a = [1, 2];\na.push(3);\nconsole.log(a);`);
+C(`map`,`j`,`Builds a new array by transforming each item.`,`array.map(function);`,`console.log([1, 2, 3].map(function(x){ return x * 2; }));`);
+C(`filter`,`j`,`Builds a new array with only the items that pass a test.`,`array.filter(function);`,`console.log([1, 2, 3, 4].filter(function(x){ return x % 2 === 0; }));`);
+C(`JSON.stringify`,`j`,`Converts an object into JSON text.`,`JSON.stringify(value);`,`console.log(JSON.stringify({a: 1, b: [2, 3]}));`);
+C(`JSON.parse`,`j`,`Converts JSON text back into an object.`,`JSON.parse(text);`,`console.log(JSON.parse('{"a":1}').a);`);
+C(`querySelector`,`j`,`Finds the first element that matches a CSS selector.`,`document.querySelector("selector");`,`document.querySelector("#o").textContent = "Found me";`);
+var CL={en:{cm:"Commands in this lesson",df:"Definition",sx:"Syntax",xp:"Example",ty:"Run"},ru:{cm:"Команды в этом уроке",df:"Определение",sx:"Синтаксис",xp:"Пример",ty:"Запустить"},es:{cm:"Comandos de esta lección",df:"Definición",sx:"Sintaxis",xp:"Ejemplo",ty:"Ejecutar"},hi:{cm:"इस पाठ के कमांड",df:"परिभाषा",sx:"सिंटैक्स",xp:"उदाहरण",ty:"चलाएँ"}};
+function cmdHtml(h){var d=document.createElement("div"),seen={},o="",l=CL[lang]||CL.en;d.innerHTML=h;
+d.querySelectorAll("code").forEach(function(c){var k=c.textContent.trim().replace(/^<\/?|\/?>$/g,"").replace(/\(.*$/,"");if(CM[k]&&!seen[k]){seen[k]=1;var m=CM[k];
+o+='<div class="cmd"><h4><code>'+esc(k)+'</code></h4><p><b>'+l.df+':</b> '+esc(m[1])+'</p><p><b>'+l.sx+':</b></p><pre>'+esc(m[2])+'</pre><p><b>'+l.xp+':</b></p><textarea class="cx" spellcheck="false" rows="'+(m[3].split("\n").length+1)+'" data-k="'+esc(k)+'">'+esc(m[3])+'</textarea><button class="nx try" data-k="'+esc(k)+'">'+l.ty+'</button><iframe class="cxo" sandbox="allow-scripts" title="Output" hidden></iframe></div>'}});
+return o?h+'<h3>'+l.cm+'</h3>'+o:h}
+function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;background:#fff;color:#111}</style>";return st+(t==="h"?c:t==="c"?"<style>p{"+c+"}</style><p>Sample text</p>":'<p id="o"></p><script>console.log=function(){document.body.append(Array.prototype.join.call(arguments," "),document.createElement("br"))};try{'+c+'}catch(e){document.body.append("Error: "+e.message)}<\/script>')}
+$("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
+$("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
+function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();run();
+var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i});$("prev").disabled=p<=0;$("next").disabled=p>=f.length-1;window.scrollTo(0,0)}
+function go(d){var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i})+d;if(f[p])location.hash=f[p][0]+"-"+L[f[p][0]].items[f[p][1]][0]}
+$("prev").onclick=function(){go(-1)};$("next").onclick=function(){go(1)};$("run").onclick=run;$("q").oninput=side;
+var tm;$("ed").oninput=function(){clearTimeout(tm);tm=setTimeout(run,400)};
+$("ed").onkeydown=function(e){if(e.key==="Tab"){e.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+"  "+this.value.slice(this.selectionEnd);this.selectionStart=this.selectionEnd=s+2}};
 
-            <!-- Controls (Language, Theme, Sandbox Toggle) -->
-            <div class="flex items-center gap-3">
-                <!-- Language Selector -->
-                <div class="relative">
-                    <select id="lang-selector" class="bg-gray-100 dark:bg-gray-700 text-xs sm:text-sm font-medium py-1.5 px-3 rounded-lg border-0 focus:ring-2 focus:ring-brand-500 cursor-pointer">
-                        <option value="EN">🌐 English</option>
-                        <option value="HI">🌐 हिन्दी (Hindi)</option>
-                        <option value="ES">🌐 Español</option>
-                        <option value="RU">🌐 Русский</option>
-                    </select>
-                </div>
-
-                <!-- Dark/Light Theme Toggle -->
-                <button id="theme-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" title="Toggle Light/Dark Theme">
-                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
-                    <i class="fa-solid fa-sun text-lg hidden dark:block text-yellow-400"></i>
-                </button>
-
-                <!-- Sandbox Drawer Button -->
-                <button id="open-sandbox-btn" class="bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-lg shadow-sm flex items-center gap-2 transition">
-                    <i class="fa-solid fa-terminal"></i>
-                    <span class="hidden md:inline" data-i18n="playground">Try Editor</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Course Selector Bar (Horizontal Scrollable) -->
-        <nav class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-4 overflow-x-auto custom-scrollbar flex items-center gap-1 text-sm font-medium">
-            <button data-course="html" class="course-tab px-4 py-2.5 border-b-2 border-brand-500 text-brand-600 dark:text-brand-400 whitespace-nowrap">HTML</button>
-            <button data-course="css" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">CSS</button>
-            <button data-course="js" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">JAVASCRIPT</button>
-            <button data-course="sql" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">SQL</button>
-            <button data-course="python" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">PYTHON</button>
-            <button data-course="java" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">JAVA</button>
-            <button data-course="php" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">PHP</button>
-            <button data-course="c" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">C</button>
-            <button data-course="cpp" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">C++</button>
-            <button data-course="csharp" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">C#</button>
-            <button data-course="react" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">REACT</button>
-            <button data-course="mysql" class="course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap">MYSQL</button>
-        </nav>
-    </header>
-
-    <!-- MAIN APP CONTAINER -->
-    <div class="flex-1 flex overflow-hidden relative">
-
-        <!-- SIDEBAR NAVIGATION -->
-        <aside id="sidebar" class="w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-none overflow-y-auto custom-scrollbar flex flex-col absolute md:relative z-20 h-full transition-transform duration-300 -translate-x-full md:translate-x-0">
-            <div id="sidebar-content" class="p-4 space-y-6">
-                <!-- Dynamically rendered sidebar topic groups go here -->
-            </div>
-        </aside>
-
-        <!-- MAIN LESSON CONTENT AREA -->
-        <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 bg-white dark:bg-gray-900" id="main-content-scroll">
-            <div class="max-w-4xl mx-auto space-y-6">
-
-                <!-- Breadcrumb & Nav Header -->
-                <div class="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <div class="flex items-center gap-2">
-                        <span id="bc-course" class="font-semibold text-brand-600 dark:text-brand-400 uppercase">HTML</span>
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                        <span id="bc-section">Tutorial</span>
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                        <span id="bc-topic" class="text-gray-800 dark:text-gray-200 font-medium">HTML Home</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button id="prev-btn" class="px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="prev">Previous</span>
-                        </button>
-                        <button id="next-btn" class="px-3 py-1.5 rounded bg-brand-600 hover:bg-brand-700 text-white flex items-center gap-1 font-medium">
-                            <span data-i18n="next">Next</span> <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Topic Heading -->
-                <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
-                    <h1 id="topic-title" class="text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                        HTML Tutorial
-                    </h1>
-                    <p id="topic-subtitle" class="text-gray-600 dark:text-gray-300 mt-2 text-base sm:text-lg">
-                        Learn the fundamental language for creating web pages.
-                    </p>
-                </div>
-
-                <!-- Interactive Explanation Block -->
-                <div id="topic-body" class="prose dark:prose-invert max-w-none space-y-4 text-gray-700 dark:text-gray-300">
-                    <!-- Dynamic tutorial text loaded here -->
-                </div>
-
-                <!-- Interactive "Try It Yourself" Live Code Preview Card -->
-                <div id="editor-card" class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 shadow-sm space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-laptop-code text-brand-600"></i>
-                            <span data-i18n="tryItTitle">Example & Interactive Sandbox</span>
-                        </h3>
-                        <span class="text-xs bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 px-2.5 py-1 rounded-full font-medium">Interactive</span>
-                    </div>
-                    
-                    <pre id="code-snippet-box" class="bg-gray-900 text-emerald-400 p-4 rounded-lg overflow-x-auto text-sm font-mono leading-relaxed border border-gray-800">
-<!-- Sample code snippet -->
-                    </pre>
-
-                    <div class="flex flex-wrap gap-3">
-                        <button id="launch-editor-btn" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition flex items-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-play"></i> <span data-i18n="tryItBtn">Try It Yourself &raquo;</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Interactive Topic Quiz & Assessment Card -->
-                <div id="quiz-card" class="bg-emerald-50/50 dark:bg-gray-800/80 border border-emerald-200 dark:border-gray-700 rounded-xl p-5 sm:p-6 space-y-4">
-                    <div class="flex items-center justify-between border-b border-emerald-100 dark:border-gray-700 pb-3">
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-lightbulb text-amber-500"></i>
-                            <span data-i18n="quizTitle">Test Your Knowledge</span>
-                        </h3>
-                        <span id="quiz-score" class="text-xs font-semibold text-brand-700 dark:text-brand-400 bg-brand-100 dark:bg-gray-700 px-2.5 py-1 rounded-full">
-                            Score: 0
-                        </span>
-                    </div>
-                    <p id="quiz-question" class="font-medium text-gray-800 dark:text-gray-200">
-                        What does HTML stand for?
-                    </p>
-                    <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Options generated dynamically -->
-                    </div>
-                    <div id="quiz-feedback" class="hidden p-3 rounded-lg text-sm font-medium"></div>
-                </div>
-
-            </div>
-        </main>
-
-        <!-- LIVE INTERACTIVE PLAYGROUND / EDITOR DRAWER -->
-        <div id="sandbox-drawer" class="fixed inset-y-0 right-0 w-full md:w-1/2 lg:w-5/12 bg-gray-900 text-white z-40 shadow-2xl transition-transform duration-300 translate-x-full flex flex-col border-l border-gray-800">
-            <!-- Sandbox Header -->
-            <div class="bg-gray-950 px-4 py-3 border-b border-gray-800 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-code text-brand-500"></i>
-                    <span class="font-semibold text-sm" id="sandbox-title">DevDocs Sandbox Editor</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="run-code-btn" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition">
-                        <i class="fa-solid fa-play"></i> Run Code
-                    </button>
-                    <button id="close-sandbox-btn" class="text-gray-400 hover:text-white p-1 rounded">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Code Input Area -->
-            <div class="flex-1 flex flex-col border-b border-gray-800 overflow-hidden">
-                <div class="bg-gray-800/80 px-4 py-1.5 text-xs text-gray-400 font-mono flex justify-between items-center">
-                    <span>Source Code Editor</span>
-                    <span id="editor-lang-tag" class="uppercase text-brand-400 font-bold">HTML</span>
-                </div>
-                <textarea id="sandbox-code-input" class="w-full flex-1 p-4 bg-gray-900 text-gray-100 font-mono text-sm resize-none focus:outline-none custom-scrollbar leading-relaxed" spellcheck="false"></textarea>
-            </div>
-
-            <!-- Output Tabs & Display -->
-            <div class="h-1/2 flex flex-col bg-gray-950">
-                <div class="flex items-center border-b border-gray-800 bg-gray-900 text-xs">
-                    <button id="tab-preview-btn" class="px-4 py-2 font-medium border-b-2 border-brand-500 text-white">Live Preview</button>
-                    <button id="tab-console-btn" class="px-4 py-2 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">Terminal Output</button>
-                </div>
-                
-                <!-- Frame / Terminal Output Area -->
-                <div class="flex-1 relative overflow-hidden bg-white text-black dark:bg-gray-950 dark:text-white">
-                    <iframe id="sandbox-iframe" class="w-full h-full border-0 bg-white"></iframe>
-                    <pre id="sandbox-terminal" class="hidden w-full h-full p-4 font-mono text-xs text-emerald-400 bg-gray-950 overflow-y-auto custom-scrollbar border-0"></pre>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- MAIN JAVASCRIPT APP LOGIC & CURRICULUM DATA -->
-    <script>
-        // MULTI-LANGUAGE TRANSLATION DICTIONARY
-        const i18nData = {
-            EN: {
-                playground: "Try Editor",
-                prev: "Previous",
-                next: "Next",
-                tryItTitle: "Example & Interactive Sandbox",
-                tryItBtn: "Try It Yourself »",
-                quizTitle: "Test Your Knowledge",
-                correctMsg: "🎉 Correct! Great job.",
-                wrongMsg: "❌ Incorrect. Try again!",
-            },
-            HI: {
-                playground: "एडिटर चलाएं",
-                prev: "पिछला",
-                next: "अगला",
-                tryItTitle: "उदाहरण और लाइव सैंडबॉक्स",
-                tryItBtn: "खुद प्रयास करें »",
-                quizTitle: "ज्ञान की परीक्षा लें",
-                correctMsg: "🎉 सही उत्तर! बहुत बढ़िया।",
-                wrongMsg: "❌ गलत उत्तर। पुनः प्रयास करें!",
-            },
-            ES: {
-                playground: "Probar Editor",
-                prev: "Anterior",
-                next: "Siguiente",
-                tryItTitle: "Ejemplo y Editor Interactivo",
-                tryItBtn: "Pruébalo Tú Mismo »",
-                quizTitle: "Pon a Prueba tu Conocimiento",
-                correctMsg: "🎉 ¡Correcto! Buen trabajo.",
-                wrongMsg: "❌ Incorrecto. ¡Inténtalo de nuevo!",
-            },
-            RU: {
-                playground: "Запустить Редактор",
-                prev: "Назад",
-                next: "Вперед",
-                tryItTitle: "Пример и Интерактивный Песочница",
-                tryItBtn: "Попробовать Самостоятельно »",
-                quizTitle: "Проверьте Свои Знания",
-                correctMsg: "🎉 Правильно! Отличная работа.",
-                wrongMsg: "❌ Неправильно. Попробуйте еще раз!",
-            }
-        };
-
-        // FULL DETAILED CURRICULUM STRUCTURE & LESSON DATA FOR ALL COURSES
-        const curriculum = {
-            html: {
-                title: "HTML Tutorial",
-                subtitle: "The standard markup language for creating Web pages.",
-                sections: [
-                    {
-                        name: "HTML Tutorial",
-                        topics: [
-                            "HTML HOME", "HTML Introduction", "HTML Editors", "HTML Basic", 
-                            "HTML Elements", "HTML Attributes", "HTML Headings", "HTML Paragraphs", 
-                            "HTML Styles", "HTML Formatting", "HTML Quotations", "HTML Comments", 
-                            "HTML Colors", "HTML CSS", "HTML Links", "HTML Images", "HTML Project", 
-                            "HTML Favicon", "HTML Page Title", "HTML Tables", "HTML Lists", 
-                            "HTML Block & Inline", "HTML Div", "HTML Classes", "HTML Id", 
-                            "HTML Buttons", "HTML Iframes", "HTML JavaScript", "HTML File Paths", 
-                            "HTML Head", "HTML Layout", "HTML Responsive", "HTML Computercode", 
-                            "HTML Semantics", "HTML Style Guide", "HTML Entities", "HTML Symbols", 
-                            "HTML Emojis", "HTML Charsets", "HTML URL Encode", "HTML vs. XHTML"
-                        ]
-                    },
-                    {
-                        name: "HTML Forms",
-                        topics: [
-                            "HTML Forms", "HTML Form Attributes", "HTML Form Elements", 
-                            "HTML Input Types", "HTML Input Attributes", "Input Form Attributes"
-                        ]
-                    },
-                    {
-                        name: "HTML Graphics",
-                        topics: ["HTML Canvas", "HTML SVG"]
-                    },
-                    {
-                        name: "HTML Media",
-                        topics: ["HTML Media", "HTML Video", "HTML Audio", "HTML Plug-ins", "HTML YouTube"]
-                    },
-                    {
-                        name: "Web APIs",
-                        topics: [
-                            "Web APIs", "Geolocation API", "Drag and Drop API", 
-                            "Popover API", "Web Storage API", "Web Workers API", "Server-Sent Events API"
-                        ]
-                    },
-                    {
-                        name: "HTML References",
-                        topics: ["HTML Tag List", "HTML Attributes", "HTML Global Attributes", "HTML Events", "HTML Colors"]
-                    }
-                ]
-            },
-            css: {
-                title: "CSS Tutorial",
-                subtitle: "Style and structure your HTML documents effortlessly.",
-                sections: [
-                    {
-                        name: "CSS Tutorial",
-                        topics: [
-                            "CSS HOME", "CSS Introduction", "CSS Syntax", "CSS Selectors", 
-                            "CSS How To", "CSS Comments", "CSS Colors", "CSS Backgrounds", 
-                            "CSS Borders", "CSS Margins", "CSS Padding", "CSS Height / Width", 
-                            "CSS Box Model", "CSS Text", "CSS Fonts", "CSS Display", "CSS Position"
-                        ]
-                    },
-                    {
-                        name: "CSS Advanced",
-                        topics: [
-                            "CSS Rounded Corners", "CSS Gradients", "CSS Shadows", 
-                            "CSS 2D Transforms", "CSS 3D Transforms", "CSS Transitions", "CSS Animations"
-                        ]
-                    },
-                    {
-                        name: "CSS Flexbox",
-                        topics: ["Flexbox Intro", "Flex Container", "Flex Items", "Flex Responsive"]
-                    },
-                    {
-                        name: "CSS Grid",
-                        topics: ["Grid Intro", "Grid Container", "Grid Items", "Grid 12-column Layout"]
-                    }
-                ]
-            },
-            js: {
-                title: "JavaScript Tutorial",
-                subtitle: "The world's most popular programming language for web dynamic behaviors.",
-                sections: [
-                    {
-                        name: "JS Tutorial",
-                        topics: [
-                            "JS Home", "JS Introduction", "JS Where To", "JS Syntax", 
-                            "JS Variables", "JS Operators", "JS Data Types", "JS Functions", 
-                            "JS Objects", "JS Arrays", "JS If Conditions", "JS Loops"
-                        ]
-                    },
-                    {
-                        name: "JS Web API",
-                        topics: ["JS Window API", "JS Fetch API", "JS JSON", "JS Web API"]
-                    },
-                    {
-                        name: "JS Advanced",
-                        topics: ["JS Classes", "JS Asynchronous", "JS Modules", "JS DOM Navigation"]
-                    }
-                ]
-            },
-            sql: {
-                title: "SQL Tutorial",
-                subtitle: "Standard database query language for retrieving and storing data.",
-                sections: [
-                    {
-                        name: "SQL Tutorial",
-                        topics: [
-                            "SQL HOME", "SQL Intro", "SQL Syntax", "SQL Select", 
-                            "SQL Where", "SQL Order By", "SQL Insert Into", "SQL Update", "SQL Delete"
-                        ]
-                    },
-                    {
-                        name: "SQL Database",
-                        topics: ["SQL Create DB", "SQL Create Table", "SQL Constraints", "SQL Primary Key", "SQL Foreign Key"]
-                    }
-                ]
-            },
-            python: {
-                title: "Python Tutorial",
-                subtitle: "A powerful, easy-to-learn language for web development, AI, and scripts.",
-                sections: [
-                    {
-                        name: "Python Tutorial",
-                        topics: [
-                            "Python HOME", "Python Intro", "Python Syntax", "Python Variables", 
-                            "Python Data Types", "Python Lists", "Python Dictionaries", "Python Functions"
-                        ]
-                    },
-                    {
-                        name: "Python Classes",
-                        topics: ["Python OOP", "Python Classes/Objects", "Python Inheritance"]
-                    },
-                    {
-                        name: "Machine Learning",
-                        topics: ["Getting Started", "Mean Median Mode", "Linear Regression", "Decision Tree"]
-                    }
-                ]
-            },
-            java: {
-                title: "Java Tutorial",
-                subtitle: "A high-level, class-based, object-oriented programming language.",
-                sections: [
-                    {
-                        name: "Java Tutorial",
-                        topics: ["Java HOME", "Java Intro", "Java Syntax", "Java Variables", "Java Operators"]
-                    },
-                    {
-                        name: "Java Classes",
-                        topics: ["Java OOP", "Java Classes/Objects", "Java Constructors", "Java Inheritance"]
-                    }
-                ]
-            },
-            php: {
-                title: "PHP Tutorial",
-                subtitle: "Popular server-side scripting language for web application backends.",
-                sections: [
-                    {
-                        name: "PHP Tutorial",
-                        topics: ["PHP HOME", "PHP Intro", "PHP Syntax", "PHP Variables", "PHP Functions"]
-                    }
-                ]
-            },
-            c: {
-                title: "C Language Tutorial",
-                subtitle: "General-purpose programming language for systems and embedded development.",
-                sections: [
-                    {
-                        name: "C Tutorial",
-                        topics: ["C HOME", "C Intro", "C Syntax", "C Variables", "C Pointers", "C Functions"]
-                    }
-                ]
-            },
-            cpp: {
-                title: "C++ Tutorial",
-                subtitle: "High-performance object-oriented programming language extension of C.",
-                sections: [
-                    {
-                        name: "C++ Tutorial",
-                        topics: ["C++ HOME", "C++ Intro", "C++ Syntax", "C++ Variables", "C++ OOP", "C++ Vectors"]
-                    }
-                ]
-            },
-            csharp: {
-                title: "C# Tutorial",
-                subtitle: "Modern, object-oriented language developed by Microsoft for web & desktop.",
-                sections: [
-                    {
-                        name: "C# Tutorial",
-                        topics: ["C# HOME", "C# Intro", "C# Syntax", "C# Variables", "C# Methods", "C# Classes"]
-                    }
-                ]
-            },
-            react: {
-                title: "React Tutorial",
-                subtitle: "JavaScript library for building modular, high-speed user interfaces.",
-                sections: [
-                    {
-                        name: "React Tutorial",
-                        topics: ["React Home", "React Intro", "React JSX Intro", "React Components", "React Props", "React useState"]
-                    }
-                ]
-            },
-            mysql: {
-                title: "MySQL Tutorial",
-                subtitle: "The world's most popular open-source relational database management system.",
-                sections: [
-                    {
-                        name: "MySQL Tutorial",
-                        topics: ["MySQL HOME", "MySQL Intro", "MySQL SELECT", "MySQL WHERE", "MySQL JOINS"]
-                    }
-                ]
-            }
-        };
-
-        // MOCK CONTENT ENGINE PROVIDING COMPREHENSIVE DETAILED LESSONS FOR EVERY TOPIC
-        function getTopicContent(course, topicName) {
-            const courseCodeSamples = {
-                html: `<!DOCTYPE html>\n<html>\n<head>\n  <title>DevDocs Page</title>\n</head>\n<body>\n  <h1 style="color:#16a34a;">Hello World from ${topicName}!</h1>\n  <p>HTML is the foundation for web structure.</p>\n  <button onclick="alert('Button Clicked!')">Click Me</button>\n</body>\n</html>`,
-                css: `/* CSS Styling Sample */\nbody {\n  font-family: Arial, sans-serif;\n  background-color: #f0fdf4;\n  padding: 20px;\n}\nh1 {\n  color: #15803d;\n  border-bottom: 2px solid #22c55e;\n}`,
-                js: `// JavaScript Execution Example\nfunction calculateSum(a, b) {\n  return a + b;\n}\n\nconst result = calculateSum(15, 27);\nconsole.log("Calculated Sum: " + result);\n\ndocument.body.innerHTML = '<h2>JS Execution Result: ' + result + '</h2>';`,
-                python: `# Python Program\ndef greet(name):\n    return f"Hello, {name}! Welcome to ${topicName}."\n\nmessage = greet("Developer")\nprint(message)\nprint("Calculated Square:", [x**2 for x in range(5)])`,
-                java: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Executing Java Topic: ${topicName}");\n        int sum = 0;\n        for (int i = 1; i <= 5; i++) {\n            sum += i;\n        }\n        System.out.println("Sum of numbers 1 to 5: " + sum);\n    }\n}`,
-                sql: `-- SQL Database Query Demonstration\nSELECT id, name, email, status\nFROM users\nWHERE status = 'active'\nORDER BY name ASC;`,
-                cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Executing C++ Concept: ${topicName}" << endl;\n    return 0;\n}`,
-                react: `// React Functional Component\nfunction App() {\n  const [count, setCount] = React.useState(0);\n  return (\n    <div style={{padding: '20px', textFont: 'sans-serif'}}>\n      <h2>React State Counter</h2>\n      <p>Current Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n}`
-            };
-
-            const sampleCode = courseCodeSamples[course] || `// Code snippet for ${topicName}\nconsole.log("Welcome to ${topicName}");`;
-
-            return {
-                title: topicName,
-                subtitle: `In-depth breakdown and practical usage of ${topicName}.`,
-                htmlContent: `
-                    <p class="text-base leading-relaxed">
-                        Welcome to the official <strong>${topicName}</strong> guide. In web development and software engineering, understanding ${topicName} provides key architectural advantages.
-                    </p>
-                    <div class="bg-brand-50 dark:bg-brand-900/30 border-l-4 border-brand-500 p-4 rounded-r-lg my-4">
-                        <p class="text-sm font-semibold text-brand-900 dark:text-brand-300">
-                            💡 Key takeaway: Always structure code cleanly, test edge cases, and maintain standards.
-                        </p>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mt-4 mb-2">Syntax & Implementation</h3>
-                    <p class="text-sm">Below is a practical code representation showing how to execute this topic in real applications:</p>
-                `,
-                snippet: sampleCode,
-                quiz: {
-                    question: `What is the primary role of ${topicName} in programming?`,
-                    options: [
-                        `To structure and manage runtime behavior efficiently`,
-                        `To replace hardware functionality`,
-                        `To operate strictly on mainframe computers`,
-                        `None of the above`
-                    ],
-                    correctIndex: 0,
-                    explanation: `${topicName} provides standardized structures for runtime execution and code optimization.`
-                }
-            };
-        }
-
-        // STATE APP MANAGEMENT
-        let currentState = {
-            lang: 'EN',
-            course: 'html',
-            topic: 'HTML HOME',
-            score: 0
-        };
-
-        // DOM ELEMENTS
-        const sidebarContent = document.getElementById('sidebar-content');
-        const topicTitle = document.getElementById('topic-title');
-        const topicSubtitle = document.getElementById('topic-subtitle');
-        const topicBody = document.getElementById('topic-body');
-        const codeSnippetBox = document.getElementById('code-snippet-box');
-        const bcCourse = document.getElementById('bc-course');
-        const bcSection = document.getElementById('bc-section');
-        const bcTopic = document.getElementById('bc-topic');
-        const quizQuestion = document.getElementById('quiz-question');
-        const quizOptions = document.getElementById('quiz-options');
-        const quizFeedback = document.getElementById('quiz-feedback');
-        const quizScore = document.getElementById('quiz-score');
-
-        // SANDBOX DRAWER ELEMENTS
-        const sandboxDrawer = document.getElementById('sandbox-drawer');
-        const openSandboxBtn = document.getElementById('open-sandbox-btn');
-        const launchEditorBtn = document.getElementById('launch-editor-btn');
-        const closeSandboxBtn = document.getElementById('close-sandbox-btn');
-        const runCodeBtn = document.getElementById('run-code-btn');
-        const sandboxCodeInput = document.getElementById('sandbox-code-input');
-        const sandboxIframe = document.getElementById('sandbox-iframe');
-        const sandboxTerminal = document.getElementById('sandbox-terminal');
-        const tabPreviewBtn = document.getElementById('tab-preview-btn');
-        const tabConsoleBtn = document.getElementById('tab-console-btn');
-        const editorLangTag = document.getElementById('editor-lang-tag');
-
-        // RENDER SIDEBAR NAVIGATION
-        function renderSidebar() {
-            const courseData = curriculum[currentState.course];
-            if (!courseData) return;
-
-            sidebarContent.innerHTML = '';
-            
-            courseData.sections.forEach(section => {
-                const groupEl = document.createElement('div');
-                groupEl.className = 'space-y-1';
-                
-                const groupTitle = document.createElement('h3');
-                groupTitle.className = 'text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2 py-1';
-                groupTitle.innerText = section.name;
-                groupEl.appendChild(groupTitle);
-
-                section.topics.forEach(topic => {
-                    const btn = document.createElement('button');
-                    const isActive = topic.toLowerCase() === currentState.topic.toLowerCase();
-                    btn.className = `w-full text-left px-3 py-1.5 rounded-lg text-sm font-medium transition ${
-                        isActive 
-                            ? 'bg-brand-500 text-white font-semibold' 
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`;
-                    btn.innerText = topic;
-                    btn.onclick = () => {
-                        currentState.topic = topic;
-                        loadTopicData();
-                        renderSidebar();
-                        // Auto close mobile drawer if open
-                        document.getElementById('sidebar').classList.add('-translate-x-full');
-                    };
-                    groupEl.appendChild(btn);
-                });
-
-                sidebarContent.appendChild(groupEl);
-            });
-        }
-
-        // LOAD TOPIC CONTENT & QUIZ
-        function loadTopicData() {
-            const data = getTopicContent(currentState.course, currentState.topic);
-            
-            // Breadcrumbs
-            bcCourse.innerText = currentState.course.toUpperCase();
-            bcSection.innerText = "Tutorial";
-            bcTopic.innerText = data.title;
-
-            // Header & Body
-            topicTitle.innerText = data.title;
-            topicSubtitle.innerText = data.subtitle;
-            topicBody.innerHTML = data.htmlContent;
-            codeSnippetBox.innerText = data.snippet;
-
-            // Code Editor Setup
-            sandboxCodeInput.value = data.snippet;
-            editorLangTag.innerText = currentState.course;
-
-            // Quiz Render
-            renderQuiz(data.quiz);
-        }
-
-        // RENDER QUIZ
-        function renderQuiz(quiz) {
-            quizQuestion.innerText = quiz.question;
-            quizOptions.innerHTML = '';
-            quizFeedback.className = 'hidden p-3 rounded-lg text-sm font-medium';
-
-            quiz.options.forEach((opt, idx) => {
-                const optBtn = document.createElement('button');
-                optBtn.className = 'w-full text-left p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-brand-500 hover:bg-brand-50/50 dark:hover:bg-gray-700/50 text-sm font-medium transition flex items-start gap-2';
-                optBtn.innerHTML = `<span class="font-bold text-brand-600">${String.fromCharCode(65 + idx)}.</span> <span>${opt}</span>`;
-                
-                optBtn.onclick = () => {
-                    if (idx === quiz.correctIndex) {
-                        quizFeedback.className = 'p-3 rounded-lg text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300';
-                        quizFeedback.innerText = `${i18nData[currentState.lang].correctMsg} ${quiz.explanation}`;
-                        currentState.score += 10;
-                    } else {
-                        quizFeedback.className = 'p-3 rounded-lg text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300';
-                        quizFeedback.innerText = `${i18nData[currentState.lang].wrongMsg}`;
-                    }
-                    quizFeedback.classList.remove('hidden');
-                    quizScore.innerText = `Score: ${currentState.score}`;
-                };
-
-                quizOptions.appendChild(optBtn);
-            });
-        }
-
-        // EXECUTE RUN CODE IN PLAYGROUND
-        function executeCode() {
-            const code = sandboxCodeInput.value;
-            const course = currentState.course;
-
-            if (['html', 'css', 'js', 'react'].includes(course)) {
-                // Show Iframe
-                sandboxIframe.classList.remove('hidden');
-                sandboxTerminal.classList.add('hidden');
-
-                let frameDoc = sandboxIframe.contentDocument || sandboxIframe.contentWindow.document;
-                frameDoc.open();
-                if (course === 'react') {
-                    frameDoc.write(`
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>
-                            <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>
-                            <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
-                            <script src="https://cdn.tailwindcss.com"><\/script>
-                        </head>
-                        <body class="p-4">
-                            <div id="root"></div>
-                            <script type="text/babel">
-                                ${code}
-                                const container = document.getElementById('root');
-                                const root = ReactDOM.createRoot(container);
-                                root.render(<App />);
-                            <\/script>
-                        </body>
-                        </html>
-                    `);
-                } else {
-                    frameDoc.write(code);
-                }
-                frameDoc.close();
-            } else {
-                // Terminal output simulation for C, C++, Java, Python, SQL, PHP
-                sandboxIframe.classList.add('hidden');
-                sandboxTerminal.classList.remove('hidden');
-
-                sandboxTerminal.innerText = `[DevDocs Virtual Engine: Running ${course.toUpperCase()} Script...]\n\n`;
-                setTimeout(() => {
-                    if (course === 'python') {
-                        sandboxTerminal.innerText += `>>> Executing python main.py...\nHello, Developer! Welcome to ${currentState.topic}.\nCalculated Square: [0, 1, 4, 9, 16]\n\n[Process Finished with Code 0]`;
-                    } else if (course === 'java' || course === 'c' || course === 'cpp') {
-                        sandboxTerminal.innerText += `>>> Compiling binary targets...\n>>> Running compiled executable...\nExecuting ${currentState.topic} logic cleanly.\nSum of numbers 1 to 5: 15\n\n[Process Finished with Exit Status 0]`;
-                    } else if (course === 'sql' || course === 'mysql') {
-                        sandboxTerminal.innerText += `>>> Connecting to local relational database sandbox...\n>>> Query Result:\n+----+-------------------+---------------------+--------+\n| id | name              | email               | status |\n+----+-------------------+---------------------+--------+\n| 10 | Alex Johnson      | alex@devdocs.io     | active |\n| 14 | Maria Garcia      | maria@devdocs.io    | active |\n+----+-------------------+---------------------+--------+\n(2 rows returned in 0.003 sec)`;
-                    } else {
-                        sandboxTerminal.innerText += `>>> Output:\nExecution successful.\n\n[Process Completed]`;
-                    }
-                }, 300);
-            }
-        }
-
-        // EVENT LISTENERS INITIALIZATION
-        document.addEventListener('DOMContentLoaded', () => {
-            // Course Bar Tab Click
-            document.querySelectorAll('.course-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelectorAll('.course-tab').forEach(t => {
-                        t.className = 'course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap';
-                    });
-                    e.target.className = 'course-tab px-4 py-2.5 border-b-2 border-brand-500 text-brand-600 dark:text-brand-400 whitespace-nowrap';
-                    
-                    currentState.course = e.target.getAttribute('data-course');
-                    const firstSection = curriculum[currentState.course].sections[0];
-                    currentState.topic = firstSection.topics[0];
-
-                    renderSidebar();
-                    loadTopicData();
-                });
-            });
-
-            // Mobile Menu Toggle
-            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            });
-
-            // Dark/Light Theme Toggle
-            document.getElementById('theme-toggle').addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-            });
-
-            // Sandbox Drawer Open/Close
-            const toggleDrawer = (show) => {
-                if (show) {
-                    sandboxDrawer.classList.remove('translate-x-full');
-                    executeCode();
-                } else {
-                    sandboxDrawer.classList.add('translate-x-full');
-                }
-            };
-
-            openSandboxBtn.addEventListener('click', () => toggleDrawer(true));
-            launchEditorBtn.addEventListener('click', () => toggleDrawer(true));
-            closeSandboxBtn.addEventListener('click', () => toggleDrawer(false));
-            runCodeBtn.addEventListener('click', executeCode);
-
-            // Sandbox Output Tabs
-            tabPreviewBtn.addEventListener('click', () => {
-                tabPreviewBtn.className = 'px-4 py-2 font-medium border-b-2 border-brand-500 text-white';
-                tabConsoleBtn.className = 'px-4 py-2 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200';
-                sandboxIframe.classList.remove('hidden');
-                sandboxTerminal.classList.add('hidden');
-            });
-
-            tabConsoleBtn.addEventListener('click', () => {
-                tabConsoleBtn.className = 'px-4 py-2 font-medium border-b-2 border-brand-500 text-white';
-                tabPreviewBtn.className = 'px-4 py-2 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200';
-                sandboxIframe.classList.add('hidden');
-                sandboxTerminal.classList.remove('hidden');
-            });
-
-            // Language Selector Change
-            document.getElementById('lang-selector').addEventListener('change', (e) => {
-                currentState.lang = e.target.value;
-                const dict = i18nData[currentState.lang];
-                document.querySelectorAll('[data-i18n]').forEach(el => {
-                    const key = el.getAttribute('data-i18n');
-                    if (dict[key]) el.innerText = dict[key];
-                });
-                loadTopicData();
-            });
-
-            // Global Search Bar Engine
-            const searchInput = document.getElementById('global-search');
-            const searchResults = document.getElementById('search-results');
-
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
-                if (!query) {
-                    searchResults.classList.add('hidden');
-                    return;
-                }
-
-                searchResults.innerHTML = '';
-                let matches = 0;
-
-                Object.keys(curriculum).forEach(cKey => {
-                    curriculum[cKey].sections.forEach(sec => {
-                        sec.topics.forEach(top => {
-                            if (top.toLowerCase().includes(query) && matches < 8) {
-                                matches++;
-                                const item = document.createElement('div');
-                                item.className = 'px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer rounded text-xs sm:text-sm flex justify-between items-center';
-                                item.innerHTML = `<span class="font-medium text-gray-800 dark:text-gray-200">${top}</span> <span class="text-xs uppercase bg-brand-100 text-brand-800 dark:bg-brand-900 dark:text-brand-300 px-2 py-0.5 rounded">${cKey}</span>`;
-                                item.onclick = () => {
-                                    currentState.course = cKey;
-                                    currentState.topic = top;
-                                    
-                                    // Highlight course tab
-                                    document.querySelectorAll('.course-tab').forEach(t => {
-                                        if (t.getAttribute('data-course') === cKey) {
-                                            t.className = 'course-tab px-4 py-2.5 border-b-2 border-brand-500 text-brand-600 dark:text-brand-400 whitespace-nowrap';
-                                        } else {
-                                            t.className = 'course-tab px-4 py-2.5 border-b-2 border-transparent hover:text-brand-600 text-gray-600 dark:text-gray-400 whitespace-nowrap';
-                                        }
-                                    });
-
-                                    renderSidebar();
-                                    loadTopicData();
-                                    searchResults.classList.add('hidden');
-                                    searchInput.value = '';
-                                };
-                                searchResults.appendChild(item);
-                            }
-                        });
-                    });
-                });
-
-                if (matches > 0) {
-                    searchResults.classList.remove('hidden');
-                } else {
-                    searchResults.classList.add('hidden');
-                }
-            });
-
-            // Initial Render
-            renderSidebar();
-            loadTopicData();
-        });
-    </script>
+var Q={html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
+css:[["Which selector targets class card?",["#card",".card","card","*card"],1],["Which property adds space inside the border?",["margin","padding","gap","outline"],1],["Which declaration makes a flex container?",["display:flex","flex:on","position:flex","float:flex"],0],["Which property rounds corners?",["border-style","border-radius","corner","box-round"],1],["box-sizing:border-box makes width include...",["margin only","padding and border","nothing","content only"],1]],
+js:[["Which keyword declares a changeable block-scoped variable?",["var","let","const","def"],1],["What does typeof 42 return?",["number","int","numeric","object"],0],["Which method adds an item to the end of an array?",["push","pop","shift","add"],0],["Which operator checks value and type?",["==","=","===","!="],2],["Which method selects an element by id?",["querySelectorAll","getElementById","getElementsByTag","findId"],1]],
+c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.h"],1],["Which symbol gets a variable's address?",["*","&","#","@"],1],["What ends a C statement?",["period","colon","semicolon","comma"],2],["An array index starts at...",["1","0","-1","2"],1],["Which function returns string length?",["size","len","strlen","length"],2]],
+cpp:[["Which object prints to the console?",["cout","print","echo","out"],0],["Which container holds unique sorted values?",["vector","set","array","list"],1],["Which operator reads from cin?",["<<",">>","::","->"],1],["Which header provides vector?",["<vector>","<array>","<list.h>","<vec>"],0],["Which is the scope operator?",[".","->","::","#"],2]]};
+var EX={en:{b:"Exam",t:"Exam",nm:"Your name",co:"Course",bs:"Best score",st:"Start exam",sb:"Submit",nx:"Next",pv:"Back",sc:"Your score",ps:"Passed! You earned a certificate.",fl:"Not passed yet. You need 60%. Review the lessons and try again.",cert:"Certificate of Completion",cf:"This certifies that",pd:"has passed the",ex:"exam with a score of",dt:"Date",id:"Certificate ID",pr:"Print / Save PDF",cl:"Close",rt:"Try again",q:"Question",tl:"Time left",nn:"Enter your name first."},
+ru:{b:"Экзамен",t:"Экзамен",nm:"Ваше имя",co:"Курс",bs:"Лучший результат",st:"Начать экзамен",sb:"Завершить",nx:"Далее",pv:"Назад",sc:"Ваш результат",ps:"Сдано! Вы получили сертификат.",fl:"Пока не сдано. Нужно 60%. Повторите уроки и попробуйте снова.",cert:"Сертификат об окончании",cf:"Настоящим подтверждается, что",pd:"сдал(а) экзамен по курсу",ex:"с результатом",dt:"Дата",id:"Номер сертификата",pr:"Печать / PDF",cl:"Закрыть",rt:"Ещё раз",q:"Вопрос",tl:"Осталось",nn:"Сначала введите имя."},
+es:{b:"Examen",t:"Examen",nm:"Tu nombre",co:"Curso",bs:"Mejor puntuación",st:"Empezar examen",sb:"Enviar",nx:"Siguiente",pv:"Atrás",sc:"Tu puntuación",ps:"¡Aprobado! Has obtenido un certificado.",fl:"Aún no aprobado. Necesitas 60%. Repasa las lecciones e inténtalo de nuevo.",cert:"Certificado de finalización",cf:"Se certifica que",pd:"ha aprobado el examen de",ex:"con una puntuación de",dt:"Fecha",id:"ID del certificado",pr:"Imprimir / PDF",cl:"Cerrar",rt:"Reintentar",q:"Pregunta",tl:"Tiempo",nn:"Escribe tu nombre primero."},
+hi:{b:"परीक्षा",t:"परीक्षा",nm:"आपका नाम",co:"कोर्स",bs:"सर्वश्रेष्ठ स्कोर",st:"परीक्षा शुरू करें",sb:"जमा करें",nx:"आगे",pv:"पीछे",sc:"आपका स्कोर",ps:"पास! आपको सर्टिफ़िकेट मिला।",fl:"अभी पास नहीं हुए। 60% चाहिए। पाठ दोहराएँ और फिर कोशिश करें।",cert:"पूर्णता प्रमाण पत्र",cf:"यह प्रमाणित किया जाता है कि",pd:"ने इस कोर्स की परीक्षा पास की:",ex:"स्कोर:",dt:"तारीख",id:"सर्टिफ़िकेट ID",pr:"प्रिंट / PDF",cl:"बंद करें",rt:"फिर कोशिश करें",q:"प्रश्न",tl:"बचा समय",nn:"पहले अपना नाम लिखें।"}};
+var ex={};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return"&"+({"&":"amp","<":"lt",">":"gt",'"':"quot"})[c]+";"})}
+function ld(){try{return JSON.parse(localStorage.getItem("lw-res")||"{}")}catch(e){return{}}}
+function sv(k,v){try{var r=ld();r[k]=Math.max(r[k]||0,v);localStorage.setItem("lw-res",JSON.stringify(r))}catch(e){}}
+function box(h){$("exb").innerHTML=h}
+function exClose(){clearInterval(ex.tm);$("ex").hidden=true}
+function exOpen(){$("ex").hidden=false;exStart()}
+function exStart(){clearInterval(ex.tm);var e=EX[lang],r=ld(),o="";for(var k in L)o+='<option value="'+k+'"'+(k===cur.l?" selected":"")+'>'+L[k].n+'</option>';
+box('<h2>'+e.t+'</h2><p><label>'+e.co+' <select id="exk" class="nx">'+o+'</select></label></p><p><label>'+e.nm+' <input id="exn" maxlength="40" style="font:inherit;padding:6px 10px"></label></p><p id="exbs"></p><p id="exer" style="color:#c0392b"></p><button class="run" id="exgo">'+e.st+'</button> <button class="nx" id="exx">'+e.cl+'</button>');
+function bs(){$("exbs").textContent=e.bs+": "+(r[$("exk").value]||0)+"%"}bs();$("exk").onchange=bs;$("exx").onclick=exClose;
+$("exgo").onclick=function(){var n=$("exn").value.trim();if(!n){$("exer").textContent=e.nn;return}ex={k:$("exk").value,n:n,i:0,a:[],s:600};
+ex.tm=setInterval(function(){ex.s--;var t=$("ext");if(t)t.textContent=Math.floor(ex.s/60)+":"+("0"+ex.s%60).slice(-2);if(ex.s<=0)exEnd()},1000);exQ()}}
+function exQ(){var e=EX[lang],qs=Q[ex.k],q=qs[ex.i],o="",last=ex.i===qs.length-1;
+q[1].forEach(function(t,j){o+='<label class="opt"><input type="radio" name="o" value="'+j+'"'+(ex.a[ex.i]===j?" checked":"")+'> '+esc(t)+'</label>'});
+box('<div class="bar"><span>'+e.q+' '+(ex.i+1)+'/'+qs.length+'</span><span>'+e.tl+': <b id="ext"></b></span></div><h3>'+esc(q[0])+'</h3>'+o+'<p><button class="nx" id="exp"'+(ex.i?"":" disabled")+'>'+e.pv+'</button> <button class="run" id="exnx">'+(last?e.sb:e.nx)+'</button></p>');
+function sel(){var c=document.querySelector("#exb input:checked");if(c)ex.a[ex.i]=+c.value}
+$("exp").onclick=function(){sel();ex.i--;exQ()};$("exnx").onclick=function(){sel();if(last)exEnd();else{ex.i++;exQ()}}}
+function exEnd(){clearInterval(ex.tm);var e=EX[lang],qs=Q[ex.k],c=0;qs.forEach(function(q,i){if(ex.a[i]===q[2])c++});
+var p=Math.round(c*100/qs.length),ok=p>=60;sv(ex.k,p);
+var d=new Date().toLocaleDateString({hi:"hi-IN",ru:"ru-RU",es:"es-ES",en:"en-GB"}[lang],{day:"numeric",month:"long",year:"numeric"}),h=0,t=ex.n+ex.k+d;
+for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))>>>0;
+var cert='<div class="cert"><div style="font-size:13px;letter-spacing:3px">LEARN WEB</div><h1>'+e.cert+'</h1><p>'+e.cf+'</p><h2 style="font-size:30px;margin:6px 0">'+esc(ex.n)+'</h2><p>'+e.pd+' <b>'+L[ex.k].n+'</b> '+e.ex+' <b>'+p+'%</b></p><p style="font-size:13px">'+e.dt+': '+d+' &nbsp;|&nbsp; '+e.id+': LW-'+ex.k.toUpperCase()+'-'+h.toString(36).toUpperCase()+'</p></div>';
+box('<div class="noprint"><h2>'+e.sc+': '+p+'% ('+c+'/'+qs.length+')</h2><p>'+(ok?e.ps:e.fl)+'</p></div>'+(ok?cert:"")+'<p class="noprint">'+(ok?'<button class="run" id="expr">'+e.pr+'</button> ':"")+'<button class="nx" id="exrt">'+e.rt+'</button> <button class="nx" id="exx">'+e.cl+'</button></p>');
+$("exx").onclick=exClose;$("exrt").onclick=exStart;if(ok)$("expr").onclick=function(){window.print()}}
+$("exbtn").onclick=exOpen;
+$("lang").onchange=function(){lang=this.value;try{localStorage.setItem("lw-lang",lang)}catch(e){}applyUI();show()};
+window.addEventListener("hashchange",show);applyUI();show();
+</script>
 </body>
 </html>
