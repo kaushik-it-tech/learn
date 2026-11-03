@@ -356,6 +356,219 @@ L.cpp.items.push(
 [`ppadd`,`C++ how to: add two numbers`,`Read two numbers and add.`,`<p>Read with <code>cin</code> and print the sum.</p>`,`#include <iostream>\nusing namespace std;\nint main() {\n  int a, b;\n  cout << "Two numbers: ";\n  cin >> a >> b;\n  cout << "Sum = " << a + b << endl;\n  return 0;\n}`,`Two numbers: 4 6\nSum = 10`],
 [`pprand`,`C++ how to: random numbers`,`Use the random library.`,`<p>Modern way: a <code>mt19937</code> engine seeded by <code>random_device</code> and a distribution.</p>`,`#include <iostream>\n#include <random>\nusing namespace std;\nint main() {\n  random_device rd;\n  mt19937 gen(rd());\n  uniform_int_distribution<int> dice(1, 6);\n  cout << dice(gen) << endl;\n  return 0;\n}`,`4  (random 1 to 6)`]
 );
+L.php={n:"PHP",c:"#777bb3",items:[]};
+L.php.items.push(
+[`phpintro`,`PHP introduction`,`A server-side language that powers much of the web.`,`<p>PHP (PHP: Hypertext Preprocessor) runs on the <b>server</b> and sends plain HTML to the browser. It powers WordPress, Laravel and countless sites. PHP code lives between <code>&lt;?php</code> and <code>?&gt;</code> tags, in files ending in <code>.php</code>.</p>`,`<?php
+echo "Hello, PHP!";
+?>`,`Hello, PHP!`],
+[`phpinstall`,`PHP install and syntax`,`Set up PHP and learn the basic rules.`,`<p>Install PHP (or XAMPP), save a file as <code>index.php</code> and start the built-in server with <code>php -S localhost:8000</code>. Every statement ends with a semicolon. Comments use <code>//</code>, <code>#</code> or <code>/* */</code>. Keywords like <code>echo</code> are not case-sensitive, but variable names are.</p>`,`<?php
+// a comment
+# another comment
+/* a multi-line
+   comment */
+echo "Statements end with a semicolon.";
+Echo " Keywords are not case-sensitive.";
+?>`,`Statements end with a semicolon. Keywords are not case-sensitive.`],
+[`phpvars`,`PHP variables`,`Store values in variables that start with $.`,`<p>A variable starts with <code>$</code> followed by a name. There is no type keyword: PHP picks the type from the value. Double-quoted strings insert variable values; single-quoted strings do not.</p>`,`<?php
+$name = "Ada";
+$age = 36;
+$age = $age + 1;
+echo "$name is $age";
+?>`,`Ada is 37`],
+[`phpecho`,`PHP echo and print`,`Send output to the page.`,`<p><code>echo</code> can take several values and has no return value. <code>print</code> takes one value and returns 1. Join strings with the dot operator. <code>PHP_EOL</code> is a line break.</p>`,`<?php
+echo "Hello", " ", "World", PHP_EOL;
+print "print returns 1" . PHP_EOL;
+$x = 5;
+echo "x is " . $x . PHP_EOL;
+?>`,`Hello World
+print returns 1
+x is 5`],
+[`phpdatatypes`,`PHP data types`,`Strings, integers, floats, booleans, arrays and null.`,`<p><code>var_dump</code> shows both the type and the value of anything, which makes it the best debugging tool in PHP.</p>`,`<?php
+var_dump("text");
+var_dump(42);
+var_dump(3.14);
+var_dump(true);
+var_dump([1, 2]);
+var_dump(null);
+?>`,`string(4) "text"
+int(42)
+float(3.14)
+bool(true)
+array(2) {
+  [0]=>
+  int(1)
+  [1]=>
+  int(2)
+}
+NULL`],
+[`phpstrings`,`PHP strings`,`Measure, search and change text.`,`<p>PHP has hundreds of string functions. Common ones are <code>strlen</code>, <code>strtoupper</code>, <code>str_replace</code> and <code>strpos</code>. Positions start counting at 0.</p>`,`<?php
+$s = "Hello, World";
+echo strlen($s) . PHP_EOL;
+echo strtoupper($s) . PHP_EOL;
+echo str_replace("World", "PHP", $s) . PHP_EOL;
+echo strpos($s, "World") . PHP_EOL;
+?>`,`12
+HELLO, WORLD
+Hello, PHP
+7`],
+[`phpmath`,`PHP numbers and math`,`Calculate with built-in math functions.`,`<p>Use <code>max</code>, <code>round</code>, <code>sqrt</code>, <code>pow</code> and <code>intdiv</code> for everyday maths. The <code>%</code> operator gives the remainder.</p>`,`<?php
+echo max(3, 9, 5) . PHP_EOL;
+echo round(3.14159, 2) . PHP_EOL;
+echo sqrt(81) . PHP_EOL;
+echo pow(2, 10) . PHP_EOL;
+echo intdiv(17, 5) . PHP_EOL;
+echo (17 % 5) . PHP_EOL;
+?>`,`9
+3.14
+9
+1024
+3
+2`],
+[`phpif`,`PHP if...else...elseif`,`Make decisions in code.`,`<p>Combine conditions with <code>&amp;&amp;</code> (and), <code>||</code> (or) and <code>!</code> (not). Use <code>===</code> to compare value and type.</p>`,`<?php
+$score = 72;
+if ($score >= 90) {
+  echo "A";
+} elseif ($score >= 70) {
+  echo "B";
+} else {
+  echo "C";
+}
+?>`,`B`],
+[`phpswitch`,`PHP switch and match`,`Pick one of many branches.`,`<p><code>match</code> (PHP 8) is a stricter, shorter <code>switch</code>. It returns a value and uses strict comparison, so no <code>break</code> is needed.</p>`,`<?php
+$day = 3;
+echo match($day) {
+  1 => "Mon",
+  2 => "Tue",
+  3 => "Wed",
+  default => "Other",
+};
+?>`,`Wed`],
+[`phploops`,`PHP loops`,`Repeat code with for, while and foreach.`,`<p><code>for</code> counts, <code>while</code> repeats while a condition holds, and <code>foreach</code> walks through an array.</p>`,`<?php
+for ($i = 1; $i <= 5; $i++) {
+  echo $i . " ";
+}
+echo PHP_EOL;
+$n = 3;
+while ($n > 0) {
+  echo $n-- . " ";
+}
+echo PHP_EOL;
+foreach (["red", "green"] as $c) {
+  echo $c . PHP_EOL;
+}
+?>`,`1 2 3 4 5 
+3 2 1 
+red
+green`],
+[`phpfunctions`,`PHP functions`,`Reuse code with named blocks.`,`<p>Functions can have typed parameters, default values and a return type. Arrow functions (<code>fn</code>) are a short form for one-line functions.</p>`,`<?php
+function greet(string $name, string $greeting = "Hello"): string {
+  return "$greeting, $name!";
+}
+echo greet("Ada") . PHP_EOL;
+echo greet("Bob", "Hi") . PHP_EOL;
+$sq = fn($n) => $n * $n;
+echo $sq(5);
+?>`,`Hello, Ada!
+Hi, Bob!
+25`],
+[`phparrays`,`PHP arrays`,`Indexed and associative arrays.`,`<p>An indexed array uses numbers as keys; an associative array uses names. <code>[]</code> appends, <code>count</code> counts, <code>sort</code> orders and <code>implode</code> joins items into a string.</p>`,`<?php
+$f = ["pear", "apple"];
+$f[] = "plum";
+echo count($f) . PHP_EOL;
+sort($f);
+echo implode(", ", $f) . PHP_EOL;
+$p = ["name" => "Ada", "age" => 36];
+$p["city"] = "London";
+foreach ($p as $k => $v) {
+  echo "$k: $v" . PHP_EOL;
+}
+?>`,`3
+apple, pear, plum
+name: Ada
+age: 36
+city: London`],
+[`phpforms`,`PHP superglobals and form handling`,`Read what the visitor submitted.`,`<p>Superglobals such as <code>$_GET</code>, <code>$_POST</code>, <code>$_SERVER</code> and <code>$_SESSION</code> are available everywhere. Always clean user input with <code>htmlspecialchars</code> before printing it, to prevent XSS attacks. The example fills <code>$_POST</code> by hand because there is no real form here.</p>`,`<?php
+$_POST["name"] = "<b>Ada</b>";   // pretend a form sent this
+$name = htmlspecialchars($_POST["name"] ?? "guest");
+echo "Hello, " . $name;
+?>`,`Hello, &lt;b&gt;Ada&lt;/b&gt;`],
+[`phpdate`,`PHP date and time`,`Format dates with date() and mktime().`,`<p><code>date(format, timestamp)</code> turns a timestamp into text: <code>Y</code> year, <code>m</code> month, <code>d</code> day, <code>l</code> weekday name. <code>mktime</code> builds a timestamp from hour, minute, second, month, day and year.</p>`,`<?php
+$t = mktime(0, 0, 0, 12, 25, 2026);
+echo date("Y-m-d", $t) . PHP_EOL;
+echo date("l", $t);
+?>`,`2026-12-25
+Friday`],
+[`phpsessions`,`PHP cookies and sessions`,`Remember a visitor between pages.`,`<p>A cookie is stored in the browser (<code>setcookie</code>). A session stores data on the server and gives the browser only an id. Call <code>session_start()</code> before any output, then use <code>$_SESSION</code>.</p>`,`<?php
+session_start();
+$_SESSION["user"] = "Ada";
+echo "Logged in as " . $_SESSION["user"];
+?>`,`Logged in as Ada`],
+[`phpjson`,`PHP JSON`,`Exchange data with JavaScript and APIs.`,`<p><code>json_encode</code> turns an array or object into JSON text. <code>json_decode($text, true)</code> turns it back into an associative array.</p>`,`<?php
+$data = ["name" => "Ada", "langs" => ["PHP", "JS"]];
+$json = json_encode($data);
+echo $json . PHP_EOL;
+$back = json_decode($json, true);
+echo $back["langs"][1];
+?>`,`{"name":"Ada","langs":["PHP","JS"]}
+JS`],
+[`phpexceptions`,`PHP exceptions`,`Handle errors safely with try and catch.`,`<p><code>throw</code> raises an exception, <code>catch</code> handles it, and <code>finally</code> always runs, even after an error.</p>`,`<?php
+function div($a, $b) {
+  if ($b === 0) throw new Exception("Cannot divide by zero");
+  return $a / $b;
+}
+try {
+  echo div(10, 2) . PHP_EOL;
+  echo div(1, 0);
+} catch (Exception $e) {
+  echo "Error: " . $e->getMessage();
+} finally {
+  echo PHP_EOL . "Done";
+}
+?>`,`5
+Error: Cannot divide by zero
+Done`],
+[`phpclasses`,`PHP classes, objects and constructors`,`Model things with object-oriented code.`,`<p>A class is a blueprint and an object is one instance made with <code>new</code>. The <code>__construct</code> method runs when the object is created. Use <code>$this</code> to reach the object's own properties.</p>`,`<?php
+class Car {
+  public string $brand;
+  public function __construct(string $brand) {
+    $this->brand = $brand;
+  }
+  public function honk(): string {
+    return $this->brand . " says beep";
+  }
+}
+$c = new Car("Volvo");
+echo $c->honk();
+?>`,`Volvo says beep`],
+[`phpinherit`,`PHP inheritance`,`Reuse and override behaviour in child classes.`,`<p>A child class <code>extends</code> a parent and inherits its properties and methods. Mark members <code>protected</code> to share them with children but hide them from outside code.</p>`,`<?php
+class Animal {
+  public function __construct(protected string $name) {}
+  public function speak(): string {
+    return $this->name . " makes a sound";
+  }
+}
+class Dog extends Animal {
+  public function speak(): string {
+    return $this->name . " barks";
+  }
+}
+foreach ([new Animal("Cat"), new Dog("Rex")] as $a) {
+  echo $a->speak() . PHP_EOL;
+}
+?>`,`Cat makes a sound
+Rex barks`],
+[`phpmysql`,`PHP MySQL prepared statements`,`Talk to a database without SQL injection.`,`<p>Connect with <code>mysqli</code> (or PDO). Never put user input straight into SQL. A <b>prepared statement</b> sends the query with <code>?</code> placeholders first and binds the values separately, which blocks SQL injection. This needs a real MySQL server, so the output below is what you would see.</p>`,`<?php
+$conn = new mysqli("localhost", "user", "password", "myDB");
+$stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+$stmt->bind_param("ss", $name, $email);
+$name = "Ada";
+$email = "ada@example.com";
+$stmt->execute();
+echo "New record created successfully";
+$stmt->close();
+$conn->close();
+?>`,`New record created successfully`]
+);
 var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
 var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
 var TR={
@@ -383,7 +596,9 @@ if(typeof JSCPP==="undefined"){put("The C/C++ interpreter could not load (intern
 try{JSCPP.run(code,"",{stdio:{write:function(t){out+=t}},maxTimeout:3000})}catch(e){err=String(e&&e.message||e)}
 if(err&&code===it[4].replace(/#include\s*<(\w+)\.h>/g,function(m,n){return H[n]?"#include <"+H[n]+">":m})&&it[5])put("This interpreter does not support every C/C++ feature, so here is the expected output ("+err.split("\n")[0]+"):",it[5]);
 else put(err?"Error: "+err:"Output:",out)}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){runC(it)}else $("out").srcdoc=$("ed").value}
+var PN={"en": "PHP runs on a server, so this page cannot execute it. Expected output of the original code:", "ru": "PHP выполняется на сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "PHP se ejecuta en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "PHP सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
+function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(PN[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){runC(it)}else if(cur.l==="php"){runP(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -425,17 +640,19 @@ function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;backgro
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
 (function(){
-var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++"},
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP"},
 W={html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
 css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
 js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
 c:{en:"C is a fast, low-level language used for operating systems and embedded devices, and it teaches how computers really work.",ru:"C — быстрый язык низкого уровня для операционных систем и встраиваемых устройств; он помогает понять, как работает компьютер.",es:"C es un lenguaje rápido y de bajo nivel usado en sistemas operativos y dispositivos embebidos, ideal para entender cómo funcionan los ordenadores.",hi:"C एक तेज़, लो-लेवल भाषा है जिसका उपयोग ऑपरेटिंग सिस्टम और एम्बेडेड डिवाइस में होता है; इससे कंप्यूटर के काम करने का तरीका समझ आता है।"},
-cpp:{en:"C++ extends C with classes and objects, giving you speed and control for games, apps and systems software.",ru:"C++ расширяет C классами и объектами и даёт скорость и контроль для игр, приложений и системного ПО.",es:"C++ amplía C con clases y objetos, ofreciendo velocidad y control para juegos, aplicaciones y software de sistemas.",hi:"C++ C को क्लास और ऑब्जेक्ट के साथ आगे बढ़ाता है और गेम, ऐप और सिस्टम सॉफ़्टवेयर के लिए गति और नियंत्रण देता है।"}},
+cpp:{en:"C++ extends C with classes and objects, giving you speed and control for games, apps and systems software.",ru:"C++ расширяет C классами и объектами и даёт скорость и контроль для игр, приложений и системного ПО.",es:"C++ amplía C con clases y objetos, ofreciendo velocidad y control para juegos, aplicaciones y software de sistemas.",hi:"C++ C को क्लास और ऑब्जेक्ट के साथ आगे बढ़ाता है और गेम, ऐप और सिस्टम सॉफ़्टवेयर के लिए गति और नियंत्रण देता है।"},
+php:{en:"PHP is a server-side language that builds dynamic web pages, handles forms, sessions and databases, and powers sites like WordPress.",ru:"PHP — серверный язык, который создаёт динамические веб-страницы, обрабатывает формы, сессии и базы данных и лежит в основе таких сайтов, как WordPress.",es:"PHP es un lenguaje de servidor que crea páginas web dinámicas, gestiona formularios, sesiones y bases de datos, y mueve sitios como WordPress.",hi:"PHP एक सर्वर-साइड भाषा है जो डायनामिक वेब पेज बनाती है, फ़ॉर्म, सेशन और डेटाबेस संभालती है और WordPress जैसी साइटों को चलाती है।"}},
 T={html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
 css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
 js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
 c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:"переменные, операторы, циклы, функции, массивы, указатели и структуры",es:"variables, operadores, bucles, funciones, arrays, punteros y structs",hi:"वेरिएबल, ऑपरेटर, लूप, फ़ंक्शन, ऐरे, पॉइंटर और स्ट्रक्चर"},
-cpp:{en:"variables, control flow, functions, classes and objects, inheritance and the STL",ru:"переменные, управление потоком, функции, классы и объекты, наследование и STL",es:"variables, control de flujo, funciones, clases y objetos, herencia y la STL",hi:"वेरिएबल, कंट्रोल फ़्लो, फ़ंक्शन, क्लास और ऑब्जेक्ट, इनहेरिटेंस और STL"}},
+cpp:{en:"variables, control flow, functions, classes and objects, inheritance and the STL",ru:"переменные, управление потоком, функции, классы и объекты, наследование и STL",es:"variables, control de flujo, funciones, clases y objetos, herencia y la STL",hi:"वेरिएबल, कंट्रोल फ़्लो, फ़ंक्शन, क्लास और ऑब्जेक्ट, इनहेरिटेंस और STL"},
+php:{en:"variables, strings, arrays, loops, functions, forms, sessions, JSON, exceptions, classes and MySQL",ru:"переменные, строки, массивы, циклы, функции, формы, сессии, JSON, исключения, классы и MySQL",es:"variables, cadenas, arrays, bucles, funciones, formularios, sesiones, JSON, excepciones, clases y MySQL",hi:"वेरिएबल, स्ट्रिंग, ऐरे, लूप, फ़ंक्शन, फ़ॉर्म, सेशन, JSON, एक्सेप्शन, क्लास और MySQL"}},
 G={en:["Welcome to the {N} course","A short introduction before you start learning {N}.","What you will learn","Press Next lesson to begin. Edit and run the code in every lesson, and take the exam at the end to earn a certificate."],
 ru:["Добро пожаловать на курс {N}","Краткое введение перед началом изучения {N}.","Чему вы научитесь","Нажмите «Следующий урок», чтобы начать. Меняйте и запускайте код в каждом уроке, а в конце сдайте экзамен и получите сертификат."],
 es:["Bienvenido al curso de {N}","Una breve introducción antes de empezar a aprender {N}.","Qué aprenderás","Pulsa «Siguiente lección» para empezar. Edita y ejecuta el código en cada lección y haz el examen final para obtener un certificado."],
@@ -454,7 +671,9 @@ var Q={html:[["Which tag creates the largest heading?",["h6","h1","head","header
 css:[["Which selector targets class card?",["#card",".card","card","*card"],1],["Which property adds space inside the border?",["margin","padding","gap","outline"],1],["Which declaration makes a flex container?",["display:flex","flex:on","position:flex","float:flex"],0],["Which property rounds corners?",["border-style","border-radius","corner","box-round"],1],["box-sizing:border-box makes width include...",["margin only","padding and border","nothing","content only"],1]],
 js:[["Which keyword declares a changeable block-scoped variable?",["var","let","const","def"],1],["What does typeof 42 return?",["number","int","numeric","object"],0],["Which method adds an item to the end of an array?",["push","pop","shift","add"],0],["Which operator checks value and type?",["==","=","===","!="],2],["Which method selects an element by id?",["querySelectorAll","getElementById","getElementsByTag","findId"],1]],
 c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.h"],1],["Which symbol gets a variable's address?",["*","&","#","@"],1],["What ends a C statement?",["period","colon","semicolon","comma"],2],["An array index starts at...",["1","0","-1","2"],1],["Which function returns string length?",["size","len","strlen","length"],2]],
-cpp:[["Which object prints to the console?",["cout","print","echo","out"],0],["Which container holds unique sorted values?",["vector","set","array","list"],1],["Which operator reads from cin?",["<<",">>","::","->"],1],["Which header provides vector?",["<vector>","<array>","<list.h>","<vec>"],0],["Which is the scope operator?",[".","->","::","#"],2]]};
+cpp:[["Which object prints to the console?",["cout","print","echo","out"],0],["Which container holds unique sorted values?",["vector","set","array","list"],1],["Which operator reads from cin?",["<<",">>","::","->"],1],["Which header provides vector?",["<vector>","<array>","<list.h>","<vec>"],0],["Which is the scope operator?",[".","->","::","#"],2]],
+php:[["How does every PHP variable name begin?",["@","$","#","&"],1],["Which tags open and close PHP code?",["<?php ... ?>","<% ... %>","<script php>","{{ ... }}"],0],["Which operator joins two strings?",["+",".","&","::"],1],["Which function turns an array into JSON text?",["json_encode","to_json","array_json","json_parse"],0],["Which technique blocks SQL injection?",["echo","Prepared statements","var_dump","include"],1]]
+};
 var EX={en:{b:"Exam",t:"Exam",nm:"Your name",co:"Course",bs:"Best score",st:"Start exam",sb:"Submit",nx:"Next",pv:"Back",sc:"Your score",ps:"Passed! You earned a certificate.",fl:"Not passed yet. You need 60%. Review the lessons and try again.",cert:"Certificate of Completion",cf:"This certifies that",pd:"has passed the",ex:"exam with a score of",dt:"Date",id:"Certificate ID",pr:"Print / Save PDF",cl:"Close",rt:"Try again",q:"Question",tl:"Time left",nn:"Enter your name first."},
 ru:{b:"Экзамен",t:"Экзамен",nm:"Ваше имя",co:"Курс",bs:"Лучший результат",st:"Начать экзамен",sb:"Завершить",nx:"Далее",pv:"Назад",sc:"Ваш результат",ps:"Сдано! Вы получили сертификат.",fl:"Пока не сдано. Нужно 60%. Повторите уроки и попробуйте снова.",cert:"Сертификат об окончании",cf:"Настоящим подтверждается, что",pd:"сдал(а) экзамен по курсу",ex:"с результатом",dt:"Дата",id:"Номер сертификата",pr:"Печать / PDF",cl:"Закрыть",rt:"Ещё раз",q:"Вопрос",tl:"Осталось",nn:"Сначала введите имя."},
 es:{b:"Examen",t:"Examen",nm:"Tu nombre",co:"Curso",bs:"Mejor puntuación",st:"Empezar examen",sb:"Enviar",nx:"Siguiente",pv:"Atrás",sc:"Tu puntuación",ps:"¡Aprobado! Has obtenido un certificado.",fl:"Aún no aprobado. Necesitas 60%. Repasa las lecciones e inténtalo de nuevo.",cert:"Certificado de finalización",cf:"Se certifica que",pd:"ha aprobado el examen de",ex:"con una puntuación de",dt:"Fecha",id:"ID del certificado",pr:"Imprimir / PDF",cl:"Cerrar",rt:"Reintentar",q:"Pregunta",tl:"Tiempo",nn:"Escribe tu nombre primero."},
