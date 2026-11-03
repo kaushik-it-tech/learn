@@ -73,6 +73,7 @@ iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
 </main>
 </div>
 <div id="ex" hidden role="dialog" aria-modal="true"><div class="exb" id="exb"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
 <script>
 var L={
 html:{n:"HTML",c:"var(--html)",items:[
@@ -365,15 +366,24 @@ var TR={
 "html-forms":{ru:["Формы","Собирайте данные от людей с помощью элементов формы.","<p>Связывайте каждый <code>input</code> с <code>label</code>. Атрибут <code>required</code> заставляет браузер проверить поле перед отправкой.</p>"],es:["Formularios","Recoge datos de las personas con controles de formulario.","<p>Empareja cada <code>input</code> con un <code>label</code>. El atributo <code>required</code> hace que el navegador revise el campo antes de enviar.</p>"],hi:["फ़ॉर्म","फ़ॉर्म कंट्रोल से लोगों से जानकारी लें।","<p>हर <code>input</code> के साथ एक <code>label</code> जोड़ें। <code>required</code> एट्रिब्यूट ब्राउज़र को भेजने से पहले फ़ील्ड जाँचने को कहता है।</p>"]}
 };
 var lang="en";try{lang=localStorage.getItem("lw-lang")||"en"}catch(e){}if(!UI[lang])lang="en";
-function lt(k,it){var x=TR[k+"-"+it[0]];x=x&&x[lang];return x||[it[1],it[2],it[3]]}
+function lt(k,it){var x=TR[k+"-"+it[0]];x=x&&x[lang];return x?[it[1],x[1],x[2]]:[it[1],it[2],it[3]]}
 function applyUI(){var u=UI[lang];document.documentElement.lang=lang;$("lang").value=lang;$("q").placeholder=u.q;$("q").setAttribute("aria-label",u.q);$("tryl").textContent=u.tr;$("run").textContent=u.run;$("prev").textContent=u.pv;$("next").textContent=u.nx;$("exbtn").textContent=EX[lang].b}
 
 function flat(){var a=[];for(var k in L)L[k].items.forEach(function(it,i){a.push([k,i])});return a}
 function parse(){var h=location.hash.slice(1).split("-");var l=h.shift(),s=h.join("-");if(L[l]){var i=L[l].items.findIndex(function(x){return x[0]===s});cur={l:l,i:i<0?0:i}}else cur={l:"html",i:0}}
 function tabs(){$("tabs").innerHTML="";for(var k in L){(function(k){var b=document.createElement("button");b.innerHTML='<i style="background:'+L[k].c+'"></i>'+L[k].n;b.setAttribute("aria-current",k===cur.l);b.onclick=function(){location.hash=k+"-"+L[k].items[0][0]};$("tabs").appendChild(b)})(k)}}
-function side(){var q=$("q").value.toLowerCase(),box=$("list");box.innerHTML="";$("ah").textContent=L[cur.l].n+" "+UI[lang].tut;
+function side(){var q=$("q").value.toLowerCase(),box=$("list");box.innerHTML="";$("ah").textContent=L[cur.l].n+" "+UI.en.tut;
 L[cur.l].items.forEach(function(it,i){if(q&&(it[1]+it[2]+lt(cur.l,it)[0]).toLowerCase().indexOf(q)<0)return;var a=document.createElement("a");a.href="#"+cur.l+"-"+it[0];a.textContent=lt(cur.l,it)[0];if(i===cur.i)a.setAttribute("aria-current","page");box.appendChild(a)})}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">Expected output. C needs a compiler, so copy the code into one (gcc or an online compiler) to run it.</div><pre>'+it[5]+'</pre></body>'}else $("out").srcdoc=$("ed").value}
+var IH={en:"Press Run to see the output.",ru:"Нажмите «Запустить», чтобы увидеть результат.",es:"Pulsa «Ejecutar código» para ver el resultado.",hi:"आउटपुट देखने के लिए «कोड चलाएँ» दबाएँ।"};
+function idle(){$("out").srcdoc='<body style="font:14px sans-serif;padding:16px;color:#64748b">'+esc(IH[lang]||IH.en)+'</body>'}
+function runC(it){var H={stdio:"cstdio",stdlib:"cstdlib",string:"cstring",math:"cmath",ctype:"cctype",time:"ctime",limits:"climits"},code=$("ed").value.replace(/#include\s*<(\w+)\.h>/g,function(m,n){return H[n]?"#include <"+H[n]+">":m}),out="",err="",
+pre='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">';
+function put(note,t){$("out").srcdoc=pre+esc(note)+'</div><pre style="white-space:pre-wrap">'+esc(t)+'</pre></body>'}
+if(typeof JSCPP==="undefined"){put("The C/C++ interpreter could not load (internet is needed). Expected output:",it[5]||"");return}
+try{JSCPP.run(code,"",{stdio:{write:function(t){out+=t}},maxTimeout:3000})}catch(e){err=String(e&&e.message||e)}
+if(err&&code===it[4].replace(/#include\s*<(\w+)\.h>/g,function(m,n){return H[n]?"#include <"+H[n]+">":m})&&it[5])put("This interpreter does not support every C/C++ feature, so here is the expected output ("+err.split("\n")[0]+"):",it[5]);
+else put(err?"Error: "+err:"Output:",out)}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){runC(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -414,11 +424,30 @@ return o?h+'<h3>'+l.cm+'</h3>'+o:h}
 function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;background:#fff;color:#111}</style>";return st+(t==="h"?c:t==="c"?"<style>p{"+c+"}</style><p>Sample text</p>":'<p id="o"></p><script>console.log=function(){document.body.append(Array.prototype.join.call(arguments," "),document.createElement("br"))};try{'+c+'}catch(e){document.body.append("Error: "+e.message)}<\/script>')}
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
-function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();run();
+(function(){
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++"},
+W={html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
+css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
+js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
+c:{en:"C is a fast, low-level language used for operating systems and embedded devices, and it teaches how computers really work.",ru:"C — быстрый язык низкого уровня для операционных систем и встраиваемых устройств; он помогает понять, как работает компьютер.",es:"C es un lenguaje rápido y de bajo nivel usado en sistemas operativos y dispositivos embebidos, ideal para entender cómo funcionan los ordenadores.",hi:"C एक तेज़, लो-लेवल भाषा है जिसका उपयोग ऑपरेटिंग सिस्टम और एम्बेडेड डिवाइस में होता है; इससे कंप्यूटर के काम करने का तरीका समझ आता है।"},
+cpp:{en:"C++ extends C with classes and objects, giving you speed and control for games, apps and systems software.",ru:"C++ расширяет C классами и объектами и даёт скорость и контроль для игр, приложений и системного ПО.",es:"C++ amplía C con clases y objetos, ofreciendo velocidad y control para juegos, aplicaciones y software de sistemas.",hi:"C++ C को क्लास और ऑब्जेक्ट के साथ आगे बढ़ाता है और गेम, ऐप और सिस्टम सॉफ़्टवेयर के लिए गति और नियंत्रण देता है।"}},
+T={html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
+css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
+js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
+c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:"переменные, операторы, циклы, функции, массивы, указатели и структуры",es:"variables, operadores, bucles, funciones, arrays, punteros y structs",hi:"वेरिएबल, ऑपरेटर, लूप, फ़ंक्शन, ऐरे, पॉइंटर और स्ट्रक्चर"},
+cpp:{en:"variables, control flow, functions, classes and objects, inheritance and the STL",ru:"переменные, управление потоком, функции, классы и объекты, наследование и STL",es:"variables, control de flujo, funciones, clases y objetos, herencia y la STL",hi:"वेरिएबल, कंट्रोल फ़्लो, फ़ंक्शन, क्लास और ऑब्जेक्ट, इनहेरिटेंस और STL"}},
+G={en:["Welcome to the {N} course","A short introduction before you start learning {N}.","What you will learn","Press Next lesson to begin. Edit and run the code in every lesson, and take the exam at the end to earn a certificate."],
+ru:["Добро пожаловать на курс {N}","Краткое введение перед началом изучения {N}.","Чему вы научитесь","Нажмите «Следующий урок», чтобы начать. Меняйте и запускайте код в каждом уроке, а в конце сдайте экзамен и получите сертификат."],
+es:["Bienvenido al curso de {N}","Una breve introducción antes de empezar a aprender {N}.","Qué aprenderás","Pulsa «Siguiente lección» para empezar. Edita y ejecuta el código en cada lección y haz el examen final para obtener un certificado."],
+hi:["{N} कोर्स में आपका स्वागत है","{N} सीखना शुरू करने से पहले एक छोटा परिचय।","आप क्या सीखेंगे","शुरू करने के लिए «अगला पाठ» दबाएँ। हर पाठ में कोड बदलकर चलाएँ और अंत में परीक्षा देकर सर्टिफ़िकेट पाएँ।"]};
+function mk(k,l){var g=G[l],n=N[k];return[g[0].replace("{N}",n),g[1].replace("{N}",n),"<p>"+W[k][l]+"</p><p><b>"+g[2]+":</b> "+T[k][l]+".</p><p>"+g[3]+"</p>"]}
+for(var k in N){var f=L[k].items[0],e=mk(k,"en");L[k].items.unshift(["welcome",e[0],e[1],e[2],f[4]].concat(f.slice(5)));TR[k+"-welcome"]={ru:mk(k,"ru"),es:mk(k,"es"),hi:mk(k,"hi")}}
+})();
+function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();idle();
 var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i});$("prev").disabled=p<=0;$("next").disabled=p>=f.length-1;window.scrollTo(0,0)}
 function go(d){var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i})+d;if(f[p])location.hash=f[p][0]+"-"+L[f[p][0]].items[f[p][1]][0]}
 $("prev").onclick=function(){go(-1)};$("next").onclick=function(){go(1)};$("run").onclick=run;$("q").oninput=side;
-var tm;$("ed").oninput=function(){clearTimeout(tm);tm=setTimeout(run,400)};
+var tm;$("ed").oninput=function(){};
 $("ed").onkeydown=function(e){if(e.key==="Tab"){e.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+"  "+this.value.slice(this.selectionEnd);this.selectionStart=this.selectionEnd=s+2}};
 
 var Q={html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
