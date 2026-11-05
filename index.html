@@ -1065,16 +1065,24 @@ else put(err?"Error: "+err:"Output:",out)}
 var PN={"en": "PHP runs on a server, so this page cannot execute it. Expected output of the original code:", "ru": "PHP выполняется на сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "PHP se ejecuta en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "PHP सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
 var PYN={"en": "Python runs on your computer or a server, so this page cannot execute it. Expected output of the original code:", "ru": "Python выполняется на компьютере или сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "Python se ejecuta en tu ordenador o en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "Python आपके कंप्यूटर या सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
 var PS={"en": "SQL runs on a database server, so this page cannot execute it. Expected result of the original code:", "ru": "SQL выполняется на сервере баз данных, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "SQL se ejecuta en un servidor de base de datos, así que esta página no puede ejecutarlo. Resultado esperado del código original:", "hi": "SQL डेटाबेस सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित परिणाम:"};
-var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head",python:"cpython-head"},RN=0;
-function runRemote(it){var l=cur.l,n=++RN,st='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7">';
-$("out").srcdoc=st+"Running...</body>";
-fetch("https://wandbox.org/api/compile.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({compiler:RM[l],code:$("ed").value,stdin:"",save:false})})
-.then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
-.then(function(d){if(n!==RN)return;var t=(d.compiler_error||"")+(d.program_output||"")+(d.program_error||"");if(!t.trim())t="(no output)";
-$("out").srcdoc=st+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'})
-.catch(function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
+var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head"},RN=0,WB=null,API="https://wandbox.org/api/";
+var BOX='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7">';
+function show1(t){$("out").srcdoc=BOX+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'}
+function wbList(){return WB||(WB=fetch(API+"list.json").then(function(r){return r.json()}).catch(function(){WB=null;return[]}))}
+function cands(l){var L2={c:"C",cpp:"C++",php:"PHP"}[l];return wbList().then(function(a){
+var v=function(x){return String(x.version||"").split(".").map(Number)};
+var c=a.filter(function(x){return x.language===L2&&!/head/.test(x.name)&&(l==="php"||x.name.indexOf("gcc")===0)&&(l!=="cpp"||!/-c$/.test(x.name))}).sort(function(p,q){var A=v(p),B=v(q);for(var i=0;i<4;i++){if((A[i]||0)!==(B[i]||0))return(B[i]||0)-(A[i]||0)}return 0}).map(function(x){return x.name});
+c.push(RM[l]);return c})}
+function wbRun(names,i,code){if(i>=names.length||i>3)return Promise.reject();
+return fetch(API+"compile.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({compiler:names[i],code:code,stdin:"",save:false})}).then(function(r){return r.ok?r.json():null},function(){return null}).then(function(d){var t=d?(d.compiler_error||"")+(d.program_output||"")+(d.program_error||""):"";if(d&&!/catatonit|failed to exec/.test(t))return t;return wbRun(names,i+1,code)})}
+function runRemote(it){var l=cur.l,n=++RN;show1("Running...");
+cands(l).then(function(names){return wbRun(names,0,$("ed").value)}).then(function(t){if(n===RN)show1(t.trim()?t:"(no output)")},function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
+var PY=null;
+function runPy(it){var n=++RN,o="";show1("Loading Python... (the first run takes a few seconds)");
+if(!PY)PY=new Promise(function(ok,no){var sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";sc.onload=function(){loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"}).then(ok,no)};sc.onerror=no;document.head.appendChild(sc)}).catch(function(e){PY=null;throw e});
+PY.then(function(p){p.setStdout({batched:function(t){o+=t+"\n"}});p.setStderr({batched:function(t){o+=t+"\n"}});return p.runPythonAsync($("ed").value).catch(function(e){o+=String(e.message||e)})}).then(function(){if(n===RN)show1(o.trim()?o:"(no output)")},function(){if(n===RN)runP(it)})}
 function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runP(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runP(it)}else if(cur.l==="python"){runPy(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
