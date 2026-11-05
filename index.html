@@ -569,6 +569,472 @@ $stmt->close();
 $conn->close();
 ?>`,`New record created successfully`]
 );
+L.sql={n:"SQL",c:"#e67e22",items:[]};
+L.sql.items.push(
+[`sqlintro`,`SQL introduction`,`The language for talking to databases.`,`<p>SQL (Structured Query Language) stores, reads, changes and deletes data in relational databases such as MySQL, PostgreSQL, SQL Server and SQLite. Data lives in <b>tables</b> made of rows and columns. All lessons use two sample tables: <code>Customers</code> (id, name, city, country) with Ada, Bob, Chen, Dev and Eva, and <code>Orders</code> (id, customer_id, amount) with four orders.</p>`,`SELECT * FROM Customers;`,`+----+------+--------+---------+
+| id | name | city   | country |
++----+------+--------+---------+
+| 1  | Ada  | London | UK      |
+| 2  | Bob  | Paris  | France  |
+| 3  | Chen | Berlin | Germany |
+| 4  | Dev  | Mumbai | India   |
+| 5  | Eva  | London | UK      |
++----+------+--------+---------+`],
+[`sqlselect`,`SQL SELECT and DISTINCT`,`Choose columns and remove duplicates.`,`<p><code>SELECT</code> picks the columns to show. <code>SELECT DISTINCT</code> removes repeated values. Keywords are not case-sensitive and every statement ends with a semicolon. Comments start with <code>--</code>.</p>`,`-- columns
+SELECT name, city FROM Customers;
+
+-- unique values
+SELECT DISTINCT country FROM Customers;`,`+------+--------+
+| name | city   |
++------+--------+
+| Ada  | London |
+| Bob  | Paris  |
+| Chen | Berlin |
+| Dev  | Mumbai |
+| Eva  | London |
++------+--------+
+
++---------+
+| country |
++---------+
+| UK      |
+| France  |
+| Germany |
+| India   |
++---------+`],
+[`sqlwhere`,`SQL WHERE`,`Filter rows with a condition.`,`<p><code>WHERE</code> keeps only the rows that match. Text values go in single quotes. Operators: <code>=</code>, <code>&lt;&gt;</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>.</p>`,`SELECT name, city FROM Customers
+WHERE country = 'UK';`,`+------+--------+
+| name | city   |
++------+--------+
+| Ada  | London |
+| Eva  | London |
++------+--------+`],
+[`sqlorder`,`SQL ORDER BY and LIMIT`,`Sort results and take the first few.`,`<p><code>ORDER BY</code> sorts ascending (<code>ASC</code>, the default) or descending (<code>DESC</code>). <code>LIMIT n</code> returns only n rows (MySQL, PostgreSQL, SQLite). SQL Server uses <code>SELECT TOP n</code>, and Oracle uses <code>FETCH FIRST n ROWS ONLY</code>.</p>`,`SELECT name, country FROM Customers
+ORDER BY country ASC, name DESC
+LIMIT 3;`,`+------+---------+
+| name | country |
++------+---------+
+| Bob  | France  |
+| Chen | Germany |
+| Dev  | India   |
++------+---------+`],
+[`sqlandor`,`SQL AND, OR, NOT`,`Combine conditions.`,`<p><code>AND</code> needs both conditions true, <code>OR</code> needs one, <code>NOT</code> reverses a condition. Use parentheses to make the order clear.</p>`,`SELECT name, city, country FROM Customers
+WHERE (country = 'UK' OR country = 'India')
+  AND NOT city = 'London';`,`+------+--------+---------+
+| name | city   | country |
++------+--------+---------+
+| Dev  | Mumbai | India   |
++------+--------+---------+`],
+[`sqlinsert`,`SQL INSERT INTO and NULL`,`Add rows and handle missing values.`,`<p><code>INSERT INTO</code> adds a row. A column you skip gets <code>NULL</code>, meaning no value. You cannot test NULL with <code>=</code>; use <code>IS NULL</code> or <code>IS NOT NULL</code>.</p>`,`INSERT INTO Customers (id, name, country)
+VALUES (6, 'Fay', 'UK');
+
+SELECT name, city FROM Customers
+WHERE city IS NULL;`,`+------+------+
+| name | city |
++------+------+
+| Fay  | NULL |
++------+------+`],
+[`sqlupdate`,`SQL UPDATE`,`Change existing rows.`,`<p><code>UPDATE ... SET</code> changes values. <b>Always add WHERE</b>: without it every row in the table is changed.</p>`,`UPDATE Customers
+SET city = 'Delhi'
+WHERE id = 4;
+
+SELECT name, city FROM Customers
+WHERE id = 4;`,`+------+-------+
+| name | city  |
++------+-------+
+| Dev  | Delhi |
++------+-------+`],
+[`sqldelete`,`SQL DELETE`,`Remove rows.`,`<p><code>DELETE FROM</code> removes rows. Like <code>UPDATE</code>, it needs a <code>WHERE</code> or it empties the whole table. There is no undo, so test with <code>SELECT</code> first.</p>`,`DELETE FROM Customers
+WHERE id = 5;
+
+SELECT COUNT(*) AS total FROM Customers;`,`+-------+
+| total |
++-------+
+| 4     |
++-------+`],
+[`sqlagg`,`SQL aggregate functions`,`MIN, MAX, COUNT, SUM and AVG.`,`<p>Aggregate functions turn many rows into one value: <code>MIN</code>, <code>MAX</code>, <code>COUNT</code>, <code>SUM</code> and <code>AVG</code>. <code>COUNT(*)</code> counts rows. They ignore NULL values (except <code>COUNT(*)</code>).</p>`,`SELECT MIN(amount) AS lowest,
+       MAX(amount) AS highest,
+       COUNT(*)    AS orders,
+       SUM(amount) AS total,
+       AVG(amount) AS average
+FROM Orders;`,`+--------+---------+--------+-------+---------+
+| lowest | highest | orders | total | average |
++--------+---------+--------+-------+---------+
+| 20     | 80      | 4      | 180   | 45.0000 |
++--------+---------+--------+-------+---------+`],
+[`sqllike`,`SQL LIKE and wildcards`,`Search for text patterns.`,`<p><code>LIKE</code> matches patterns. <code>%</code> stands for any number of characters and <code>_</code> for exactly one. <code>'C%'</code> starts with C, <code>'%a'</code> ends with a, <code>'%an%'</code> contains "an".</p>`,`SELECT name FROM Customers
+WHERE name LIKE '%a';`,`+------+
+| name |
++------+
+| Ada  |
+| Eva  |
++------+`],
+[`sqlin`,`SQL IN and BETWEEN`,`Match a list or a range.`,`<p><code>IN</code> is a short way to write many <code>OR</code> tests. <code>BETWEEN a AND b</code> includes both ends of the range.</p>`,`SELECT name FROM Customers
+WHERE country IN ('UK', 'India');
+
+SELECT id, amount FROM Orders
+WHERE amount BETWEEN 25 AND 60;`,`+------+
+| name |
++------+
+| Ada  |
+| Dev  |
+| Eva  |
++------+
+
++-----+--------+
+| id  | amount |
++-----+--------+
+| 101 | 50     |
+| 102 | 30     |
++-----+--------+`],
+[`sqlalias`,`SQL aliases`,`Give columns and tables temporary names.`,`<p><code>AS</code> renames a column in the result, or a table inside the query. Aliases make long queries easier to read.</p>`,`SELECT name AS customer, city AS town
+FROM Customers
+WHERE id <= 2;`,`+----------+--------+
+| customer | town   |
++----------+--------+
+| Ada      | London |
+| Bob      | Paris  |
++----------+--------+`],
+[`sqlinner`,`SQL INNER JOIN`,`Combine rows from two tables.`,`<p>A join links tables through matching columns. <code>INNER JOIN</code> keeps only rows that match on both sides. Here <code>Orders.customer_id</code> points to <code>Customers.id</code> (a foreign key).</p>`,`SELECT c.name, o.amount
+FROM Customers c
+INNER JOIN Orders o ON c.id = o.customer_id
+ORDER BY o.id;`,`+------+--------+
+| name | amount |
++------+--------+
+| Ada  | 50     |
+| Bob  | 30     |
+| Ada  | 20     |
+| Dev  | 80     |
++------+--------+`],
+[`sqlleft`,`SQL LEFT, RIGHT, FULL and SELF JOIN`,`Keep rows even when there is no match.`,`<p><code>LEFT JOIN</code> keeps every row of the left table and fills missing matches with NULL. <code>RIGHT JOIN</code> does the same for the right table, and <code>FULL JOIN</code> keeps both sides (not available in MySQL). A <b>self join</b> joins a table to itself using two aliases. This query finds customers with no orders.</p>`,`SELECT c.name, o.amount
+FROM Customers c
+LEFT JOIN Orders o ON c.id = o.customer_id
+WHERE o.id IS NULL;`,`+------+--------+
+| name | amount |
++------+--------+
+| Chen | NULL   |
+| Eva  | NULL   |
++------+--------+`],
+[`sqlunion`,`SQL UNION and UNION ALL`,`Stack the results of two queries.`,`<p><code>UNION</code> joins the results of two <code>SELECT</code>s and removes duplicates. <code>UNION ALL</code> keeps duplicates. Both queries need the same number of columns with compatible types.</p>`,`SELECT city FROM Customers WHERE country = 'UK'
+UNION
+SELECT city FROM Customers WHERE city = 'Paris'
+ORDER BY city;`,`+--------+
+| city   |
++--------+
+| London |
+| Paris  |
++--------+`],
+[`sqlgroup`,`SQL GROUP BY and HAVING`,`Summarise rows by group.`,`<p><code>GROUP BY</code> makes one row per group so aggregates work per group. <code>WHERE</code> filters rows <i>before</i> grouping; <code>HAVING</code> filters the groups <i>after</i>.</p>`,`SELECT country, COUNT(*) AS total
+FROM Customers
+GROUP BY country
+HAVING COUNT(*) > 1;`,`+---------+-------+
+| country | total |
++---------+-------+
+| UK      | 2     |
++---------+-------+`],
+[`sqlcase`,`SQL CASE`,`If-then-else inside a query.`,`<p><code>CASE</code> returns a value depending on conditions, like <code>if / else if / else</code>. Functions such as <code>COALESCE(x, y)</code> (or <code>IFNULL</code> / <code>ISNULL</code>) replace NULL with a default.</p>`,`SELECT id,
+  CASE
+    WHEN amount >= 50 THEN 'big'
+    ELSE 'small'
+  END AS size
+FROM Orders;`,`+-----+-------+
+| id  | size  |
++-----+-------+
+| 101 | big   |
+| 102 | small |
+| 103 | small |
+| 104 | big   |
++-----+-------+`],
+[`sqlexists`,`SQL EXISTS, ANY and ALL`,`Test against a subquery.`,`<p><code>EXISTS</code> is true when the subquery returns at least one row. <code>ANY</code> and <code>ALL</code> compare a value with a list of results: true for at least one, or true for every one.</p>`,`SELECT name FROM Customers c
+WHERE EXISTS (
+  SELECT 1 FROM Orders o
+  WHERE o.customer_id = c.id
+);`,`+------+
+| name |
++------+
+| Ada  |
+| Bob  |
+| Dev  |
++------+`],
+[`sqlcreate`,`SQL CREATE TABLE and constraints`,`Define a table and its rules.`,`<p>Constraints keep data valid: <code>NOT NULL</code>, <code>UNIQUE</code>, <code>PRIMARY KEY</code> (unique row id), <code>FOREIGN KEY</code> (link to another table), <code>CHECK</code> and <code>DEFAULT</code>. <code>AUTO_INCREMENT</code> numbers new rows for you (MySQL). Remove a table with <code>DROP TABLE</code> and change it with <code>ALTER TABLE</code>.</p>`,`CREATE TABLE Products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL UNIQUE,
+  price DECIMAL(8,2) CHECK (price >= 0),
+  stock INT DEFAULT 0
+);
+
+ALTER TABLE Products ADD brand VARCHAR(30);`,`Query OK, 0 rows affected
+Query OK, 0 rows affected`],
+[`sqlview`,`SQL indexes, dates and views`,`Speed up searches and save queries.`,`<p><code>CREATE INDEX</code> makes lookups on a column faster. A <b>view</b> is a saved <code>SELECT</code> you can query like a table. Dates are usually written as <code>'YYYY-MM-DD'</code>.</p>`,`CREATE INDEX idx_country ON Customers (country);
+
+CREATE VIEW UKCustomers AS
+SELECT name, city FROM Customers
+WHERE country = 'UK';
+
+SELECT * FROM UKCustomers;`,`+------+--------+
+| name | city   |
++------+--------+
+| Ada  | London |
+| Eva  | London |
++------+--------+`],
+[`sqlinject`,`SQL injection and prepared statements`,`Keep attackers out of your queries.`,`<p>SQL injection happens when user input is pasted into a query as text. Input like <code>' OR '1'='1</code> then changes the meaning of the query. The fix is <b>parameterized (prepared) statements</b>: the query is sent first with a <code>?</code> placeholder, and the value is sent separately, so it is always treated as data, never as SQL.</p>`,`-- UNSAFE: query built by joining strings
+-- "SELECT * FROM Customers WHERE name = '" + input + "'"
+
+-- SAFE: prepared statement
+PREPARE stmt FROM 'SELECT * FROM Customers WHERE name = ?';
+SET @n = ''' OR ''1''=''1';
+EXECUTE stmt USING @n;`,`Empty set (0 rows): the attack text is just a name that matches nobody.`]
+);
+L.python={n:"Python",c:"#3776ab",items:[]};
+L.python.items.push(
+[`pyintro`,`Python introduction and get started`,`Simple, readable and used everywhere.`,`<p>Python is a popular language for web back ends, automation, data science and AI. It is known for clean, readable code. Install it from python.org, then run a file with <code>python main.py</code>. Install extra libraries with <code>pip install name</code>, and keep each project's libraries separate with a virtual environment (<code>python -m venv env</code>).</p>`,`print("Hello, Python!")`,`Hello, Python!`],
+[`pysyntax`,`Python syntax and comments`,`Indentation is part of the language.`,`<p>Python uses <b>indentation</b> (usually 4 spaces) to mark blocks of code instead of curly braces. Comments start with <code>#</code>. A triple-quoted string can act as a multi-line comment.</p>`,`# Indentation defines the block
+if 5 > 2:
+    print("Five is greater than two")
+
+"""A triple-quoted string
+can span many lines"""`,`Five is greater than two`],
+[`pyvars`,`Python variables and output`,`Names point to values; types can change.`,`<p>You create a variable by assigning to it. There is no type keyword, and the type can change later. <code>print</code> shows values separated by spaces; <code>type()</code> tells you the type.</p>`,`x = 5
+name = "Ada"
+print(name, x)
+x = "now text"
+print(x)
+print(type(x))`,`Ada 5
+now text
+<class 'str'>`],
+[`pytypes`,`Python data types, numbers and casting`,`int, float, str and converting between them.`,`<p>Whole numbers are <code>int</code>, decimals are <code>float</code>. Convert with <code>int()</code>, <code>float()</code> and <code>str()</code>. <code>//</code> is whole-number division, <code>%</code> the remainder and <code>**</code> the power.</p>`,`a = 7
+b = 2.5
+c = "3"
+print(a + b)
+print(int(c) + a)
+print(type(b))
+print(7 // 2, 7 % 2, 2 ** 5)`,`9.5
+10
+<class 'float'>
+3 1 32`],
+[`pystrings`,`Python strings and string formatting`,`Slice, search and format text.`,`<p>Strings can be sliced with <code>[start:end]</code> (end is not included). Methods like <code>upper</code> and <code>replace</code> return a new string. <b>f-strings</b> (<code>f"..."</code>) put values straight into text.</p>`,`s = "Hello, World"
+print(len(s))
+print(s.upper())
+print(s[0:5])
+print(s.replace("World", "Python"))
+print("World" in s)
+name = "Ada"
+print(f"Hi {name}, 2+3={2+3}")`,`12
+HELLO, WORLD
+Hello
+Hello, Python
+True
+Hi Ada, 2+3=5`],
+[`pybool`,`Python booleans and operators`,`True, False and logic.`,`<p>Comparisons give <code>True</code> or <code>False</code>. Combine them with <code>and</code>, <code>or</code> and <code>not</code>. Empty values (<code>""</code>, <code>0</code>, <code>[]</code>, <code>None</code>) count as False; everything else as True.</p>`,`x = 10
+print(x > 5 and x < 20)
+print(not x == 10)
+print(bool(""), bool("a"), bool(0))
+print(10 / 4, 10 // 4)`,`True
+False
+False True False
+2.5 2`],
+[`pylists`,`Python lists`,`Ordered, changeable collections.`,`<p>Lists use square brackets. <code>append</code> adds an item, <code>sort</code> orders them, and a negative index counts from the end. A <b>list comprehension</b> builds a list in one line.</p>`,`fruits = ["pear", "apple"]
+fruits.append("plum")
+fruits.sort()
+print(fruits)
+print(fruits[-1], len(fruits))
+print([x * 2 for x in range(4)])`,`['apple', 'pear', 'plum']
+plum 3
+[0, 2, 4, 6]`],
+[`pysets`,`Python tuples and sets`,`Fixed sequences and unique values.`,`<p>A <b>tuple</b> uses round brackets and cannot be changed. A <b>set</b> uses curly braces, keeps only unique values and supports maths operations such as union (<code>|</code>).</p>`,`t = (1, 2, 3)
+print(t[1])
+s = {1, 2, 2, 3}
+s.add(4)
+print(sorted(s))
+print({1, 2} | {2, 3})`,`2
+[1, 2, 3, 4]
+{1, 2, 3}`],
+[`pydict`,`Python dictionaries`,`Key-value pairs.`,`<p>A dictionary maps keys to values. Use <code>[key]</code> to read or set, <code>get</code> for a safe read with a default, and <code>items()</code> to loop over keys and values together.</p>`,`p = {"name": "Ada", "age": 36}
+p["city"] = "London"
+print(p)
+print(p.get("zip", "n/a"))
+for k, v in p.items():
+    print(k, v)`,`{'name': 'Ada', 'age': 36, 'city': 'London'}
+n/a
+name Ada
+age 36
+city London`],
+[`pyif`,`Python if...else`,`Make decisions.`,`<p>Use <code>if</code>, <code>elif</code> and <code>else</code>. Remember the colon and the indentation. A one-line version is <code>a if condition else b</code>.</p>`,`score = 72
+if score >= 90:
+    print("A")
+elif score >= 70:
+    print("B")
+else:
+    print("C")
+print("pass" if score >= 60 else "fail")`,`B
+pass`],
+[`pymatch`,`Python match`,`Pattern matching (Python 3.10+).`,`<p><code>match</code> compares a value against <code>case</code> patterns. <code>_</code> is the default that matches anything.</p>`,`day = 3
+match day:
+    case 1:
+        print("Mon")
+    case 2:
+        print("Tue")
+    case 3:
+        print("Wed")
+    case _:
+        print("Other")`,`Wed`],
+[`pyloops`,`Python for and while loops`,`Repeat code.`,`<p><code>for</code> walks through any sequence; <code>range(a, b)</code> gives numbers from a up to (not including) b. <code>while</code> repeats while a condition is True. <code>break</code> stops a loop and <code>continue</code> skips to the next round.</p>`,`for i in range(1, 4):
+    print(i)
+n = 3
+while n > 0:
+    print("n =", n)
+    n -= 1
+for ch in "ab":
+    print(ch)`,`1
+2
+3
+n = 3
+n = 2
+n = 1
+a
+b`],
+[`pyfunc`,`Python functions`,`Reusable blocks of code.`,`<p>Define a function with <code>def</code>. Parameters can have defaults, be passed by name, or collect extra values with <code>*args</code>. A <code>lambda</code> is a small one-line function.</p>`,`def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+print(greet("Ada"))
+print(greet("Bob", greeting="Hi"))
+square = lambda n: n * n
+print(square(5))
+
+def total(*nums):
+    return sum(nums)
+print(total(1, 2, 3))`,`Hello, Ada!
+Hi, Bob!
+25
+6`],
+[`pymodules`,`Python modules, dates and math`,`Use code that others wrote.`,`<p><code>import</code> brings in a module. The standard library includes <code>math</code>, <code>datetime</code>, <code>random</code>, <code>json</code> and many more. <code>strftime</code> formats a date as text.</p>`,`import math
+import datetime
+print(math.sqrt(81), math.pi)
+d = datetime.date(2026, 12, 25)
+print(d.strftime("%A, %d %B %Y"))
+print(list(range(0, 10, 3)))`,`9.0 3.141592653589793
+Friday, 25 December 2026
+[0, 3, 6, 9]`],
+[`pyjson`,`Python JSON and RegEx`,`Exchange data and search text patterns.`,`<p><code>json.dumps</code> turns a dictionary into JSON text and <code>json.loads</code> turns it back. The <code>re</code> module finds patterns in text; <code>[0-9]+</code> matches one or more digits.</p>`,`import json, re
+data = {"name": "Ada", "langs": ["Python", "JS"]}
+text = json.dumps(data)
+print(text)
+print(json.loads(text)["langs"][0])
+print(re.findall("[0-9]+", "a1 b22 c333"))`,`{"name": "Ada", "langs": ["Python", "JS"]}
+Python
+['1', '22', '333']`],
+[`pytry`,`Python try...except, None and input`,`Handle errors and missing values.`,`<p>Put risky code in <code>try</code> and handle errors in <code>except</code>. <code>else</code> runs if nothing failed and <code>finally</code> always runs. <code>None</code> means no value; test it with <code>is None</code>. <code>input()</code> reads what the user types (not available in this page).</p>`,`try:
+    n = int("abc")
+except ValueError:
+    print("Not a number")
+else:
+    print("ok")
+finally:
+    print("done")
+
+x = None
+print(x is None)`,`Not a number
+done
+True`],
+[`pyfmt`,`Python number formatting`,`Control how numbers look.`,`<p>Inside an f-string, <code>:.2f</code> shows two decimals and <code>:,</code> adds thousands separators. <code>str.format</code> is the older way to do the same.</p>`,`price = 4.5
+qty = 3
+print(f"Total: {price * qty:.2f}")
+print(f"Big: {1234567:,}")
+print("{} has {} items".format("Cart", qty))`,`Total: 13.50
+Big: 1,234,567
+Cart has 3 items`],
+[`pyclass`,`Python classes and objects`,`Bundle data and behaviour.`,`<p>A class is a blueprint. <code>__init__</code> runs when an object is created, and <code>self</code> is the object itself. Methods are functions inside the class.</p>`,`class Dog:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says woof"
+
+d = Dog("Rex")
+print(d.speak())
+print(d.name)`,`Rex says woof
+Rex`],
+[`pyinherit`,`Python inheritance and polymorphism`,`Children reuse and override parents.`,`<p>Write the parent in brackets: <code>class Cat(Animal)</code>. The child inherits everything and can override methods. <b>Polymorphism</b> means the same call (<code>speak()</code>) behaves differently for different classes.</p>`,`class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} makes a sound"
+
+class Cat(Animal):
+    def speak(self):
+        return f"{self.name} meows"
+
+for a in [Animal("Generic"), Cat("Tom")]:
+    print(a.speak())`,`Generic makes a sound
+Tom meows`],
+[`pyenc`,`Python encapsulation and magic methods`,`Hide details and customise behaviour.`,`<p>A name starting with two underscores (<code>__balance</code>) is private to the class. Magic methods such as <code>__str__</code> control how an object prints.</p>`,`class Account:
+    def __init__(self, balance):
+        self.__balance = balance
+
+    def deposit(self, n):
+        self.__balance += n
+
+    def __str__(self):
+        return f"Balance: {self.__balance}"
+
+a = Account(100)
+a.deposit(50)
+print(a)`,`Balance: 150`],
+[`pyfiles`,`Python file handling`,`Read, write and delete files.`,`<p><code>open(name, mode)</code> uses modes <code>"r"</code> read, <code>"w"</code> write (replaces the file) and <code>"a"</code> append. The <code>with</code> statement closes the file automatically. <code>os.remove</code> deletes a file.</p>`,`import os
+with open("notes.txt", "w") as f:
+    f.write("Hello file")
+with open("notes.txt") as f:
+    print(f.read())
+os.remove("notes.txt")
+print(os.path.exists("notes.txt"))`,`Hello file
+False`],
+[`pynumpy`,`NumPy, Pandas and Matplotlib`,`Libraries for data work.`,`<p>Install with <code>pip install numpy pandas matplotlib</code>. <b>NumPy</b> does fast maths on arrays, <b>Pandas</b> works with tables of data, and <b>Matplotlib</b> draws charts such as lines, bars, histograms and pies.</p>`,`import numpy as np
+import pandas as pd
+
+a = np.array([1, 2, 3, 4])
+print(a * 2)
+print(a.mean())
+
+df = pd.DataFrame({"name": ["Ada", "Bob"], "age": [36, 25]})
+print(df["age"].mean())`,`[2 4 6 8]
+2.5
+30.5`],
+[`pyml`,`Python statistics and machine learning basics`,`Mean, median, mode and spread.`,`<p>Machine learning starts with describing data. The <code>statistics</code> module gives the <b>mean</b> (average), <b>median</b> (middle value), <b>mode</b> (most common) and <b>standard deviation</b> (spread). Later steps use libraries like scikit-learn for regression, decision trees and clustering.</p>`,`import statistics as st
+data = [2, 3, 3, 5, 7]
+print(st.mean(data), st.median(data), st.mode(data))
+print(round(st.stdev(data), 2))`,`4 3 3
+2.0`],
+[`pydsa`,`Python data structures and algorithms`,`Stacks, queues and sorting.`,`<p>A <b>stack</b> is last-in-first-out (a list with <code>append</code> and <code>pop</code>). A <b>queue</b> is first-in-first-out (<code>collections.deque</code>). Bubble sort swaps neighbours until the list is in order.</p>`,`from collections import deque
+
+stack = []
+stack.append(1)
+stack.append(2)
+print(stack.pop())
+
+q = deque([1, 2, 3])
+q.popleft()
+print(list(q))
+
+def bubble(a):
+    a = a[:]
+    for i in range(len(a)):
+        for j in range(len(a) - 1 - i):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+    return a
+
+print(bubble([5, 2, 9, 1]))`,`2
+[2, 3]
+[1, 2, 5, 9]`],
+[`pydb`,`Python databases: MySQL and MongoDB`,`Store data permanently.`,`<p>Python talks to databases through drivers: <code>mysql-connector-python</code> for MySQL and <code>pymongo</code> for MongoDB. The built-in <code>sqlite3</code> module works the same way and needs no server, so it is a good way to practise. Always pass values as parameters (<code>?</code>), never by joining strings.</p>`,`import sqlite3
+con = sqlite3.connect(":memory:")
+cur = con.cursor()
+cur.execute("CREATE TABLE users (name TEXT, age INT)")
+cur.execute("INSERT INTO users VALUES (?, ?)", ("Ada", 36))
+for row in cur.execute("SELECT name, age FROM users"):
+    print(row)`,`('Ada', 36)`]
+);
 var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
 var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
 var TR={
@@ -597,8 +1063,18 @@ try{JSCPP.run(code,"",{stdio:{write:function(t){out+=t}},maxTimeout:3000})}catch
 if(err&&code===it[4].replace(/#include\s*<(\w+)\.h>/g,function(m,n){return H[n]?"#include <"+H[n]+">":m})&&it[5])put("This interpreter does not support every C/C++ feature, so here is the expected output ("+err.split("\n")[0]+"):",it[5]);
 else put(err?"Error: "+err:"Output:",out)}
 var PN={"en": "PHP runs on a server, so this page cannot execute it. Expected output of the original code:", "ru": "PHP выполняется на сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "PHP se ejecuta en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "PHP सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
-function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(PN[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="c"||cur.l==="cpp"){runC(it)}else if(cur.l==="php"){runP(it)}else $("out").srcdoc=$("ed").value}
+var PYN={"en": "Python runs on your computer or a server, so this page cannot execute it. Expected output of the original code:", "ru": "Python выполняется на компьютере или сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "Python se ejecuta en tu ordenador o en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "Python आपके कंप्यूटर या सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
+var PS={"en": "SQL runs on a database server, so this page cannot execute it. Expected result of the original code:", "ru": "SQL выполняется на сервере баз данных, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "SQL se ejecuta en un servidor de base de datos, así que esta página no puede ejecutarlo. Resultado esperado del código original:", "hi": "SQL डेटाबेस सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित परिणाम:"};
+var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head",python:"cpython-head"},RN=0;
+function runRemote(it){var l=cur.l,n=++RN,st='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7">';
+$("out").srcdoc=st+"Running...</body>";
+fetch("https://wandbox.org/api/compile.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({compiler:RM[l],code:$("ed").value,stdin:"",save:false})})
+.then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+.then(function(d){if(n!==RN)return;var t=(d.compiler_error||"")+(d.program_output||"")+(d.program_error||"");if(!t.trim())t="(no output)";
+$("out").srcdoc=st+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'})
+.catch(function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
+function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runP(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -640,19 +1116,23 @@ function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;backgro
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
 (function(){
-var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP"},
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python"},
 W={html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
 css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
 js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
 c:{en:"C is a fast, low-level language used for operating systems and embedded devices, and it teaches how computers really work.",ru:"C — быстрый язык низкого уровня для операционных систем и встраиваемых устройств; он помогает понять, как работает компьютер.",es:"C es un lenguaje rápido y de bajo nivel usado en sistemas operativos y dispositivos embebidos, ideal para entender cómo funcionan los ordenadores.",hi:"C एक तेज़, लो-लेवल भाषा है जिसका उपयोग ऑपरेटिंग सिस्टम और एम्बेडेड डिवाइस में होता है; इससे कंप्यूटर के काम करने का तरीका समझ आता है।"},
 cpp:{en:"C++ extends C with classes and objects, giving you speed and control for games, apps and systems software.",ru:"C++ расширяет C классами и объектами и даёт скорость и контроль для игр, приложений и системного ПО.",es:"C++ amplía C con clases y objetos, ofreciendo velocidad y control para juegos, aplicaciones y software de sistemas.",hi:"C++ C को क्लास और ऑब्जेक्ट के साथ आगे बढ़ाता है और गेम, ऐप और सिस्टम सॉफ़्टवेयर के लिए गति और नियंत्रण देता है।"},
-php:{en:"PHP is a server-side language that builds dynamic web pages, handles forms, sessions and databases, and powers sites like WordPress.",ru:"PHP — серверный язык, который создаёт динамические веб-страницы, обрабатывает формы, сессии и базы данных и лежит в основе таких сайтов, как WordPress.",es:"PHP es un lenguaje de servidor que crea páginas web dinámicas, gestiona formularios, sesiones y bases de datos, y mueve sitios como WordPress.",hi:"PHP एक सर्वर-साइड भाषा है जो डायनामिक वेब पेज बनाती है, फ़ॉर्म, सेशन और डेटाबेस संभालती है और WordPress जैसी साइटों को चलाती है।"}},
+php:{en:"PHP is a server-side language that builds dynamic web pages, handles forms, sessions and databases, and powers sites like WordPress.",ru:"PHP — серверный язык, который создаёт динамические веб-страницы, обрабатывает формы, сессии и базы данных и лежит в основе таких сайтов, как WordPress.",es:"PHP es un lenguaje de servidor que crea páginas web dinámicas, gestiona formularios, sesiones y bases de datos, y mueve sitios como WordPress.",hi:"PHP एक सर्वर-साइड भाषा है जो डायनामिक वेब पेज बनाती है, फ़ॉर्म, सेशन और डेटाबेस संभालती है और WordPress जैसी साइटों को चलाती है।"},
+sql:{en:"SQL is the standard language for databases: you use it to store, search, change and combine data in tables.",ru:"SQL — стандартный язык баз данных: с его помощью данные в таблицах хранят, ищут, изменяют и объединяют.",es:"SQL es el lenguaje estándar de las bases de datos: sirve para guardar, buscar, modificar y combinar datos en tablas.",hi:"SQL डेटाबेस की मानक भाषा है: इससे टेबल में डेटा सहेजा, खोजा, बदला और जोड़ा जाता है।"},
+python:{en:"Python is a readable, beginner-friendly language used for automation, web back ends, data science and AI.",ru:"Python — читаемый язык, удобный для начинающих; его используют для автоматизации, веб-серверов, анализа данных и ИИ.",es:"Python es un lenguaje legible y fácil para principiantes, usado en automatización, back ends web, ciencia de datos e IA.",hi:"Python एक पढ़ने में आसान, शुरुआती लोगों के लिए अच्छी भाषा है, जिसका उपयोग ऑटोमेशन, वेब बैकएंड, डेटा साइंस और AI में होता है।"}},
 T={html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
 css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
 js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
 c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:"переменные, операторы, циклы, функции, массивы, указатели и структуры",es:"variables, operadores, bucles, funciones, arrays, punteros y structs",hi:"वेरिएबल, ऑपरेटर, लूप, फ़ंक्शन, ऐरे, पॉइंटर और स्ट्रक्चर"},
 cpp:{en:"variables, control flow, functions, classes and objects, inheritance and the STL",ru:"переменные, управление потоком, функции, классы и объекты, наследование и STL",es:"variables, control de flujo, funciones, clases y objetos, herencia y la STL",hi:"वेरिएबल, कंट्रोल फ़्लो, फ़ंक्शन, क्लास और ऑब्जेक्ट, इनहेरिटेंस और STL"},
-php:{en:"variables, strings, arrays, loops, functions, forms, sessions, JSON, exceptions, classes and MySQL",ru:"переменные, строки, массивы, циклы, функции, формы, сессии, JSON, исключения, классы и MySQL",es:"variables, cadenas, arrays, bucles, funciones, formularios, sesiones, JSON, excepciones, clases y MySQL",hi:"वेरिएबल, स्ट्रिंग, ऐरे, लूप, फ़ंक्शन, फ़ॉर्म, सेशन, JSON, एक्सेप्शन, क्लास और MySQL"}},
+php:{en:"variables, strings, arrays, loops, functions, forms, sessions, JSON, exceptions, classes and MySQL",ru:"переменные, строки, массивы, циклы, функции, формы, сессии, JSON, исключения, классы и MySQL",es:"variables, cadenas, arrays, bucles, funciones, formularios, sesiones, JSON, excepciones, clases y MySQL",hi:"वेरिएबल, स्ट्रिंग, ऐरे, लूप, फ़ंक्शन, फ़ॉर्म, सेशन, JSON, एक्सेप्शन, क्लास और MySQL"},
+sql:{en:"SELECT, WHERE, sorting, aggregates, joins, GROUP BY, constraints, views and SQL injection",ru:"SELECT, WHERE, сортировка, агрегаты, соединения, GROUP BY, ограничения, представления и SQL-инъекции",es:"SELECT, WHERE, ordenación, agregados, joins, GROUP BY, restricciones, vistas e inyección SQL",hi:"SELECT, WHERE, सॉर्टिंग, एग्रीगेट, जॉइन, GROUP BY, कंस्ट्रेंट, व्यू और SQL इंजेक्शन"},
+python:{en:"variables, strings, lists, dictionaries, loops, functions, classes, files, JSON, data libraries and algorithms",ru:"переменные, строки, списки, словари, циклы, функции, классы, файлы, JSON, библиотеки данных и алгоритмы",es:"variables, cadenas, listas, diccionarios, bucles, funciones, clases, archivos, JSON, librerías de datos y algoritmos",hi:"वेरिएबल, स्ट्रिंग, लिस्ट, डिक्शनरी, लूप, फ़ंक्शन, क्लास, फ़ाइल, JSON, डेटा लाइब्रेरी और एल्गोरिद्म"}},
 G={en:["Welcome to the {N} course","A short introduction before you start learning {N}.","What you will learn","Press Next lesson to begin. Edit and run the code in every lesson, and take the exam at the end to earn a certificate."],
 ru:["Добро пожаловать на курс {N}","Краткое введение перед началом изучения {N}.","Чему вы научитесь","Нажмите «Следующий урок», чтобы начать. Меняйте и запускайте код в каждом уроке, а в конце сдайте экзамен и получите сертификат."],
 es:["Bienvenido al curso de {N}","Una breve introducción antes de empezar a aprender {N}.","Qué aprenderás","Pulsa «Siguiente lección» para empezar. Edita y ejecuta el código en cada lección y haz el examen final para obtener un certificado."],
@@ -672,7 +1152,9 @@ css:[["Which selector targets class card?",["#card",".card","card","*card"],1],[
 js:[["Which keyword declares a changeable block-scoped variable?",["var","let","const","def"],1],["What does typeof 42 return?",["number","int","numeric","object"],0],["Which method adds an item to the end of an array?",["push","pop","shift","add"],0],["Which operator checks value and type?",["==","=","===","!="],2],["Which method selects an element by id?",["querySelectorAll","getElementById","getElementsByTag","findId"],1]],
 c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.h"],1],["Which symbol gets a variable's address?",["*","&","#","@"],1],["What ends a C statement?",["period","colon","semicolon","comma"],2],["An array index starts at...",["1","0","-1","2"],1],["Which function returns string length?",["size","len","strlen","length"],2]],
 cpp:[["Which object prints to the console?",["cout","print","echo","out"],0],["Which container holds unique sorted values?",["vector","set","array","list"],1],["Which operator reads from cin?",["<<",">>","::","->"],1],["Which header provides vector?",["<vector>","<array>","<list.h>","<vec>"],0],["Which is the scope operator?",[".","->","::","#"],2]],
-php:[["How does every PHP variable name begin?",["@","$","#","&"],1],["Which tags open and close PHP code?",["<?php ... ?>","<% ... %>","<script php>","{{ ... }}"],0],["Which operator joins two strings?",["+",".","&","::"],1],["Which function turns an array into JSON text?",["json_encode","to_json","array_json","json_parse"],0],["Which technique blocks SQL injection?",["echo","Prepared statements","var_dump","include"],1]]
+php:[["How does every PHP variable name begin?",["@","$","#","&"],1],["Which tags open and close PHP code?",["<?php ... ?>","<% ... %>","<script php>","{{ ... }}"],0],["Which operator joins two strings?",["+",".","&","::"],1],["Which function turns an array into JSON text?",["json_encode","to_json","array_json","json_parse"],0],["Which technique blocks SQL injection?",["echo","Prepared statements","var_dump","include"],1]],
+sql:[["Which statement reads data from a table?",["GET","SELECT","OPEN","READ"],1],["Which clause filters rows?",["WHERE","ORDER BY","GROUP","FROM"],0],["Which keyword sorts the result?",["SORT","ORDER BY","ARRANGE","GROUP BY"],1],["Which join keeps all rows of the left table?",["INNER JOIN","LEFT JOIN","CROSS JOIN","SELF JOIN"],1],["Which technique prevents SQL injection?",["Prepared statements","SELECT *","DISTINCT","UNION"],0]],
+python:[["Which function prints output?",["echo()","print()","write()","show()"],1],["What defines a block of code in Python?",["Curly braces","Indentation","Semicolons","Parentheses"],1],["Which type is unchangeable?",["list","dict","tuple","set"],2],["Which keyword defines a function?",["func","function","def","lambda only"],2],["What does len(\"abc\") return?",["2","3","4","abc"],1]]
 };
 var EX={en:{b:"Exam",t:"Exam",nm:"Your name",co:"Course",bs:"Best score",st:"Start exam",sb:"Submit",nx:"Next",pv:"Back",sc:"Your score",ps:"Passed! You earned a certificate.",fl:"Not passed yet. You need 60%. Review the lessons and try again.",cert:"Certificate of Completion",cf:"This certifies that",pd:"has passed the",ex:"exam with a score of",dt:"Date",id:"Certificate ID",pr:"Print / Save PDF",cl:"Close",rt:"Try again",q:"Question",tl:"Time left",nn:"Enter your name first."},
 ru:{b:"Экзамен",t:"Экзамен",nm:"Ваше имя",co:"Курс",bs:"Лучший результат",st:"Начать экзамен",sb:"Завершить",nx:"Далее",pv:"Назад",sc:"Ваш результат",ps:"Сдано! Вы получили сертификат.",fl:"Пока не сдано. Нужно 60%. Повторите уроки и попробуйте снова.",cert:"Сертификат об окончании",cf:"Настоящим подтверждается, что",pd:"сдал(а) экзамен по курсу",ex:"с результатом",dt:"Дата",id:"Номер сертификата",pr:"Печать / PDF",cl:"Закрыть",rt:"Ещё раз",q:"Вопрос",tl:"Осталось",nn:"Сначала введите имя."},
