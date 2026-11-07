@@ -15,7 +15,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--panel);z-index:10}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;padding:10px 20px;flex-wrap:wrap}
-.logo{font-weight:600;font-size:20px;margin-right:8px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:20px;letter-spacing:-.2px;margin-right:8px;color:inherit;text-decoration:none}.logo svg{width:32px;height:32px;flex:none}.logo b{color:#87ceeb;font-weight:700}
 nav{display:flex;gap:6px}
 nav button,.run,.nx{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;border-radius:6px;cursor:pointer}
 nav button[aria-current=true]{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
@@ -42,6 +42,8 @@ h1{font-size:clamp(28px,4vw,40px);margin:0 0 6px;line-height:1.15}
 main p,main li{max-width:72ch}
 code{font-family:"JetBrains Mono",ui-monospace,monospace;background:var(--line);padding:1px 5px;border-radius:4px;font-size:.9em}
 .lab{border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;margin:20px 0}
+.xp:not(:empty){padding:10px 14px;border-top:1px solid var(--line)}.xp table{width:100%;border-collapse:collapse}.xp td{vertical-align:top;padding:5px 8px;border-bottom:1px solid var(--line)}.xp td.n{width:32px;color:#64748b}.xp code{white-space:pre-wrap;word-break:break-word}.xe{color:#c0392b;font-weight:600;margin-top:4px}
+#vf{display:flex;gap:14px;align-items:center;justify-content:center;padding:14px;border-top:1px solid var(--line)}.vt{width:100%;border-collapse:collapse}.vt td{padding:5px 8px;border-bottom:1px solid var(--line)}.vb{height:8px;background:var(--hl);border-radius:4px;min-width:2px}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-weight:600}
 .run{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
 .split{display:grid;grid-template-columns:1fr 1fr;min-height:320px}
@@ -51,10 +53,11 @@ iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
 @media (max-width:800px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}.split{grid-template-columns:1fr}#q{width:100%}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' aria-hidden='true'%3E%3Crect width='36' height='36' rx='9' fill='%2387ceeb'/%3E%3Cg fill='none' stroke='%2314213d' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 11 7 18l7 7'/%3E%3Cpath d='M22 11l7 7-7 7'/%3E%3Cpath d='M19.5 9l-3 18'/%3E%3C/g%3E%3C/svg%3E">
 </head>
 <body>
 <header>
-<span class="logo">Learn Web</span>
+<a class="logo" href="#html-welcome" aria-label="Learn Web home"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="9" fill="#87ceeb"/><g fill="none" stroke="#14213d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 11 7 18l7 7"/><path d="M22 11l7 7-7 7"/><path d="M19.5 9l-3 18"/></g></svg><span>Learn <b>Web</b></span></a>
 <nav id="tabs" aria-label="Languages"></nav>
 <span class="spacer"></span>
 <input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons">
@@ -66,12 +69,14 @@ iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
 <main>
 <h1 id="t"></h1><p class="lede" id="d"></p><div id="body"></div>
 <section class="lab" aria-label="Try it yourself">
-<div class="bar"><span id="tryl">Try it yourself</span><button class="run" id="run">Run code</button></div>
+<div class="bar"><span id="tryl">Try it yourself</span><span><button class="nx" id="xbtn">Explain code</button> <button class="run" id="run">Run code</button></span></div>
 <div class="split"><textarea id="ed" spellcheck="false" aria-label="Code editor"></textarea><iframe id="out" title="Result" sandbox="allow-scripts"></iframe></div>
+<div id="xp" class="xp"></div>
 </section>
 <div class="pn"><button class="nx" id="prev">Previous</button><button class="nx" id="next">Next lesson</button></div>
 </main>
 </div>
+<footer id="vf"></footer>
 <div id="ex" hidden role="dialog" aria-modal="true"><div class="exb" id="exb"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
 <script>
@@ -1046,7 +1051,7 @@ var TR={
 };
 var lang="en";try{lang=localStorage.getItem("lw-lang")||"en"}catch(e){}if(!UI[lang])lang="en";
 function lt(k,it){var x=TR[k+"-"+it[0]];x=x&&x[lang];return x?[it[1],x[1],x[2]]:[it[1],it[2],it[3]]}
-function applyUI(){var u=UI[lang];document.documentElement.lang=lang;$("lang").value=lang;$("q").placeholder=u.q;$("q").setAttribute("aria-label",u.q);$("tryl").textContent=u.tr;$("run").textContent=u.run;$("prev").textContent=u.pv;$("next").textContent=u.nx;$("exbtn").textContent=EX[lang].b}
+function applyUI(){var u=UI[lang];document.documentElement.lang=lang;$("lang").value=lang;$("q").placeholder=u.q;$("q").setAttribute("aria-label",u.q);$("tryl").textContent=u.tr;$("run").textContent=u.run;$("xbtn").textContent=XS[lang].btn;vrender();$("prev").textContent=u.pv;$("next").textContent=u.nx;$("exbtn").textContent=EX[lang].b}
 
 function flat(){var a=[];for(var k in L)L[k].items.forEach(function(it,i){a.push([k,i])});return a}
 function parse(){var h=location.hash.slice(1).split("-");var l=h.shift(),s=h.join("-");if(L[l]){var i=L[l].items.findIndex(function(x){return x[0]===s});cur={l:l,i:i<0?0:i}}else cur={l:"html",i:0}}
@@ -1054,7 +1059,7 @@ function tabs(){$("tabs").innerHTML="";for(var k in L){(function(k){var b=docume
 function side(){var q=$("q").value.toLowerCase(),box=$("list");box.innerHTML="";$("ah").textContent=L[cur.l].n+" "+UI.en.tut;
 L[cur.l].items.forEach(function(it,i){if(q&&(it[1]+it[2]+lt(cur.l,it)[0]).toLowerCase().indexOf(q)<0)return;var a=document.createElement("a");a.href="#"+cur.l+"-"+it[0];a.textContent=lt(cur.l,it)[0];if(i===cur.i)a.setAttribute("aria-current","page");box.appendChild(a)})}
 var IH={en:"Press Run to see the output.",ru:"Нажмите «Запустить», чтобы увидеть результат.",es:"Pulsa «Ejecutar código» para ver el resultado.",hi:"आउटपुट देखने के लिए «कोड चलाएँ» दबाएँ।"};
-function idle(){$("out").srcdoc='<body style="font:14px sans-serif;padding:16px;color:#64748b">'+esc(IH[lang]||IH.en)+'</body>'}
+function idle(){$("xp").innerHTML="";LASTOUT="";$("out").srcdoc='<body style="font:14px sans-serif;padding:16px;color:#64748b">'+esc(IH[lang]||IH.en)+'</body>'}
 function runC(it){var H={stdio:"cstdio",stdlib:"cstdlib",string:"cstring",math:"cmath",ctype:"cctype",time:"ctime",limits:"climits"},code=$("ed").value.replace(/#include\s*<(\w+)\.h>/g,function(m,n){return H[n]?"#include <"+H[n]+">":m}),out="",err="",
 pre='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">';
 function put(note,t){$("out").srcdoc=pre+esc(note)+'</div><pre style="white-space:pre-wrap">'+esc(t)+'</pre></body>'}
@@ -1067,7 +1072,7 @@ var PYN={"en": "Python runs on your computer or a server, so this page cannot ex
 var PS={"en": "SQL runs on a database server, so this page cannot execute it. Expected result of the original code:", "ru": "SQL выполняется на сервере баз данных, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "SQL se ejecuta en un servidor de base de datos, así que esta página no puede ejecutarlo. Resultado esperado del código original:", "hi": "SQL डेटाबेस सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित परिणाम:"};
 var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head"},RN=0,WB=null,API="https://wandbox.org/api/";
 var BOX='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7">';
-function show1(t){$("out").srcdoc=BOX+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'}
+var LASTOUT="";function show1(t){LASTOUT=t;$("out").srcdoc=BOX+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'}
 function wbList(){return WB||(WB=fetch(API+"list.json").then(function(r){return r.json()}).catch(function(){WB=null;return[]}))}
 function cands(l){var L2={c:"C",cpp:"C++",php:"PHP"}[l];return wbList().then(function(a){
 var v=function(x){return String(x.version||"").split(".").map(Number)};
@@ -1204,6 +1209,80 @@ var cert='<div class="cert"><div style="font-size:13px;letter-spacing:3px">LEARN
 box('<div class="noprint"><h2>'+e.sc+': '+p+'% ('+c+'/'+qs.length+')</h2><p>'+(ok?e.ps:e.fl)+'</p></div>'+(ok?cert:"")+'<p class="noprint">'+(ok?'<button class="run" id="expr">'+e.pr+'</button> ':"")+'<button class="nx" id="exrt">'+e.rt+'</button> <button class="nx" id="exx">'+e.cl+'</button></p>');
 $("exx").onclick=exClose;$("exrt").onclick=exStart;if(ok)$("expr").onclick=function(){window.print()}}
 $("exbtn").onclick=exOpen;
+var XS={en:{btn:`Explain code`,h:`Line-by-line explanation`,ok:`No bracket or quote errors found.`,er:`Problems found:`,rn:`Error shown when the code was run:`,o:`Line {1}: '{2}' is opened here but never closed.`,x:`Line {1}: closing '{2}' has no matching opening bracket.`,q:`Line {1}: the quote {2} is never closed.`},
+ru:{btn:`Объяснить код`,h:`Объяснение построчно`,ok:`Ошибок со скобками и кавычками не найдено.`,er:`Найдены проблемы:`,rn:`Ошибка при запуске кода:`,o:`Строка {1}: «{2}» открыта, но не закрыта.`,x:`Строка {1}: закрывающая «{2}» без открывающей скобки.`,q:`Строка {1}: кавычка {2} не закрыта.`},
+es:{btn:`Explicar código`,h:`Explicación línea por línea`,ok:`No se encontraron errores de paréntesis ni comillas.`,er:`Problemas encontrados:`,rn:`Error mostrado al ejecutar el código:`,o:`Línea {1}: «{2}» se abre aquí pero nunca se cierra.`,x:`Línea {1}: el cierre «{2}» no tiene apertura.`,q:`Línea {1}: la comilla {2} no se cierra.`},
+hi:{btn:`कोड समझाएँ`,h:`लाइन-दर-लाइन व्याख्या`,ok:`ब्रैकेट या कोट्स की कोई गलती नहीं मिली।`,er:`समस्याएँ मिलीं:`,rn:`कोड चलाने पर दिखी गलती:`,o:`लाइन {1}: «{2}» यहाँ खुला है पर कभी बंद नहीं हुआ।`,x:`लाइन {1}: बंद करने वाला «{2}» बिना खुले ब्रैकेट के है।`,q:`लाइन {1}: कोट {2} बंद नहीं हुआ।`}};
+var M={};function Z(k,a,b,c,d){M[k]=[a,b,c,d]}
+Z("empty",`Empty line (used for spacing).`,`Пустая строка (для читаемости).`,`Línea vacía (para dar espacio).`,`खाली लाइन (जगह के लिए)।`);
+Z("cmt",`Comment: a note for humans, ignored when the code runs.`,`Комментарий: заметка для людей, при запуске игнорируется.`,`Comentario: una nota para personas, se ignora al ejecutar.`,`कमेंट: इंसानों के लिए नोट, कोड चलने पर नज़रअंदाज़ होता है।`);
+Z("close",`Closes a block or bracket opened earlier.`,`Закрывает блок или скобку, открытую ранее.`,`Cierra un bloque o paréntesis abierto antes.`,`पहले खुले ब्लॉक या ब्रैकेट को बंद करता है।`);
+Z("other",`Continues the program: part of a larger statement or block.`,`Продолжение программы: часть большой инструкции или блока.`,`Continúa el programa: parte de una instrucción o bloque mayor.`,`प्रोग्राम का हिस्सा: किसी बड़े स्टेटमेंट या ब्लॉक का भाग।`);
+Z("var",`Creates or sets the variable {1} and stores a value in it.`,`Создаёт или задаёт переменную {1} и записывает в неё значение.`,`Crea o asigna la variable {1} y guarda un valor en ella.`,`वेरिएबल {1} बनाता या सेट करता है और उसमें मान रखता है।`);
+Z("func",`Defines a function named {1} (a reusable block of code).`,`Объявляет функцию {1} (многоразовый блок кода).`,`Define la función {1} (bloque de código reutilizable).`,`फ़ंक्शन {1} परिभाषित करता है (दोबारा इस्तेमाल होने वाला कोड)।`);
+Z("if",`Condition: the next block runs only if {1} is true.`,`Условие: следующий блок выполнится, только если {1} истинно.`,`Condición: el bloque siguiente solo se ejecuta si {1} es verdadero.`,`शर्त: अगला ब्लॉक तभी चलता है जब {1} सही हो।`);
+Z("else",`Otherwise branch: runs when the earlier condition was false.`,`Иначе: выполняется, если прошлое условие ложно.`,`Si no: se ejecuta cuando la condición anterior fue falsa.`,`वरना: पिछली शर्त गलत होने पर चलता है।`);
+Z("loop",`Loop: repeats the block ({1}).`,`Цикл: повторяет блок ({1}).`,`Bucle: repite el bloque ({1}).`,`लूप: ब्लॉक को दोहराता है ({1})।`);
+Z("ret",`Returns {1} as the result and ends the function.`,`Возвращает {1} как результат и завершает функцию.`,`Devuelve {1} como resultado y termina la función.`,`{1} को नतीजे के रूप में लौटाता है और फ़ंक्शन खत्म करता है।`);
+Z("print",`Prints {1} to the output.`,`Выводит {1}.`,`Muestra {1} en la salida.`,`{1} को आउटपुट में दिखाता है।`);
+Z("input",`Reads a value typed by the user.`,`Читает значение, введённое пользователем.`,`Lee un valor escrito por el usuario.`,`यूज़र द्वारा लिखा मान पढ़ता है।`);
+Z("imp",`Loads {1} so its features can be used.`,`Подключает {1}, чтобы использовать его возможности.`,`Carga {1} para usar sus funciones.`,`{1} जोड़ता है ताकि उसकी सुविधाएँ इस्तेमाल हों।`);
+Z("ns",`Lets you use names from {1} without typing the prefix.`,`Позволяет использовать имена из {1} без префикса.`,`Permite usar nombres de {1} sin escribir el prefijo.`,`{1} के नाम बिना प्रीफ़िक्स लिखे इस्तेमाल करने देता है।`);
+Z("main",`Starting point: the program begins running here.`,`Точка входа: программа начинается здесь.`,`Punto de inicio: el programa empieza aquí.`,`शुरुआती बिंदु: प्रोग्राम यहीं से चलना शुरू होता है।`);
+Z("tag",`Opens the <{1}> element.`,`Открывает элемент <{1}>.`,`Abre el elemento <{1}>.`,`<{1}> एलिमेंट खोलता है।`);
+Z("ctag",`Closes the <{1}> element.`,`Закрывает элемент <{1}>.`,`Cierra el elemento <{1}>.`,`<{1}> एलिमेंट बंद करता है।`);
+Z("doctype",`Tells the browser this is an HTML5 document.`,`Сообщает браузеру, что это документ HTML5.`,`Indica al navegador que es un documento HTML5.`,`ब्राउज़र को बताता है कि यह HTML5 दस्तावेज़ है।`);
+Z("heading",`Heading level {1} (h1 is the biggest).`,`Заголовок уровня {1} (h1 — самый большой).`,`Encabezado de nivel {1} (h1 es el más grande).`,`हेडिंग लेवल {1} (h1 सबसे बड़ी होती है)।`);
+Z("sel",`Selector {1}: the styles below apply to these elements.`,`Селектор {1}: стили ниже применяются к этим элементам.`,`Selector {1}: los estilos siguientes se aplican a estos elementos.`,`सेलेक्टर {1}: नीचे की स्टाइल इन एलिमेंट्स पर लगती हैं।`);
+Z("prop",`Sets {1} to {2}.`,`Устанавливает {1} равным {2}.`,`Establece {1} en {2}.`,`{1} को {2} पर सेट करता है।`);
+Z("phptag",`Opens or closes a PHP code section.`,`Открывает или закрывает блок PHP-кода.`,`Abre o cierra una sección de código PHP.`,`PHP कोड का हिस्सा खोलता या बंद करता है।`);
+var SQM={select:[`chooses the columns to read`,`выбирает столбцы для чтения`,`elige las columnas a leer`,`पढ़ने के लिए कॉलम चुनता है`],from:[`the table to read data from`,`таблица, из которой читаются данные`,`la tabla de la que se leen los datos`,`वह टेबल जिससे डेटा पढ़ा जाता है`],where:[`keeps only the rows that match the condition`,`оставляет только строки, подходящие под условие`,`conserva solo las filas que cumplen la condición`,`सिर्फ़ वही पंक्तियाँ रखता है जो शर्त पूरी करें`],insert:[`adds a new row to a table`,`добавляет новую строку в таблицу`,`agrega una fila nueva a la tabla`,`टेबल में नई पंक्ति जोड़ता है`],update:[`changes values in existing rows`,`изменяет значения в существующих строках`,`cambia valores de filas existentes`,`मौजूदा पंक्तियों के मान बदलता है`],delete:[`removes rows from a table`,`удаляет строки из таблицы`,`elimina filas de una tabla`,`टेबल से पंक्तियाँ हटाता है`],create:[`creates a new table`,`создаёт новую таблицу`,`crea una tabla nueva`,`नई टेबल बनाता है`],"order by":[`sorts the result`,`сортирует результат`,`ordena el resultado`,`नतीजे को क्रम में लगाता है`],"group by":[`groups rows so you can count or total them`,`группирует строки для подсчёта и сумм`,`agrupa filas para contar o sumar`,`पंक्तियों को समूह में बाँटता है ताकि गिनती या जोड़ हो सके`],join:[`combines rows from two tables`,`объединяет строки двух таблиц`,`combina filas de dos tablas`,`दो टेबल की पंक्तियों को जोड़ता है`]};
+var DC=/^(const\s+)?(unsigned\s+)?(int|float|double|char|long|bool|string|auto|size_t)\s+\*?([\w\[\]]+)/;
+var R={html:[[/^<!doctype/i,"doctype"],[/^<h([1-6])\b/i,"heading"],[/^<\/(\w+)/,"ctag"],[/^<(\w+)/,"tag"]],
+css:[[/^([^{}]+)\{(\s*|.+\})$/,"sel"],[/^([\w-]+)\s*:\s*([^;]+);?$/,"prop"]],
+js:[[/^(?:const|let|var)\s+([\w$]+)/,"var"],[/^function\s+([\w$]+)/,"func"],[/^(?:if|else if)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^return\b\s*(.*?);?$/,"ret"],[/^console\.log\((.*)\);?$/,"print"],[/^([\w$.\[\]]+)\s*[+\-*\/]?=[^=]/,"var"]],
+python:[[/^(?:import|from)\s+(\S+)/,"imp"],[/^def\s+(\w+)/,"func"],[/^(?:if|elif)\s+(.*):$/,"if"],[/^else\s*:/,"else"],[/^(?:for|while)\s+(.*):$/,"loop"],[/^return\b\s*(.*)/,"ret"],[/^print\((.*)\)/,"print"],[/^(\w+)\s*=\s*(?:int\()?input\(/,"input"],[/^([\w.\[\]]+)\s*[+\-*\/]?=[^=]/,"var"]],
+php:[[/^(?:<\?php|\?>)/,"phptag"],[/^(?:echo|print)\s+(.*?);?$/,"print"],[/^function\s+(\w+)/,"func"],[/^(?:if|elseif)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|foreach|while)\s*\((.*)\)/,"loop"],[/^return\b\s*(.*?);?$/,"ret"],[/^\$(\w+)\s*[+\-*.\/]?=[^=]/,"var"]],
+sql:[[/^(select|from|where|insert|update|delete|create|order by|group by|(?:inner |left |right )?join)\b/i,"sql"]]};
+R.c=[[/^#include\s*(\S+)/,"imp"],[/^using namespace\s+(\w+)/,"ns"],[/^(?:int|void)\s+main\b/,"main"],[/^(?:printf|puts)\s*\((.*)\)/,"print"],[/^(?:std::)?cout\s*<<\s*(.*?);?$/,"print"],[/^(?:scanf|(?:std::)?cin|getline)\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:if|else if)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:int|void|float|double|char|bool|string|auto)\s+(\w+)\s*\(.*\)\s*\{?$/,"func"],[DC,"var",4]];R.cpp=R.c;
+function fm(k,m,ix){var t=M[k][LI()],g=function(i){return String(m[i]||"").trim().slice(0,50)};return t.replace("{1}",ix?g(ix):g(1)).replace("{2}",g(2))}
+function LI(){return["en","ru","es","hi"].indexOf(lang)}
+function desc(t,l){if(!t)return M.empty[LI()];if(/^(\/\/|#(?!include)|--|\/\*|\*(\s|\/)|<!--)/.test(t))return M.cmt[LI()];if(/^[})\]]+[;,)]*$/.test(t))return M.close[LI()];
+var r=R[l]||[];for(var i=0;i<r.length;i++){var m=r[i][0].exec(t);if(m){if(r[i][1]==="sql"){var k=m[1].toLowerCase();if(/join/.test(k))k="join";return k.toUpperCase()+": "+SQM[k][LI()]}return fm(r[i][1],m,r[i][2])}}return M.other[LI()]}
+function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l==="php"?"#":l==="sql"?"--":"//";if(l==="html")return E;
+while(i<n){c=code[i];if(c==="\n"){ln++;i++;continue}
+if(c==="/"&&code[i+1]==="*"){var e=code.indexOf("*/",i+2);if(e<0)break;ln+=(code.slice(i,e).match(/\n/g)||[]).length;i=e+2;continue}
+if(code.substr(i,lc.length)===lc){i=code.indexOf("\n",i);if(i<0)break;continue}
+if(c==='"'||c==="'"||(c==="`"&&l==="js")){var t=l==="python"&&code.substr(i,3)===c+c+c?c+c+c:c,j=i+t.length,ok=0;
+while(j<n){if(code[j]==="\\"&&l!=="sql"){j+=2;continue}if(code.substr(j,t.length)===t){ok=1;break}if(code[j]==="\n"&&t.length===1&&c!=="`")break;j++}
+if(!ok)E.push(["q",ln,c]);ln+=(code.slice(i,j).match(/\n/g)||[]).length;i=ok?j+t.length:j;continue}
+if("([{".indexOf(c)>=0)st.push([c,ln]);else if(")]}".indexOf(c)>=0){var o=st.pop();if(!o||"([{".indexOf(o[0])!==")]}".indexOf(c))E.push(["x",ln,c])}
+i++}
+st.forEach(function(o){E.push(["o",o[1],o[0]])});return E}
+function explain(){var l=cur.l,X=XS[lang],code=$("ed").value,er=chk(code,l),rows="",msg=function(e){return X[e[0]].replace("{1}",e[1]).replace("{2}",e[2])};
+code.split("\n").forEach(function(t,i){var bad=er.filter(function(e){return e[1]===i+1});
+rows+='<tr><td class="n">'+(i+1)+'</td><td><code>'+esc(t)+'</code></td><td>'+esc(desc(t.trim(),l))+(bad.length?'<div class="xe">'+bad.map(function(e){return esc(msg(e))}).join("<br>")+'</div>':"")+'</td></tr>'});
+var h='<h4>'+X.h+'</h4>';
+if(er.length)h+='<div class="xe">'+X.er+'<br>'+er.map(function(e){return esc(msg(e))}).join("<br>")+'</div>';else h+='<p>'+X.ok+'</p>';
+if(/error|traceback|exception|fatal|warning:/i.test(LASTOUT))h+='<div class="xe">'+X.rn+'</div><pre style="white-space:pre-wrap">'+esc(LASTOUT.slice(0,600))+'</pre>';
+$("xp").innerHTML=h+'<table>'+rows+'</table>'}
+$("xbtn").onclick=explain;
+var VS={en:{v:`Visitors`,c:`Countries`,t:`Visitors by country`,o:`Other`,na:`Counter unavailable right now.`},ru:{v:`Посетители`,c:`Страны`,t:`Посетители по странам`,o:`Другие`,na:`Счётчик сейчас недоступен.`},es:{v:`Visitantes`,c:`Países`,t:`Visitantes por país`,o:`Otros`,na:`Contador no disponible ahora.`},hi:{v:`विज़िटर`,c:`देश`,t:`देश के अनुसार विज़िटर`,o:`अन्य`,na:`काउंटर अभी उपलब्ध नहीं है।`}};
+var VNS=("lw-"+(location.host+location.pathname).toLowerCase().replace(/[^a-z0-9]+/g,"-")).replace(/-+$/,"").slice(0,60),VA="https://abacus.jasoncameron.dev/",VT=null,
+VC="IN US GB CA AU DE FR RU ES BR ID PK BD NP LK AE SA SG MY JP IT NL TR MX NG ZA EG PH VN KR".split(" ");
+function vget(k){return fetch(VA+"get/"+VNS+"/"+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(d){return d.value||0}).catch(function(){return null})}
+function vhit(k){return fetch(VA+"hit/"+VNS+"/"+k).then(function(r){return r.json()}).then(function(d){return d.value}).catch(function(){return null})}
+function vcountry(){return fetch("https://ipwho.is/").then(function(r){return r.json()}).then(function(d){if(!d.country_code)throw 0;return d.country_code}).catch(function(){return fetch("https://api.country.is/").then(function(r){return r.json()}).then(function(d){return d.country}).catch(function(){return null})})}
+function flag(c){return c.length===2?String.fromCodePoint.apply(null,c.toUpperCase().split("").map(function(x){return 127397+x.charCodeAt(0)})):""}
+function vname(c){if(c==="OTHER")return VS[lang].o;try{return new Intl.DisplayNames([lang],{type:"region"}).of(c)}catch(e){return c}}
+function vrender(){var f=$("vf"),v=VS[lang];if(!f)return;f.innerHTML=VT===null?'':'<span>\u{1F465} '+v.v+': <b>'+VT+'</b></span><button class="nx" id="vcb">'+v.c+'</button>';var b=$("vcb");if(b)b.onclick=vopen}
+function vopen(){var v=VS[lang];$("ex").hidden=false;box('<h2>'+v.t+'</h2><p>...</p>');
+Promise.all(VC.concat("OTHER").map(function(k){return vget("c-"+k).then(function(n){return[k,n]})})).then(function(a){var r=a.filter(function(x){return x[1]}).sort(function(p,q){return q[1]-p[1]}),mx=r.length?r[0][1]:1;
+box('<h2>'+v.t+'</h2>'+(r.length?'<table class="vt">'+r.map(function(x){return'<tr><td>'+flag(x[0])+' '+esc(vname(x[0]))+'</td><td style="width:40%"><div class="vb" style="width:'+Math.round(x[1]*100/mx)+'%"></div></td><td><b>'+x[1]+'</b></td></tr>'}).join("")+'</table>':'<p>'+v.na+'</p>')+'<p><button class="nx" id="exx">'+EX[lang].cl+'</button></p>');$("exx").onclick=exClose})}
+function vinit(){var seen=0;try{seen=localStorage.getItem("lw-seen")}catch(e){}
+if(seen){vget("total").then(function(t){VT=t;vrender()});return}
+Promise.all([vhit("total"),vcountry()]).then(function(a){VT=a[0];if(a[0]!==null){try{localStorage.setItem("lw-seen","1")}catch(e){}if(a[1])vhit("c-"+(VC.indexOf(a[1])>=0?a[1]:"OTHER"))}vrender()})}
+vinit();
 $("lang").onchange=function(){lang=this.value;try{localStorage.setItem("lw-lang",lang)}catch(e){}applyUI();show()};
 window.addEventListener("hashchange",show);applyUI();show();
 </script>
