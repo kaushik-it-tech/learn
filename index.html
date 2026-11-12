@@ -2008,6 +2008,74 @@ Bo: 630
 Cy: 500
 Total: 1,930`]
 );
+L.nodejs={n:"Node.js",c:"#5fa04e",items:[
+[`ndintro`,`Node.js introduction`,`Run JavaScript outside the browser.`,`<p>Node.js runs JavaScript on your computer or a server using Chrome's V8 engine. It is used for web servers, APIs, command-line tools and build tools. It is fast at handling many connections because it uses an <b>event-driven</b>, non-blocking model.</p>`,`console.log("Hello from Node.js!");`,`Hello from Node.js!`],
+[`ndstart`,`Node.js get started`,`Install Node.js and run a file.`,`<p>Download Node.js from nodejs.org and check it with <code>node -v</code>. Save code in a file such as <code>app.js</code> and run it with <code>node app.js</code>.</p>`,`// Terminal: node app.js
+console.log("Running on Node " + (process.version ? "OK" : "?"));`,`Running on Node OK`],
+[`ndmodules`,`Node.js modules`,`Split code into reusable files.`,`<p>In CommonJS, <code>require</code> loads a module and <code>module.exports</code> shares values from a file. Newer code can use <code>import</code> and <code>export</code> with the .mjs extension.</p>`,`const math = { add: function (a, b) { return a + b; } };
+module.exports = math;
+console.log(typeof module.exports, math.add(2, 3));`,`object 5`],
+[`ndbuiltin`,`Node.js built-in modules`,`Tools that come with Node.js.`,`<p>Core modules need no install: <code>path</code> works with file paths, <code>os</code> reads system information and <code>util</code> offers helpers.</p>`,`const path = require("path");
+console.log(path.basename("/a/b/file.txt"));
+console.log(path.extname("file.txt"));`,`file.txt
+.txt`],
+[`ndfs`,`Node.js file system`,`Read and write files.`,`<p>The <code>fs</code> module reads and writes files. <code>fs.writeFileSync</code> and <code>fs.readFileSync</code> block until done; the promise version <code>fs.promises</code> does not.</p>`,`const fs = require("fs");
+const path = require("path");
+const p = path.join(require("os").tmpdir(), "note.txt");
+fs.writeFileSync(p, "Saved text");
+console.log(fs.readFileSync(p, "utf8"));`,`Saved text`],
+[`ndevents`,`Node.js events`,`React to things that happen.`,`<p>The <code>EventEmitter</code> class lets objects announce events. Listen with <code>on</code> and trigger with <code>emit</code>.</p>`,`const EventEmitter = require("events");
+const e = new EventEmitter();
+e.on("greet", function (n) { console.log("Hi " + n); });
+e.emit("greet", "Asha");`,`Hi Asha`],
+[`ndasync`,`Node.js async and await`,`Work with code that takes time.`,`<p>Slow work such as timers and network calls does not block Node.js. Use callbacks, promises, or <code>async</code> functions with <code>await</code> to write it in order.</p>`,`function wait(ms) {
+  return new Promise(function (r) { setTimeout(r, ms); });
+}
+async function main() {
+  await wait(100);
+  console.log("done");
+}
+main();`,`done`],
+[`ndhttp`,`Node.js HTTP server`,`Create a web server.`,`<p>The <code>http</code> module builds servers. <code>http.createServer</code> takes a function that receives a request and a response. This example calls itself, then stops.</p>`,`const http = require("http");
+const s = http.createServer(function (req, res) {
+  res.end("Hello client");
+});
+s.listen(0, function () {
+  http.get({ port: s.address().port }, function (r) {
+    let d = "";
+    r.on("data", function (c) { d += c; });
+    r.on("end", function () { console.log(d); s.close(); });
+  });
+});`,`Hello client`],
+[`ndurl`,`Node.js URL and query strings`,`Pick apart web addresses.`,`<p>The <code>URL</code> class splits an address into parts. <code>searchParams.get</code> reads a value from the query string.</p>`,`const u = new URL("https://example.com/shop?item=pen&qty=3");
+console.log(u.hostname);
+console.log(u.searchParams.get("qty"));`,`example.com
+3`],
+[`ndjson`,`Node.js JSON`,`Convert data to and from text.`,`<p><code>JSON.parse</code> turns JSON text into an object and <code>JSON.stringify</code> turns an object into text. Node.js uses JSON for APIs and config files.</p>`,`const o = JSON.parse('{"name":"Asha","age":20}');
+console.log(o.name);
+console.log(JSON.stringify({ ok: true }));`,`Asha
+{"ok":true}`],
+[`ndprocess`,`Node.js process`,`Arguments and the current folder.`,`<p>The global <code>process</code> object describes the running program. <code>process.argv</code> lists the command-line arguments and <code>process.cwd</code> returns the current folder.</p>`,`console.log(process.argv.length);
+console.log(typeof process.cwd());`,`2
+string`],
+[`ndnpm`,`Node.js NPM and package.json`,`Install and manage packages.`,`<p><code>npm init -y</code> creates a <code>package.json</code> file. <code>npm install</code> adds packages, and scripts such as <code>npm start</code> run commands you define.</p>`,`const pkg = { name: "my-app", version: "1.0.0", scripts: { start: "node app.js" } };
+console.log(pkg.name + "@" + pkg.version);`,`my-app@1.0.0`],
+[`ndexpress`,`Node.js Express basics`,`A popular web framework.`,`<p>Express makes servers shorter: install it with <code>npm install express</code>, then define routes with <code>app.get</code>. This example imitates routing in plain JavaScript.</p>`,`const routes = { "/": "Home", "/about": "About" };
+function get(p) { return routes[p] || "Not found"; }
+console.log(get("/about"));
+console.log(get("/x"));`,`About
+Not found`],
+[`nderrors`,`Node.js errors`,`Handle problems safely.`,`<p>Wrap risky code in <code>try</code> and <code>catch</code>. The error object has a <code>name</code> and a <code>message</code>. Uncaught errors stop the program.</p>`,`try {
+  JSON.parse("{bad");
+} catch (e) {
+  console.log(e.name);
+}`,`SyntaxError`],
+[`ndstreams`,`Node.js streams`,`Process data piece by piece.`,`<p>A stream handles data in chunks, so big files do not fill memory. <code>Readable.from</code> makes a stream from an array, and the <code>data</code> and <code>end</code> events deliver the pieces.</p>`,`const { Readable } = require("stream");
+const r = Readable.from(["a", "b", "c"]);
+let out = "";
+r.on("data", function (c) { out += c; });
+r.on("end", function () { console.log(out); });`,`abc`]
+]};
 var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
 var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
 var TR={
@@ -2052,6 +2120,9 @@ function runRemote(it){var l=cur.l,n=++RN;show1("Running...");
 cands(l).then(function(names){return wbRun(names,0,$("ed").value)}).then(function(t){if(n===RN)show1(t.trim()?t:"(no output)")},function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
 var JN={"en": "Java is compiled and runs on the JVM, so this page could not run it just now (it needs an internet connection). Expected output of the original code:", "ru": "Java компилируется и работает на JVM, поэтому сейчас страница не смогла его запустить (нужен интернет). Ожидаемый результат исходного кода:", "es": "Java se compila y se ejecuta en la JVM, así que esta página no pudo ejecutarlo ahora (necesita conexión a internet). Salida esperada del código original:", "hi": "Java कम्पाइल होकर JVM पर चलता है, इसलिए यह पेज अभी इसे चला नहीं सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
 var CBN={"en": "COBOL runs on a compiler (GnuCOBOL), and this page could not reach the online compiler just now (it needs an internet connection). Expected output of the original code:", "ru": "COBOL работает через компилятор (GnuCOBOL), и сейчас страница не смогла подключиться к онлайн-компилятору (нужен интернет). Ожидаемый результат исходного кода:", "es": "COBOL se ejecuta con un compilador (GnuCOBOL) y esta página no pudo conectar con el compilador en línea ahora (necesita internet). Salida esperada del código original:", "hi": "COBOL एक कम्पाइलर (GnuCOBOL) से चलता है, और यह पेज अभी ऑनलाइन कम्पाइलर तक नहीं पहुँच सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
+var NDN={en:"Node.js runs on a server or your computer, so this page could not run it just now (it needs an internet connection). Expected output of the original code:",ru:"Node.js работает на сервере или компьютере, поэтому страница сейчас не смогла запустить код (нужен интернет). Ожидаемый вывод исходного кода:",es:"Node.js se ejecuta en un servidor o en tu ordenador, por eso esta página no pudo ejecutarlo ahora (necesita internet). Salida esperada del código original:",hi:"Node.js सर्वर या कंप्यूटर पर चलता है, इसलिए यह पेज अभी इसे चला नहीं सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
+function runNd(it){var n=++RN;show1("Running...");
+fetch("https://ce.judge0.com/submissions?base64_encoded=false&wait=true",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language_id:93,source_code:$("ed").value,stdin:""})}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(d){if(!d||!d.status)throw 0;var t=(d.compile_output||"")+(d.stdout||"")+(d.stderr||"");if(n===RN)show1(t.trim()?t:"(no output)")}).catch(function(){if(n===RN)runP(it)})}
 function runCb(it){var n=++RN;show1("Running...");
 fetch("https://ce.judge0.com/submissions?base64_encoded=false&wait=true",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language_id:77,source_code:(function(c){return c.slice(-1)==="\n"?c:c+"\n"})($("ed").value),stdin:""})}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(d){if(!d||!d.status)throw 0;var t=(d.compile_output||"")+(d.stdout||"")+(d.stderr||"");if(n===RN)show1(t.trim()?t:"(no output)")}).catch(function(){if(n===RN)runP(it)})}
 var PY=null;
@@ -2069,8 +2140,8 @@ r.forEach(function(t){h+='<table style="border-collapse:collapse;margin:0 0 14px
 $("out").srcdoc=BOX+(h||"Query ran successfully. No rows to show.")+'</body>'}
 catch(e){if($("ed").value===it[4]&&it[5]){$("out").srcdoc=BOX+'<div style="color:#94a0b8;margin-bottom:8px">The in-browser engine (SQLite) does not support this MySQL feature, so here is the expected result:</div><pre style="white-space:pre-wrap">'+esc(it[5])+'</pre></body>'}else show1("Error: "+(e.message||e))}
 db.close()},function(){if(n===RN)runP(it)})}
-function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN,java:JN,cobol:CBN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(cur.l==="cobol"){runCb(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
+function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN,java:JN,cobol:CBN,nodejs:NDN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(cur.l==="cobol"){runCb(it)}else if(cur.l==="nodejs"){runNd(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -2114,8 +2185,8 @@ function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;backgro
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
 (function(){
-var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python",java:"Java",cobol:"COBOL"},
-W={html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python",java:"Java",cobol:"COBOL",nodejs:"Node.js"},
+W={nodejs:{en:"Node.js lets you run JavaScript outside the browser to build servers, tools and APIs.",ru:"Node.js позволяет запускать JavaScript вне браузера, создавая серверы, инструменты и API.",es:"Node.js te permite ejecutar JavaScript fuera del navegador para crear servidores, herramientas y APIs.",hi:"Node.js आपको JavaScript को ब्राउज़र के बाहर चलाने देता है, ताकि आप सर्वर, टूल और API बना सकें।"},html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
 css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
 js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
 c:{en:"C is a fast, low-level language used for operating systems and embedded devices, and it teaches how computers really work.",ru:"C — быстрый язык низкого уровня для операционных систем и встраиваемых устройств; он помогает понять, как работает компьютер.",es:"C es un lenguaje rápido y de bajo nivel usado en sistemas operativos y dispositivos embebidos, ideal para entender cómo funcionan los ordenadores.",hi:"C एक तेज़, लो-लेवल भाषा है जिसका उपयोग ऑपरेटिंग सिस्टम और एम्बेडेड डिवाइस में होता है; इससे कंप्यूटर के काम करने का तरीका समझ आता है।"},
@@ -2125,7 +2196,7 @@ sql:{en:"SQL is the standard language for databases: you use it to store, search
 python:{en:"Python is a readable, beginner-friendly language used for automation, web back ends, data science and AI.",ru:"Python — читаемый язык, удобный для начинающих; его используют для автоматизации, веб-серверов, анализа данных и ИИ.",es:"Python es un lenguaje legible y fácil para principiantes, usado en automatización, back ends web, ciencia de datos e IA.",hi:"Python एक पढ़ने में आसान, शुरुआती लोगों के लिए अच्छी भाषा है, जिसका उपयोग ऑटोमेशन, वेब बैकएंड, डेटा साइंस और AI में होता है।"},
 java:{en:"Java is a popular object-oriented language used for Android apps, back-end servers and large business systems, and it runs on any device with a JVM.",ru:"Java — популярный объектно-ориентированный язык для Android-приложений, серверов и крупных бизнес-систем; работает на любом устройстве с JVM.",es:"Java es un lenguaje orientado a objetos muy popular, usado en apps Android, servidores y grandes sistemas empresariales, y funciona en cualquier dispositivo con JVM.",hi:"Java एक लोकप्रिय ऑब्जेक्ट-ओरिएंटेड भाषा है जिसका उपयोग Android ऐप, बैकएंड सर्वर और बड़े बिज़नेस सिस्टम में होता है, और यह JVM वाले हर डिवाइस पर चलती है।"},
 cobol:{en:"COBOL is the business language behind banks, insurance and government systems: it handles exact decimal arithmetic and huge batches of records, and its code reads almost like English.",ru:"COBOL — язык бизнес-приложений, на котором работают банки, страховые компании и госсистемы: он точно считает десятичные числа, обрабатывает огромные массивы записей, а его код читается почти как английский.",es:"COBOL es el lenguaje de negocios detrás de bancos, aseguradoras y sistemas del gobierno: maneja aritmética decimal exacta y enormes lotes de registros, y su código se lee casi como inglés.",hi:"COBOL वह बिज़नेस भाषा है जिस पर बैंक, बीमा और सरकारी सिस्टम चलते हैं: यह सटीक दशमलव गणित और बहुत बड़े रिकॉर्ड-बैच संभालती है, और इसका कोड लगभग अंग्रेज़ी जैसा पढ़ा जाता है।"}},
-T={html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
+T={nodejs:{en:"modules, files, events, async code, HTTP servers, npm and Express",ru:"модули, файлы, события, асинхронный код, HTTP-серверы, npm и Express",es:"módulos, archivos, eventos, código asíncrono, servidores HTTP, npm y Express",hi:"मॉड्यूल, फ़ाइलें, इवेंट, एसिंक्रोनस कोड, HTTP सर्वर, npm और Express"},html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
 css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
 js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
 c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:"переменные, операторы, циклы, функции, массивы, указатели и структуры",es:"variables, operadores, bucles, funciones, arrays, punteros y structs",hi:"वेरिएबल, ऑपरेटर, लूप, फ़ंक्शन, ऐरे, पॉइंटर और स्ट्रक्चर"},
@@ -2143,6 +2214,12 @@ function mk(k,l){var g=G[l],n=N[k];return[g[0].replace("{N}",n),g[1].replace("{N
 for(var k in N){var f=L[k].items[0],e=mk(k,"en");L[k].items.unshift(["welcome",e[0],e[1],e[2],f[4]].concat(f.slice(5)));TR[k+"-welcome"]={ru:mk(k,"ru"),es:mk(k,"es"),hi:mk(k,"hi")}}
 })();
 var CX={
+nodejs:[[`require`,`Loads a module (a core module, a package or your own file) and returns what it exports.`,`const name = require("module");`,`const fs = require("fs");`],
+[`module.exports`,`Chooses what a file shares with other files that require it.`,`module.exports = value;`,`module.exports = { add };`],
+[`fs.readFileSync`,`Reads a whole file and waits until it is finished. Pass "utf8" to get text instead of raw bytes.`,`fs.readFileSync(path, "utf8");`,`const text = fs.readFileSync("a.txt", "utf8");`],
+[`http.createServer`,`Creates a web server. The function you pass runs for every request.`,`http.createServer(function (req, res) { ... });`,`http.createServer(function (req, res) {\n  res.end("Hi");\n}).listen(3000);`],
+[`process.argv`,`An array of the command-line arguments. The first two items are node and the script path.`,`process.argv`,`node app.js hello  ->  process.argv[2] is "hello"`],
+[`npm install`,`Downloads a package from the npm registry and records it in package.json.`,`npm install package-name`,`npm install express`]],
 c:[[`#include`,`Copies a header file into your program so you can use its functions, for example printf from stdio.h.`,`#include <header.h>`,`#include <stdio.h>`],
 [`int main`,`The function where every C program starts running. Returning 0 tells the system the program finished without problems.`,`int main(void) {\n  /* code */\n  return 0;\n}`,`int main(void) {\n  return 0;\n}`],
 [`printf`,`Prints formatted text. Codes such as %d (integer) and %s (string) are replaced by the values that follow.`,`printf("format", values);`,`printf("Age: %d\n", 20);`],
@@ -2323,7 +2400,7 @@ $("prev").onclick=function(){go(-1)};$("next").onclick=function(){go(1)};$("run"
 var tm;$("ed").oninput=function(){};
 $("ed").onkeydown=function(e){if(e.key==="Tab"){e.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+"  "+this.value.slice(this.selectionEnd);this.selectionStart=this.selectionEnd=s+2}};
 
-var Q={html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
+var Q={nodejs:[["Which function loads a CommonJS module?",["import()","require()","load()","include()"],1],["Which module reads and writes files?",["http","path","fs","events"],2],["Which command installs a package?",["node install","npm get","node add","npm install"],3],["Which file lists a project's dependencies?",["package.json","index.html","node.config","modules.txt"],0],["Which keyword pauses an async function until a promise settles?",["stop","await","pause","yield"],1]],html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
 css:[["Which selector targets class card?",["#card",".card","card","*card"],1],["Which property adds space inside the border?",["margin","padding","gap","outline"],1],["Which declaration makes a flex container?",["display:flex","flex:on","position:flex","float:flex"],0],["Which property rounds corners?",["border-style","border-radius","corner","box-round"],1],["box-sizing:border-box makes width include...",["margin only","padding and border","nothing","content only"],1]],
 js:[["Which keyword declares a changeable block-scoped variable?",["var","let","const","def"],1],["What does typeof 42 return?",["number","int","numeric","object"],0],["Which method adds an item to the end of an array?",["push","pop","shift","add"],0],["Which operator checks value and type?",["==","=","===","!="],2],["Which method selects an element by id?",["querySelectorAll","getElementById","getElementsByTag","findId"],1]],
 c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.h"],1],["Which symbol gets a variable's address?",["*","&","#","@"],1],["What ends a C statement?",["period","colon","semicolon","comma"],2],["An array index starts at...",["1","0","-1","2"],1],["Which function returns string length?",["size","len","strlen","length"],2]],
@@ -2413,6 +2490,7 @@ python:[[/^(?:import|from)\s+(\S+)/,"imp"],[/^def\s+(\w+)/,"func"],[/^(?:if|elif
 php:[[/^(?:<\?php|\?>)/,"phptag"],[/^(?:echo|print)\s+(.*?);?$/,"print"],[/^function\s+(\w+)/,"func"],[/^(?:if|elseif)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|foreach|while)\s*\((.*)\)/,"loop"],[/^return\b\s*(.*?);?$/,"ret"],[/^\$(\w+)\s*[+\-*.\/]?=[^=]/,"var"]],
 sql:[[/^(select|from|where|insert|update|delete|create|order by|group by|(?:inner |left |right )?join)\b/i,"sql"]]};
 R.c=[[/^#include\s*(\S+)/,"imp"],[/^using namespace\s+(\w+)/,"ns"],[/^(?:int|void)\s+main\b/,"main"],[/^(?:printf|puts)\s*\((.*)\)/,"print"],[/^(?:std::)?cout\s*<<\s*(.*?);?$/,"print"],[/^(?:scanf|(?:std::)?cin|getline)\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:if|else if)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:int|void|float|double|char|bool|string|auto)\s+(\w+)\s*\(.*\)\s*\{?$/,"func"],[DC,"var",4]];R.cpp=R.c;
+R.nodejs=R.js;
 R.cobol=[[/^\*>/,"cmt"],[/^(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\s+DIVISION/i,"cbdiv"],[/^PROGRAM-ID\.?\s*([\w-]+)/i,"cbpid"],[/^([\w-]+\s+SECTION)/i,"cbsec"],[/^DISPLAY\b\s*(.*?)\.?$/i,"print"],[/^ACCEPT\b/i,"input"],[/^STOP\s+RUN/i,"cbstop"],[/^END-[\w-]+/i,"cbend"],[/^(?:IF|ELSE\s+IF)\s+(.*)/i,"if"],[/^ELSE\b/i,"else"],[/^EVALUATE\b\s*(.*)/i,"cbeval"],[/^WHEN\b\s*(.*)/i,"cbwhen"],[/^PERFORM\b\s*(.*?)\.?$/i,"loop"],[/^(?:ADD|SUBTRACT|MULTIPLY|DIVIDE|COMPUTE)\b\s*(.*)/i,"cbarith"],[/^(?:MOVE|SET|INITIALIZE)\b\s*(.*)/i,"cbmove"],[/^(?:STRING|UNSTRING|INSPECT)\b/i,"cbstr"],[/^(?:OPEN|CLOSE|READ|WRITE|SELECT|FD)\b\s*(.*)/i,"cbfile"],[/^\d\d\s+([\w-]+)/,"cbpic"],[/^([\w-]+)\.$/,"cbpara"]];
 R.java=[[/^(?:import|package)\s+(?:static\s+)?([^;\s]+)/,"imp"],[/^(?:public\s+|protected\s+|private\s+|abstract\s+|final\s+|static\s+)*(?:class|interface|enum|record)\s+(\w+)/,"jcls"],[/^public\s+static\s+void\s+main\b/,"main"],[/^System\.out\.(?:println|print|printf)\((.*)\);?$/,"print"],[/^Scanner\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:\}\s*)?(?:else\s+)?if\s*\((.*)\)/,"if"],[/^(?:\}\s*)?else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:public\s+|private\s+|protected\s+)?(?:static\s+)?(?:final\s+)?(?:abstract\s+)?[\w<>\[\],]+\s+(\w+)\s*\(.*\)\s*(?:throws\s+[\w, ]+)?\{?\s*;?$/,"func"],[/^(?:final\s+)?(?:int|long|double|float|char|boolean|byte|short|var|String|[A-Z]\w*(?:<[^>]*>)?)(?:\[\])*\s+(\w+)\s*(?:=|;)/,"var"],[/^([\w.\[\]]+)\s*[+\-*\/%]?=[^=]/,"var"]];
 function fm(k,m,ix){var t=M[k][LI()],g=function(i){return String(m[i]||"").trim().slice(0,50)};return t.replace("{1}",ix?g(ix):g(1)).replace("{2}",g(2))}
@@ -2423,7 +2501,7 @@ function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l=
 while(i<n){c=code[i];if(c==="\n"){ln++;i++;continue}
 if(c==="/"&&code[i+1]==="*"){var e=code.indexOf("*/",i+2);if(e<0)break;ln+=(code.slice(i,e).match(/\n/g)||[]).length;i=e+2;continue}
 if(code.substr(i,lc.length)===lc){i=code.indexOf("\n",i);if(i<0)break;continue}
-if(c==='"'||c==="'"||(c==="`"&&l==="js")){var t=l==="python"&&code.substr(i,3)===c+c+c?c+c+c:c,j=i+t.length,ok=0;
+if(c==='"'||c==="'"||(c==="`"&&(l==="js"||l==="nodejs"))){var t=l==="python"&&code.substr(i,3)===c+c+c?c+c+c:c,j=i+t.length,ok=0;
 while(j<n){if(code[j]==="\\"&&l!=="sql"){j+=2;continue}if(code.substr(j,t.length)===t){ok=1;break}if(code[j]==="\n"&&t.length===1&&c!=="`")break;j++}
 if(!ok)E.push(["q",ln,c]);ln+=(code.slice(i,j).match(/\n/g)||[]).length;i=ok?j+t.length:j;continue}
 if("([{".indexOf(c)>=0)st.push([c,ln]);else if(")]}".indexOf(c)>=0){var o=st.pop();if(!o||"([{".indexOf(o[0])!==")]}".indexOf(c))E.push(["x",ln,c])}
