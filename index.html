@@ -54,6 +54,34 @@ iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' aria-hidden='true'%3E%3Crect width='36' height='36' rx='9' fill='%2387ceeb'/%3E%3Cg fill='none' stroke='%2314213d' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 11 7 18l7 7'/%3E%3Cpath d='M22 11l7 7-7 7'/%3E%3Cpath d='M19.5 9l-3 18'/%3E%3C/g%3E%3C/svg%3E">
+<style id="mobile">
+#menu{display:none}
+html{-webkit-text-size-adjust:100%}
+main table{max-width:100%}main pre,.cmd pre{max-width:100%;overflow-x:auto}iframe,img{max-width:100%}
+@media (max-width:800px){
+header{position:static;padding:8px 12px;gap:8px}
+.logo{order:1;font-size:18px}.logo svg{width:28px;height:28px}
+.spacer{order:2;flex:1}
+#exbtn{order:3}#lang{order:4}
+nav#tabs{order:5;width:100%;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:6px}
+nav#tabs button{padding:6px 8px;white-space:nowrap;display:flex;align-items:center;justify-content:center}
+#q{order:6;flex:1 1 0;width:auto;min-width:0}#menu{order:7;display:inline-block}
+#q,#lang,#exn,.cmd textarea,#ed{font-size:16px}
+nav button,.run,.nx,#lang,#q{min-height:42px}
+aside{display:none;padding:12px;max-height:60vh;overflow:auto;border-bottom:1px solid var(--line)}
+body.mopen aside{display:block}
+aside a{padding:10px 12px}
+main{padding:18px 14px}
+main table{display:block;overflow-x:auto}
+.bar{flex-wrap:wrap;gap:8px}
+.split{min-height:0}#ed{min-height:220px;height:240px}#out{height:260px;min-height:0}
+.cmd{padding:4px 10px 10px}.cmd iframe{height:140px}
+#vf{flex-wrap:wrap}
+#ex{padding:8px}.exb{padding:16px;max-height:94vh}
+.cert{padding:16px;border-width:6px}.cert h1{font-size:22px}.cert h2{font-size:24px!important}
+.xp td.n{width:24px}.xp td{padding:5px 4px}
+}
+</style>
 </head>
 <body>
 <header>
@@ -63,6 +91,7 @@ iframe{width:100%;height:100%;min-height:320px;border:0;background:#fff}
 <input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons">
 <button class="nx" id="exbtn">Exam</button>
 <select id="lang" aria-label="Language"><option value="en">English</option><option value="ru">Русский</option><option value="es">Español</option><option value="hi">हिन्दी</option></select>
+<button class="nx" id="menu" aria-expanded="false" aria-controls="lessons">&#9776; Lessons</button>
 </header>
 <div class="wrap">
 <aside><h3 id="ah"></h3><div id="list"></div></aside>
@@ -2440,6 +2469,13 @@ var cache=null;try{cache=JSON.parse(localStorage.getItem(key))}catch(e){}
 if(cache&&cache.length===T.length){T.forEach(function(k,i){if(cache[i])k.set(cache[i])});return}
 B.style.opacity=".6";
 Promise.all(T.map(function(k){return tr(k.t,tl)})).then(function(res){B.style.opacity="";if(tok!==AT)return;var good=1;res.forEach(function(r,i){if(!(r&&T[i].set(r)))good=0});if(good){try{localStorage.setItem(key,JSON.stringify(res))}catch(e){}}})}
+var MN={en:`Lessons`,ru:`Уроки`,es:`Lecciones`,hi:`पाठ`};
+function setM(){var b=$("menu");if(b)b.textContent="\u2630 "+(MN[lang]||MN.en)}
+var _aU=applyUI;applyUI=function(){_aU();setM()};
+$("menu").onclick=function(){var o=document.body.classList.toggle("mopen");this.setAttribute("aria-expanded",o?"true":"false")};
+document.querySelector("aside").id="lessons";
+$("tabs").addEventListener("click",function(){document.body.classList.remove("mopen");$("menu").setAttribute("aria-expanded","false")});
+window.addEventListener("hashchange",function(){document.body.classList.remove("mopen");$("menu").setAttribute("aria-expanded","false");if(innerWidth<=800)setTimeout(function(){$("t").scrollIntoView()},0)});
 $("lang").onchange=function(){lang=this.value;try{localStorage.setItem("lw-lang",lang)}catch(e){}applyUI();show()};
 window.addEventListener("hashchange",show);applyUI();show();
 </script>
