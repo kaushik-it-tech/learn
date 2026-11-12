@@ -1132,10 +1132,12 @@ C(`JSON.stringify`,`j`,`Converts an object into JSON text.`,`JSON.stringify(valu
 C(`JSON.parse`,`j`,`Converts JSON text back into an object.`,`JSON.parse(text);`,`console.log(JSON.parse('{"a":1}').a);`);
 C(`querySelector`,`j`,`Finds the first element that matches a CSS selector.`,`document.querySelector("selector");`,`document.querySelector("#o").textContent = "Found me";`);
 var CL={en:{cm:"Commands in this lesson",df:"Definition",sx:"Syntax",xp:"Example",ty:"Run"},ru:{cm:"Команды в этом уроке",df:"Определение",sx:"Синтаксис",xp:"Пример",ty:"Запустить"},es:{cm:"Comandos de esta lección",df:"Definición",sx:"Sintaxis",xp:"Ejemplo",ty:"Ejecutar"},hi:{cm:"इस पाठ के कमांड",df:"परिभाषा",sx:"सिंटैक्स",xp:"उदाहरण",ty:"चलाएँ"}};
+var CMX={hi:{"h1": "पेज का मुख्य शीर्षक (हेडिंग) बनाता है। हर पेज पर एक ही रखें।", "p": "टेक्स्ट का एक पैराग्राफ बनाता है।", "a": "दूसरे पेज या संसाधन का हाइपरलिंक बनाता है।", "href": "a टैग का एट्रिब्यूट, जो बताता है कि लिंक कहाँ जाएगा।", "img": "पेज में एक इमेज (तस्वीर) जोड़ता है।", "alt": "इमेज का टेक्स्ट विवरण, जो इमेज न खुलने पर दिखता है और स्क्रीन रीडर इसे पढ़ते हैं।", "ul": "बिना क्रम वाली (बुलेट) लिस्ट। आइटम li के अंदर लिखे जाते हैं।", "ol": "क्रम वाली (नंबर वाली) लिस्ट।", "table": "डेटा को पंक्तियों (tr) और सेल (td, th) में दिखाता है।", "input": "फ़ॉर्म का वह हिस्सा जहाँ यूज़र कुछ लिखता या चुनता है।", "label": "फ़ॉर्म फ़ील्ड का नाम-पट्टी। उस पर क्लिक करने से फ़ील्ड सक्रिय हो जाती है।", "required": "एट्रिब्यूट जो भेजने से पहले फ़ील्ड भरना ज़रूरी बनाता है।", "color": "टेक्स्ट का रंग तय करता है।", "padding": "एलिमेंट के अंदर, सामग्री और बॉर्डर के बीच जगह जोड़ता है।", "margin": "एलिमेंट के बाहर जगह जोड़ता है।", "text-align": "टेक्स्ट को क्षैतिज रूप से सजाता है (बाएँ, बीच में या दाएँ)।", "display": "तय करता है कि एलिमेंट कैसे सजेगा: block, inline, flex, grid या none।", "calc": "अलग-अलग इकाइयों को मिलाकर मान की गणना करता है।", "const": "ऐसा वेरिएबल बनाता है जिसका मान दोबारा नहीं बदला जा सकता।", "let": "ऐसा वेरिएबल बनाता है जिसका मान बदल सकता है। यह अपने ब्लॉक के अंदर ही काम करता है।", "console.log": "डीबगिंग के लिए किसी मान को प्रिंट करता है।", "addEventListener": "एलिमेंट पर कोई घटना (इवेंट) होने पर फ़ंक्शन चलाता है।", "setTimeout": "मिलीसेकंड की देरी के बाद फ़ंक्शन को एक बार चलाता है।", "setInterval": "हर तय मिलीसेकंड के बाद फ़ंक्शन को बार-बार चलाता है।", "push": "ऐरे के अंत में एक आइटम जोड़ता है।", "map": "हर आइटम को बदलकर एक नया ऐरे बनाता है।", "filter": "सिर्फ़ उन आइटम से नया ऐरे बनाता है जो शर्त पूरी करते हैं।", "JSON.stringify": "ऑब्जेक्ट को JSON टेक्स्ट में बदलता है।", "JSON.parse": "JSON टेक्स्ट को वापस ऑब्जेक्ट में बदलता है।", "querySelector": "CSS सेलेक्टर से मेल खाने वाला पहला एलिमेंट ढूँढता है।"}};
 function cmdHtml(h){var d=document.createElement("div"),seen={},o="",l=CL[lang]||CL.en;d.innerHTML=h;
 d.querySelectorAll("code").forEach(function(c){var k=c.textContent.trim().replace(/^<\/?|\/?>$/g,"").replace(/\(.*$/,"");if(CM[k]&&!seen[k]){seen[k]=1;var m=CM[k];
-o+='<div class="cmd"><h4><code>'+esc(k)+'</code></h4><p><b>'+l.df+':</b> '+esc(m[1])+'</p><p><b>'+l.sx+':</b></p><pre>'+esc(m[2])+'</pre><p><b>'+l.xp+':</b></p><textarea class="cx" spellcheck="false" rows="'+(m[3].split("\n").length+1)+'" data-k="'+esc(k)+'">'+esc(m[3])+'</textarea><button class="nx try" data-k="'+esc(k)+'">'+l.ty+'</button><iframe class="cxo" sandbox="allow-scripts" title="Output" hidden></iframe></div>'}});
-return o?h+'<h3>'+l.cm+'</h3>'+o:h}
+o+='<div class="cmd"><h4><code>'+esc(k)+'</code></h4><p><b>'+l.df+':</b> '+esc((CMX[lang]&&CMX[lang][k])||m[1])+'</p><p><b>'+l.sx+':</b></p><pre>'+esc(m[2])+'</pre><p><b>'+l.xp+':</b></p><textarea class="cx" spellcheck="false" rows="'+(m[3].split("\n").length+1)+'" data-k="'+esc(k)+'">'+esc(m[3])+'</textarea><button class="nx try" data-k="'+esc(k)+'">'+l.ty+'</button><iframe class="cxo" sandbox="allow-scripts" title="Output" hidden></iframe></div>'}});
+var cx="",x=h.replace(/<div class="cxl" data-c="(\w+)"><\/div>/,function(a,c){cx=(CX[c]||[]).map(function(e){return'<div class="cmd"><h4><code>'+esc(e[0])+'</code></h4><p><b>'+l.df+':</b> '+esc(e[1])+'</p><p><b>'+l.sx+':</b></p><pre>'+esc(e[2])+'</pre><p><b>'+l.xp+':</b></p><pre>'+esc(e[3])+'</pre>'+(e[4]?'<p>&#8599; <a href="#'+esc(e[4])+'">'+esc(e[5])+'</a></p>':'')+'</div>'}).join('');return""});
+return cx?x+o+cx:(o?x+'<h3>'+l.cm+'</h3>'+o:x)}
 function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;background:#fff;color:#111}</style>";return st+(t==="h"?c:t==="c"?"<style>p{"+c+"}</style><p>Sample text</p>":'<p id="o"></p><script>console.log=function(){document.body.append(Array.prototype.join.call(arguments," "),document.createElement("br"))};try{'+c+'}catch(e){document.body.append("Error: "+e.message)}<\/script>')}
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
@@ -1164,7 +1166,65 @@ hi:["{N} कोर्स में आपका स्वागत है","{N} 
 function mk(k,l){var g=G[l],n=N[k];return[g[0].replace("{N}",n),g[1].replace("{N}",n),"<p>"+W[k][l]+"</p><p><b>"+g[2]+":</b> "+T[k][l]+".</p><p>"+g[3]+"</p>"]}
 for(var k in N){var f=L[k].items[0],e=mk(k,"en");L[k].items.unshift(["welcome",e[0],e[1],e[2],f[4]].concat(f.slice(5)));TR[k+"-welcome"]={ru:mk(k,"ru"),es:mk(k,"es"),hi:mk(k,"hi")}}
 })();
-function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();idle();
+var CX={
+c:[[`#include`,`Copies a header file into your program so you can use its functions, for example printf from stdio.h.`,`#include <header.h>`,`#include <stdio.h>`],
+[`int main`,`The function where every C program starts running. Returning 0 tells the system the program finished without problems.`,`int main(void) {\n  /* code */\n  return 0;\n}`,`int main(void) {\n  return 0;\n}`],
+[`printf`,`Prints formatted text. Codes such as %d (integer) and %s (string) are replaced by the values that follow.`,`printf("format", values);`,`printf("Age: %d\n", 20);`],
+[`scanf`,`Reads formatted input from the keyboard into variables. Put & before the variable so scanf gets its address.`,`scanf("format", &variable);`,`int n;\nscanf("%d", &n);`],
+[`int, float, char`,`Basic data types: int stores whole numbers, float stores decimals and char stores a single character.`,`type name = value;`,`int a = 5;\nfloat b = 2.5;\nchar c = 'A';`],
+[`if`,`Runs a block only when its condition is true. Add else for the case when it is false.`,`if (condition) {\n  ...\n} else {\n  ...\n}`,`if (a > 3) {\n  printf("big");\n}`],
+[`for`,`Repeats a block a fixed number of times using a start value, a condition and a step.`,`for (init; condition; step) {\n  ...\n}`,`for (int i = 0; i < 3; i++) {\n  printf("%d ", i);\n}`],
+[`while`,`Repeats a block for as long as its condition stays true.`,`while (condition) {\n  ...\n}`,`int i = 0;\nwhile (i < 3) {\n  i++;\n}`],
+[`return`,`Ends a function immediately and sends a value back to the code that called it.`,`return value;`,`int add(int a, int b) {\n  return a + b;\n}`],
+[`strlen`,`Returns how many characters a string has, not counting the end marker. Needs string.h.`,`strlen(string);`,`int n = strlen("hello"); /* 5 */`]],
+cpp:[[`#include <iostream>`,`Loads the input/output library that provides cout and cin.`,`#include <iostream>`,`#include <iostream>`],
+[`using namespace std;`,`Lets you write cout instead of std::cout by using names from the std namespace directly.`,`using namespace std;`,`using namespace std;`],
+[`cout`,`Sends output to the console. Chain several values with << and use endl for a new line.`,`cout << value << endl;`,`cout << "Hello " << 5 << endl;`],
+[`cin`,`Reads a value typed by the user into a variable using the >> operator.`,`cin >> variable;`,`int n;\ncin >> n;`],
+[`string`,`A type for text. It can be joined with + and has helpers such as length().`,`string name = "text";`,`string s = "Hi";\ncout << s.length();`],
+[`vector`,`A resizable array. push_back adds an item at the end and size() gives the count.`,`vector<type> name;`,`vector<int> v;\nv.push_back(4);`],
+[`class`,`Defines your own type that bundles data (members) with functions (methods) that work on it.`,`class Name {\npublic:\n  members;\n};`,`class Car {\npublic:\n  int speed;\n};`],
+[`for (auto x : list)`,`Range-based loop that visits every item of a container; auto lets C++ pick the type.`,`for (auto x : container) { ... }`,`for (auto x : v) {\n  cout << x;\n}`]],
+php:[[`echo`,`Outputs text or HTML to the page. It can take several values separated by commas.`,`echo "text";`,`echo "Hello, PHP!";`],
+[`$variable`,`Variables start with $ and need no type. PHP decides the type from the value you store.`,`$name = value;`,`$age = 20;`],
+[`function`,`Defines a reusable block of code with optional parameters. return sends a result back.`,`function name($a) {\n  return $a;\n}`,`function add($a, $b) {\n  return $a + $b;\n}`],
+[`if / else`,`Chooses which block runs depending on a condition; elseif adds more choices.`,`if (condition) { ... } else { ... }`,`if ($t < 12) { echo "AM"; }`],
+[`foreach`,`Loops over every item of an array, giving you each value (and optionally its key).`,`foreach ($array as $item) { ... }`,`foreach ([1, 2] as $x) { echo $x; }`],
+[`array()`,`Creates an array. Use [] for short syntax and => to give items names (associative array).`,`$a = [1, 2];\n$b = ["key" => "value"];`,`$car = ["brand" => "Tata"];`],
+[`count`,`Returns how many items an array holds.`,`count($array);`,`echo count([1, 2, 3]); // 3`],
+[`define`,`Creates a constant whose value can never change. Constants are written without a $.`,`define("NAME", value);`,`define("SITE", "Learn Web");`],
+[`$_POST`,`A superglobal array that holds the values sent by a form with method="post".`,`$_POST["field"]`,`$name = $_POST["name"] ?? "guest";`]],
+python:[[`print`,`Shows values on the screen. Several values separated by commas are printed with spaces between them.`,`print(value, ...)`,`print("Hello", 5)`],
+[`input`,`Pauses the program and returns what the user typed, always as text (a string).`,`input(prompt)`,`name = input("Name: ")`],
+[`def`,`Defines a function. Indentation shows which lines belong to it; return sends a value back.`,`def name(parameters):\n    return value`,`def add(a, b):\n    return a + b`],
+[`if / elif / else`,`Chooses which indented block to run. Each condition ends with a colon.`,`if condition:\n    ...\nelif other:\n    ...\nelse:\n    ...`,`if x > 3:\n    print("big")`],
+[`for`,`Repeats a block for every item of a sequence such as a list or range().`,`for item in sequence:\n    ...`,`for i in range(3):\n    print(i)`],
+[`while`,`Repeats an indented block while its condition is true.`,`while condition:\n    ...`,`n = 0\nwhile n < 3:\n    n += 1`],
+[`len`,`Returns the number of items in a list, string, tuple or dictionary.`,`len(object)`,`len("hello")  # 5`],
+[`range`,`Produces a sequence of numbers, handy for loops: range(stop) or range(start, stop, step).`,`range(start, stop, step)`,`list(range(1, 4))  # [1, 2, 3]`],
+[`append`,`Adds one item to the end of a list.`,`list.append(item)`,`a = [1, 2]\na.append(3)`],
+[`import`,`Loads a module so you can use its functions, such as math or random.`,`import module`,`import math\nprint(math.sqrt(16))`]],
+sql:[[`SELECT`,`Reads data from a table. List the columns you want, or use * for all columns.`,`SELECT columns FROM table;`,`SELECT name, city FROM Customers;`],
+[`FROM`,`Names the table that the query reads from.`,`SELECT ... FROM table;`,`SELECT * FROM Customers;`],
+[`WHERE`,`Keeps only the rows that satisfy a condition. Combine conditions with AND and OR.`,`... WHERE condition;`,`SELECT * FROM Customers WHERE country = 'UK';`],
+[`ORDER BY`,`Sorts the result by one or more columns. ASC is ascending (default), DESC is descending.`,`... ORDER BY column ASC|DESC;`,`SELECT * FROM Orders ORDER BY amount DESC;`],
+[`INSERT INTO`,`Adds a new row to a table. List the columns and then the matching values.`,`INSERT INTO table (cols) VALUES (values);`,`INSERT INTO Customers (name, country) VALUES ('Fay', 'UK');`],
+[`UPDATE`,`Changes values in existing rows. Always add WHERE, or every row will change.`,`UPDATE table SET column = value WHERE condition;`,`UPDATE Customers SET city = 'Delhi' WHERE id = 4;`],
+[`DELETE FROM`,`Removes rows from a table. Without WHERE it deletes all rows.`,`DELETE FROM table WHERE condition;`,`DELETE FROM Orders WHERE id = 3;`],
+[`CREATE TABLE`,`Creates a new table with named columns and their data types.`,`CREATE TABLE name (col type, ...);`,`CREATE TABLE Pets (id INTEGER PRIMARY KEY, name TEXT);`],
+[`JOIN`,`Combines rows from two tables where a matching column has the same value.`,`... JOIN table2 ON table1.col = table2.col;`,`SELECT c.name, o.amount FROM Customers c JOIN Orders o ON c.id = o.customer_id;`],
+[`GROUP BY / COUNT`,`GROUP BY collects rows with the same value; aggregate functions such as COUNT, SUM and AVG calculate one result per group.`,`SELECT col, COUNT(*) FROM table GROUP BY col;`,`SELECT country, COUNT(*) FROM Customers GROUP BY country;`]]};
+(function(){var TM={html:"h",css:"c",js:"j"};Object.keys(L).forEach(function(k){var it=L[k].items,at=it[0]&&it[0][0]==="welcome"?1:0,f=it[at],b="<p>Every command used in this course, with its name, a detailed description, the syntax and an example.</p>";
+var seen={},auto=[],dec=function(t){return t.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&")};
+(CX[k]||[]).forEach(function(e){seen[e[0].toLowerCase()]=1});if(TM[k])Object.keys(CM).forEach(function(n){if(CM[n][0]===TM[k])seen[n.toLowerCase()]=1});
+it.forEach(function(x){if(x[0]==="welcome")return;var body=x[3],sents=dec(body.replace(/<[^>]+>/g," ")).replace(/\s+/g," ").split(/(?<=[.!?])\s/),cl=String(x[4]||"").split("\n"),re=/<code>([^<]*)<\/code>/g,m;
+while((m=re.exec(body))){var raw=dec(m[1]).trim(),n=raw.replace(/^<\/?|\/?>$/g,"").replace(/\(.*$/,""),key=n.toLowerCase();if(!/^[#.\w][\w.\-:#]{0,30}$/.test(n)||/^\d+$/.test(n)||seen[key])continue;
+var rg=new RegExp("(^|[^\\w$-])"+n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"($|[^\\w-])"),ls=cl.filter(function(z){return rg.test(z)}).map(function(z){return z.trim()}).filter(function(z,i,a){return a.indexOf(z)===i}).slice(0,3);if(!ls.length)continue;
+seen[key]=1;var sn=sents.filter(function(z){return z.indexOf(raw)>=0})[0]||x[2];auto.push([raw,sn.trim().slice(0,240),raw,ls.join("\n"),k+"-"+x[0],x[1]])}});
+CX[k]=(CX[k]||[]).concat(auto);b+='<div class="cxl" data-c="'+k+'"></div>';
+if(TM[k])b+="<div hidden>"+Object.keys(CM).filter(function(x){return CM[x][0]===TM[k]}).map(function(x){return"<code>"+esc(x)+"</code>"}).join(" ")+"</div>";
+it.splice(at,0,["commands","All commands","Every command of this course: name, detailed description, syntax and example code.",b,f[4]].concat(f.slice(5)))})})();
+function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);autoT(it);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();idle();
 var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i});$("prev").disabled=p<=0;$("next").disabled=p>=f.length-1;window.scrollTo(0,0)}
 function go(d){var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i})+d;if(f[p])location.hash=f[p][0]+"-"+L[f[p][0]].items[f[p][1]][0]}
 $("prev").onclick=function(){go(-1)};$("next").onclick=function(){go(1)};$("run").onclick=run;$("q").oninput=side;
@@ -1199,7 +1259,7 @@ ex.tm=setInterval(function(){ex.s--;var t=$("ext");if(t)t.textContent=Math.floor
 function exQ(){var e=EX[lang],qs=Q[ex.k],q=qs[ex.i],o="",last=ex.i===qs.length-1;
 q[1].forEach(function(t,j){o+='<label class="opt"><input type="radio" name="o" value="'+j+'"'+(ex.a[ex.i]===j?" checked":"")+'> '+esc(t)+'</label>'});
 box('<div class="bar"><span>'+e.q+' '+(ex.i+1)+'/'+qs.length+'</span><span>'+e.tl+': <b id="ext"></b></span></div><h3>'+esc(q[0])+'</h3>'+o+'<p><button class="nx" id="exp"'+(ex.i?"":" disabled")+'>'+e.pv+'</button> <button class="run" id="exnx">'+(last?e.sb:e.nx)+'</button></p>');
-function sel(){var c=document.querySelector("#exb input:checked");if(c)ex.a[ex.i]=+c.value}
+trH($("exb").querySelector("h3"));function sel(){var c=document.querySelector("#exb input:checked");if(c)ex.a[ex.i]=+c.value}
 $("exp").onclick=function(){sel();ex.i--;exQ()};$("exnx").onclick=function(){sel();if(last)exEnd();else{ex.i++;exQ()}}}
 function exEnd(){clearInterval(ex.tm);var e=EX[lang],qs=Q[ex.k],c=0;qs.forEach(function(q,i){if(ex.a[i]===q[2])c++});
 var p=Math.round(c*100/qs.length),ok=p>=60;sv(ex.k,p);
@@ -1283,6 +1343,22 @@ function vinit(){var seen=0;try{seen=localStorage.getItem("lw-seen")}catch(e){}
 if(seen){vget("total").then(function(t){VT=t;vrender()});return}
 Promise.all([vhit("total"),vcountry()]).then(function(a){VT=a[0];if(a[0]!==null){try{localStorage.setItem("lw-seen","1")}catch(e){}if(a[1])vhit("c-"+(VC.indexOf(a[1])>=0?a[1]:"OTHER"))}vrender()})}
 vinit();
+var AT=0;
+function tr(t,tl){if(t.length>1500)return Promise.resolve(null);
+return fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+tl+"&dt=t&q="+encodeURIComponent(t)).then(function(r){return r.json()}).then(function(d){return d[0].map(function(x){return x[0]}).join("")}).catch(function(){if(t.length>450)return null;return fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair=en|"+tl).then(function(r){return r.json()}).then(function(d){return d.responseData.translatedText}).catch(function(){return null})})}
+function trH(el){if(lang==="en"||!el)return;var t=el.textContent,k="lw-tq-"+lang+"-"+t;try{var c=localStorage.getItem(k);if(c){el.textContent=c;return}}catch(e){}tr(t,lang).then(function(r){if(r&&r!==t){el.textContent=r;try{localStorage.setItem(k,r)}catch(e){}}})}
+function autoT(it){var tl=lang;if(tl==="en")return;var m=TR[cur.l+"-"+it[0]];if(m&&m[tl])return;
+var tok=++AT,key="lw-tl-"+tl+"-"+cur.l+"-"+it[0],T=[],B=$("body"),d=$("d"),sc={hi:/[\u0900-\u097F]/,ru:/[\u0400-\u04FF]/}[tl],ok=function(t){return/[A-Za-z]{3,}/.test(t)&&!(sc&&sc.test(t))};
+if(ok(d.textContent))T.push({t:d.textContent,set:function(r){d.textContent=r;return true}});
+Array.prototype.forEach.call(B.querySelectorAll("p,li,td,th,h2"),function(e){if(e.closest(".cmd")||e.querySelector("p,li,ul,ol,table"))return;var c=e.cloneNode(true),ph=[];
+Array.prototype.forEach.call(c.querySelectorAll("code,b,i,em,strong,a,kbd,span"),function(n){ph.push(n.outerHTML);n.replaceWith("["+ph.length+"]")});
+var t=c.textContent.trim();if(!ok(t.replace(/\[\d+\]/g,"")))return;
+T.push({t:t,set:function(r){r=r.replace(/[\u0966-\u096F]/g,function(z){return String(z.charCodeAt(0)-2406)});if((r.match(/\[\s*\d+\s*\]/g)||[]).length!==ph.length)return false;e.innerHTML=esc(r).replace(/\[\s*(\d+)\s*\]/g,function(a,b){return ph[b-1]||a});return true}})});
+Array.prototype.slice.call(B.querySelectorAll(".cmd"),0,it[0]==="commands"?40:999).forEach(function(cd){var p=cd.querySelector("p"),n=p&&p.lastChild;if(n&&n.nodeType===3&&ok(n.textContent))T.push({t:n.textContent.trim(),set:function(r){n.textContent=" "+r;return true}})});
+var cache=null;try{cache=JSON.parse(localStorage.getItem(key))}catch(e){}
+if(cache&&cache.length===T.length){T.forEach(function(k,i){if(cache[i])k.set(cache[i])});return}
+B.style.opacity=".6";
+Promise.all(T.map(function(k){return tr(k.t,tl)})).then(function(res){B.style.opacity="";if(tok!==AT)return;var good=1;res.forEach(function(r,i){if(!(r&&T[i].set(r)))good=0});if(good){try{localStorage.setItem(key,JSON.stringify(res))}catch(e){}}})}
 $("lang").onchange=function(){lang=this.value;try{localStorage.setItem("lw-lang",lang)}catch(e){}applyUI();show()};
 window.addEventListener("hashchange",show);applyUI();show();
 </script>
