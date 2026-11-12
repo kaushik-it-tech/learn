@@ -1040,6 +1040,945 @@ cur.execute("INSERT INTO users VALUES (?, ?)", ("Ada", 36))
 for row in cur.execute("SELECT name, age FROM users"):
     print(row)`,`('Ada', 36)`]
 );
+L.java={n:"Java",c:"#e76f00",items:[]};
+L.java.items.push(
+[`jintro`,`Java introduction`,`A popular, object-oriented language that runs almost everywhere.`,`<p>Java is used for Android apps, back-end servers, banking systems and big-data tools. You write source code, the <b>compiler</b> (<code>javac</code>) turns it into <b>bytecode</b>, and the <b>JVM</b> (Java Virtual Machine) runs that bytecode on any computer. Every Java program lives inside a <b>class</b>, and execution starts in the <code>main</code> method.</p>`,`public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello, Java!");
+  }
+}`,`Hello, Java!`],
+[`jstart`,`Java get started`,`Install the JDK, compile and run.`,`<p>Install the <b>JDK</b> (Java Development Kit), for example from adoptium.net. Save your code as <code>Main.java</code>, compile with <code>javac Main.java</code> and run with <code>java Main</code>. The file name must match the public class name. Since Java 11 you can also run a single file directly with <code>java Main.java</code>.</p>`,`/* Terminal:
+   javac Main.java
+   java Main
+*/
+public class Main {
+  public static void main(String[] args) {
+    System.out.println("It works");
+  }
+}`,`It works`],
+[`jsyntax`,`Java syntax`,`Parts of a Java program.`,`<p>A class is wrapped in braces. <code>public static void main(String[] args)</code> is the entry point. Statements end with <code>;</code>. Java is <b>case-sensitive</b>: <code>Main</code> and <code>main</code> are different names. Class names start with a capital letter, variables and methods with a lowercase one.</p>`,`public class Main {
+  public static void main(String[] args) {
+    System.out.println("Syntax");
+  }
+}`,`Syntax`],
+[`joutput`,`Java output`,`Print with println, print and printf.`,`<p><code>System.out.println</code> prints and moves to a new line, <code>System.out.print</code> stays on the same line, and <code>System.out.printf</code> formats values: <code>%d</code> int, <code>%.2f</code> decimals, <code>%s</code> text, <code>%n</code> new line.</p>`,`public class Main {
+  public static void main(String[] args) {
+    System.out.println("Line 1");
+    System.out.print("No newline, ");
+    System.out.print("same line\\n");
+    System.out.printf("Age %d, pi %.2f, name %s%n", 20, 3.14159, "Ada");
+  }
+}`,`Line 1
+No newline, same line
+Age 20, pi 3.14, name Ada`],
+[`jcomments`,`Java comments`,`Notes for humans.`,`<p><code>//</code> comments one line and <code>/* ... */</code> comments many lines. <code>/** ... */</code> is a <b>Javadoc</b> comment used to generate documentation.</p>`,`public class Main {
+  public static void main(String[] args) {
+    // single line
+    /* multi
+       line */
+    System.out.println("Comments ignored");
+  }
+}`,`Comments ignored`],
+[`jvars`,`Java variables`,`Every variable has a type.`,`<p>Declare a variable with its type: <code>int</code>, <code>double</code>, <code>char</code>, <code>boolean</code> or <code>String</code>. Add <code>final</code> to make a constant that cannot change. Since Java 10 <code>var</code> lets the compiler infer the type of a local variable.</p>`,`public class Main {
+  public static void main(String[] args) {
+    String name = "Ada";
+    int age = 20;
+    double price = 4.5;
+    char grade = 'A';
+    boolean ok = true;
+    final int MAX = 10;
+    var city = "Delhi";
+    System.out.println(name + " " + age + " " + price + " " + grade + " " + ok + " " + MAX + " " + city);
+  }
+}`,`Ada 20 4.5 A true 10 Delhi`],
+[`jtypes`,`Java data types`,`Primitive types and their sizes.`,`<p>Java has eight <b>primitive</b> types: <code>byte</code>, <code>short</code>, <code>int</code>, <code>long</code>, <code>float</code>, <code>double</code>, <code>char</code> and <code>boolean</code>. A <code>long</code> literal ends with <code>L</code> and a <code>float</code> literal with <code>f</code>. Underscores make big numbers readable. Everything else, such as <code>String</code>, is a <b>reference</b> type.</p>`,`public class Main {
+  public static void main(String[] args) {
+    byte b = 100;
+    int i = 2_000_000;
+    long big = 9_000_000_000L;
+    float f = 1.5f;
+    double d = 2.25;
+    System.out.println(b);
+    System.out.println(i);
+    System.out.println(big);
+    System.out.println(f);
+    System.out.println(d);
+    System.out.println(Integer.MAX_VALUE);
+  }
+}`,`100
+2000000
+9000000000
+1.5
+2.25
+2147483647`],
+[`jcast`,`Java type casting`,`Convert between types.`,`<p>Widening (small to big) is automatic. Narrowing needs a <b>cast</b> in brackets, like <code>(int) 9.78</code>, and drops the decimals. <code>Integer.parseInt</code> turns text into an int and <code>String.valueOf</code> turns a value into text. Dividing two ints gives an int.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int a = (int) 9.78;
+    double d = 7;
+    int n = Integer.parseInt("42");
+    String s = String.valueOf(3.5);
+    System.out.println(a);
+    System.out.println(d);
+    System.out.println(n + 1);
+    System.out.println(s + "!");
+    System.out.println(10 / 4);
+    System.out.println(10 / 4.0);
+  }
+}`,`9
+7.0
+43
+3.5!
+2
+2.5`],
+[`joperators`,`Java operators`,`Arithmetic, assignment and comparison.`,`<p>Arithmetic: <code>+ - * / %</code>. Shortcuts: <code>+=</code>, <code>++</code>, <code>--</code>. Comparison: <code>== != &lt; &gt; &lt;= &gt;=</code>. Logic: <code>&amp;&amp;</code> (and), <code>||</code> (or), <code>!</code> (not). <code>%</code> gives the remainder of a division.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int x = 7, y = 2;
+    System.out.println(x + y);
+    System.out.println(x / y);
+    System.out.println(x % y);
+    x += 3;
+    x++;
+    System.out.println(x);
+    System.out.println(x > y && y > 0);
+  }
+}`,`9
+3
+1
+11
+true`],
+[`jstrings`,`Java strings`,`Text is an object with many methods.`,`<p>A <code>String</code> cannot be changed; methods return a new one. Useful methods: <code>length()</code>, <code>toUpperCase()</code>, <code>substring(start, end)</code>, <code>indexOf</code>, <code>replace</code>, <code>charAt</code>. Compare text with <code>equals()</code>, <b>never</b> with <code>==</code>. Join strings with <code>+</code> or <code>String.join</code>.</p>`,`public class Main {
+  public static void main(String[] args) {
+    String s = "Hello, World";
+    System.out.println(s.length());
+    System.out.println(s.toUpperCase());
+    System.out.println(s.substring(0, 5));
+    System.out.println(s.indexOf("World"));
+    System.out.println(s.replace("World", "Java"));
+    System.out.println(s.charAt(1));
+    System.out.println("a".equals("a"));
+    System.out.println(String.join("-", "a", "b", "c"));
+  }
+}`,`12
+HELLO, WORLD
+Hello
+7
+Hello, Java
+e
+true
+a-b-c`],
+[`jmath`,`Java math`,`The Math class.`,`<p>The <code>Math</code> class has ready-made helpers: <code>max</code>, <code>min</code>, <code>sqrt</code>, <code>pow</code>, <code>abs</code>, <code>round</code>, <code>ceil</code> and <code>floor</code>. <code>Math.random()</code> gives a decimal from 0 up to (not including) 1.</p>`,`public class Main {
+  public static void main(String[] args) {
+    System.out.println(Math.max(3, 9));
+    System.out.println(Math.min(3, 9));
+    System.out.println(Math.sqrt(16));
+    System.out.println(Math.pow(2, 10));
+    System.out.println(Math.abs(-5));
+    System.out.println(Math.round(2.6));
+    System.out.println(Math.ceil(2.1));
+  }
+}`,`9
+3
+4.0
+1024.0
+5
+3
+3.0`],
+[`jbool`,`Java booleans`,`True and false.`,`<p>A <code>boolean</code> is either <code>true</code> or <code>false</code>. Comparisons produce booleans, and you combine them with <code>&amp;&amp;</code>, <code>||</code> and <code>!</code>. Java does not treat 0 or empty text as false: conditions must be real booleans.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int a = 10, b = 20;
+    System.out.println(a < b);
+    System.out.println(a == b);
+    System.out.println(a != b);
+    System.out.println(!(a < b));
+    System.out.println(a < b || a > b);
+  }
+}`,`true
+false
+true
+false
+true`],
+[`jif`,`Java if...else`,`Make decisions.`,`<p>Use <code>if</code>, <code>else if</code> and <code>else</code>. The condition goes in brackets and must be a boolean. A short form is the <b>ternary</b> operator: <code>condition ? a : b</code>.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int score = 72;
+    if (score >= 90) {
+      System.out.println("A");
+    } else if (score >= 70) {
+      System.out.println("B");
+    } else {
+      System.out.println("C");
+    }
+    String r = score >= 60 ? "pass" : "fail";
+    System.out.println(r);
+  }
+}`,`B
+pass`],
+[`jswitch`,`Java switch`,`Choose between many values.`,`<p>The classic <code>switch</code> needs <code>break</code> after each <code>case</code>, or execution falls through to the next one. Since Java 14 a <b>switch expression</b> with <code>-&gt;</code> returns a value and needs no <code>break</code>.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int day = 3;
+    switch (day) {
+      case 1: System.out.println("Mon"); break;
+      case 2: System.out.println("Tue"); break;
+      case 3: System.out.println("Wed"); break;
+      default: System.out.println("Other");
+    }
+    String name = switch (day) {
+      case 1 -> "Mon";
+      case 2 -> "Tue";
+      case 3 -> "Wed";
+      default -> "Other";
+    };
+    System.out.println(name);
+  }
+}`,`Wed
+Wed`],
+[`jwhile`,`Java while loop`,`Repeat while a condition is true.`,`<p><code>while</code> checks the condition first. <code>do ... while</code> runs the block once and then checks, so it always runs at least one time. Make sure something inside the loop changes the condition, or it never ends.</p>`,`public class Main {
+  public static void main(String[] args) {
+    int i = 1;
+    while (i <= 3) {
+      System.out.println("i = " + i);
+      i++;
+    }
+    do {
+      System.out.println("once");
+    } while (false);
+  }
+}`,`i = 1
+i = 2
+i = 3
+once`],
+[`jfor`,`Java for loop`,`Count, or visit every item.`,`<p>The classic <code>for</code> has three parts: start, condition and step. The <b>for-each</b> loop (<code>for (String n : names)</code>) visits every item of an array or collection without an index.</p>`,`public class Main {
+  public static void main(String[] args) {
+    for (int i = 0; i < 3; i++) {
+      System.out.println("count " + i);
+    }
+    String[] names = {"Ann", "Bo"};
+    for (String n : names) {
+      System.out.println(n);
+    }
+  }
+}`,`count 0
+count 1
+count 2
+Ann
+Bo`],
+[`jbreak`,`Java break and continue`,`Control a loop from inside.`,`<p><code>break</code> leaves the loop completely. <code>continue</code> skips the rest of the current round and goes to the next one.</p>`,`public class Main {
+  public static void main(String[] args) {
+    for (int i = 1; i <= 5; i++) {
+      if (i == 2) continue;
+      if (i == 4) break;
+      System.out.println(i);
+    }
+  }
+}`,`1
+3`],
+[`jarrays`,`Java arrays`,`A fixed-size list of one type.`,`<p>An array has a fixed length and zero-based indexes. Read the size with <code>length</code> (no brackets). The <code>Arrays</code> class (<code>import java.util.Arrays</code>) offers <code>sort</code> and <code>toString</code>. A 2D array is an array of arrays.</p>`,`import java.util.Arrays;
+
+public class Main {
+  public static void main(String[] args) {
+    int[] nums = {5, 2, 9};
+    System.out.println(nums.length);
+    nums[0] = 7;
+    Arrays.sort(nums);
+    System.out.println(Arrays.toString(nums));
+    int[][] grid = {{1, 2}, {3, 4}};
+    System.out.println(grid[1][0]);
+  }
+}`,`3
+[2, 7, 9]
+3`],
+[`jmethods`,`Java methods`,`Reusable blocks of code.`,`<p>A method has a return type, a name and parameters. Use <code>void</code> when it returns nothing. <code>static</code> methods belong to the class, so <code>main</code> can call them directly. A method can call itself: this is <b>recursion</b>.</p>`,`public class Main {
+  static int add(int a, int b) {
+    return a + b;
+  }
+  static void greet(String name) {
+    System.out.println("Hi " + name);
+  }
+  static int fact(int n) {
+    return n <= 1 ? 1 : n * fact(n - 1);
+  }
+  public static void main(String[] args) {
+    greet("Ada");
+    System.out.println(add(2, 3));
+    System.out.println(fact(5));
+  }
+}`,`Hi Ada
+5
+120`],
+[`joverload`,`Java method overloading`,`Same name, different parameters.`,`<p>You can write several methods with the same name as long as their parameter lists differ in number or type. Java picks the best match when you call it.</p>`,`public class Main {
+  static int sum(int a, int b) { return a + b; }
+  static double sum(double a, double b) { return a + b; }
+  static int sum(int a, int b, int c) { return a + b + c; }
+
+  public static void main(String[] args) {
+    System.out.println(sum(1, 2));
+    System.out.println(sum(1.5, 2.5));
+    System.out.println(sum(1, 2, 3));
+  }
+}`,`3
+4.0
+6`],
+[`jclasses`,`Java classes and objects`,`Blueprints and the things built from them.`,`<p>A <b>class</b> describes fields (data) and methods (actions). <code>new</code> creates an <b>object</b>. A <b>constructor</b> has the class name, no return type, and runs when the object is created. <code>this</code> refers to the current object.</p>`,`class Dog {
+  String name;
+  int age;
+
+  Dog(String name, int age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  void bark() {
+    System.out.println(name + " says Woof");
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Dog d = new Dog("Rex", 3);
+    d.bark();
+    System.out.println(d.age);
+  }
+}`,`Rex says Woof
+3`],
+[`jstatic`,`Java static members`,`Shared by every object.`,`<p>A <code>static</code> field or method belongs to the class itself, not to one object. Use it for counters, constants and helper methods. Access it with the class name, like <code>Counter.count</code>.</p>`,`class Counter {
+  static int count = 0;
+
+  Counter() {
+    count++;
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    new Counter();
+    new Counter();
+    new Counter();
+    System.out.println(Counter.count);
+  }
+}`,`3`],
+[`jencap`,`Java encapsulation`,`Hide data behind methods.`,`<p>Mark fields <code>private</code> so other classes cannot change them directly, then offer public <b>getters</b> and <b>setters</b>. The class can then check values before accepting them. The access modifiers are <code>public</code>, <code>protected</code>, default (none) and <code>private</code>.</p>`,`class Account {
+  private double balance;
+
+  public void deposit(double amount) {
+    if (amount > 0) {
+      balance += amount;
+    }
+  }
+
+  public double getBalance() {
+    return balance;
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Account a = new Account();
+    a.deposit(50);
+    a.deposit(-5);
+    System.out.println(a.getBalance());
+  }
+}`,`50.0`],
+[`jinherit`,`Java inheritance`,`Children reuse and extend parents.`,`<p>Use <code>extends</code> to inherit fields and methods from a parent class. A child can <b>override</b> a method (mark it <code>@Override</code>) and call the parent's version with <code>super</code>. A class can extend only one class.</p>`,`class Animal {
+  void speak() {
+    System.out.println("...");
+  }
+}
+
+class Cat extends Animal {
+  @Override
+  void speak() {
+    super.speak();
+    System.out.println("Meow");
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Animal a = new Animal();
+    a.speak();
+    Cat c = new Cat();
+    c.speak();
+  }
+}`,`...
+...
+Meow`],
+[`jpoly`,`Java polymorphism`,`One call, many behaviours.`,`<p>A variable of the parent type can hold any child object. Calling an overridden method runs the <b>child's</b> version. This lets one loop treat different objects the same way.</p>`,`class Animal {
+  void speak() { System.out.println("..."); }
+}
+class Cat extends Animal {
+  void speak() { System.out.println("Meow"); }
+}
+class Dog extends Animal {
+  void speak() { System.out.println("Woof"); }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Animal[] pets = { new Cat(), new Dog(), new Animal() };
+    for (Animal p : pets) {
+      p.speak();
+    }
+  }
+}`,`Meow
+Woof
+...`],
+[`jabstract`,`Java abstract classes and interfaces`,`Contracts that classes must follow.`,`<p>An <b>abstract</b> class cannot be created directly and may contain abstract methods without a body. An <b>interface</b> lists methods a class promises to provide, and a class can implement many interfaces. An interface with one method can be written as a lambda.</p>`,`abstract class Shape {
+  abstract double area();
+}
+
+class Square extends Shape {
+  double s;
+  Square(double s) { this.s = s; }
+  double area() { return s * s; }
+}
+
+interface Greeter {
+  void greet();
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Shape sh = new Square(3);
+    System.out.println(sh.area());
+    Greeter g = () -> System.out.println("Hello from interface");
+    g.greet();
+  }
+}`,`9.0
+Hello from interface`],
+[`jenum`,`Java enums`,`A fixed set of named values.`,`<p>An <code>enum</code> defines constants such as days or levels. <code>values()</code> returns all of them and <code>ordinal()</code> gives the position. Enums work nicely in <code>switch</code>.</p>`,`enum Level { LOW, MEDIUM, HIGH }
+
+public class Main {
+  public static void main(String[] args) {
+    Level l = Level.MEDIUM;
+    System.out.println(l);
+    System.out.println(l.ordinal());
+    for (Level x : Level.values()) {
+      System.out.println(x);
+    }
+  }
+}`,`MEDIUM
+1
+LOW
+MEDIUM
+HIGH`],
+[`jlist`,`Java ArrayList`,`A list that can grow.`,`<p><code>ArrayList</code> (from <code>java.util</code>) is a resizable list. Use <code>add</code>, <code>get</code>, <code>remove</code>, <code>size</code> and <code>Collections.sort</code>. The type in angle brackets, like <code>&lt;String&gt;</code>, says what it holds (these are called <b>generics</b>).</p>`,`import java.util.*;
+
+public class Main {
+  public static void main(String[] args) {
+    ArrayList<String> fruits = new ArrayList<>();
+    fruits.add("pear");
+    fruits.add("apple");
+    System.out.println(fruits);
+    fruits.add(0, "fig");
+    System.out.println(fruits.get(1));
+    fruits.remove("apple");
+    Collections.sort(fruits);
+    System.out.println(fruits);
+    System.out.println(fruits.size());
+  }
+}`,`[pear, apple]
+pear
+[fig, pear]
+2`],
+[`jmap`,`Java HashMap and HashSet`,`Key-value pairs and unique values.`,`<p>A <code>HashMap</code> stores values by key: <code>put</code>, <code>get</code>, <code>containsKey</code>. A <code>HashSet</code> keeps only unique values. A <code>HashMap</code> has no guaranteed order, so wrap it in a <code>TreeMap</code> to loop in sorted key order.</p>`,`import java.util.*;
+
+public class Main {
+  public static void main(String[] args) {
+    HashMap<String, Integer> ages = new HashMap<>();
+    ages.put("Ada", 36);
+    ages.put("Linus", 28);
+    System.out.println(ages.get("Ada"));
+    System.out.println(ages.containsKey("Bob"));
+    for (String k : new TreeMap<>(ages).keySet()) {
+      System.out.println(k + " " + ages.get(k));
+    }
+    Set<Integer> s = new HashSet<>(List.of(1, 2, 2, 3));
+    System.out.println(s.size());
+  }
+}`,`36
+false
+Ada 36
+Linus 28
+3`],
+[`jexcept`,`Java exceptions`,`Handle errors without crashing.`,`<p>Put risky code in <code>try</code> and handle the problem in <code>catch</code>. <code>finally</code> always runs. Use <code>throw</code> to raise your own error. <b>Checked</b> exceptions (like <code>IOException</code>) must be caught or declared with <code>throws</code>.</p>`,`public class Main {
+  public static void main(String[] args) {
+    try {
+      int d = 0;
+      int x = 10 / d;
+      System.out.println(x);
+    } catch (ArithmeticException e) {
+      System.out.println("Cannot divide by zero");
+    } finally {
+      System.out.println("Done");
+    }
+    try {
+      Integer.parseInt("abc");
+    } catch (NumberFormatException e) {
+      System.out.println("Not a number");
+    }
+  }
+}`,`Cannot divide by zero
+Done
+Not a number`],
+[`jlambda`,`Java lambdas and streams`,`Process collections in a pipeline.`,`<p>A <b>lambda</b> is a short anonymous method: <code>n -&gt; n * n</code>. A <b>stream</b> chains steps such as <code>filter</code>, <code>map</code> and <code>sum</code> over a collection. <code>System.out::println</code> is a method reference.</p>`,`import java.util.*;
+
+public class Main {
+  public static void main(String[] args) {
+    List<Integer> nums = List.of(1, 2, 3, 4, 5, 6);
+    nums.stream()
+        .filter(n -> n % 2 == 0)
+        .map(n -> n * n)
+        .forEach(System.out::println);
+    int total = nums.stream().mapToInt(Integer::intValue).sum();
+    System.out.println("Total " + total);
+  }
+}`,`4
+16
+36
+Total 21`],
+[`jscanner`,`Java user input`,`Read data with Scanner.`,`<p>Create a <code>Scanner</code> on <code>System.in</code> to read what the user types: <code>nextLine()</code>, <code>nextInt()</code>, <code>nextDouble()</code>. This page has no keyboard input, so the example reads from a String instead; it works exactly the same way.</p>`,`import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    // Real program: new Scanner(System.in)
+    Scanner sc = new Scanner("Ada 36");
+    String name = sc.next();
+    int age = sc.nextInt();
+    System.out.println(name + " is " + age);
+  }
+}`,`Ada is 36`],
+[`jfiles`,`Java file handling`,`Read and write files.`,`<p>Modern Java reads and writes files with <code>java.nio.file.Files</code>, for example <code>Files.writeString</code>, <code>Files.readAllLines</code> and <code>Files.delete</code>. A <code>BufferedReader</code> reads line by line, and <b>try-with-resources</b> closes it automatically. The example reads from a String so it runs anywhere.</p>`,`import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    // Real file: new BufferedReader(new FileReader("data.txt"))
+    try (BufferedReader br = new BufferedReader(new StringReader("line one\\nline two"))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        System.out.println(line);
+      }
+    }
+  }
+}`,`line one
+line two`],
+[`jdate`,`Java packages, imports and dates`,`Use classes from the standard library.`,`<p>Classes are grouped in <b>packages</b> such as <code>java.util</code> and <code>java.time</code>. <code>import</code> lets you use them by short name; <code>java.lang</code> (String, Math, System) is imported automatically. <code>LocalDate</code> handles dates without time zones.</p>`,`import java.time.LocalDate;
+
+public class Main {
+  public static void main(String[] args) {
+    LocalDate d = LocalDate.of(2026, 1, 15);
+    System.out.println(d.plusDays(20));
+    System.out.println(d.getDayOfWeek());
+  }
+}`,`2026-02-04
+THURSDAY`],
+[`jproject`,`Java project: grade report`,`Combine arrays, loops and methods.`,`<p>This small program uses an array, a method, a loop and formatted output. Try adding a name for each score, or printing a letter grade with <code>if</code> / <code>else</code>.</p>`,`public class Main {
+  static double average(int[] a) {
+    int sum = 0;
+    for (int n : a) sum += n;
+    return (double) sum / a.length;
+  }
+
+  public static void main(String[] args) {
+    int[] scores = {80, 92, 67};
+    int best = scores[0], passed = 0;
+    for (int s : scores) {
+      if (s > best) best = s;
+      if (s >= 70) passed++;
+    }
+    System.out.printf("Average: %.2f%n", average(scores));
+    System.out.println("Highest: " + best);
+    System.out.println("Passed: " + passed);
+  }
+}`,`Average: 79.67
+Highest: 92
+Passed: 2`]
+);
+L.cobol={n:"COBOL",c:"#0b5394",items:[]};
+L.cobol.items.push(
+[`cbintro`,`COBOL introduction`,`The business language that still runs banks and governments.`,`<p>COBOL (COmmon Business-Oriented Language) was created in 1959 and still processes a large share of the world's bank transactions, insurance claims and payroll. Its code reads almost like English, and it is built for exact decimal arithmetic and big batches of records. A program is organised into four <b>divisions</b>, and the logic goes in the <code>PROCEDURE DIVISION</code>.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+           DISPLAY "Hello, COBOL!".
+           STOP RUN.`,`Hello, COBOL!`],
+[`cbstart`,`COBOL get started`,`Install GnuCOBOL, compile and run.`,`<p>Install the free <b>GnuCOBOL</b> compiler (<code>cobc</code>). Save your program as <code>hello.cob</code>, build it with <code>cobc -x hello.cob</code> and run <code>./hello</code>. The <code>-x</code> option makes an executable program.</p>`,`      *> Terminal:
+      *>   cobc -x hello.cob
+      *>   ./hello
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. STARTED.
+       PROCEDURE DIVISION.
+           DISPLAY "It works".
+           STOP RUN.`,`It works`],
+[`cbstruct`,`COBOL program structure`,`Four divisions, in a fixed order.`,`<p>Every program has up to four divisions: <code>IDENTIFICATION DIVISION</code> (names the program), <code>ENVIRONMENT DIVISION</code> (files and computer setup), <code>DATA DIVISION</code> (variables) and <code>PROCEDURE DIVISION</code> (the instructions). Variables live in the <code>WORKING-STORAGE SECTION</code>. Every sentence ends with a period.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DIVS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-MSG PIC X(14) VALUE "Four divisions".
+       PROCEDURE DIVISION.
+           DISPLAY WS-MSG.
+           STOP RUN.`,`Four divisions`],
+[`cbformat`,`COBOL format and comments`,`Columns matter in classic COBOL.`,`<p>In classic <b>fixed format</b>, columns 1-6 are for line numbers, column 7 is an indicator, <b>Area A</b> (columns 8-11) holds division, section and paragraph names, and <b>Area B</b> (column 12 onward) holds statements. Code must end by column 72. A comment starts with <code>*</code> in column 7, or with <code>*&gt;</code> anywhere. Names can contain letters, digits and hyphens.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FMT.
+       PROCEDURE DIVISION.
+      *> A comment line is ignored by the compiler
+           DISPLAY "Columns matter".
+           STOP RUN.`,`Columns matter`],
+[`cbdisplay`,`COBOL DISPLAY`,`Print text and values.`,`<p><code>DISPLAY</code> prints literals and variables one after another. Text goes in quotes. <code>SPACE</code> is a figurative constant for a blank. Add <code>WITH NO ADVANCING</code> to stay on the same line.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SHOW.
+       PROCEDURE DIVISION.
+           DISPLAY "Line 1".
+           DISPLAY "Total: " 42 " items".
+           DISPLAY "A" SPACE "B".
+           DISPLAY "No newline" WITH NO ADVANCING.
+           DISPLAY " - continued".
+           STOP RUN.`,`Line 1
+Total: 42 items
+A B
+No newline - continued`],
+[`cbdata`,`COBOL variables and PICTURE`,`Every item has a level number and a PIC.`,`<p>A variable is declared with a <b>level number</b> (<code>01</code> for a top-level item), a name and a <code>PIC</code> (picture). <code>PIC X(5)</code> holds 5 characters, <code>PIC 99</code> two digits, and <code>V</code> marks an <b>implied decimal point</b>: <code>PIC 9(3)V99</code> holds three digits, then two decimals. The <code>V</code> takes no space, so a plain <code>DISPLAY</code> shows no point. <code>VALUE</code> sets the starting value. Text fields are padded with spaces, so <code>FUNCTION TRIM</code> removes them.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DATA1.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-NAME  PIC X(5)    VALUE "Ada".
+       01 WS-AGE   PIC 99      VALUE 7.
+       01 WS-PRICE PIC 9(3)V99 VALUE 12.5.
+       PROCEDURE DIVISION.
+           DISPLAY FUNCTION TRIM(WS-NAME).
+           DISPLAY WS-AGE.
+           DISPLAY WS-PRICE.
+           STOP RUN.`,`Ada
+07
+01250`],
+[`cbmove`,`COBOL MOVE`,`Copy values into variables.`,`<p><code>MOVE source TO target</code> copies a value. Text is cut or padded to fit the target. Numbers are aligned on the decimal point, and digits that do not fit on the left are <b>lost</b> (truncation), so always make a PIC big enough.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MOVES.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A       PIC 99 VALUE 10.
+       01 B       PIC 99.
+       01 NAME-1  PIC X(10).
+       PROCEDURE DIVISION.
+           MOVE A TO B.
+           DISPLAY B.
+           MOVE "Hello" TO NAME-1.
+           DISPLAY FUNCTION TRIM(NAME-1).
+           MOVE 123 TO B.
+           DISPLAY B.
+           STOP RUN.`,`10
+Hello
+23`],
+[`cbstring`,`COBOL strings: STRING, INSPECT and slices`,`Join, search and change text.`,`<p><code>STRING ... DELIMITED BY ... INTO</code> joins pieces into one field. <code>INSPECT ... REPLACING</code> (or <code>TALLYING</code>) changes or counts characters. <b>Reference modification</b> <code>FIELD(start:length)</code> takes a slice.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. STRS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 FIRST-NAME PIC X(5)  VALUE "Ada".
+       01 LAST-NAME  PIC X(10) VALUE "Lovelace".
+       01 FULL-NAME  PIC X(20).
+       PROCEDURE DIVISION.
+           STRING FIRST-NAME DELIMITED BY SPACE
+                  " "        DELIMITED BY SIZE
+                  LAST-NAME  DELIMITED BY SPACE
+                  INTO FULL-NAME.
+           DISPLAY FUNCTION TRIM(FULL-NAME).
+           DISPLAY FULL-NAME(1:3).
+           INSPECT FULL-NAME REPLACING ALL "e" BY "E".
+           DISPLAY FUNCTION TRIM(FULL-NAME).
+           STOP RUN.`,`Ada Lovelace
+Ada
+Ada LovElacE`],
+[`cbunstring`,`COBOL UNSTRING`,`Split text into fields.`,`<p><code>UNSTRING</code> is the opposite of <code>STRING</code>: it splits a field at a delimiter, such as a comma, into several receiving fields.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SPLIT.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 LINE-IN PIC X(20) VALUE "Ada,36,Delhi".
+       01 PART-1  PIC X(10).
+       01 PART-2  PIC X(10).
+       01 PART-3  PIC X(10).
+       PROCEDURE DIVISION.
+           UNSTRING LINE-IN DELIMITED BY ","
+               INTO PART-1 PART-2 PART-3.
+           DISPLAY FUNCTION TRIM(PART-1).
+           DISPLAY FUNCTION TRIM(PART-2).
+           DISPLAY FUNCTION TRIM(PART-3).
+           STOP RUN.`,`Ada
+36
+Delhi`],
+[`cbarith`,`COBOL arithmetic`,`ADD, SUBTRACT, MULTIPLY, DIVIDE and COMPUTE.`,`<p>COBOL has English-like verbs: <code>ADD a TO b GIVING c</code>, <code>SUBTRACT</code>, <code>MULTIPLY</code> and <code>DIVIDE</code>. <code>DIVIDE ... REMAINDER</code> also gives the remainder. For longer formulas use <code>COMPUTE</code> with <code>+ - * / **</code>.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MATH.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 X PIC 99 VALUE 7.
+       01 Y PIC 99 VALUE 2.
+       01 R PIC 99.
+       01 Z PIC 99.
+       PROCEDURE DIVISION.
+           ADD X TO Y GIVING R.
+           DISPLAY R.
+           SUBTRACT Y FROM X GIVING R.
+           DISPLAY R.
+           MULTIPLY X BY Y GIVING R.
+           DISPLAY R.
+           DIVIDE X BY Y GIVING R REMAINDER Z.
+           DISPLAY R " r " Z.
+           COMPUTE R = (X + Y) * 2.
+           DISPLAY R.
+           STOP RUN.`,`09
+05
+14
+03 r 01
+18`],
+[`cbround`,`COBOL ROUNDED and SIZE ERROR`,`Control precision and overflow.`,`<p>By default extra decimals are <b>cut off</b>. Add <code>ROUNDED</code> to round to the nearest value. If a result is too big for its PIC, <code>ON SIZE ERROR</code> lets you react instead of storing a wrong number. End the statement with <code>END-COMPUTE</code>.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. RND.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 N PIC 99.
+       PROCEDURE DIVISION.
+           COMPUTE N = 7 / 2.
+           DISPLAY N.
+           COMPUTE N ROUNDED = 7 / 2.
+           DISPLAY N.
+           COMPUTE N = 150 * 2
+               ON SIZE ERROR DISPLAY "Too big"
+           END-COMPUTE.
+           STOP RUN.`,`03
+04
+Too big`],
+[`cbedit`,`COBOL edited pictures`,`Format numbers for reports.`,`<p>An <b>edited</b> picture formats a number when you <code>MOVE</code> it: <code>Z</code> hides leading zeros, <code>,</code> and <code>.</code> insert separators, and <code>9</code> always shows a digit. Edited fields are for printing only, not for further arithmetic.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. EDIT.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 AMT PIC 9(5)V99 VALUE 1234.5.
+       01 ED  PIC ZZ,ZZ9.99.
+       01 PCT PIC 9V99 VALUE 0.5.
+       01 ED2 PIC 9.99.
+       PROCEDURE DIVISION.
+           MOVE AMT TO ED.
+           DISPLAY FUNCTION TRIM(ED).
+           MOVE PCT TO ED2.
+           DISPLAY ED2.
+           STOP RUN.`,`1,234.50
+0.50`],
+[`cbif`,`COBOL IF...ELSE`,`Make decisions.`,`<p><code>IF condition ... ELSE ... END-IF</code>. Conditions use <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>NOT</code>, <code>AND</code> and <code>OR</code>. Always close with <code>END-IF</code> so nested blocks are clear.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IFS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 SCORE PIC 999 VALUE 72.
+       PROCEDURE DIVISION.
+           IF SCORE >= 90
+               DISPLAY "A"
+           ELSE
+               IF SCORE >= 70
+                   DISPLAY "B"
+               ELSE
+                   DISPLAY "C"
+               END-IF
+           END-IF.
+           IF SCORE >= 60 AND SCORE <= 100
+               DISPLAY "pass"
+           END-IF.
+           STOP RUN.`,`B
+pass`],
+[`cbclass`,`COBOL class tests and condition names`,`NUMERIC, ALPHABETIC and level 88.`,`<p><code>IS NUMERIC</code> and <code>IS ALPHABETIC</code> test what a field contains, which is useful to validate input. A <b>level 88</b> item is a named condition on the field above it, and <code>SET name TO TRUE</code> gives the field that value.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CLS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A-VAL PIC X(3) VALUE "123".
+       01 B-VAL PIC X(3) VALUE "abc".
+       01 SW-CODE PIC X VALUE "A".
+          88 IS-ACTIVE VALUE "A".
+          88 IS-CLOSED VALUE "C".
+       PROCEDURE DIVISION.
+           IF A-VAL IS NUMERIC
+               DISPLAY "A numeric"
+           END-IF.
+           IF B-VAL IS NUMERIC
+               DISPLAY "B numeric"
+           ELSE
+               DISPLAY "B not numeric"
+           END-IF.
+           IF IS-ACTIVE
+               DISPLAY "Active"
+           END-IF.
+           SET IS-CLOSED TO TRUE.
+           DISPLAY SW-CODE.
+           STOP RUN.`,`A numeric
+B not numeric
+Active
+C`],
+[`cbeval`,`COBOL EVALUATE`,`COBOL's switch statement.`,`<p><code>EVALUATE</code> compares a value with several <code>WHEN</code> choices. <code>WHEN OTHER</code> is the default. <code>EVALUATE TRUE</code> lets each <code>WHEN</code> hold a full condition.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. EVAL.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 DAY-NUM PIC 9 VALUE 3.
+       PROCEDURE DIVISION.
+           EVALUATE DAY-NUM
+               WHEN 1 DISPLAY "Mon"
+               WHEN 2 DISPLAY "Tue"
+               WHEN 3 DISPLAY "Wed"
+               WHEN OTHER DISPLAY "Other"
+           END-EVALUATE.
+           EVALUATE TRUE
+               WHEN DAY-NUM < 3 DISPLAY "early"
+               WHEN OTHER DISPLAY "late"
+           END-EVALUATE.
+           STOP RUN.`,`Wed
+late`],
+[`cbperform`,`COBOL PERFORM loops`,`The one verb for all loops.`,`<p><code>PERFORM n TIMES</code> repeats a fixed number of times. <code>PERFORM UNTIL condition</code> repeats until the condition becomes true. <code>PERFORM VARYING i FROM 1 BY 1 UNTIL i &gt; 3</code> is the counting loop. End inline loops with <code>END-PERFORM</code>.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LOOPS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 CTR PIC 9 VALUE 0.
+       PROCEDURE DIVISION.
+           PERFORM 2 TIMES
+               DISPLAY "Hi"
+           END-PERFORM.
+           PERFORM VARYING CTR FROM 1 BY 1 UNTIL CTR > 3
+               DISPLAY "CTR = " CTR
+           END-PERFORM.
+           MOVE 0 TO CTR.
+           PERFORM UNTIL CTR = 2
+               ADD 1 TO CTR
+               DISPLAY "loop " CTR
+           END-PERFORM.
+           STOP RUN.`,`Hi
+Hi
+CTR = 1
+CTR = 2
+CTR = 3
+loop 1
+loop 2`],
+[`cbpara`,`COBOL paragraphs`,`Name a block of code and perform it.`,`<p>In the procedure division, a <b>paragraph</b> is a name in Area A followed by a period and then statements. <code>PERFORM paragraph-name</code> runs it and returns, like calling a function. Several paragraphs can be grouped into a <code>SECTION</code>. <code>STOP RUN</code> ends the program, so put it before the other paragraphs.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PARAS.
+       PROCEDURE DIVISION.
+       MAIN-PARA.
+           DISPLAY "Start".
+           PERFORM GREET-PARA.
+           PERFORM GREET-PARA.
+           DISPLAY "End".
+           STOP RUN.
+       GREET-PARA.
+           DISPLAY "Hello from a paragraph".`,`Start
+Hello from a paragraph
+Hello from a paragraph
+End`],
+[`cbtable`,`COBOL tables (arrays)`,`OCCURS repeats an item.`,`<p><code>OCCURS n TIMES</code> makes a table. Read an element with a subscript in brackets, such as <code>NUM(2)</code>. <b>Subscripts start at 1</b>, not 0. Combine it with <code>PERFORM VARYING</code> to go through every element.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. TABLES.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 NUMS-TABLE.
+          05 NUM PIC 99 OCCURS 3 TIMES.
+       01 IDX PIC 9.
+       01 SUM-TOT PIC 999 VALUE 0.
+       PROCEDURE DIVISION.
+           MOVE 10 TO NUM(1).
+           MOVE 20 TO NUM(2).
+           MOVE 30 TO NUM(3).
+           PERFORM VARYING IDX FROM 1 BY 1 UNTIL IDX > 3
+               ADD NUM(IDX) TO SUM-TOT
+           END-PERFORM.
+           DISPLAY "Total " SUM-TOT.
+           DISPLAY NUM(2).
+           STOP RUN.`,`Total 060
+20`],
+[`cbgroup`,`COBOL group items and records`,`Build a record from smaller fields.`,`<p>A <b>group item</b> has no PIC; it contains subordinate items with higher level numbers (<code>05</code>, <code>10</code>...). Displaying or moving the group treats it as one piece of text made from its fields, joined in order. This is how COBOL describes records such as an employee or a customer.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. GROUPS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 EMPLOYEE.
+          05 EMP-NAME   PIC X(10) VALUE "Ada".
+          05 EMP-SALARY PIC 9(5)  VALUE 45000.
+       PROCEDURE DIVISION.
+           DISPLAY FUNCTION TRIM(EMP-NAME).
+           DISPLAY EMP-SALARY.
+           DISPLAY EMPLOYEE.
+           STOP RUN.`,`Ada
+45000
+Ada       45000`],
+[`cbfunc`,`COBOL intrinsic functions`,`Built-in helpers with FUNCTION.`,`<p>Call built-in functions with the word <code>FUNCTION</code>: <code>UPPER-CASE</code>, <code>LOWER-CASE</code>, <code>REVERSE</code>, <code>TRIM</code>, <code>LENGTH</code>, <code>MAX</code>, <code>MIN</code>, <code>SQRT</code>. Move a numeric result into a PIC field to control how it prints.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FUNCS.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 TXT PIC X(10) VALUE "cobol".
+       01 N   PIC 99.
+       PROCEDURE DIVISION.
+           DISPLAY FUNCTION TRIM(FUNCTION UPPER-CASE(TXT)).
+           MOVE FUNCTION LENGTH(FUNCTION TRIM(TXT)) TO N.
+           DISPLAY N.
+           MOVE FUNCTION MAX(3 9 4) TO N.
+           DISPLAY N.
+           DISPLAY FUNCTION TRIM(FUNCTION REVERSE(FUNCTION TRIM(TXT))).
+           MOVE FUNCTION SQRT(16) TO N.
+           DISPLAY N.
+           STOP RUN.`,`COBOL
+05
+09
+loboc
+04`],
+[`cbfile`,`COBOL file handling`,`Read and write sequential files.`,`<p>Files are declared in the <code>ENVIRONMENT DIVISION</code> with <code>SELECT ... ASSIGN TO</code> and described in the <code>FILE SECTION</code> with <code>FD</code>. Use <code>OPEN</code>, <code>WRITE</code>, <code>READ ... AT END</code> and <code>CLOSE</code>. <code>LINE SEQUENTIAL</code> means a plain text file with one record per line. The online runner may block files, in which case the expected output is shown.</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FILES.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT NOTES-FILE ASSIGN TO "notes.txt"
+               ORGANIZATION IS LINE SEQUENTIAL.
+       DATA DIVISION.
+       FILE SECTION.
+       FD NOTES-FILE.
+       01 NOTE-REC PIC X(20).
+       WORKING-STORAGE SECTION.
+       01 EOF-FLAG PIC X VALUE "N".
+       PROCEDURE DIVISION.
+           OPEN OUTPUT NOTES-FILE.
+           MOVE "first line" TO NOTE-REC.
+           WRITE NOTE-REC.
+           MOVE "second line" TO NOTE-REC.
+           WRITE NOTE-REC.
+           CLOSE NOTES-FILE.
+           OPEN INPUT NOTES-FILE.
+           PERFORM UNTIL EOF-FLAG = "Y"
+               READ NOTES-FILE
+                   AT END MOVE "Y" TO EOF-FLAG
+                   NOT AT END DISPLAY FUNCTION TRIM(NOTE-REC)
+               END-READ
+           END-PERFORM.
+           CLOSE NOTES-FILE.
+           STOP RUN.`,`first line
+second line`],
+[`cbproject`,`COBOL project: payroll report`,`Tables, loops, arithmetic and edited output together.`,`<p>This program stores three employees in a table, calculates each pay as hours times rate, adds up a grand total and prints it with edited pictures. Try changing the hours, or adding a fourth employee (remember to change <code>OCCURS 3</code>).</p>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PAYROLL.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 EMP-TABLE.
+          05 EMP OCCURS 3 TIMES.
+             10 E-NAME  PIC X(8).
+             10 E-HOURS PIC 99.
+             10 E-RATE  PIC 99.
+       01 IDX      PIC 9.
+       01 PAY      PIC 9(4).
+       01 GRAND    PIC 9(5) VALUE 0.
+       01 PAY-ED   PIC ZZZ9.
+       01 GRAND-ED PIC ZZ,ZZ9.
+       PROCEDURE DIVISION.
+           MOVE "Ada" TO E-NAME(1).
+           MOVE 40 TO E-HOURS(1).
+           MOVE 20 TO E-RATE(1).
+           MOVE "Bo" TO E-NAME(2).
+           MOVE 35 TO E-HOURS(2).
+           MOVE 18 TO E-RATE(2).
+           MOVE "Cy" TO E-NAME(3).
+           MOVE 20 TO E-HOURS(3).
+           MOVE 25 TO E-RATE(3).
+           PERFORM VARYING IDX FROM 1 BY 1 UNTIL IDX > 3
+               COMPUTE PAY = E-HOURS(IDX) * E-RATE(IDX)
+               ADD PAY TO GRAND
+               MOVE PAY TO PAY-ED
+               DISPLAY FUNCTION TRIM(E-NAME(IDX)) ": "
+                   FUNCTION TRIM(PAY-ED)
+           END-PERFORM.
+           MOVE GRAND TO GRAND-ED.
+           DISPLAY "Total: " FUNCTION TRIM(GRAND-ED).
+           STOP RUN.`,`Ada: 800
+Bo: 630
+Cy: 500
+Total: 1,930`]
+);
 var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
 var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
 var TR={
@@ -1070,18 +2009,22 @@ else put(err?"Error: "+err:"Output:",out)}
 var PN={"en": "PHP runs on a server, so this page cannot execute it. Expected output of the original code:", "ru": "PHP выполняется на сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "PHP se ejecuta en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "PHP सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
 var PYN={"en": "Python runs on your computer or a server, so this page cannot execute it. Expected output of the original code:", "ru": "Python выполняется на компьютере или сервере, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "Python se ejecuta en tu ordenador o en un servidor, así que esta página no puede ejecutarlo. Salida esperada del código original:", "hi": "Python आपके कंप्यूटर या सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित आउटपुट:"};
 var PS={"en": "SQL runs on a database server, so this page cannot execute it. Expected result of the original code:", "ru": "SQL выполняется на сервере баз данных, поэтому эта страница не может его запустить. Ожидаемый результат исходного кода:", "es": "SQL se ejecuta en un servidor de base de datos, así que esta página no puede ejecutarlo. Resultado esperado del código original:", "hi": "SQL डेटाबेस सर्वर पर चलता है, इसलिए यह पेज इसे चला नहीं सकता। मूल कोड का अपेक्षित परिणाम:"};
-var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head"},RN=0,WB=null,API="https://wandbox.org/api/";
+var RM={c:"gcc-head-c",cpp:"gcc-head",php:"php-head",java:"openjdk-head"},RN=0,WB=null,API="https://wandbox.org/api/";
 var BOX='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7">';
 var LASTOUT="";function show1(t){LASTOUT=t;$("out").srcdoc=BOX+'<pre style="white-space:pre-wrap;margin:0">'+esc(t)+'</pre></body>'}
 function wbList(){return WB||(WB=fetch(API+"list.json").then(function(r){return r.json()}).catch(function(){WB=null;return[]}))}
-function cands(l){var L2={c:"C",cpp:"C++",php:"PHP"}[l];return wbList().then(function(a){
+function cands(l){var L2={c:"C",cpp:"C++",php:"PHP",java:"Java"}[l];return wbList().then(function(a){
 var v=function(x){return String(x.version||"").split(".").map(Number)};
-var c=a.filter(function(x){return x.language===L2&&!/head/.test(x.name)&&(l==="php"||x.name.indexOf("gcc")===0)&&(l!=="cpp"||!/-c$/.test(x.name))}).sort(function(p,q){var A=v(p),B=v(q);for(var i=0;i<4;i++){if((A[i]||0)!==(B[i]||0))return(B[i]||0)-(A[i]||0)}return 0}).map(function(x){return x.name});
+var c=a.filter(function(x){return x.language===L2&&!/head/.test(x.name)&&(l==="php"||x.name.indexOf(l==="java"?"openjdk":"gcc")===0)&&(l!=="cpp"||!/-c$/.test(x.name))}).sort(function(p,q){var A=v(p),B=v(q);for(var i=0;i<4;i++){if((A[i]||0)!==(B[i]||0))return(B[i]||0)-(A[i]||0)}return 0}).map(function(x){return x.name});
 c.push(RM[l]);return c})}
 function wbRun(names,i,code){if(i>=names.length||i>3)return Promise.reject();
 return fetch(API+"compile.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({compiler:names[i],code:code,stdin:"",save:false})}).then(function(r){return r.ok?r.json():null},function(){return null}).then(function(d){var t=d?(d.compiler_error||"")+(d.program_output||"")+(d.program_error||""):"";if(d&&!/catatonit|failed to exec/.test(t))return t;return wbRun(names,i+1,code)})}
 function runRemote(it){var l=cur.l,n=++RN;show1("Running...");
 cands(l).then(function(names){return wbRun(names,0,$("ed").value)}).then(function(t){if(n===RN)show1(t.trim()?t:"(no output)")},function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
+var JN={"en": "Java is compiled and runs on the JVM, so this page could not run it just now (it needs an internet connection). Expected output of the original code:", "ru": "Java компилируется и работает на JVM, поэтому сейчас страница не смогла его запустить (нужен интернет). Ожидаемый результат исходного кода:", "es": "Java se compila y se ejecuta en la JVM, así que esta página no pudo ejecutarlo ahora (necesita conexión a internet). Salida esperada del código original:", "hi": "Java कम्पाइल होकर JVM पर चलता है, इसलिए यह पेज अभी इसे चला नहीं सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
+var CBN={"en": "COBOL runs on a compiler (GnuCOBOL), and this page could not reach the online compiler just now (it needs an internet connection). Expected output of the original code:", "ru": "COBOL работает через компилятор (GnuCOBOL), и сейчас страница не смогла подключиться к онлайн-компилятору (нужен интернет). Ожидаемый результат исходного кода:", "es": "COBOL se ejecuta con un compilador (GnuCOBOL) y esta página no pudo conectar con el compilador en línea ahora (necesita internet). Salida esperada del código original:", "hi": "COBOL एक कम्पाइलर (GnuCOBOL) से चलता है, और यह पेज अभी ऑनलाइन कम्पाइलर तक नहीं पहुँच सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
+function runCb(it){var n=++RN;show1("Running...");
+fetch("https://ce.judge0.com/submissions?base64_encoded=false&wait=true",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language_id:77,source_code:$("ed").value,stdin:""})}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(d){if(!d||!d.status)throw 0;var t=(d.compile_output||"")+(d.stdout||"")+(d.stderr||"");if(n===RN)show1(t.trim()?t:"(no output)")}).catch(function(){if(n===RN)runP(it)})}
 var PY=null;
 function runPy(it){var n=++RN,o="";show1("Loading Python... (the first run takes a few seconds)");
 if(!PY)PY=new Promise(function(ok,no){var sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";sc.onload=function(){loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"}).then(ok,no)};sc.onerror=no;document.head.appendChild(sc)}).catch(function(e){PY=null;throw e});
@@ -1097,8 +2040,8 @@ r.forEach(function(t){h+='<table style="border-collapse:collapse;margin:0 0 14px
 $("out").srcdoc=BOX+(h||"Query ran successfully. No rows to show.")+'</body>'}
 catch(e){if($("ed").value===it[4]&&it[5]){$("out").srcdoc=BOX+'<div style="color:#94a0b8;margin-bottom:8px">The in-browser engine (SQLite) does not support this MySQL feature, so here is the expected result:</div><pre style="white-space:pre-wrap">'+esc(it[5])+'</pre></body>'}else show1("Error: "+(e.message||e))}
 db.close()},function(){if(n===RN)runP(it)})}
-function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
+function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN,java:JN,cobol:CBN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(cur.l==="cobol"){runCb(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -1142,7 +2085,7 @@ function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;backgro
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
 (function(){
-var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python"},
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python",java:"Java",cobol:"COBOL"},
 W={html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
 css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
 js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
@@ -1150,7 +2093,9 @@ c:{en:"C is a fast, low-level language used for operating systems and embedded d
 cpp:{en:"C++ extends C with classes and objects, giving you speed and control for games, apps and systems software.",ru:"C++ расширяет C классами и объектами и даёт скорость и контроль для игр, приложений и системного ПО.",es:"C++ amplía C con clases y objetos, ofreciendo velocidad y control para juegos, aplicaciones y software de sistemas.",hi:"C++ C को क्लास और ऑब्जेक्ट के साथ आगे बढ़ाता है और गेम, ऐप और सिस्टम सॉफ़्टवेयर के लिए गति और नियंत्रण देता है।"},
 php:{en:"PHP is a server-side language that builds dynamic web pages, handles forms, sessions and databases, and powers sites like WordPress.",ru:"PHP — серверный язык, который создаёт динамические веб-страницы, обрабатывает формы, сессии и базы данных и лежит в основе таких сайтов, как WordPress.",es:"PHP es un lenguaje de servidor que crea páginas web dinámicas, gestiona formularios, sesiones y bases de datos, y mueve sitios como WordPress.",hi:"PHP एक सर्वर-साइड भाषा है जो डायनामिक वेब पेज बनाती है, फ़ॉर्म, सेशन और डेटाबेस संभालती है और WordPress जैसी साइटों को चलाती है।"},
 sql:{en:"SQL is the standard language for databases: you use it to store, search, change and combine data in tables.",ru:"SQL — стандартный язык баз данных: с его помощью данные в таблицах хранят, ищут, изменяют и объединяют.",es:"SQL es el lenguaje estándar de las bases de datos: sirve para guardar, buscar, modificar y combinar datos en tablas.",hi:"SQL डेटाबेस की मानक भाषा है: इससे टेबल में डेटा सहेजा, खोजा, बदला और जोड़ा जाता है।"},
-python:{en:"Python is a readable, beginner-friendly language used for automation, web back ends, data science and AI.",ru:"Python — читаемый язык, удобный для начинающих; его используют для автоматизации, веб-серверов, анализа данных и ИИ.",es:"Python es un lenguaje legible y fácil para principiantes, usado en automatización, back ends web, ciencia de datos e IA.",hi:"Python एक पढ़ने में आसान, शुरुआती लोगों के लिए अच्छी भाषा है, जिसका उपयोग ऑटोमेशन, वेब बैकएंड, डेटा साइंस और AI में होता है।"}},
+python:{en:"Python is a readable, beginner-friendly language used for automation, web back ends, data science and AI.",ru:"Python — читаемый язык, удобный для начинающих; его используют для автоматизации, веб-серверов, анализа данных и ИИ.",es:"Python es un lenguaje legible y fácil para principiantes, usado en automatización, back ends web, ciencia de datos e IA.",hi:"Python एक पढ़ने में आसान, शुरुआती लोगों के लिए अच्छी भाषा है, जिसका उपयोग ऑटोमेशन, वेब बैकएंड, डेटा साइंस और AI में होता है।"},
+java:{en:"Java is a popular object-oriented language used for Android apps, back-end servers and large business systems, and it runs on any device with a JVM.",ru:"Java — популярный объектно-ориентированный язык для Android-приложений, серверов и крупных бизнес-систем; работает на любом устройстве с JVM.",es:"Java es un lenguaje orientado a objetos muy popular, usado en apps Android, servidores y grandes sistemas empresariales, y funciona en cualquier dispositivo con JVM.",hi:"Java एक लोकप्रिय ऑब्जेक्ट-ओरिएंटेड भाषा है जिसका उपयोग Android ऐप, बैकएंड सर्वर और बड़े बिज़नेस सिस्टम में होता है, और यह JVM वाले हर डिवाइस पर चलती है।"},
+cobol:{en:"COBOL is the business language behind banks, insurance and government systems: it handles exact decimal arithmetic and huge batches of records, and its code reads almost like English.",ru:"COBOL — язык бизнес-приложений, на котором работают банки, страховые компании и госсистемы: он точно считает десятичные числа, обрабатывает огромные массивы записей, а его код читается почти как английский.",es:"COBOL es el lenguaje de negocios detrás de bancos, aseguradoras y sistemas del gobierno: maneja aritmética decimal exacta y enormes lotes de registros, y su código se lee casi como inglés.",hi:"COBOL वह बिज़नेस भाषा है जिस पर बैंक, बीमा और सरकारी सिस्टम चलते हैं: यह सटीक दशमलव गणित और बहुत बड़े रिकॉर्ड-बैच संभालती है, और इसका कोड लगभग अंग्रेज़ी जैसा पढ़ा जाता है।"}},
 T={html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
 css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
 js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
@@ -1158,7 +2103,9 @@ c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:
 cpp:{en:"variables, control flow, functions, classes and objects, inheritance and the STL",ru:"переменные, управление потоком, функции, классы и объекты, наследование и STL",es:"variables, control de flujo, funciones, clases y objetos, herencia y la STL",hi:"वेरिएबल, कंट्रोल फ़्लो, फ़ंक्शन, क्लास और ऑब्जेक्ट, इनहेरिटेंस और STL"},
 php:{en:"variables, strings, arrays, loops, functions, forms, sessions, JSON, exceptions, classes and MySQL",ru:"переменные, строки, массивы, циклы, функции, формы, сессии, JSON, исключения, классы и MySQL",es:"variables, cadenas, arrays, bucles, funciones, formularios, sesiones, JSON, excepciones, clases y MySQL",hi:"वेरिएबल, स्ट्रिंग, ऐरे, लूप, फ़ंक्शन, फ़ॉर्म, सेशन, JSON, एक्सेप्शन, क्लास और MySQL"},
 sql:{en:"SELECT, WHERE, sorting, aggregates, joins, GROUP BY, constraints, views and SQL injection",ru:"SELECT, WHERE, сортировка, агрегаты, соединения, GROUP BY, ограничения, представления и SQL-инъекции",es:"SELECT, WHERE, ordenación, agregados, joins, GROUP BY, restricciones, vistas e inyección SQL",hi:"SELECT, WHERE, सॉर्टिंग, एग्रीगेट, जॉइन, GROUP BY, कंस्ट्रेंट, व्यू और SQL इंजेक्शन"},
-python:{en:"variables, strings, lists, dictionaries, loops, functions, classes, files, JSON, data libraries and algorithms",ru:"переменные, строки, списки, словари, циклы, функции, классы, файлы, JSON, библиотеки данных и алгоритмы",es:"variables, cadenas, listas, diccionarios, bucles, funciones, clases, archivos, JSON, librerías de datos y algoritmos",hi:"वेरिएबल, स्ट्रिंग, लिस्ट, डिक्शनरी, लूप, फ़ंक्शन, क्लास, फ़ाइल, JSON, डेटा लाइब्रेरी और एल्गोरिद्म"}},
+python:{en:"variables, strings, lists, dictionaries, loops, functions, classes, files, JSON, data libraries and algorithms",ru:"переменные, строки, списки, словари, циклы, функции, классы, файлы, JSON, библиотеки данных и алгоритмы",es:"variables, cadenas, listas, diccionarios, bucles, funciones, clases, archivos, JSON, librerías de datos y algoritmos",hi:"वेरिएबल, स्ट्रिंग, लिस्ट, डिक्शनरी, लूप, फ़ंक्शन, क्लास, फ़ाइल, JSON, डेटा लाइब्रेरी और एल्गोरिद्म"},
+java:{en:"variables, data types, operators, strings, loops, methods, classes and objects, inheritance, interfaces, collections, exceptions and streams",ru:"переменные, типы данных, операторы, строки, циклы, методы, классы и объекты, наследование, интерфейсы, коллекции, исключения и потоки",es:"variables, tipos de datos, operadores, cadenas, bucles, métodos, clases y objetos, herencia, interfaces, colecciones, excepciones y streams",hi:"वेरिएबल, डेटा टाइप, ऑपरेटर, स्ट्रिंग, लूप, मेथड, क्लास और ऑब्जेक्ट, इनहेरिटेंस, इंटरफ़ेस, कलेक्शन, एक्सेप्शन और स्ट्रीम"},
+cobol:{en:"the four divisions, variables and PICTURE clauses, MOVE, strings, arithmetic, IF and EVALUATE, PERFORM loops, paragraphs, tables, records, functions and files",ru:"четыре раздела, переменные и PICTURE, MOVE, строки, арифметику, IF и EVALUATE, циклы PERFORM, параграфы, таблицы, записи, функции и файлы",es:"las cuatro divisiones, variables y cláusulas PICTURE, MOVE, cadenas, aritmética, IF y EVALUATE, bucles PERFORM, párrafos, tablas, registros, funciones y archivos",hi:"चार डिवीज़न, वेरिएबल और PICTURE, MOVE, स्ट्रिंग, अंकगणित, IF और EVALUATE, PERFORM लूप, पैराग्राफ, टेबल, रिकॉर्ड, फ़ंक्शन और फ़ाइलें"}},
 G={en:["Welcome to the {N} course","A short introduction before you start learning {N}.","What you will learn","Press Next lesson to begin. Edit and run the code in every lesson, and take the exam at the end to earn a certificate."],
 ru:["Добро пожаловать на курс {N}","Краткое введение перед началом изучения {N}.","Чему вы научитесь","Нажмите «Следующий урок», чтобы начать. Меняйте и запускайте код в каждом уроке, а в конце сдайте экзамен и получите сертификат."],
 es:["Bienvenido al curso de {N}","Una breve introducción antes de empezar a aprender {N}.","Qué aprenderás","Pulsa «Siguiente lección» para empezar. Edita y ejecuta el código en cada lección y haz el examen final para obtener un certificado."],
@@ -1204,6 +2151,122 @@ python:[[`print`,`Shows values on the screen. Several values separated by commas
 [`range`,`Produces a sequence of numbers, handy for loops: range(stop) or range(start, stop, step).`,`range(start, stop, step)`,`list(range(1, 4))  # [1, 2, 3]`],
 [`append`,`Adds one item to the end of a list.`,`list.append(item)`,`a = [1, 2]\na.append(3)`],
 [`import`,`Loads a module so you can use its functions, such as math or random.`,`import module`,`import math\nprint(math.sqrt(16))`]],
+java:[[`public class`,`Declares a class. In a file called Main.java the public class must be named Main.`,`public class Name {
+  ...
+}`,`public class Main {
+}`],
+[`main`,`The method where every Java program starts running. args holds command-line arguments.`,`public static void main(String[] args) {
+  ...
+}`,`public static void main(String[] args) {
+  System.out.println("Hi");
+}`],
+[`System.out.println`,`Prints a value and moves to a new line. Use print to stay on the same line and printf to format.`,`System.out.println(value);`,`System.out.println("Hello, Java!");`],
+[`int, double, String`,`Common types: int stores whole numbers, double stores decimals and String stores text.`,`type name = value;`,`int a = 5;
+double b = 2.5;
+String s = "Hi";`],
+[`final`,`Makes a variable a constant: it can be assigned only once.`,`final type NAME = value;`,`final int MAX = 10;`],
+[`if / else`,`Runs a block only when its condition is true. else if adds more choices and else catches the rest.`,`if (condition) {
+  ...
+} else {
+  ...
+}`,`if (score >= 60) {
+  System.out.println("pass");
+}`],
+[`switch`,`Compares one value against many case labels. The arrow form returns a value and needs no break.`,`switch (value) {
+  case 1 -> ...;
+  default -> ...;
+}`,`String s = switch (d) {
+  case 1 -> "Mon";
+  default -> "Other";
+};`],
+[`for`,`Repeats a block using a start value, a condition and a step. The for-each form visits every item.`,`for (int i = 0; i < n; i++) {
+  ...
+}`,`for (int i = 0; i < 3; i++) {
+  System.out.println(i);
+}`],
+[`while`,`Repeats a block for as long as its condition stays true.`,`while (condition) {
+  ...
+}`,`int i = 0;
+while (i < 3) {
+  i++;
+}`],
+[`static`,`Makes a field or method belong to the class itself instead of to each object.`,`static type name;`,`static int count = 0;`],
+[`new`,`Creates a new object (or array) and calls its constructor.`,`new ClassName(arguments)`,`Dog d = new Dog("Rex", 3);`],
+[`class`,`Defines your own type that bundles fields (data) with methods (actions).`,`class Name {
+  fields;
+  methods;
+}`,`class Car {
+  int speed;
+}`],
+[`extends`,`Makes a class inherit from a parent class and reuse its members.`,`class Child extends Parent { ... }`,`class Cat extends Animal {
+}`],
+[`interface`,`Lists methods that any implementing class must provide.`,`interface Name {
+  void method();
+}`,`interface Greeter {
+  void greet();
+}`],
+[`ArrayList`,`A resizable list from java.util. Use add, get, remove and size.`,`ArrayList<Type> name = new ArrayList<>();`,`ArrayList<String> a = new ArrayList<>();
+a.add("pear");`],
+[`try / catch`,`Runs risky code in try and handles an exception in catch. finally always runs.`,`try {
+  ...
+} catch (Exception e) {
+  ...
+}`,`try {
+  Integer.parseInt("x");
+} catch (NumberFormatException e) {
+  System.out.println("bad");
+}`],
+[`import`,`Makes classes from another package available by their short name.`,`import package.Class;`,`import java.util.ArrayList;`],
+[`return`,`Ends a method immediately and sends a value back to the caller.`,`return value;`,`static int twice(int n) {
+  return n * 2;
+}`]],
+cobol:[[`IDENTIFICATION DIVISION`,`The first division. It names the program with PROGRAM-ID.`,`IDENTIFICATION DIVISION.
+PROGRAM-ID. name.`,`IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO.`],
+[`PROCEDURE DIVISION`,`The division that holds the instructions the program runs.`,`PROCEDURE DIVISION.
+    statements.`,`PROCEDURE DIVISION.
+    DISPLAY "Hi".`],
+[`WORKING-STORAGE SECTION`,`The part of the data division where you declare ordinary variables.`,`WORKING-STORAGE SECTION.
+01 name PIC type.`,`WORKING-STORAGE SECTION.
+01 WS-AGE PIC 99.`],
+[`PIC`,`The picture clause gives a data item its type and size: X for text, 9 for digits, V for an implied decimal point.`,`01 name PIC X(n).
+01 name PIC 9(n)V99.`,`01 WS-NAME PIC X(10).
+01 WS-PRICE PIC 9(3)V99.`],
+[`VALUE`,`Gives a data item its starting value.`,`01 name PIC type VALUE literal.`,`01 WS-AGE PIC 99 VALUE 36.`],
+[`DISPLAY`,`Prints literals and variables to the screen.`,`DISPLAY item item ...`,`DISPLAY "Total: " WS-TOTAL.`],
+[`ACCEPT`,`Reads a value typed by the user into a variable.`,`ACCEPT variable.`,`ACCEPT WS-NAME.`],
+[`MOVE`,`Copies a value into one or more variables.`,`MOVE source TO target.`,`MOVE 10 TO WS-AGE.`],
+[`ADD`,`Adds numbers. GIVING stores the result in a different field.`,`ADD a TO b.
+ADD a TO b GIVING c.`,`ADD 5 TO WS-TOTAL.`],
+[`COMPUTE`,`Calculates a formula with + - * / and **. Add ROUNDED to round the result.`,`COMPUTE result = formula.`,`COMPUTE R = (X + Y) * 2.`],
+[`IF`,`Runs statements only when a condition is true. ELSE covers the other case and END-IF closes it.`,`IF condition
+    ...
+ELSE
+    ...
+END-IF.`,`IF SCORE >= 60
+    DISPLAY "pass"
+END-IF.`],
+[`EVALUATE`,`Chooses between many WHEN cases, like a switch statement.`,`EVALUATE value
+    WHEN x ...
+    WHEN OTHER ...
+END-EVALUATE.`,`EVALUATE DAY-NUM
+    WHEN 1 DISPLAY "Mon"
+    WHEN OTHER DISPLAY "Other"
+END-EVALUATE.`],
+[`PERFORM`,`Runs a paragraph or a block of statements, once or repeatedly (TIMES, UNTIL, VARYING).`,`PERFORM n TIMES ... END-PERFORM.
+PERFORM paragraph-name.`,`PERFORM 3 TIMES
+    DISPLAY "Hi"
+END-PERFORM.`],
+[`OCCURS`,`Repeats a data item to make a table. Subscripts start at 1.`,`05 name PIC type OCCURS n TIMES.`,`05 NUM PIC 99 OCCURS 3 TIMES.`],
+[`STRING`,`Joins several items into one field. DELIMITED BY says where each piece stops.`,`STRING a DELIMITED BY SPACE
+       b DELIMITED BY SIZE
+       INTO target.`,`STRING FIRST-NAME DELIMITED BY SPACE
+       LAST-NAME DELIMITED BY SPACE
+       INTO FULL-NAME.`],
+[`OPEN / CLOSE`,`OPEN prepares a file for INPUT, OUTPUT or EXTEND; CLOSE finishes with it.`,`OPEN INPUT file-name.
+CLOSE file-name.`,`OPEN OUTPUT NOTES-FILE.
+CLOSE NOTES-FILE.`],
+[`STOP RUN`,`Ends the program immediately.`,`STOP RUN.`,`STOP RUN.`]],
 sql:[[`SELECT`,`Reads data from a table. List the columns you want, or use * for all columns.`,`SELECT columns FROM table;`,`SELECT name, city FROM Customers;`],
 [`FROM`,`Names the table that the query reads from.`,`SELECT ... FROM table;`,`SELECT * FROM Customers;`],
 [`WHERE`,`Keeps only the rows that satisfy a condition. Combine conditions with AND and OR.`,`... WHERE condition;`,`SELECT * FROM Customers WHERE country = 'UK';`],
@@ -1238,7 +2301,9 @@ c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.
 cpp:[["Which object prints to the console?",["cout","print","echo","out"],0],["Which container holds unique sorted values?",["vector","set","array","list"],1],["Which operator reads from cin?",["<<",">>","::","->"],1],["Which header provides vector?",["<vector>","<array>","<list.h>","<vec>"],0],["Which is the scope operator?",[".","->","::","#"],2]],
 php:[["How does every PHP variable name begin?",["@","$","#","&"],1],["Which tags open and close PHP code?",["<?php ... ?>","<% ... %>","<script php>","{{ ... }}"],0],["Which operator joins two strings?",["+",".","&","::"],1],["Which function turns an array into JSON text?",["json_encode","to_json","array_json","json_parse"],0],["Which technique blocks SQL injection?",["echo","Prepared statements","var_dump","include"],1]],
 sql:[["Which statement reads data from a table?",["GET","SELECT","OPEN","READ"],1],["Which clause filters rows?",["WHERE","ORDER BY","GROUP","FROM"],0],["Which keyword sorts the result?",["SORT","ORDER BY","ARRANGE","GROUP BY"],1],["Which join keeps all rows of the left table?",["INNER JOIN","LEFT JOIN","CROSS JOIN","SELF JOIN"],1],["Which technique prevents SQL injection?",["Prepared statements","SELECT *","DISTINCT","UNION"],0]],
-python:[["Which function prints output?",["echo()","print()","write()","show()"],1],["What defines a block of code in Python?",["Curly braces","Indentation","Semicolons","Parentheses"],1],["Which type is unchangeable?",["list","dict","tuple","set"],2],["Which keyword defines a function?",["func","function","def","lambda only"],2],["What does len(\"abc\") return?",["2","3","4","abc"],1]]
+python:[["Which function prints output?",["echo()","print()","write()","show()"],1],["What defines a block of code in Python?",["Curly braces","Indentation","Semicolons","Parentheses"],1],["Which type is unchangeable?",["list","dict","tuple","set"],2],["Which keyword defines a function?",["func","function","def","lambda only"],2],["What does len(\"abc\") return?",["2","3","4","abc"],1]],
+java:[["Which method is the starting point of a Java program?", ["start()", "main()", "run()", "init()"], 1], ["Which keyword creates a new object?", ["make", "create", "new", "object"], 2], ["Which type stores true or false?", ["bool", "Boolean8", "boolean", "bit"], 2], ["How do you correctly compare two Strings' text?", ["a == b", "a.equals(b)", "a = b", "a.same(b)"], 1], ["What is the result of 10 / 4 with two ints?", ["2.5", "2", "3", "2.0"], 1], ["Which keyword makes a class inherit from another?", ["inherits", "implements", "extends", "super"], 2], ["Which collection keeps only unique values?", ["ArrayList", "HashSet", "int[]", "Vector"], 1], ["Which block always runs after try and catch?", ["finally", "else", "end", "always"], 0], ["Which modifier hides a field from other classes?", ["public", "static", "private", "final"], 2], ["What does the final keyword do to a variable?", ["Makes it global", "Makes it constant", "Deletes it", "Makes it faster"], 1]],
+cobol:[["Which division holds the executable instructions?", ["DATA DIVISION", "PROCEDURE DIVISION", "IDENTIFICATION DIVISION", "ENVIRONMENT DIVISION"], 1], ["What does PIC 9(3)V99 describe?", ["Five digits with an implied decimal point after three", "Text of 5 characters", "A signed integer", "Three decimals"], 0], ["Which verb prints output?", ["WRITE", "PRINT", "DISPLAY", "SHOW"], 2], ["Which statement ends an IF block?", ["END-IF", "ENDIF", "STOP IF", "CLOSE IF"], 0], ["In a COBOL table, the first subscript is...", ["0", "1", "-1", "A"], 1], ["Which verb is used for every kind of loop?", ["LOOP", "FOR", "WHILE", "PERFORM"], 3], ["Which word makes COMPUTE round its result?", ["ROUND", "ROUNDED", "NEAREST", "FIX"], 1], ["What is a level 88 item?", ["A table", "A file", "A named condition", "A comment"], 2], ["What ends every COBOL sentence?", ["Semicolon", "Period", "Colon", "Comma"], 1], ["Which verb splits text at a delimiter?", ["UNSTRING", "SPLIT", "CUT", "INSPECT"], 0]],
 };
 var EX={en:{b:"Exam",t:"Exam",nm:"Your name",co:"Course",bs:"Best score",st:"Start exam",sb:"Submit",nx:"Next",pv:"Back",sc:"Your score",ps:"Passed! You earned a certificate.",fl:"Not passed yet. You need 60%. Review the lessons and try again.",cert:"Certificate of Completion",cf:"This certifies that",pd:"has passed the",ex:"exam with a score of",dt:"Date",id:"Certificate ID",pr:"Print / Save PDF",cl:"Close",rt:"Try again",q:"Question",tl:"Time left",nn:"Enter your name first."},
 ru:{b:"Экзамен",t:"Экзамен",nm:"Ваше имя",co:"Курс",bs:"Лучший результат",st:"Начать экзамен",sb:"Завершить",nx:"Далее",pv:"Назад",sc:"Ваш результат",ps:"Сдано! Вы получили сертификат.",fl:"Пока не сдано. Нужно 60%. Повторите уроки и попробуйте снова.",cert:"Сертификат об окончании",cf:"Настоящим подтверждается, что",pd:"сдал(а) экзамен по курсу",ex:"с результатом",dt:"Дата",id:"Номер сертификата",pr:"Печать / PDF",cl:"Закрыть",rt:"Ещё раз",q:"Вопрос",tl:"Осталось",nn:"Сначала введите имя."},
@@ -1288,6 +2353,20 @@ Z("print",`Prints {1} to the output.`,`Выводит {1}.`,`Muestra {1} en la s
 Z("input",`Reads a value typed by the user.`,`Читает значение, введённое пользователем.`,`Lee un valor escrito por el usuario.`,`यूज़र द्वारा लिखा मान पढ़ता है।`);
 Z("imp",`Loads {1} so its features can be used.`,`Подключает {1}, чтобы использовать его возможности.`,`Carga {1} para usar sus funciones.`,`{1} जोड़ता है ताकि उसकी सुविधाएँ इस्तेमाल हों।`);
 Z("ns",`Lets you use names from {1} without typing the prefix.`,`Позволяет использовать имена из {1} без префикса.`,`Permite usar nombres de {1} sin escribir el prefijo.`,`{1} के नाम बिना प्रीफ़िक्स लिखे इस्तेमाल करने देता है।`);
+Z("cbdiv",`Starts the {1} DIVISION, one of the four main parts of a COBOL program.`,`Начинает раздел {1} DIVISION, одну из четырёх основных частей программы COBOL.`,`Inicia la {1} DIVISION, una de las cuatro partes principales de un programa COBOL.`,`{1} DIVISION शुरू करता है, जो COBOL प्रोग्राम के चार मुख्य भागों में से एक है।`);
+Z("cbpid",`Gives the program the name {1}.`,`Задаёт программе имя {1}.`,`Da al programa el nombre {1}.`,`प्रोग्राम का नाम {1} रखता है।`);
+Z("cbsec",`Starts the {1}, a part of a division.`,`Начинает {1} — часть раздела.`,`Inicia la {1}, una parte de una división.`,`{1} शुरू करता है, जो डिवीज़न का एक हिस्सा है।`);
+Z("cbstop",`Ends the program.`,`Завершает программу.`,`Termina el programa.`,`प्रोग्राम खत्म करता है।`);
+Z("cbend",`Closes the statement that was opened above.`,`Закрывает оператор, начатый выше.`,`Cierra la instrucción abierta arriba.`,`ऊपर शुरू किए गए स्टेटमेंट को बंद करता है।`);
+Z("cbeval",`Chooses between several cases (like a switch) on {1}.`,`Выбирает между несколькими вариантами (как switch) по {1}.`,`Elige entre varios casos (como un switch) según {1}.`,`{1} के आधार पर कई विकल्पों में से चुनता है (switch जैसा)।`);
+Z("cbwhen",`One case: runs the next lines when {1} matches.`,`Один вариант: выполняет следующие строки, если подходит {1}.`,`Un caso: ejecuta las líneas siguientes si coincide {1}.`,`एक विकल्प: {1} मेल खाने पर अगली पंक्तियाँ चलाता है।`);
+Z("cbarith",`Does arithmetic: {1}.`,`Выполняет арифметику: {1}.`,`Hace aritmética: {1}.`,`गणना करता है: {1}।`);
+Z("cbmove",`Copies or sets a value: {1}.`,`Копирует или задаёт значение: {1}.`,`Copia o establece un valor: {1}.`,`मान कॉपी या सेट करता है: {1}।`);
+Z("cbstr",`Joins, splits or changes text.`,`Соединяет, разделяет или изменяет текст.`,`Une, divide o cambia texto.`,`टेक्स्ट को जोड़ता, बाँटता या बदलता है।`);
+Z("cbfile",`File operation: {1}.`,`Операция с файлом: {1}.`,`Operación de archivo: {1}.`,`फ़ाइल ऑपरेशन: {1}।`);
+Z("cbpic",`Declares the data item {1} (its type and size come from PIC).`,`Объявляет элемент данных {1} (тип и размер задаёт PIC).`,`Declara el dato {1} (su tipo y tamaño vienen de PIC).`,`डेटा आइटम {1} घोषित करता है (टाइप और साइज़ PIC से तय होता है)।`);
+Z("cbpara",`Paragraph {1}: a named block of code that PERFORM can run.`,`Параграф {1}: именованный блок кода, который можно запустить через PERFORM.`,`Párrafo {1}: bloque de código con nombre que PERFORM puede ejecutar.`,`पैराग्राफ {1}: नाम वाला कोड ब्लॉक जिसे PERFORM चला सकता है।`);
+Z("jcls",`Declares {1}: a blueprint (class, interface or enum) for objects.`,`Объявляет {1}: шаблон (класс, интерфейс или перечисление) для объектов.`,`Declara {1}: un molde (clase, interfaz o enum) para objetos.`,`{1} घोषित करता है: ऑब्जेक्ट्स का ढाँचा (क्लास, इंटरफ़ेस या enum)।`);
 Z("main",`Starting point: the program begins running here.`,`Точка входа: программа начинается здесь.`,`Punto de inicio: el programa empieza aquí.`,`शुरुआती बिंदु: प्रोग्राम यहीं से चलना शुरू होता है।`);
 Z("tag",`Opens the <{1}> element.`,`Открывает элемент <{1}>.`,`Abre el elemento <{1}>.`,`<{1}> एलिमेंट खोलता है।`);
 Z("ctag",`Closes the <{1}> element.`,`Закрывает элемент <{1}>.`,`Cierra el elemento <{1}>.`,`<{1}> एलिमेंट बंद करता है।`);
@@ -1305,11 +2384,13 @@ python:[[/^(?:import|from)\s+(\S+)/,"imp"],[/^def\s+(\w+)/,"func"],[/^(?:if|elif
 php:[[/^(?:<\?php|\?>)/,"phptag"],[/^(?:echo|print)\s+(.*?);?$/,"print"],[/^function\s+(\w+)/,"func"],[/^(?:if|elseif)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|foreach|while)\s*\((.*)\)/,"loop"],[/^return\b\s*(.*?);?$/,"ret"],[/^\$(\w+)\s*[+\-*.\/]?=[^=]/,"var"]],
 sql:[[/^(select|from|where|insert|update|delete|create|order by|group by|(?:inner |left |right )?join)\b/i,"sql"]]};
 R.c=[[/^#include\s*(\S+)/,"imp"],[/^using namespace\s+(\w+)/,"ns"],[/^(?:int|void)\s+main\b/,"main"],[/^(?:printf|puts)\s*\((.*)\)/,"print"],[/^(?:std::)?cout\s*<<\s*(.*?);?$/,"print"],[/^(?:scanf|(?:std::)?cin|getline)\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:if|else if)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:int|void|float|double|char|bool|string|auto)\s+(\w+)\s*\(.*\)\s*\{?$/,"func"],[DC,"var",4]];R.cpp=R.c;
+R.cobol=[[/^\*>/,"cmt"],[/^(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\s+DIVISION/i,"cbdiv"],[/^PROGRAM-ID\.?\s*([\w-]+)/i,"cbpid"],[/^([\w-]+\s+SECTION)/i,"cbsec"],[/^DISPLAY\b\s*(.*?)\.?$/i,"print"],[/^ACCEPT\b/i,"input"],[/^STOP\s+RUN/i,"cbstop"],[/^END-[\w-]+/i,"cbend"],[/^(?:IF|ELSE\s+IF)\s+(.*)/i,"if"],[/^ELSE\b/i,"else"],[/^EVALUATE\b\s*(.*)/i,"cbeval"],[/^WHEN\b\s*(.*)/i,"cbwhen"],[/^PERFORM\b\s*(.*?)\.?$/i,"loop"],[/^(?:ADD|SUBTRACT|MULTIPLY|DIVIDE|COMPUTE)\b\s*(.*)/i,"cbarith"],[/^(?:MOVE|SET|INITIALIZE)\b\s*(.*)/i,"cbmove"],[/^(?:STRING|UNSTRING|INSPECT)\b/i,"cbstr"],[/^(?:OPEN|CLOSE|READ|WRITE|SELECT|FD)\b\s*(.*)/i,"cbfile"],[/^\d\d\s+([\w-]+)/,"cbpic"],[/^([\w-]+)\.$/,"cbpara"]];
+R.java=[[/^(?:import|package)\s+(?:static\s+)?([^;\s]+)/,"imp"],[/^(?:public\s+|protected\s+|private\s+|abstract\s+|final\s+|static\s+)*(?:class|interface|enum|record)\s+(\w+)/,"jcls"],[/^public\s+static\s+void\s+main\b/,"main"],[/^System\.out\.(?:println|print|printf)\((.*)\);?$/,"print"],[/^Scanner\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:\}\s*)?(?:else\s+)?if\s*\((.*)\)/,"if"],[/^(?:\}\s*)?else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:public\s+|private\s+|protected\s+)?(?:static\s+)?(?:final\s+)?(?:abstract\s+)?[\w<>\[\],]+\s+(\w+)\s*\(.*\)\s*(?:throws\s+[\w, ]+)?\{?\s*;?$/,"func"],[/^(?:final\s+)?(?:int|long|double|float|char|boolean|byte|short|var|String|[A-Z]\w*(?:<[^>]*>)?)(?:\[\])*\s+(\w+)\s*(?:=|;)/,"var"],[/^([\w.\[\]]+)\s*[+\-*\/%]?=[^=]/,"var"]];
 function fm(k,m,ix){var t=M[k][LI()],g=function(i){return String(m[i]||"").trim().slice(0,50)};return t.replace("{1}",ix?g(ix):g(1)).replace("{2}",g(2))}
 function LI(){return["en","ru","es","hi"].indexOf(lang)}
 function desc(t,l){if(!t)return M.empty[LI()];if(/^(\/\/|#(?!include)|--|\/\*|\*(\s|\/)|<!--)/.test(t))return M.cmt[LI()];if(/^[})\]]+[;,)]*$/.test(t))return M.close[LI()];
 var r=R[l]||[];for(var i=0;i<r.length;i++){var m=r[i][0].exec(t);if(m){if(r[i][1]==="sql"){var k=m[1].toLowerCase();if(/join/.test(k))k="join";return k.toUpperCase()+": "+SQM[k][LI()]}return fm(r[i][1],m,r[i][2])}}return M.other[LI()]}
-function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l==="php"?"#":l==="sql"?"--":"//";if(l==="html")return E;
+function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l==="php"?"#":l==="sql"?"--":l==="cobol"?"*>":"//";if(l==="html")return E;
 while(i<n){c=code[i];if(c==="\n"){ln++;i++;continue}
 if(c==="/"&&code[i+1]==="*"){var e=code.indexOf("*/",i+2);if(e<0)break;ln+=(code.slice(i,e).match(/\n/g)||[]).length;i=e+2;continue}
 if(code.substr(i,lc.length)===lc){i=code.indexOf("\n",i);if(i<0)break;continue}
