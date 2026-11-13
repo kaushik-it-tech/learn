@@ -2076,6 +2076,387 @@ let out = "";
 r.on("data", function (c) { out += c; });
 r.on("end", function () { console.log(out); });`,`abc`]
 ]};
+L.mainframe={n:"Mainframe",c:"#0f62fe",items:[
+[`mfintro`,`Mainframe introduction`,`What a mainframe is and why it still matters.`,`<p>A <b>mainframe</b> is a large, reliable computer that handles millions of transactions every day. Banks, airlines, insurers and governments run on it. Its operating system is <b>z/OS</b>, and much of its work runs as <b>batch jobs</b> written in <code>JCL</code>.</p>`,`//HELLO JOB (ACCT),'HELLO',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT2   DD SYSOUT=*
+//SYSUT1   DD *
+HELLO FROM THE MAINFRAME
+/*`,`HELLO FROM THE MAINFRAME`],
+[`mfarch`,`Mainframe architecture and z/OS`,`The parts of a mainframe system.`,`<p>A mainframe has processors, memory and <b>channels</b> that connect disks and other devices. One machine can be split into several <b>LPAR</b>s (logical partitions), each running its own copy of z/OS. Work is shared out by the operating system.</p>`,`/* REXX */
+SAY "LPAR: logical partition"
+SAY "Channel: path to I/O devices"
+SAY "z/OS: the operating system"`,`LPAR: logical partition
+Channel: path to I/O devices
+z/OS: the operating system`],
+[`mftso`,`TSO and ISPF`,`Work on the mainframe from a terminal.`,`<p><b>TSO</b> is the command line of z/OS and <b>ISPF</b> is the menu-driven editor and file manager on top of it. In ISPF you edit datasets, browse job output and run <code>SUBMIT</code> to send a job to the system.</p>`,`/* REXX */
+SAY "Logged on to TSO"
+SAY "Use SUBMIT to run a job"`,`Logged on to TSO
+Use SUBMIT to run a job`],
+[`mfdataset`,`Datasets and PDS members`,`How data is stored on z/OS.`,`<p>A file on z/OS is a <b>dataset</b>. Names have parts separated by dots, such as <code>USER1.TEST.DATA</code>. A <b>sequential</b> dataset holds records one after another; a <b>PDS</b> is a library of named <b>members</b>. <code>IEFBR14</code> is a do-nothing program used to create datasets.</p>`,`//ALLOC JOB (ACCT),'ALLOC',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEFBR14
+//NEWDS    DD DSN=USER1.TEST.DATA,DISP=(NEW,CATLG,DELETE),
+//            SPACE=(TRK,(1,1)),RECFM=FB,LRECL=80`,`IEF142I ALLOC STEP1 - STEP WAS EXECUTED - COND CODE 0000`],
+[`mfjcl`,`JCL basics: JOB, EXEC and DD`,`The three main JCL statements.`,`<p>Every job has a <code>JOB</code> statement that names it, one or more <code>EXEC</code> statements that run a program, and <code>DD</code> statements that connect datasets to the program. Lines start with <code>//</code> and data in the job stream ends with <code>/*</code>.</p>`,`//BASICS JOB (ACCT),'BASICS',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT2   DD SYSOUT=*
+//SYSUT1   DD *
+JCL BASICS
+JOB EXEC DD
+/*`,`JCL BASICS
+JOB EXEC DD`],
+[`mfdd`,`DD statements and DISP`,`Control how a dataset is used.`,`<p>The <code>DSN</code> parameter names a dataset and <code>DISP</code> says what happens to it: its status (<b>NEW</b>, <b>OLD</b>, <b>SHR</b>), what to do when the step ends normally and what to do if it fails. Names that start with <code>&amp;&amp;</code> are temporary datasets.</p>`,`//DDJOB JOB (ACCT),'DD',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD *
+TEMPORARY DATA
+/*
+//SYSUT2   DD DSN=&&TEMP,DISP=(NEW,PASS),SPACE=(TRK,(1,1)),
+//            RECFM=FB,LRECL=80
+//STEP2    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD DSN=&&TEMP,DISP=(OLD,DELETE)
+//SYSUT2   DD SYSOUT=*`,`TEMPORARY DATA`],
+[`mfsort`,`DFSORT utility`,`Sort and merge records.`,`<p>The <code>SORT</code> program sorts records. <code>SORTIN</code> is the input, <code>SORTOUT</code> is the output and the control statement in <code>SYSIN</code> says how: <code>SORT FIELDS=(1,6,CH,A)</code> sorts 6 characters from column 1 in ascending order.</p>`,`//SORTJOB JOB (ACCT),'SORT',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=SORT
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD *
+CHERRY
+APPLE
+BANANA
+/*
+//SORTOUT  DD SYSOUT=*
+//SYSIN    DD *
+  SORT FIELDS=(1,6,CH,A)
+/*`,`APPLE
+BANANA
+CHERRY`],
+[`mfutil`,`IEBGENER and IEFBR14 utilities`,`Small programs that do common jobs.`,`<p><code>IEBGENER</code> copies one dataset to another or prints it. <code>IEFBR14</code> does nothing, so it is used only for its <code>DD</code> statements: to create or delete datasets.</p>`,`//DELJOB JOB (ACCT),'DELETE',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEFBR14
+//OLD      DD DSN=USER1.TEST.DATA,DISP=(OLD,DELETE,DELETE)`,`IEF142I DELJOB STEP1 - STEP WAS EXECUTED - COND CODE 0000`],
+[`mfvsam`,`VSAM and IDCAMS`,`Indexed files and the utility that manages them.`,`<p><b>VSAM</b> datasets can be read by key, in order or by position. The <code>IDCAMS</code> utility defines, copies, prints and deletes them. Its commands, such as <code>DEFINE CLUSTER</code> and <code>REPRO</code>, are written in <code>SYSIN</code>.</p>`,`//VSAMJOB JOB (ACCT),'IDCAMS',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IDCAMS
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD *
+  SET MAXCC=0
+/*`,`IDC0002I IDCAMS PROCESSING COMPLETE. MAXIMUM CONDITION CODE WAS 0`],
+[`mfcobol`,`COBOL batch program on z/OS`,`Compile, link and run COBOL in one job.`,`<p>Most business batch programs are written in COBOL. The cataloged procedure <code>IGYWCLG</code> compiles, links and runs a program. The source goes in <code>COBOL.SYSIN</code> and the output of <code>DISPLAY</code> goes to <code>GO.SYSOUT</code>.</p>`,`//COBJOB JOB (ACCT),'COBOL',CLASS=A,MSGCLASS=X
+//STEP1    EXEC IGYWCLG
+//COBOL.SYSIN DD *
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+           DISPLAY "HELLO FROM COBOL ON Z/OS".
+           STOP RUN.
+/*
+//GO.SYSOUT DD SYSOUT=*`,`HELLO FROM COBOL ON Z/OS`],
+[`mfdb2`,`DB2 basics`,`The relational database of z/OS.`,`<p><b>DB2</b> stores data in tables and is queried with SQL. Batch programs and online programs can run <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> and <code>DELETE</code>. This example shows a query and the rows it returns.</p>`,`SELECT NAME, DEPT
+  FROM STAFF
+  WHERE DEPT = 'A00';`,`NAME  DEPT
+ASHA  A00
+RAVI  A00`],
+[`mfcics`,`CICS basics`,`Online transactions.`,`<p><b>CICS</b> runs online transactions for thousands of users, such as an ATM request. A transaction starts a program, which talks to the terminal with commands like <code>EXEC CICS SEND TEXT</code> and ends with <code>EXEC CICS RETURN</code>.</p>`,`       WORKING-STORAGE SECTION.
+       01 MSG PIC X(15) VALUE 'HELLO FROM CICS'.
+       PROCEDURE DIVISION.
+           EXEC CICS SEND TEXT FROM(MSG) LENGTH(15) ERASE END-EXEC.
+           EXEC CICS RETURN END-EXEC.`,`HELLO FROM CICS`],
+[`mfrexx`,`REXX scripting`,`A friendly scripting language for z/OS.`,`<p><b>REXX</b> scripts automate work on TSO. The first line must be a comment with the word REXX. <code>SAY</code> prints a value, and <code>DO</code> repeats a block.</p>`,`/* REXX */
+DO i = 1 TO 3
+  SAY "Line" i
+END`,`Line 1
+Line 2
+Line 3`],
+[`mfrc`,`Job output and return codes`,`Read what a job tells you.`,`<p>Each step ends with a <b>return code</b>: 0 means success, 4 a warning, 8 an error, 12 a serious error and 16 a severe error. The <code>COND</code> parameter decides whether a later step runs.</p>`,`//RCJOB JOB (ACCT),'RC',CLASS=A,MSGCLASS=X
+//STEP1    EXEC PGM=IEFBR14
+//STEP2    EXEC PGM=IEFBR14,COND=(0,NE)`,`IEF142I RCJOB STEP1 - STEP WAS EXECUTED - COND CODE 0000
+IEF142I RCJOB STEP2 - STEP WAS EXECUTED - COND CODE 0000`],
+[`mfabend`,`Common abends`,`Why jobs fail and what the codes mean.`,`<p>An <b>abend</b> is an abnormal end. The codes tell you the reason: <code>S0C7</code> is bad numeric data, <code>S806</code> means the program was not found, <code>B37</code> means a dataset ran out of space and <code>S222</code> means the job was cancelled.</p>`,`/* REXX */
+SAY "S0C7 - bad numeric data"
+SAY "S806 - program not found"
+SAY "B37  - out of space on a disk dataset"
+SAY "S222 - job cancelled"`,`S0C7 - bad numeric data
+S806 - program not found
+B37  - out of space on a disk dataset
+S222 - job cancelled`]
+]};
+L.kubernetes={n:"Kubernetes",c:"#326ce5",items:[]};
+L.kubernetes.items.push(
+[`k8intro`,`Kubernetes introduction`,`Run and manage containers at scale.`,`<p><b>Kubernetes</b> (also written K8s) is an open-source system that runs containers across many machines. You describe what you want, for example "run 3 copies of my web app", and Kubernetes keeps it that way: it restarts failed containers, spreads load, rolls out updates and scales up or down. It was created at Google and is now maintained by the CNCF. You talk to it with the <code>kubectl</code> command line tool.</p>`,`kubectl version --client`,`Client Version: v1.31.0
+Kustomize Version: v5.4.2`],
+[`k8arch`,`Kubernetes architecture`,`The parts of a cluster.`,`<p>A <b>cluster</b> is a set of machines called <b>nodes</b>. The <b>control plane</b> makes decisions: the API server receives every request, <code>etcd</code> stores the cluster state, the scheduler picks a node for each Pod and the controller manager keeps the real state equal to the wanted state. Every worker node runs a <code>kubelet</code> (starts containers), <code>kube-proxy</code> (networking) and a container runtime.</p>`,`kubectl get nodes`,`NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   5m    v1.31.0`],
+[`k8kubectl`,`kubectl and contexts`,`Tell kubectl which cluster to use.`,`<p><code>kubectl</code> reads a <b>kubeconfig</b> file (usually <code>~/.kube/config</code>) that lists clusters, users and <b>contexts</b>. A context is a cluster plus a user plus a default namespace. The star marks the context in use. Switch with <code>kubectl config use-context NAME</code>.</p>`,`kubectl config get-contexts`,`CURRENT   NAME       CLUSTER    AUTHINFO   NAMESPACE
+*         minikube   minikube   minikube   default`],
+[`k8pod`,`Pods and YAML manifests`,`The smallest thing Kubernetes runs.`,`<p>A <b>Pod</b> holds one or more containers that share a network and storage. You describe objects in <b>YAML</b> files called manifests. Every manifest has <code>apiVersion</code>, <code>kind</code>, <code>metadata</code> and <code>spec</code>. YAML uses indentation (2 spaces, never tabs) and <code>-</code> for list items. Save this as <code>pod.yaml</code> and run <code>kubectl apply -f pod.yaml</code>.</p>`,`apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod
+  labels:
+    app: hello
+spec:
+  containers:
+    - name: web
+      image: nginx:1.27
+      ports:
+        - containerPort: 80`,`pod/hello-pod created`],
+[`k8inspect`,`Inspect Pods: get, describe, logs`,`See what is happening.`,`<p><code>kubectl get</code> lists objects, <code>kubectl describe</code> shows details and recent events, and <code>kubectl logs</code> prints a container's output. Add <code>-o wide</code> for more columns or <code>-o yaml</code> for the full object. Use <code>kubectl exec -it POD -- sh</code> to open a shell inside a container.</p>`,`kubectl get pods
+kubectl logs hello-pod`,`NAME        READY   STATUS    RESTARTS   AGE
+hello-pod   1/1     Running   0          42s
+/docker-entrypoint.sh: Configuration complete; ready for start up`],
+[`k8deploy`,`Deployments`,`Keep several identical Pods running.`,`<p>You rarely create bare Pods. A <b>Deployment</b> manages a set of identical Pods through a ReplicaSet. If a Pod dies, a new one is created. The <code>selector</code> must match the labels in the Pod <code>template</code>. Deployments also give you rolling updates and rollbacks.</p>`,`apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80`,`deployment.apps/web created`],
+[`k8scale`,`Scaling and rolling updates`,`Change replicas and update without downtime.`,`<p><code>kubectl scale</code> changes the number of replicas. <code>kubectl set image</code> starts a <b>rolling update</b>: new Pods start while old ones stop, one batch at a time. If something goes wrong, <code>kubectl rollout undo</code> returns to the previous version.</p>`,`kubectl scale deployment web --replicas=5
+kubectl set image deployment/web nginx=nginx:1.27.1
+kubectl rollout status deployment/web
+kubectl rollout undo deployment/web`,`deployment.apps/web scaled
+deployment.apps/web image updated
+Waiting for deployment web rollout to finish: 2 out of 5 new replicas have been updated...
+deployment web successfully rolled out
+deployment.apps/web rolled back`],
+[`k8service`,`Services`,`A stable address for changing Pods.`,`<p>Pods come and go and their IP addresses change. A <b>Service</b> gives a group of Pods one stable name and IP, and spreads traffic across them. It finds Pods with a label <code>selector</code>. Inside the cluster other Pods can reach it by name, for example <code>http://web</code>.</p>`,`apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  ports:
+    - port: 80
+      targetPort: 80`,`service/web created`],
+[`k8svctypes`,`Service types: ClusterIP, NodePort, LoadBalancer`,`Choose who can reach your app.`,`<p><code>ClusterIP</code> (default) is reachable only inside the cluster. <code>NodePort</code> opens a port (30000-32767) on every node. <code>LoadBalancer</code> asks your cloud provider for a public load balancer. With minikube, run <code>minikube service web</code> to open a NodePort service in the browser.</p>`,`kubectl expose deployment web --type=NodePort --port=80
+kubectl get svc`,`service/web exposed
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP        10m
+web          NodePort    10.99.112.40   <none>        80:31234/TCP   2s`],
+[`k8labels`,`Labels and selectors`,`Group and find objects.`,`<p><b>Labels</b> are key-value tags on objects, such as <code>app: web</code> or <code>env: prod</code>. <b>Selectors</b> pick objects by their labels. Services, Deployments and many <code>kubectl</code> commands use them. Use <code>-l</code> to filter.</p>`,`kubectl get pods -l app=web`,`NAME                   READY   STATUS    RESTARTS   AGE
+web-6d8f7c9b5d-4k2xp   1/1     Running   0          2m
+web-6d8f7c9b5d-9vq7m   1/1     Running   0          2m
+web-6d8f7c9b5d-zt5lh   1/1     Running   0          2m`],
+[`k8ns`,`Namespaces`,`Split one cluster into separate areas.`,`<p>A <b>namespace</b> is a named area inside a cluster. Teams or environments (dev, test, prod) can each have their own, with separate names and quotas. Default namespaces are <code>default</code>, <code>kube-system</code> and <code>kube-public</code>. Add <code>-n NAME</code> to a command, or <code>-A</code> for all namespaces.</p>`,`kubectl create namespace dev
+kubectl get pods -n dev`,`namespace/dev created
+No resources found in dev namespace.`],
+[`k8config`,`ConfigMaps`,`Keep settings outside the image.`,`<p>A <b>ConfigMap</b> stores non-secret settings as key-value pairs. Pods can read them as environment variables or as files. This lets you use the same image in every environment.</p>`,`apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_MODE: production
+  LOG_LEVEL: info`,`configmap/app-config created`],
+[`k8secret`,`Secrets`,`Store passwords and tokens.`,`<p>A <b>Secret</b> holds sensitive data such as passwords and API keys. Values are stored base64-encoded, which is <b>not encryption</b>: restrict access with RBAC and enable encryption at rest for real protection. Decode a value with <code>base64 -d</code>.</p>`,`kubectl create secret generic db-pass --from-literal=password=S3cret!
+kubectl get secret db-pass -o jsonpath='{.data.password}'`,`secret/db-pass created
+UzNjcmV0IQ==`],
+[`k8env`,`Use ConfigMaps and Secrets in a Pod`,`Pass settings into containers.`,`<p>Use <code>valueFrom</code> to take one value from a ConfigMap (<code>configMapKeyRef</code>) or a Secret (<code>secretKeyRef</code>) and expose it as an environment variable. Use <code>envFrom</code> to load every key at once.</p>`,`apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+      command: [sleep, 3600]
+      env:
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_MODE
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-pass
+              key: password`,`pod/app created`],
+[`k8volume`,`Volumes and persistent storage`,`Keep data when Pods restart.`,`<p>Files inside a container disappear when it restarts. A <b>PersistentVolumeClaim</b> (PVC) asks the cluster for storage, and a Pod mounts it as a volume. The data survives Pod restarts and rescheduling.</p>`,`apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi`,`persistentvolumeclaim/data-pvc created`],
+[`k8ingress`,`Ingress`,`Route web traffic by host and path.`,`<p>An <b>Ingress</b> sends outside HTTP and HTTPS traffic to Services based on host name and URL path, so one load balancer can serve many apps. It needs an <b>ingress controller</b> such as NGINX (on minikube: <code>minikube addons enable ingress</code>).</p>`,`apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+spec:
+  rules:
+    - host: web.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80`,`ingress.networking.k8s.io/web-ingress created`],
+[`k8probe`,`Health probes and resource limits`,`Make apps reliable and fair.`,`<p>A <b>readiness probe</b> tells Kubernetes when a container can receive traffic. A <b>liveness probe</b> restarts a container that is stuck. <code>requests</code> reserve CPU and memory for scheduling, and <code>limits</code> cap what a container may use.</p>`,`apiVersion: v1
+kind: Pod
+metadata:
+  name: probe-demo
+spec:
+  containers:
+    - name: web
+      image: nginx:1.27
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 80
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 10
+      resources:
+        requests:
+          cpu: 100m
+          memory: 64Mi
+        limits:
+          cpu: 250m
+          memory: 128Mi`,`pod/probe-demo created`],
+[`k8job`,`Jobs and CronJobs`,`Run tasks to completion or on a schedule.`,`<p>A <b>Job</b> runs a Pod until it finishes successfully, which suits batch work. A <b>CronJob</b> creates Jobs on a schedule written like Linux cron: minute, hour, day, month, weekday.</p>`,`kubectl create job hello-job --image=busybox:1.36 -- echo Hello
+kubectl create cronjob hello --image=busybox:1.36 --schedule="*/5 * * * *" -- echo Hi`,`job.batch/hello-job created
+cronjob.batch/hello created`],
+[`k8rbac`,`RBAC and service accounts`,`Control who can do what.`,`<p><b>RBAC</b> (role-based access control) decides which actions a user or program may perform. A <b>Role</b> lists allowed verbs on resources, and a <b>RoleBinding</b> gives that Role to a user or <b>ServiceAccount</b>. Test permissions with <code>kubectl auth can-i</code>.</p>`,`kubectl create serviceaccount app-sa
+kubectl auth can-i create pods --as=system:serviceaccount:default:app-sa`,`serviceaccount/app-sa created
+no`],
+[`k8hpa`,`Autoscaling`,`Add and remove Pods automatically.`,`<p>The <b>Horizontal Pod Autoscaler</b> changes the replica count of a Deployment based on CPU use or other metrics. It needs the <code>metrics-server</code> add-on and CPU <code>requests</code> on the containers.</p>`,`kubectl autoscale deployment web --cpu-percent=70 --min=2 --max=10`,`horizontalpodautoscaler.autoscaling/web autoscaled`],
+[`k8helm`,`Helm: the package manager`,`Install whole apps with one command.`,`<p><b>Helm</b> packages Kubernetes manifests into <b>charts</b>. A chart can be configured with values and installed as a named <b>release</b>. Use <code>helm upgrade</code> to change it and <code>helm uninstall</code> to remove it.</p>`,`helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-nginx bitnami/nginx
+helm list`,`bitnami has been added to your repositories
+NAME: my-nginx
+STATUS: deployed
+NAME       NAMESPACE   REVISION   STATUS     CHART
+my-nginx   default     1          deployed   nginx-18.2.0`],
+[`k8debug`,`Troubleshooting`,`Find out why a Pod is not working.`,`<p>Start with <code>kubectl get pods</code>, then <code>kubectl describe pod NAME</code> (read the Events at the bottom) and <code>kubectl logs NAME</code>. Common statuses: <code>Pending</code> (no node fits), <code>ImagePullBackOff</code> (wrong image name or no access), <code>CrashLoopBackOff</code> (the container keeps crashing) and <code>OOMKilled</code> (out of memory).</p>`,`kubectl get pod broken-pod`,`NAME         READY   STATUS             RESTARTS   AGE
+broken-pod   0/1     ImagePullBackOff   0          90s`],
+[`k8clean`,`Clean up`,`Delete what you created.`,`<p>Delete by file or by name. Deleting a Deployment also deletes its Pods. To remove everything in a practice cluster, delete the namespace or run <code>minikube delete</code>.</p>`,`kubectl delete -f pod.yaml
+kubectl delete deployment web`,`pod hello-pod deleted
+deployment.apps web deleted`]
+);
+L.docker={n:"Docker",c:"#2496ed",items:[]};
+L.docker.items.push(
+[`dkintro`,`Docker introduction`,`Package apps so they run the same everywhere.`,`<p><b>Docker</b> packs an application and everything it needs (runtime, libraries, settings) into a <b>container</b>. A container runs the same on your laptop, a test server and the cloud, which ends the problem of "it works on my machine". Containers are lighter than virtual machines because they share the host's kernel and start in seconds.</p>`,`docker --version`,`Docker version 27.3.1, build ce12230`],
+[`dkconcepts`,`Images, containers and registries`,`The three core ideas.`,`<p>An <b>image</b> is a read-only template (the recipe plus the ingredients). A <b>container</b> is a running instance of an image. A <b>registry</b> such as Docker Hub stores images so you can pull and share them. The Docker <b>daemon</b> (<code>dockerd</code>) does the work and the <code>docker</code> command is the client that talks to it. This first command pulls a tiny test image and runs it.</p>`,`docker run hello-world`,`Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.`],
+[`dkimages`,`Working with images`,`Pull, list and remove images.`,`<p><code>docker pull</code> downloads an image. The part after the colon is the <b>tag</b> (usually a version). Without a tag Docker uses <code>latest</code>, which can change over time, so pin a version in real projects. <code>docker images</code> lists local images and <code>docker rmi</code> removes one.</p>`,`docker pull nginx:1.27
+docker images`,`1.27: Pulling from library/nginx
+Status: Downloaded newer image for nginx:1.27
+docker.io/library/nginx:1.27
+REPOSITORY   TAG    IMAGE ID       CREATED       SIZE
+nginx        1.27   a1b2c3d4e5f6   2 weeks ago   192MB`],
+[`dkrun`,`Run containers: docker run`,`Start a container from an image.`,`<p><code>-d</code> runs in the background (detached), <code>--name</code> gives it a name, and <code>-p HOST:CONTAINER</code> publishes a port: here your port 8080 reaches port 80 inside. <code>--rm</code> deletes the container when it stops. <code>docker ps</code> lists running containers (add <code>-a</code> to include stopped ones).</p>`,`docker run -d --name web -p 8080:80 nginx:1.27
+docker ps`,`4b5e57f6eb2f42b9039b3d1e13929295f231749c510cbe341cd68036d9af97e2
+CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS         PORTS                  NAMES
+4b5e57f6eb2f   nginx:1.27   "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:8080->80/tcp   web`],
+[`dkmanage`,`Stop, start and remove containers`,`Control the life of a container.`,`<p><code>docker stop</code> sends a polite shutdown signal, <code>docker start</code> restarts a stopped container, and <code>docker rm</code> deletes it. <code>-f</code> forces removal of a running one. Each command prints the name or ID it acted on.</p>`,`docker stop web
+docker start web
+docker rm -f web`,`web
+web
+web`],
+[`dkexec`,`Logs and exec`,`See output and run commands inside.`,`<p><code>docker logs</code> shows what a container printed (<code>-f</code> follows it live, <code>--tail N</code> shows the last N lines). <code>docker exec</code> runs a command inside a running container; with <code>-it</code> you get an interactive shell, for example <code>docker exec -it web sh</code>.</p>`,`docker exec web nginx -v
+docker logs --tail 1 web`,`nginx version: nginx/1.27.2
+172.17.0.1 - - [13/Nov/2026:10:00:01 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/8.5.0" "-"`],
+[`dkfile`,`Dockerfile`,`Describe how to build your own image.`,`<p>A <b>Dockerfile</b> is a text file of instructions. <code>FROM</code> picks the base image, <code>WORKDIR</code> sets the working folder, <code>COPY</code> adds files, <code>RUN</code> runs a command while building, <code>EXPOSE</code> documents a port and <code>CMD</code> is what runs when the container starts. Build it with <code>docker build -t myapp .</code> (the dot is the build folder).</p>`,`FROM node:22-alpine
+WORKDIR /app
+COPY package.json ./
+RUN npm install --omit=dev
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]`,`[+] Building 12.4s (9/9) FINISHED
+ => [internal] load build definition from Dockerfile
+ => [1/5] FROM docker.io/library/node:22-alpine
+ => [5/5] COPY . .
+ => exporting to image
+ => naming to docker.io/library/myapp:latest`],
+[`dkcache`,`Layers, caching and multi-stage builds`,`Make images small and builds fast.`,`<p>Every instruction makes a <b>layer</b>, and Docker reuses unchanged layers, so put things that change rarely (installing dependencies) before things that change often (your source code). A <b>multi-stage build</b> compiles in a big image and copies only the result into a small one. Add a <code>.dockerignore</code> file to keep junk such as <code>node_modules</code> out of the build.</p>`,`FROM golang:1.23 AS build
+WORKDIR /src
+COPY . .
+RUN go build -o /app main.go
+
+FROM alpine:3.20
+COPY --from=build /app /app
+CMD ["/app"]`,`REPOSITORY   TAG      IMAGE ID       CREATED         SIZE
+myapp        latest   9c8b7a6d5e4f   10 seconds ago  12.4MB`],
+[`dkvolume`,`Volumes`,`Keep data after a container is removed.`,`<p>A container's own files vanish when it is removed. A <b>volume</b> is storage managed by Docker that outlives containers. Mount it with <code>-v NAME:PATH</code>. A <b>bind mount</b> (<code>-v ./folder:PATH</code>) shares a folder from your computer instead. The example writes a file from one container and reads it from another.</p>`,`docker volume create data
+docker run --rm -v data:/d busybox sh -c "echo saved > /d/file.txt"
+docker run --rm -v data:/d busybox cat /d/file.txt`,`data
+saved`],
+[`dknet`,`Networks`,`Let containers talk to each other.`,`<p>Containers on the same <b>user-defined network</b> reach each other by container name, using Docker's built-in DNS. The default <code>bridge</code> network does not do this. Create one with <code>docker network create</code> and attach containers with <code>--network</code>.</p>`,`docker network create appnet
+docker network ls`,`412638a1fdc8cfc7f0234bbc39874d48fcac75a81ff0f0d8148bfd2ee12e6901
+NETWORK ID     NAME      DRIVER    SCOPE
+676b8bb84ce7   appnet    bridge    local
+0480a93d2e9b   bridge    bridge    local
+8721d664ef60   host      host      local
+88450b082ec4   none      null      local`],
+[`dkenv`,`Environment variables`,`Configure containers without rebuilding.`,`<p>Pass settings with <code>-e NAME=value</code> or load many from a file with <code>--env-file</code>. In a Dockerfile, <code>ENV</code> sets a default and <code>ARG</code> is a value used only while building. Never bake passwords into an image.</p>`,`docker run --rm -e GREETING=Hello busybox sh -c 'echo $GREETING World'`,`Hello World`],
+[`dkcompose`,`Docker Compose`,`Run several containers from one file.`,`<p>Real apps need several containers (web, database, cache). <b>Docker Compose</b> describes them all in one <code>compose.yaml</code> file and starts them together with <code>docker compose up</code>. <code>depends_on</code> sets the start order, and compose creates a shared network so services reach each other by service name (for example host <code>db</code>).</p>`,`services:
+  web:
+    image: nginx:1.27
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+volumes:
+  dbdata:`,`[+] Running 4/4
+ ✔ Network app_default   Created
+ ✔ Volume app_dbdata     Created
+ ✔ Container app-db-1    Started
+ ✔ Container app-web-1   Started`],
+[`dkcomposecmd`,`Compose commands`,`Start, watch and stop a whole stack.`,`<p>Useful commands: <code>docker compose up -d</code> (start in the background), <code>docker compose ps</code> (status), <code>docker compose logs -f</code> (follow logs), <code>docker compose build</code> (rebuild images) and <code>docker compose down</code> (stop and remove). Add <code>-v</code> to <code>down</code> to delete volumes too.</p>`,`docker compose down`,`[+] Running 3/3
+ ✔ Container app-web-1   Removed
+ ✔ Container app-db-1    Removed
+ ✔ Network app_default   Removed`],
+[`dkregistry`,`Docker Hub: tag and push`,`Share your image.`,`<p>Log in with <code>docker login</code>. An image name has the form <code>user/name:tag</code>. <code>docker tag</code> gives an existing image a new name, and <code>docker push</code> uploads it so others can <code>docker pull</code> it. Private registries (GitHub, AWS, Azure) work the same way with a registry host in front of the name.</p>`,`docker tag myapp:latest myuser/myapp:1.0
+docker push myuser/myapp:1.0`,`The push refers to repository [docker.io/myuser/myapp]
+1.0: digest: sha256:d107ea3629c326718876f07356a48dea26f123742f8bf44ce75f8f805cf9a37d size: 1570`],
+[`dkinspect`,`Inspect containers`,`Read every detail of an object.`,`<p><code>docker inspect</code> prints a container or image as JSON. Use <code>--format</code> with a Go template to pull out one value. Related tools: <code>docker stats</code> (live CPU and memory) and <code>docker top</code> (processes).</p>`,`docker inspect --format '{{.State.Status}}' web`,`running`],
+[`dklimits`,`Resource limits`,`Stop one container from using everything.`,`<p>Limit memory with <code>--memory</code> and CPU with <code>--cpus</code>. A container that goes over its memory limit is killed by the kernel (status <code>OOMKilled</code>). Memory is stored in bytes: 256 MB is 268435456.</p>`,`docker run -d --memory=256m --cpus=0.5 --name capped nginx:1.27
+docker inspect --format '{{.HostConfig.Memory}}' capped`,`5a194219907fbbede83523b4776c99480377fbf87850563dbd611781ee69faaa
+268435456`],
+[`dksec`,`Docker security basics`,`Safer containers.`,`<p>Good habits: use small official base images, pin versions, do not run as root (<code>USER</code> in the Dockerfile), never store secrets in images, scan images for known problems (<code>docker scout</code>), drop extra permissions (<code>--cap-drop ALL</code>) and make the file system read-only (<code>--read-only</code>) when the app allows it.</p>`,`docker run --rm --read-only alpine touch /x`,`touch: /x: Read-only file system`],
+[`dkdebug`,`Troubleshooting`,`Find out why a container stopped.`,`<p>If a container exits straight away, run <code>docker ps -a</code> to see its exit code (0 means normal, 1 means an error, 137 means it was killed, often by the memory limit), then read <code>docker logs NAME</code>. Port already in use? Choose another host port, for example <code>-p 8081:80</code>.</p>`,`docker ps -a
+docker logs broken`,`CONTAINER ID   IMAGE   COMMAND                CREATED          STATUS                     NAMES
+885036a0da3d   myapp   "node server.js"      20 seconds ago   Exited (1) 19 seconds ago  broken
+Error: Cannot find module '/app/server.js'`],
+[`dkclean`,`Clean up`,`Free disk space.`,`<p>Stopped containers, unused images and old volumes pile up. <code>docker system prune</code> removes stopped containers, unused networks and dangling images. Add <code>-a</code> to remove all unused images and <code>--volumes</code> to remove unused volumes (careful: that deletes data). <code>-f</code> skips the confirmation question.</p>`,`docker system prune -f`,`Deleted Containers:
+8b53639f152c8fc6ef30802fde462ba0be9cf085f7580dc69efd72e002abbb35
+Total reclaimed space: 245.3MB`]
+);
 var cur={l:"html",i:0},$=function(i){return document.getElementById(i)};
 var UI={en:{tut:"tutorial",q:"Search lessons",tr:"Try it yourself",run:"Run code",pv:"Previous",nx:"Next lesson"},ru:{tut:"Учебник",q:"Поиск уроков",tr:"Попробуйте сами",run:"Запустить",pv:"Назад",nx:"Следующий урок"},es:{tut:"tutorial",q:"Buscar lecciones",tr:"Pruébalo tú mismo",run:"Ejecutar código",pv:"Anterior",nx:"Siguiente lección"},hi:{tut:"ट्यूटोरियल",q:"पाठ खोजें",tr:"खुद आज़माएँ",run:"कोड चलाएँ",pv:"पिछला",nx:"अगला पाठ"}};
 var TR={
@@ -2120,6 +2501,9 @@ function runRemote(it){var l=cur.l,n=++RN;show1("Running...");
 cands(l).then(function(names){return wbRun(names,0,$("ed").value)}).then(function(t){if(n===RN)show1(t.trim()?t:"(no output)")},function(){if(n!==RN)return;if(l==="c"||l==="cpp")runC(it);else runP(it)})}
 var JN={"en": "Java is compiled and runs on the JVM, so this page could not run it just now (it needs an internet connection). Expected output of the original code:", "ru": "Java компилируется и работает на JVM, поэтому сейчас страница не смогла его запустить (нужен интернет). Ожидаемый результат исходного кода:", "es": "Java se compila y se ejecuta en la JVM, así que esta página no pudo ejecutarlo ahora (necesita conexión a internet). Salida esperada del código original:", "hi": "Java कम्पाइल होकर JVM पर चलता है, इसलिए यह पेज अभी इसे चला नहीं सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
 var CBN={"en": "COBOL runs on a compiler (GnuCOBOL), and this page could not reach the online compiler just now (it needs an internet connection). Expected output of the original code:", "ru": "COBOL работает через компилятор (GnuCOBOL), и сейчас страница не смогла подключиться к онлайн-компилятору (нужен интернет). Ожидаемый результат исходного кода:", "es": "COBOL se ejecuta con un compilador (GnuCOBOL) y esta página no pudo conectar con el compilador en línea ahora (necesita internet). Salida esperada del código original:", "hi": "COBOL एक कम्पाइलर (GnuCOBOL) से चलता है, और यह पेज अभी ऑनलाइन कम्पाइलर तक नहीं पहुँच सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
+var DKN={"en": "Docker needs its own engine, which a web page cannot run, so this page shows the expected output of the original code:", "ru": "Docker нужен собственный движок, который веб-страница запустить не может, поэтому здесь показан ожидаемый вывод исходного кода:", "es": "Docker necesita su propio motor, que una página web no puede ejecutar, por eso aquí se muestra la salida esperada del código original:", "hi": "Docker को अपना इंजन चाहिए, जिसे वेब पेज नहीं चला सकता, इसलिए यह पेज मूल कोड का अपेक्षित आउटपुट दिखाता है:"};
+var KN={"en": "Kubernetes commands run against a cluster, not in a browser, so this page shows the expected output of the original code:", "ru": "Команды Kubernetes выполняются в кластере, а не в браузере, поэтому здесь показан ожидаемый вывод исходного кода:", "es": "Los comandos de Kubernetes se ejecutan contra un clúster, no en un navegador, por eso aquí se muestra la salida esperada del código original:", "hi": "Kubernetes कमांड क्लस्टर पर चलते हैं, ब्राउज़र में नहीं, इसलिए यह पेज मूल कोड का अपेक्षित आउटपुट दिखाता है:"};
+var MFN={en:"Mainframe jobs run on z/OS, not in a browser, so this page shows the expected output of the original job:",ru:"Задания мейнфрейма выполняются на z/OS, а не в браузере, поэтому здесь показан ожидаемый вывод исходного задания:",es:"Los trabajos de mainframe se ejecutan en z/OS, no en un navegador, por eso aquí se muestra la salida esperada del trabajo original:",hi:"मेनफ़्रेम जॉब z/OS पर चलते हैं, ब्राउज़र में नहीं, इसलिए यह पेज मूल जॉब का अपेक्षित आउटपुट दिखाता है:"};
 var NDN={en:"Node.js runs on a server or your computer, so this page could not run it just now (it needs an internet connection). Expected output of the original code:",ru:"Node.js работает на сервере или компьютере, поэтому страница сейчас не смогла запустить код (нужен интернет). Ожидаемый вывод исходного кода:",es:"Node.js se ejecuta en un servidor o en tu ordenador, por eso esta página no pudo ejecutarlo ahora (necesita internet). Salida esperada del código original:",hi:"Node.js सर्वर या कंप्यूटर पर चलता है, इसलिए यह पेज अभी इसे चला नहीं सका (इंटरनेट चाहिए)। मूल कोड का अपेक्षित आउटपुट:"};
 function runNd(it){var n=++RN;show1("Running...");
 fetch("https://ce.judge0.com/submissions?base64_encoded=false&wait=true",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language_id:93,source_code:$("ed").value,stdin:""})}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(d){if(!d||!d.status)throw 0;var t=(d.compile_output||"")+(d.stdout||"")+(d.stderr||"");if(n===RN)show1(t.trim()?t:"(no output)")}).catch(function(){if(n===RN)runP(it)})}
@@ -2140,8 +2524,8 @@ r.forEach(function(t){h+='<table style="border-collapse:collapse;margin:0 0 14px
 $("out").srcdoc=BOX+(h||"Query ran successfully. No rows to show.")+'</body>'}
 catch(e){if($("ed").value===it[4]&&it[5]){$("out").srcdoc=BOX+'<div style="color:#94a0b8;margin-bottom:8px">The in-browser engine (SQLite) does not support this MySQL feature, so here is the expected result:</div><pre style="white-space:pre-wrap">'+esc(it[5])+'</pre></body>'}else show1("Error: "+(e.message||e))}
 db.close()},function(){if(n===RN)runP(it)})}
-function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN,java:JN,cobol:CBN,nodejs:NDN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
-function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(cur.l==="cobol"){runCb(it)}else if(cur.l==="nodejs"){runNd(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
+function runP(it){$("out").srcdoc='<body style="font:14px monospace;padding:12px;background:#0f172a;color:#e6edf7"><div style="color:#94a0b8;margin-bottom:8px">'+esc(({sql:PS,python:PYN,java:JN,cobol:CBN,nodejs:NDN,mainframe:MFN,kubernetes:KN,docker:DKN}[cur.l]||PN)[lang]||PN.en)+'</div><pre style="white-space:pre-wrap">'+esc(it[5]||"")+'</pre></body>'}
+function run(){var it=L[cur.l].items[cur.i];if(cur.l==="sql"){runSQ(it)}else if(cur.l==="python"){runPy(it)}else if(cur.l==="cobol"){runCb(it)}else if(cur.l==="nodejs"){runNd(it)}else if(cur.l==="mainframe"||cur.l==="kubernetes"||cur.l==="docker"){runP(it)}else if(RM[cur.l]){runRemote(it)}else $("out").srcdoc=$("ed").value}
 
 var CM={};function C(k,t,d,s,e){CM[k]=[t,d,s,e]}
 C(`h1`,`h`,`Defines the main heading of the page. Use one per page.`,`<h1>Heading text</h1>`,`<h1>Welcome</h1>`);
@@ -2185,8 +2569,8 @@ function wrapEx(t,c){var st="<style>body{font:15px sans-serif;margin:8px;backgro
 $("body").addEventListener("click",function(e){var b=e.target.closest(".try");if(!b)return;var box=b.closest(".cmd"),f=box.querySelector("iframe");f.hidden=false;f.srcdoc=wrapEx(CM[b.dataset.k][0],box.querySelector("textarea").value)});
 $("body").addEventListener("keydown",function(e){var t=e.target;if(t.className==="cx"&&e.key==="Tab"){e.preventDefault();var p=t.selectionStart;t.value=t.value.slice(0,p)+"  "+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
 (function(){
-var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python",java:"Java",cobol:"COBOL",nodejs:"Node.js"},
-W={nodejs:{en:"Node.js lets you run JavaScript outside the browser to build servers, tools and APIs.",ru:"Node.js позволяет запускать JavaScript вне браузера, создавая серверы, инструменты и API.",es:"Node.js te permite ejecutar JavaScript fuera del navegador para crear servidores, herramientas y APIs.",hi:"Node.js आपको JavaScript को ब्राउज़र के बाहर चलाने देता है, ताकि आप सर्वर, टूल और API बना सकें।"},html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
+var N={html:"HTML",css:"CSS",js:"JavaScript",c:"C",cpp:"C++",php:"PHP",sql:"SQL",python:"Python",java:"Java",cobol:"COBOL",nodejs:"Node.js",mainframe:"Mainframe",kubernetes:"Kubernetes",docker:"Docker"},
+W={docker:{en:"Docker packs an app and everything it needs into a container, so it runs the same on every computer and server.",ru:"Docker упаковывает приложение со всем необходимым в контейнер, поэтому оно одинаково работает на любом компьютере и сервере.",es:"Docker empaqueta una aplicación con todo lo que necesita en un contenedor, para que funcione igual en cualquier ordenador o servidor.",hi:"Docker किसी ऐप को उसकी ज़रूरत की हर चीज़ के साथ कंटेनर में पैक करता है, ताकि वह हर कंप्यूटर और सर्वर पर एक जैसा चले।"},kubernetes:{en:"Kubernetes runs and manages containers across many machines: it restarts, scales, updates and connects your apps automatically.",ru:"Kubernetes запускает контейнеры на множестве машин и управляет ими: перезапускает, масштабирует, обновляет и связывает ваши приложения автоматически.",es:"Kubernetes ejecuta y gestiona contenedores en muchas máquinas: reinicia, escala, actualiza y conecta tus aplicaciones automáticamente.",hi:"Kubernetes कई मशीनों पर कंटेनर चलाता और संभालता है: यह आपके ऐप्स को अपने आप रीस्टार्ट, स्केल, अपडेट और कनेक्ट करता है।"},mainframe:{en:"A mainframe is a powerful computer that runs banks, airlines and insurance systems. This course introduces z/OS, JCL and the tools around them.",ru:"Мейнфрейм — мощный компьютер, на котором работают банки, авиакомпании и страховые системы. Курс знакомит с z/OS, JCL и сопутствующими инструментами.",es:"Un mainframe es un ordenador potente que ejecuta sistemas de bancos, aerolíneas y aseguradoras. Este curso presenta z/OS, JCL y las herramientas relacionadas.",hi:"मेनफ़्रेम एक शक्तिशाली कंप्यूटर है जिस पर बैंक, एयरलाइन और बीमा सिस्टम चलते हैं। यह कोर्स z/OS, JCL और उनसे जुड़े टूल सिखाता है।"},nodejs:{en:"Node.js lets you run JavaScript outside the browser to build servers, tools and APIs.",ru:"Node.js позволяет запускать JavaScript вне браузера, создавая серверы, инструменты и API.",es:"Node.js te permite ejecutar JavaScript fuera del navegador para crear servidores, herramientas y APIs.",hi:"Node.js आपको JavaScript को ब्राउज़र के बाहर चलाने देता है, ताकि आप सर्वर, टूल और API बना सकें।"},html:{en:"HTML (HyperText Markup Language) is the language that gives every web page its structure: headings, text, links, images, lists and forms.",ru:"HTML — язык, который задаёт структуру любой веб-страницы: заголовки, текст, ссылки, изображения, списки и формы.",es:"HTML es el lenguaje que da estructura a cada página web: títulos, texto, enlaces, imágenes, listas y formularios.",hi:"HTML वह भाषा है जो हर वेब पेज को संरचना देती है: हेडिंग, टेक्स्ट, लिंक, इमेज, लिस्ट और फ़ॉर्म।"},
 css:{en:"CSS (Cascading Style Sheets) controls how a page looks: colors, fonts, spacing and layout.",ru:"CSS управляет внешним видом страницы: цвета, шрифты, отступы и макет.",es:"CSS controla el aspecto de una página: colores, fuentes, espaciado y diseño.",hi:"CSS तय करता है कि पेज कैसा दिखे: रंग, फ़ॉन्ट, स्पेसिंग और लेआउट।"},
 js:{en:"JavaScript makes pages interactive: it reacts to clicks, changes content and works with data.",ru:"JavaScript делает страницы интерактивными: реагирует на клики, меняет содержимое и работает с данными.",es:"JavaScript hace las páginas interactivas: responde a clics, cambia el contenido y trabaja con datos.",hi:"JavaScript पेज को इंटरैक्टिव बनाता है: क्लिक पर प्रतिक्रिया देता है, कंटेंट बदलता है और डेटा के साथ काम करता है।"},
 c:{en:"C is a fast, low-level language used for operating systems and embedded devices, and it teaches how computers really work.",ru:"C — быстрый язык низкого уровня для операционных систем и встраиваемых устройств; он помогает понять, как работает компьютер.",es:"C es un lenguaje rápido y de bajo nivel usado en sistemas operativos y dispositivos embebidos, ideal para entender cómo funcionan los ordenadores.",hi:"C एक तेज़, लो-लेवल भाषा है जिसका उपयोग ऑपरेटिंग सिस्टम और एम्बेडेड डिवाइस में होता है; इससे कंप्यूटर के काम करने का तरीका समझ आता है।"},
@@ -2196,7 +2580,7 @@ sql:{en:"SQL is the standard language for databases: you use it to store, search
 python:{en:"Python is a readable, beginner-friendly language used for automation, web back ends, data science and AI.",ru:"Python — читаемый язык, удобный для начинающих; его используют для автоматизации, веб-серверов, анализа данных и ИИ.",es:"Python es un lenguaje legible y fácil para principiantes, usado en automatización, back ends web, ciencia de datos e IA.",hi:"Python एक पढ़ने में आसान, शुरुआती लोगों के लिए अच्छी भाषा है, जिसका उपयोग ऑटोमेशन, वेब बैकएंड, डेटा साइंस और AI में होता है।"},
 java:{en:"Java is a popular object-oriented language used for Android apps, back-end servers and large business systems, and it runs on any device with a JVM.",ru:"Java — популярный объектно-ориентированный язык для Android-приложений, серверов и крупных бизнес-систем; работает на любом устройстве с JVM.",es:"Java es un lenguaje orientado a objetos muy popular, usado en apps Android, servidores y grandes sistemas empresariales, y funciona en cualquier dispositivo con JVM.",hi:"Java एक लोकप्रिय ऑब्जेक्ट-ओरिएंटेड भाषा है जिसका उपयोग Android ऐप, बैकएंड सर्वर और बड़े बिज़नेस सिस्टम में होता है, और यह JVM वाले हर डिवाइस पर चलती है।"},
 cobol:{en:"COBOL is the business language behind banks, insurance and government systems: it handles exact decimal arithmetic and huge batches of records, and its code reads almost like English.",ru:"COBOL — язык бизнес-приложений, на котором работают банки, страховые компании и госсистемы: он точно считает десятичные числа, обрабатывает огромные массивы записей, а его код читается почти как английский.",es:"COBOL es el lenguaje de negocios detrás de bancos, aseguradoras y sistemas del gobierno: maneja aritmética decimal exacta y enormes lotes de registros, y su código se lee casi como inglés.",hi:"COBOL वह बिज़नेस भाषा है जिस पर बैंक, बीमा और सरकारी सिस्टम चलते हैं: यह सटीक दशमलव गणित और बहुत बड़े रिकॉर्ड-बैच संभालती है, और इसका कोड लगभग अंग्रेज़ी जैसा पढ़ा जाता है।"}},
-T={nodejs:{en:"modules, files, events, async code, HTTP servers, npm and Express",ru:"модули, файлы, события, асинхронный код, HTTP-серверы, npm и Express",es:"módulos, archivos, eventos, código asíncrono, servidores HTTP, npm y Express",hi:"मॉड्यूल, फ़ाइलें, इवेंट, एसिंक्रोनस कोड, HTTP सर्वर, npm और Express"},html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
+T={docker:{en:"images and containers, docker run, Dockerfile, layers, volumes, networks, Docker Compose, Docker Hub, limits and security",ru:"образы и контейнеры, docker run, Dockerfile, слои, тома, сети, Docker Compose, Docker Hub, лимиты и безопасность",es:"imágenes y contenedores, docker run, Dockerfile, capas, volúmenes, redes, Docker Compose, Docker Hub, límites y seguridad",hi:"इमेज और कंटेनर, docker run, Dockerfile, लेयर, वॉल्यूम, नेटवर्क, Docker Compose, Docker Hub, लिमिट और सुरक्षा"},kubernetes:{en:"Pods, Deployments, Services, labels, namespaces, ConfigMaps, Secrets, storage, Ingress, probes, Jobs, RBAC, autoscaling and Helm",ru:"Pod, Deployment, Service, метки, пространства имён, ConfigMap, Secret, хранилище, Ingress, проверки, Job, RBAC, автомасштабирование и Helm",es:"Pods, Deployments, Services, etiquetas, namespaces, ConfigMaps, Secrets, almacenamiento, Ingress, sondas, Jobs, RBAC, autoescalado y Helm",hi:"Pod, Deployment, Service, लेबल, नेमस्पेस, ConfigMap, Secret, स्टोरेज, Ingress, प्रोब, Job, RBAC, ऑटोस्केलिंग और Helm"},mainframe:{en:"z/OS, TSO and ISPF, datasets, JCL, utilities, VSAM, COBOL batch, DB2, CICS and REXX",ru:"z/OS, TSO и ISPF, наборы данных, JCL, утилиты, VSAM, COBOL, DB2, CICS и REXX",es:"z/OS, TSO e ISPF, conjuntos de datos, JCL, utilidades, VSAM, COBOL por lotes, DB2, CICS y REXX",hi:"z/OS, TSO और ISPF, डेटासेट, JCL, यूटिलिटी, VSAM, COBOL बैच, DB2, CICS और REXX"},nodejs:{en:"modules, files, events, async code, HTTP servers, npm and Express",ru:"модули, файлы, события, асинхронный код, HTTP-серверы, npm и Express",es:"módulos, archivos, eventos, código asíncrono, servidores HTTP, npm y Express",hi:"मॉड्यूल, फ़ाइलें, इवेंट, एसिंक्रोनस कोड, HTTP सर्वर, npm और Express"},html:{en:"tags and elements, headings, links, images, lists, tables and forms",ru:"теги и элементы, заголовки, ссылки, изображения, списки, таблицы и формы",es:"etiquetas y elementos, encabezados, enlaces, imágenes, listas, tablas y formularios",hi:"टैग और एलिमेंट, हेडिंग, लिंक, इमेज, लिस्ट, टेबल और फ़ॉर्म"},
 css:{en:"selectors, colors, the box model, flexbox, grid and responsive design",ru:"селекторы, цвета, блочная модель, flexbox, grid и адаптивный дизайн",es:"selectores, colores, el modelo de caja, flexbox, grid y diseño responsive",hi:"सेलेक्टर, रंग, बॉक्स मॉडल, फ्लेक्सबॉक्स, ग्रिड और रेस्पॉन्सिव डिज़ाइन"},
 js:{en:"variables, functions, arrays, objects, events and the DOM",ru:"переменные, функции, массивы, объекты, события и DOM",es:"variables, funciones, arrays, objetos, eventos y el DOM",hi:"वेरिएबल, फ़ंक्शन, ऐरे, ऑब्जेक्ट, इवेंट और DOM"},
 c:{en:"variables, operators, loops, functions, arrays, pointers and structs",ru:"переменные, операторы, циклы, функции, массивы, указатели и структуры",es:"variables, operadores, bucles, funciones, arrays, punteros y structs",hi:"वेरिएबल, ऑपरेटर, लूप, फ़ंक्शन, ऐरे, पॉइंटर और स्ट्रक्चर"},
@@ -2214,6 +2598,13 @@ function mk(k,l){var g=G[l],n=N[k];return[g[0].replace("{N}",n),g[1].replace("{N
 for(var k in N){var f=L[k].items[0],e=mk(k,"en");L[k].items.unshift(["welcome",e[0],e[1],e[2],f[4]].concat(f.slice(5)));TR[k+"-welcome"]={ru:mk(k,"ru"),es:mk(k,"es"),hi:mk(k,"hi")}}
 })();
 var CX={
+mainframe:[[`JOB`,`The first statement of a job. It gives the job a name and says who runs it and how its messages are handled.`,`//NAME JOB (account),'comment',CLASS=A,MSGCLASS=X`,`//HELLO JOB (ACCT),'HELLO',CLASS=A,MSGCLASS=X`],
+[`EXEC`,`Starts a step by running a program (PGM=) or a cataloged procedure.`,`//STEP1 EXEC PGM=program`,`//STEP1 EXEC PGM=IEBGENER`],
+[`DD`,`Data Definition: connects a dataset, in-stream data or printed output to a step.`,`//DDNAME DD parameters`,`//SYSPRINT DD SYSOUT=*`],
+[`DSN`,`The DD parameter that names the dataset to use.`,`DSN=dataset.name`,`//OUT DD DSN=USER1.TEST.DATA,DISP=SHR`],
+[`DISP`,`Tells the system the dataset status and what to do with it when the step ends.`,`DISP=(status,normal,abnormal)`,`DISP=(NEW,CATLG,DELETE)`],
+[`SYSOUT`,`Sends output to the job's printed output so you can read it.`,`//DDNAME DD SYSOUT=class`,`//SYSUT2 DD SYSOUT=*`],
+[`IEFBR14`,`A program that does nothing. It is used for its DD statements to create or delete datasets.`,`//STEP1 EXEC PGM=IEFBR14`,`//STEP1 EXEC PGM=IEFBR14\n//NEWDS DD DSN=USER1.NEW,DISP=(NEW,CATLG)`]],
 nodejs:[[`require`,`Loads a module (a core module, a package or your own file) and returns what it exports.`,`const name = require("module");`,`const fs = require("fs");`],
 [`module.exports`,`Chooses what a file shares with other files that require it.`,`module.exports = value;`,`module.exports = { add };`],
 [`fs.readFileSync`,`Reads a whole file and waits until it is finished. Pass "utf8" to get text instead of raw bytes.`,`fs.readFileSync(path, "utf8");`,`const text = fs.readFileSync("a.txt", "utf8");`],
@@ -2393,6 +2784,397 @@ seen[key]=1;var sn=sents.filter(function(z){return z.indexOf(raw)>=0})[0]||x[2];
 CX[k]=(CX[k]||[]).concat(auto);b+='<div class="cxl" data-c="'+k+'"></div>';
 if(TM[k])b+="<div hidden>"+Object.keys(CM).filter(function(x){return CM[x][0]===TM[k]}).map(function(x){return"<code>"+esc(x)+"</code>"}).join(" ")+"</div>";
 it.splice(at,0,["commands","All commands","Every command of this course: name, detailed description, syntax and example code.",b,f[4]].concat(f.slice(5)))})})();
+var INST={
+docker:[`Docker installation`,`Install Docker and run your first container.`,`<h2>Windows</h2><ol><li>Check that virtualization is on (Task Manager, Performance, CPU shows Virtualization: Enabled).</li><li>Download <b>Docker Desktop</b> from <code>docker.com</code> and run the installer. Keep the WSL 2 option ticked.</li><li>Restart the computer if asked, then start Docker Desktop and accept the terms.</li></ol><h2>macOS</h2><ol><li>Download Docker Desktop for Apple chip or Intel chip (Apple menu, About This Mac shows which you have).</li><li>Open the .dmg and drag Docker to Applications.</li><li>Open Docker and wait for the whale icon to stop moving.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Follow the apt steps for <b>Docker Engine</b> on <code>docs.docker.com/engine/install</code>.</li><li>Run <code>sudo usermod -aG docker $USER</code> so you do not need sudo for every command.</li><li>Log out and in again.</li></ol><h2>Check it works</h2><ol><li>Open a terminal and run <code>docker --version</code>.</li><li>Run <code>docker run hello-world</code>. You should see Hello from Docker.</li></ol><h2>If something goes wrong</h2><ul><li><code>Cannot connect to the Docker daemon</code>: start Docker Desktop, or on Linux run <code>sudo systemctl start docker</code>.</li><li>WSL 2 error on Windows: run <code>wsl --update</code> in PowerShell and restart.</li><li>Permission denied on Linux: you skipped the usermod step or did not log out.</li></ul>`,`docker --version`,`Docker version 27.3.1, build ce12230`],
+kubernetes:[`Kubernetes installation`,`Set up kubectl and a free practice cluster on your own computer.`,`<h2>Before you start</h2><ul><li>Install <b>Docker Desktop</b> (or Docker Engine on Linux) from <code>docker.com</code> and start it.</li><li>You need about 2 CPUs, 2 GB of free memory and 20 GB of disk.</li></ul><h2>Windows</h2><ol><li>Open PowerShell and run <code>winget install Kubernetes.kubectl</code>.</li><li>Run <code>winget install Kubernetes.minikube</code>.</li><li>Close and reopen PowerShell, then run <code>minikube start</code>.</li></ol><h2>macOS</h2><ol><li>Install Homebrew from <code>brew.sh</code> if you do not have it.</li><li>Run <code>brew install kubectl minikube</code>.</li><li>Run <code>minikube start</code>.</li></ol><h2>Linux</h2><ol><li>Install kubectl with your package manager or from <code>kubernetes.io</code>.</li><li>Download minikube from <code>minikube.sigs.k8s.io</code> and put it in your PATH.</li><li>Run <code>minikube start</code>. Add your user to the docker group if you get a permission error.</li></ol><h2>Check it works</h2><ol><li>Run <code>kubectl version --client</code> to see the kubectl version.</li><li>Run <code>kubectl get nodes</code>. The node should show <code>Ready</code>.</li></ol><h2>Other options</h2><ul><li><b>kind</b> runs a cluster inside Docker containers: <code>kind create cluster</code>.</li><li>Docker Desktop has a built-in Kubernetes switch in its settings.</li></ul><h2>If something goes wrong</h2><ul><li><code>minikube start</code> fails: make sure Docker is running, then run <code>minikube delete</code> and try again.</li><li><code>kubectl</code> not found: close and reopen the terminal.</li><li>Stop the cluster with <code>minikube stop</code>.</li></ul>`,`kubectl get nodes`,`NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   1m    v1.31.0`],
+mainframe:[`Mainframe installation`,`Full step-by-step ways to get a z/OS environment for practice.`,`<h2>Option 1: IBM Z Xplore (real z/OS, free for learning)</h2><ol><li>Open the IBM Z Xplore page at <code>ibm.com</code> and create a free IBMid.</li><li>Sign in and start the learning track to receive access to a real z/OS system.</li><li>Note the user ID and password you are given.</li><li>Install <b>Visual Studio Code</b> from <code>code.visualstudio.com</code> and add the <b>Zowe Explorer</b> extension.</li><li>Create a profile in Zowe Explorer with the host name and your user ID, then browse datasets and submit jobs.</li></ol><h2>Option 2: Hercules emulator with TK4-</h2><ol><li>Download the <b>TK4-</b> package from <code>wotho.ethz.ch/tk4-</code> and extract it to a folder.</li><li>Install Java if the package asks for it.</li><li>Windows: double-click <code>mvs.bat</code>. Linux and macOS: run <code>./mvs</code> in a terminal.</li><li>Install a 3270 terminal emulator, for example <b>wc3270</b> on Windows or <b>x3270</b> on Linux.</li><li>Connect it to <code>localhost</code> on port <code>3270</code> and log on with the user shown in the TK4- guide.</li></ol><h2>Check that it works</h2><ol><li>In ISPF choose option 3, then 4 to browse your datasets.</li><li>Create a small JCL member and type <code>SUBMIT</code> on the command line.</li><li>Look at the job output for a return code of 0.</li></ol><h2>If something goes wrong</h2><ul><li>The terminal cannot connect: check that the emulator is still running and that the port is 3270.</li><li>You cannot log on: re-read the user ID and password; they are case sensitive in some setups.</li></ul>`,`/* REXX */
+SAY "Mainframe is ready"`,`Mainframe is ready`],
+html:[`HTML installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Step 1: Install a code editor</h2><ol><li>Open <code>code.visualstudio.com</code> and click the <b>Download</b> button for your system.</li><li>Windows: run the installer, accept the agreement and tick <b>Add to PATH</b> and <b>Open with Code</b>. macOS: open the downloaded zip and drag <b>Visual Studio Code</b> into the Applications folder. Linux: run <code>sudo snap install code --classic</code> or install the .deb file.</li><li>Open VS Code once to make sure it starts.</li></ol><h2>Step 2: Create your first file</h2><ol><li>Create a new folder, for example <code>my-site</code>.</li><li>In VS Code choose <b>File</b>, then <b>Open Folder</b>, and select it.</li><li>Create a new file named <code>index.html</code>.</li><li>Paste the code from the editor below and save it (Ctrl+S, or Cmd+S on macOS).</li></ol><h2>Step 3: Open it in the browser</h2><ol><li>Find <code>index.html</code> in your folder and double-click it.</li><li>The page opens in your browser. After every change, save the file and press F5 to refresh.</li></ol><h2>Optional: live reload</h2><p>Install the <b>Live Server</b> extension in VS Code, right-click <code>index.html</code> and choose <b>Open with Live Server</b>. The page then refreshes by itself when you save.</p><h2>If something goes wrong</h2><ul><li>The file opens as plain text: make sure its name ends with <code>.html</code>, not <code>.html.txt</code>.</li><li>Changes do not show: save the file and refresh the browser.</li></ul>`,`<!DOCTYPE html>
+<html>
+<body>
+  <h1>HTML is working</h1>
+</body>
+</html>`,``],
+css:[`CSS installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Step 1: Install a code editor</h2><ol><li>Open <code>code.visualstudio.com</code> and click the <b>Download</b> button for your system.</li><li>Windows: run the installer, accept the agreement and tick <b>Add to PATH</b> and <b>Open with Code</b>. macOS: open the downloaded zip and drag <b>Visual Studio Code</b> into the Applications folder. Linux: run <code>sudo snap install code --classic</code> or install the .deb file.</li><li>Open VS Code once to make sure it starts.</li></ol><h2>Step 2: Create your files</h2><ol><li>Create a folder, for example <code>my-site</code>, and open it in VS Code.</li><li>Create <code>index.html</code> and <code>style.css</code> inside it.</li><li>In <code>index.html</code>, add <code>&lt;link rel="stylesheet" href="style.css"&gt;</code> between <code>&lt;head&gt;</code> and <code>&lt;/head&gt;</code>.</li><li>Write a rule such as <code>h1 { color: crimson; }</code> in <code>style.css</code> and save both files.</li></ol><h2>Step 3: See the result</h2><ol><li>Double-click <code>index.html</code> to open it in your browser.</li><li>Change the CSS, save, and press F5 to see the new look.</li></ol><h2>Tip: inspect any page</h2><p>Press F12 in the browser to open the developer tools. You can try CSS live on any element before you write it in your file.</p><h2>If something goes wrong</h2><ul><li>Styles do not apply: check that the <code>href</code> name matches the file name exactly.</li><li>Old styles still show: press Ctrl+F5 for a hard refresh.</li></ul>`,`<style>
+  h1 { color: crimson; }
+</style>
+<h1>CSS is working</h1>`,``],
+js:[`JavaScript installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Step 1: Install a code editor</h2><ol><li>Open <code>code.visualstudio.com</code> and click the <b>Download</b> button for your system.</li><li>Windows: run the installer, accept the agreement and tick <b>Add to PATH</b> and <b>Open with Code</b>. macOS: open the downloaded zip and drag <b>Visual Studio Code</b> into the Applications folder. Linux: run <code>sudo snap install code --classic</code> or install the .deb file.</li><li>Open VS Code once to make sure it starts.</li></ol><h2>Step 2: Try JavaScript in the browser</h2><ol><li>Open any web page in Chrome or Edge.</li><li>Press F12 and click the <b>Console</b> tab.</li><li>Type <code>console.log("Hello")</code> and press Enter to see the result.</li></ol><h2>Step 3: Run JavaScript from a file</h2><ol><li>Create <code>index.html</code> in a folder and open the folder in VS Code.</li><li>Add a <code>&lt;script&gt;</code> tag before <code>&lt;/body&gt;</code> and paste the code from the editor below.</li><li>Save, double-click the file and look at the page. Errors appear in the Console.</li></ol><h2>Optional: install Node.js</h2><ol><li>Download the LTS version from <code>nodejs.org</code> and run the installer with the default options.</li><li>Open a new terminal and run <code>node -v</code> to check it.</li><li>Run a file with <code>node app.js</code>.</li></ol><h2>If something goes wrong</h2><ul><li>Nothing happens: open the Console (F12) and read the red error message.</li><li><code>node</code> is not recognized: close and reopen the terminal, or reinstall Node.js.</li></ul>`,`<p id="o"></p>
+<script>
+  document.getElementById("o").textContent = "JavaScript is working";
+<\/script>`,``],
+c:[`C installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows (MSYS2)</h2><ol><li>Open <code>msys2.org</code> and download the installer.</li><li>Run it, keep the default folder <code>C:\\msys64</code> and finish.</li><li>Open <b>MSYS2 UCRT64</b> from the Start menu and run <code>pacman -S mingw-w64-ucrt-x86_64-gcc</code>. Type Y to confirm.</li><li>Add <code>C:\\msys64\\ucrt64\\bin</code> to your PATH: open the Start menu, search <b>Edit the system environment variables</b>, click <b>Environment Variables</b>, select <b>Path</b>, click <b>Edit</b>, then <b>New</b>, and paste <code>C:\\msys64\\ucrt64\\bin</code>.</li><li>Close and reopen your terminal (Command Prompt or PowerShell).</li></ol><h2>macOS</h2><ol><li>Open the Terminal app.</li><li>Run <code>xcode-select --install</code> and click <b>Install</b> in the window that appears.</li><li>Wait until the download finishes.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Open a terminal and run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install build-essential</code>. On Fedora use <code>sudo dnf install gcc gcc-c++</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>gcc --version</code>. A version number means it works.</li></ol><h2>Run your first program</h2><ol><li>Create a folder and a file named <code>hello.c</code>. Paste the code from the editor below.</li><li>In the terminal, go to that folder with <code>cd</code>.</li><li>Compile with <code>gcc hello.c -o hello</code>.</li><li>Run it with <code>./hello</code> (on Windows use <code>hello.exe</code>).</li></ol><h2>If something goes wrong</h2><ul><li><code>'gcc' is not recognized</code>: the PATH step is missing, or you did not reopen the terminal.</li><li>Errors with line numbers: read the first error, fix it and compile again.</li></ul>`,`#include <stdio.h>
+
+int main(void) {
+  puts("C is installed");
+  return 0;
+}`,`C is installed`],
+cpp:[`C++ installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows (MSYS2)</h2><ol><li>Open <code>msys2.org</code> and download the installer.</li><li>Run it, keep the default folder <code>C:\\msys64</code> and finish.</li><li>Open <b>MSYS2 UCRT64</b> from the Start menu and run <code>pacman -S mingw-w64-ucrt-x86_64-gcc</code>. Type Y to confirm.</li><li>Add <code>C:\\msys64\\ucrt64\\bin</code> to your PATH: open the Start menu, search <b>Edit the system environment variables</b>, click <b>Environment Variables</b>, select <b>Path</b>, click <b>Edit</b>, then <b>New</b>, and paste <code>C:\\msys64\\ucrt64\\bin</code>.</li><li>Close and reopen your terminal (Command Prompt or PowerShell).</li></ol><h2>macOS</h2><ol><li>Open the Terminal app.</li><li>Run <code>xcode-select --install</code> and click <b>Install</b> in the window that appears.</li><li>Wait until the download finishes.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Open a terminal and run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install build-essential</code>. On Fedora use <code>sudo dnf install gcc gcc-c++</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>g++ --version</code>. A version number means it works.</li></ol><h2>Run your first program</h2><ol><li>Create a folder and a file named <code>hello.cpp</code>. Paste the code from the editor below.</li><li>In the terminal, go to that folder with <code>cd</code>.</li><li>Compile with <code>g++ hello.cpp -o hello</code>.</li><li>Run it with <code>./hello</code> (on Windows use <code>hello.exe</code>).</li></ol><h2>If something goes wrong</h2><ul><li><code>'g++' is not recognized</code>: the PATH step is missing, or you did not reopen the terminal.</li><li>Errors with line numbers: read the first error, fix it and compile again.</li></ul>`,`#include <iostream>
+using namespace std;
+
+int main() {
+  cout << "C++ is installed" << endl;
+  return 0;
+}`,`C++ is installed`],
+php:[`PHP installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows (XAMPP)</h2><ol><li>Open <code>apachefriends.org</code> and download XAMPP for Windows.</li><li>Run the installer. Keep <b>Apache</b> and <b>PHP</b> ticked and install to <code>C:\\xampp</code>.</li><li>Open the <b>XAMPP Control Panel</b> and click <b>Start</b> next to Apache. Allow it through the firewall if asked.</li><li>Save your PHP files inside <code>C:\\xampp\\htdocs</code>.</li></ol><h2>macOS (Homebrew)</h2><ol><li>Open Terminal and install Homebrew from <code>brew.sh</code> if you do not have it.</li><li>Run <code>brew install php</code>.</li><li>Run <code>php -v</code> to check it.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install php-cli</code>.</li><li>Run <code>php -v</code> to check it.</li></ol><h2>Run your first program</h2><ol><li>Save the code from the editor below as <code>hello.php</code>.</li><li>In the terminal, go to its folder and run <code>php hello.php</code>.</li><li>Or start the built-in server with <code>php -S localhost:8000</code> and open <code>http://localhost:8000/hello.php</code> in a browser. Stop it with Ctrl+C.</li><li>With XAMPP, open <code>http://localhost/hello.php</code>.</li></ol><h2>If something goes wrong</h2><ul><li>The browser shows the PHP code as text: open the page through <code>http://localhost</code>, not by double-clicking the file.</li><li>Apache will not start: another program uses port 80. Close it or change the port in XAMPP.</li><li><code>'php' is not recognized</code>: add the PHP folder to your PATH and reopen the terminal.</li></ul>`,`<?php
+echo "PHP is installed";
+?>`,`PHP is installed`],
+sql:[`SQL installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Install SQLite (simplest)</h2><ol><li>Windows: open <code>sqlite.org/download.html</code>, download the <b>sqlite-tools</b> zip for Windows and extract it to <code>C:\\sqlite</code>. Add <code>C:\\sqlite</code> to your PATH: open the Start menu, search <b>Edit the system environment variables</b>, click <b>Environment Variables</b>, select <b>Path</b>, click <b>Edit</b>, then <b>New</b>, and paste <code>C:\\sqlite</code>.</li><li>macOS: SQLite is already installed. To get a newer one run <code>brew install sqlite</code>.</li><li>Linux: run <code>sudo apt install sqlite3</code>.</li><li>Check it with <code>sqlite3 --version</code>.</li></ol><h2>Create your first database</h2><ol><li>Run <code>sqlite3 test.db</code>.</li><li>Type <code>CREATE TABLE pets (id INTEGER PRIMARY KEY, name TEXT);</code> and press Enter.</li><li>Type <code>INSERT INTO pets (name) VALUES ('Tom');</code>.</li><li>Type <code>SELECT * FROM pets;</code> to see your row.</li><li>Type <code>.quit</code> to leave.</li></ol><h2>Install MySQL (optional)</h2><ol><li>Download MySQL Community Server from <code>mysql.com/downloads</code>.</li><li>Windows and macOS: run the installer, choose the default setup and set a password for the <b>root</b> user. Linux: run <code>sudo apt install mysql-server</code>.</li><li>Check it with <code>mysql --version</code>.</li><li>Connect with <code>mysql -u root -p</code> and enter your password.</li></ol><h2>If something goes wrong</h2><ul><li><code>'sqlite3' is not recognized</code>: the PATH step is missing or the terminal was not reopened.</li><li>MySQL says <b>Access denied</b>: the password is wrong. Use the root password you set during install.</li></ul><p>This page also runs SQLite in your browser, so you can practise without installing anything.</p>`,`SELECT 'SQL is working' AS message;`,`message
+SQL is working`],
+python:[`Python installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows</h2><ol><li>Open <code>python.org/downloads</code> and click <b>Download Python 3</b>.</li><li>Run the installer. At the bottom of the first window, tick <b>Add python.exe to PATH</b>.</li><li>Click <b>Install Now</b> and wait until it says Setup was successful.</li><li>Close the window.</li></ol><h2>macOS</h2><ol><li>Download the macOS installer from <code>python.org/downloads</code>.</li><li>Open the .pkg file and follow the steps. Or run <code>brew install python</code> if you use Homebrew.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Python is usually installed. Check with <code>python3 --version</code>.</li><li>If not, run <code>sudo apt update</code> and then <code>sudo apt install python3 python3-pip</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>python --version</code> (use <code>python3 --version</code> on macOS and Linux).</li></ol><h2>Run your first program</h2><ol><li>Save the code from the editor below as <code>hello.py</code>.</li><li>In the terminal, go to its folder.</li><li>Run <code>python hello.py</code> (or <code>python3 hello.py</code>).</li><li>For an interactive prompt, type <code>python</code> and use <code>exit()</code> to leave.</li></ol><h2>If something goes wrong</h2><ul><li><code>'python' is not recognized</code>: reinstall and tick <b>Add python.exe to PATH</b>, or try <code>py --version</code>.</li><li>The Microsoft Store opens: turn off the Python app execution aliases in Windows settings.</li></ul>`,`print("Python is installed")`,`Python is installed`],
+java:[`Java installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows</h2><ol><li>Open <code>adoptium.net</code> and download the latest LTS <b>Temurin JDK</b> (.msi).</li><li>Run the installer. On the <b>Custom Setup</b> page choose <b>Set JAVA_HOME variable</b> and <b>Add to PATH</b>.</li><li>Click <b>Install</b> and then <b>Finish</b>.</li></ol><h2>macOS</h2><ol><li>Download the .pkg installer from <code>adoptium.net</code> and run it. Or run <code>brew install --cask temurin</code>.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install default-jdk</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>java -version</code> and then <code>javac -version</code>. Both should print a version.</li></ol><h2>Run your first program</h2><ol><li>Create a file named <code>Main.java</code> and paste the code from the editor below.</li><li>In the terminal, go to that folder.</li><li>Compile with <code>javac Main.java</code>. This creates <code>Main.class</code>.</li><li>Run it with <code>java Main</code>.</li></ol><h2>If something goes wrong</h2><ul><li><code>'javac' is not recognized</code>: you installed only the runtime, or the PATH is not set. Install the JDK and reopen the terminal.</li><li>Class name errors: a public class must have the same name as its file.</li></ul>`,`class Main {
+  public static void main(String[] args) {
+    System.out.println("Java is installed");
+  }
+}`,`Java is installed`],
+cobol:[`COBOL installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows (through WSL)</h2><ol><li>Open PowerShell as administrator and run <code>wsl --install</code>.</li><li>Restart the computer, open <b>Ubuntu</b> from the Start menu and create a user name and password.</li><li>Then follow the Linux steps below inside Ubuntu.</li></ol><h2>macOS (Homebrew)</h2><ol><li>Install Homebrew from <code>brew.sh</code> if needed.</li><li>Run <code>brew install gnucobol</code>.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install gnucobol</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>cobc --version</code>. A version number means it works.</li></ol><h2>Run your first program</h2><ol><li>Save the code from the editor below as <code>hello.cob</code>. Code lines start in column 8.</li><li>Compile with <code>cobc -x hello.cob</code>. For free-format code use <code>cobc -x -free hello.cob</code>.</li><li>Run it with <code>./hello</code>.</li></ol><h2>If something goes wrong</h2><ul><li><code>cobc: command not found</code>: the install did not finish, or the terminal needs to be reopened.</li><li>Warning <b>line not terminated by a newline</b>: press Enter after the last line and save again.</li></ul>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+           DISPLAY "COBOL is installed".
+           STOP RUN.
+`,`COBOL is installed`],
+nodejs:[`Node.js installation`,`Full step-by-step installation for Windows, macOS and Linux.`,`<h2>Windows</h2><ol><li>Open <code>nodejs.org</code> and download the <b>LTS</b> installer (.msi).</li><li>Run it and click <b>Next</b>: accept the license, keep the default folder and keep <b>Add to PATH</b>.</li><li>Click <b>Install</b> and then <b>Finish</b>.</li></ol><h2>macOS</h2><ol><li>Download the LTS .pkg installer from <code>nodejs.org</code> and run it. Or run <code>brew install node</code>.</li></ol><h2>Linux (Ubuntu or Debian)</h2><ol><li>Run <code>sudo apt update</code>.</li><li>Run <code>sudo apt install nodejs npm</code>. For the newest version use <b>nvm</b> (<code>github.com/nvm-sh/nvm</code>) and run <code>nvm install --lts</code>.</li></ol><h2>Check the installation</h2><ol><li>Open a new terminal.</li><li>Run <code>node -v</code> and then <code>npm -v</code>. Both should print a version.</li></ol><h2>Run your first program</h2><ol><li>Save the code from the editor below as <code>app.js</code>.</li><li>In the terminal, go to its folder and run <code>node app.js</code>.</li><li>To start a project, run <code>npm init -y</code>. It creates a <code>package.json</code> file.</li></ol><h2>If something goes wrong</h2><ul><li><code>'node' is not recognized</code>: close and reopen the terminal, or reinstall Node.js.</li><li>Permission errors with global packages: do not use sudo, install Node.js with nvm instead.</li></ul>`,`console.log("Node.js is installed");`,`Node.js is installed`]};
+(function(){Object.keys(INST).forEach(function(k){if(!L[k])return;var it=L[k].items,i=0;for(;i<it.length;i++)if(it[i][0]==="commands")break;var at=Math.min(i+2,it.length),v=INST[k];it.splice(at,0,["install",v[0],v[1],v[2],v[3],v[4]])})})();
+var PROJ={
+docker:[`Live project: Containerize a website`,`Package a web page in your own image and serve it.`,`<p>Turn a plain web page into a Docker image that anyone can run with one command.</p><h2>What you will build</h2><ul><li>A one-page website</li><li>A Dockerfile based on nginx</li><li>A running container on port 8080</li></ul><h2>Steps</h2><ol><li>Make a folder with a file <code>index.html</code> that says Hello from Docker.</li><li>Save the code as <code>Dockerfile</code> in the same folder.</li><li>Build it: <code>docker build -t my-site .</code></li><li>Run it: <code>docker run -d -p 8080:80 --name site my-site</code></li><li>Open <code>http://localhost:8080</code> in your browser.</li></ol><h2>Run it</h2><p>Docker needs its engine, so this page shows the expected build result.</p><h2>Challenge</h2><ul><li>Add a CSS file and copy it into the image.</li><li>Push the image to Docker Hub.</li><li>Run the same site with Docker Compose.</li></ul>`,`FROM nginx:1.27-alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80`,`[+] Building 1.8s (7/7) FINISHED
+ => [1/2] FROM docker.io/library/nginx:1.27-alpine
+ => [2/2] COPY index.html /usr/share/nginx/html/index.html
+ => exporting to image
+ => naming to docker.io/library/my-site:latest`],
+kubernetes:[`Live project: Deploy a web app`,`Run a web app with 3 copies and a Service.`,`<p>Deploy a small web app the way real teams do: a Deployment plus a Service in one file.</p><h2>What you will build</h2><ul><li>A Deployment that runs 3 copies of the app</li><li>A Service that gives them one address</li></ul><h2>Steps</h2><ol><li>Save the code as <code>app.yaml</code>. The <code>---</code> line separates the two objects.</li><li>Start a cluster with <code>minikube start</code>.</li><li>Run <code>kubectl apply -f app.yaml</code>.</li><li>Run <code>kubectl get pods</code> and wait for 3 Pods to be <code>Running</code>.</li><li>Run <code>minikube service hello-web</code> to open the app in your browser.</li></ol><h2>Run it</h2><p>Kubernetes needs a cluster, so this page shows the expected output.</p><h2>Challenge</h2><ul><li>Change <code>replicas</code> to 5 and apply again.</li><li>Add a readiness probe from the probes lesson.</li><li>Delete one Pod and watch Kubernetes create a new one.</li></ul>`,`apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-web
+  template:
+    metadata:
+      labels:
+        app: hello-web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-web
+spec:
+  type: NodePort
+  selector:
+    app: hello-web
+  ports:
+    - port: 80
+      targetPort: 80`,`deployment.apps/hello-web created
+service/hello-web created`],
+mainframe:[`Live project: Payroll batch job`,`Sort employee records by pay in one batch job.`,`<p>Build a real batch job like those that run overnight in banks and companies.</p><h2>What you will build</h2><ul><li>A job stream with in-stream employee records</li><li>A <code>SORT</code> step that orders them by pay</li><li>A printed report</li></ul><h2>Steps</h2><ol><li>Read the records: each has a 10-character name and a 4-digit pay.</li><li>Read the control statement: <code>SORT FIELDS=(11,4,CH,D)</code> sorts the pay field in descending order.</li><li>Press Run to see the report.</li><li>Change a pay value and run again.</li></ol><h2>Run it</h2><p>On a real mainframe you submit this job and read the output in the job log. Here the page shows the expected report.</p><h2>Challenge</h2><ul><li>Sort by name instead.</li><li>Add a second step that prints a heading.</li></ul>`,`//PAYJOB JOB (ACCT),'PAYROLL',CLASS=A,MSGCLASS=X
+//SORT     EXEC PGM=SORT
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD *
+RAVI      0400
+ASHA      0600
+MEENA     0500
+/*
+//SORTOUT  DD SYSOUT=*
+//SYSIN    DD *
+  SORT FIELDS=(11,4,CH,D)
+/*`,`ASHA      0600
+MEENA     0500
+RAVI      0400`],
+html:[`Live project: Personal profile page`,`Build a complete profile web page from scratch.`,`<p>Put everything from this course together in one real page that you can show to others.</p><h2>What you will build</h2><ul><li>A header with your name</li><li>About, skills and projects sections</li><li>A table and a contact form</li></ul><h2>Steps</h2><ol><li>Read the code and find each part: head, style, header, headings, list, table and form.</li><li>Change the name, skills and projects to your own.</li><li>Press Run and check the page.</li><li>Save the code as <code>index.html</code> and open it in your browser.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a photo with <code>img</code> and a link to your social profile.</li><li>Add a second table for your education.</li></ul>`,`<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; max-width: 520px; margin: 24px auto; color: #14213d; }
+  header { background: #87ceeb; padding: 16px; border-radius: 10px; }
+  h1 { margin: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #ccc; padding: 6px; text-align: left; }
+  button { background: #14213d; color: #fff; border: 0; padding: 8px 14px; border-radius: 6px; }
+</style>
+</head>
+<body>
+  <header><h1>Asha Verma</h1><p>Web developer in training</p></header>
+  <h2>About me</h2>
+  <p>I build small websites and love learning new things.</p>
+  <h2>Skills</h2>
+  <ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+  <h2>Projects</h2>
+  <table>
+    <tr><th>Name</th><th>Type</th></tr>
+    <tr><td>Portfolio</td><td>Website</td></tr>
+    <tr><td>Quiz</td><td>App</td></tr>
+  </table>
+  <h2>Contact</h2>
+  <form><input placeholder="Your email" required> <button>Send</button></form>
+</body>
+</html>`,``],
+css:[`Live project: Pricing cards`,`Style three pricing cards with flexbox and hover effects.`,`<p>Use selectors, the box model, flexbox and transitions to design a pricing section.</p><h2>What you will build</h2><ul><li>Three cards laid out in a row that wraps on small screens</li><li>A highlighted best-value card</li><li>A hover lift animation and styled buttons</li></ul><h2>Steps</h2><ol><li>Read the CSS: <code>.plans</code> uses flexbox, <code>.card</code> sets the look.</li><li>Change the colors and sizes.</li><li>Press Run and move the mouse over a card.</li><li>Add a fourth card in the HTML.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Make the highlighted card slightly larger.</li><li>Add a dark theme with a media query.</li></ul>`,`<style>
+  body { font-family: sans-serif; background: #f2f5f9; padding: 20px; }
+  .plans { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .card { background: #fff; border-radius: 12px; padding: 20px; width: 160px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.1); transition: transform .2s; }
+  .card:hover { transform: translateY(-6px); }
+  .card h2 { margin: 0 0 8px; }
+  .price { font-size: 28px; font-weight: bold; color: #1b6ca8; }
+  .card.best { border: 2px solid #87ceeb; }
+  .card a { display: inline-block; margin-top: 12px; padding: 8px 14px; background: #14213d; color: #fff; border-radius: 6px; text-decoration: none; }
+</style>
+<div class="plans">
+  <div class="card"><h2>Free</h2><div class="price">$0</div><p>1 project</p><a href="#">Start</a></div>
+  <div class="card best"><h2>Pro</h2><div class="price">$9</div><p>10 projects</p><a href="#">Choose</a></div>
+  <div class="card"><h2>Team</h2><div class="price">$29</div><p>Unlimited</p><a href="#">Contact</a></div>
+</div>`,``],
+js:[`Live project: To-do list app`,`Build a working to-do list with JavaScript.`,`<p>Combine variables, functions, events and the DOM in a small interactive app.</p><h2>What you will build</h2><ul><li>An input box and an Add button</li><li>A list where each task can be clicked to mark it done</li><li>A live counter of tasks left</li></ul><h2>Steps</h2><ol><li>Read the script: <code>update</code> recounts the open tasks.</li><li>Type a task and press Add.</li><li>Click a task to cross it out.</li><li>Watch the counter change.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a Delete button to every task.</li><li>Save the tasks with <code>localStorage</code>.</li></ul>`,`<style>
+  body { font-family: sans-serif; max-width: 360px; margin: 20px auto; }
+  li { cursor: pointer; padding: 4px 0; }
+  li.done { text-decoration: line-through; color: #888; }
+</style>
+<h2>My tasks (<span id="count">0</span> left)</h2>
+<input id="task" placeholder="New task">
+<button id="add">Add</button>
+<ul id="list"></ul>
+<script>
+  var list = document.getElementById("list");
+  var count = document.getElementById("count");
+  function update() {
+    count.textContent = list.querySelectorAll("li:not(.done)").length;
+  }
+  document.getElementById("add").onclick = function () {
+    var input = document.getElementById("task");
+    if (!input.value.trim()) return;
+    var li = document.createElement("li");
+    li.textContent = input.value.trim();
+    li.onclick = function () { li.classList.toggle("done"); update(); };
+    list.appendChild(li);
+    input.value = "";
+    update();
+  };
+<\/script>`,``],
+c:[`Live project: Student report card`,`Calculate averages and grades with arrays and functions.`,`<p>Use arrays, loops, functions and if statements to print a report card.</p><h2>What you will build</h2><ul><li>A two-dimensional array of marks</li><li>An <code>average</code> function and a <code>grade</code> function</li><li>A formatted report for every student</li></ul><h2>Steps</h2><ol><li>Read <code>average</code>: it adds all marks and divides by the count.</li><li>Read <code>grade</code>: it returns A, B, C or F.</li><li>Press Run and read the report.</li><li>Change the marks and run again.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a fourth student.</li><li>Print the class topper.</li></ul>`,`#include <stdio.h>
+
+double average(int m[], int n) {
+  int sum = 0;
+  for (int i = 0; i < n; i++) sum += m[i];
+  return (double) sum / n;
+}
+
+char grade(double a) {
+  if (a >= 90) return 'A';
+  if (a >= 75) return 'B';
+  if (a >= 50) return 'C';
+  return 'F';
+}
+
+int main(void) {
+  const char *names[] = {"Asha", "Ravi", "Meena"};
+  int marks[3][3] = {{92, 88, 95}, {70, 65, 80}, {45, 50, 40}};
+  for (int s = 0; s < 3; s++) {
+    double a = average(marks[s], 3);
+    printf("%-6s average %.1f grade %c\\n", names[s], a, grade(a));
+  }
+  return 0;
+}`,`Asha   average 91.7 grade A
+Ravi   average 71.7 grade C
+Meena  average 45.0 grade F`],
+cpp:[`Live project: Bank account (OOP)`,`Model a bank account with a class.`,`<p>Use classes, constructors, methods and vectors to build a small bank account.</p><h2>What you will build</h2><ul><li>An <code>Account</code> class with private data</li><li>Deposit and withdraw methods</li><li>A transaction log kept in a vector</li></ul><h2>Steps</h2><ol><li>Read the class: owner, balance and log are private.</li><li>The constructor sets the owner and the opening balance.</li><li>Press Run and read the log.</li><li>Withdraw more than the balance and see the failed entry.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a <code>transfer</code> method.</li><li>Reject negative deposits.</li></ul>`,`#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+class Account {
+  string owner;
+  double balance;
+  vector<string> log;
+public:
+  Account(string o, double b) : owner(o), balance(b) {}
+  void deposit(double x) {
+    balance += x;
+    log.push_back("deposit " + to_string((int)x));
+  }
+  bool withdraw(double x) {
+    if (x > balance) {
+      log.push_back("failed " + to_string((int)x));
+      return false;
+    }
+    balance -= x;
+    log.push_back("withdraw " + to_string((int)x));
+    return true;
+  }
+  void show() {
+    cout << owner << " balance: " << balance << endl;
+    for (auto &l : log) cout << " - " << l << endl;
+  }
+};
+
+int main() {
+  Account a("Asha", 100);
+  a.deposit(50);
+  a.withdraw(30);
+  a.withdraw(500);
+  a.show();
+  return 0;
+}`,`Asha balance: 120
+ - deposit 50
+ - withdraw 30
+ - failed 500`],
+php:[`Live project: Shopping cart bill`,`Total a shopping cart with tax.`,`<p>Use arrays, functions and loops to print a bill.</p><h2>What you will build</h2><ul><li>A cart stored as an array of items</li><li>A function that totals one line</li><li>Subtotal, 18% tax and grand total</li></ul><h2>Steps</h2><ol><li>Read the <code>$cart</code> array.</li><li><code>line_total</code> multiplies price by quantity.</li><li>Press Run to see the bill.</li><li>Change the prices and quantities.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a discount for totals above 500.</li><li>Print the bill as an HTML table.</li></ul>`,`<?php
+$cart = [
+  ["name" => "Pen", "price" => 10, "qty" => 3],
+  ["name" => "Notebook", "price" => 45, "qty" => 2],
+  ["name" => "Bag", "price" => 500, "qty" => 1],
+];
+function line_total($item) {
+  return $item["price"] * $item["qty"];
+}
+$total = 0;
+foreach ($cart as $item) {
+  $t = line_total($item);
+  $total += $t;
+  echo $item["name"] . " x" . $item["qty"] . " = " . $t . PHP_EOL;
+}
+$tax = round($total * 0.18);
+echo "Subtotal: " . $total . PHP_EOL;
+echo "GST 18%: " . $tax . PHP_EOL;
+echo "Total: " . ($total + $tax) . PHP_EOL;
+?>`,`Pen x3 = 30
+Notebook x2 = 90
+Bag x1 = 500
+Subtotal: 620
+GST 18%: 112
+Total: 732`],
+sql:[`Live project: Mini shop database`,`Design tables and report sales with a join.`,`<p>Create tables, insert data and write a report query with JOIN, SUM, GROUP BY and ORDER BY.</p><h2>What you will build</h2><ul><li>A <code>products</code> table and a <code>sales</code> table</li><li>Sample data</li><li>A revenue report sorted from highest to lowest</li></ul><h2>Steps</h2><ol><li>Read the two CREATE TABLE statements.</li><li>Read the INSERT statements that add the data.</li><li>Press Run to see the report.</li><li>Change a price or a quantity and run again.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a <code>category</code> column and group by it.</li><li>Show only products with revenue above 500.</li></ul>`,`CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price INTEGER);
+CREATE TABLE sales (id INTEGER PRIMARY KEY, product_id INTEGER, qty INTEGER);
+INSERT INTO products VALUES (1, 'Pen', 10), (2, 'Notebook', 45), (3, 'Bag', 500);
+INSERT INTO sales VALUES (1, 1, 30), (2, 2, 12), (3, 3, 2), (4, 1, 20);
+SELECT p.name, SUM(s.qty) AS sold, SUM(s.qty * p.price) AS revenue
+FROM sales s JOIN products p ON p.id = s.product_id
+GROUP BY p.name
+ORDER BY revenue DESC;`,`name | sold | revenue
+Bag | 2 | 1000
+Notebook | 12 | 540
+Pen | 50 | 500`],
+python:[`Live project: Expense tracker`,`Group and total expenses with dictionaries.`,`<p>Use lists, dictionaries, functions and loops to summarise spending.</p><h2>What you will build</h2><ul><li>A list of expenses</li><li>A function that totals the cost by type</li><li>A tidy report with a grand total</li></ul><h2>Steps</h2><ol><li>Read the <code>expenses</code> list of dictionaries.</li><li><code>total_by_type</code> builds a new dictionary of totals.</li><li>Press Run to see the report.</li><li>Add your own expenses.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Show the biggest single expense.</li><li>Read the expenses from a file.</li></ul>`,`expenses = [
+    {"item": "Tea", "cost": 20, "type": "food"},
+    {"item": "Bus", "cost": 35, "type": "travel"},
+    {"item": "Lunch", "cost": 120, "type": "food"},
+    {"item": "Book", "cost": 250, "type": "study"},
+]
+
+def total_by_type(items):
+    totals = {}
+    for e in items:
+        totals[e["type"]] = totals.get(e["type"], 0) + e["cost"]
+    return totals
+
+totals = total_by_type(expenses)
+for kind, amount in sorted(totals.items()):
+    print(kind.ljust(8), amount)
+print("-" * 14)
+print("Total".ljust(8), sum(totals.values()))`,`food     140
+study    250
+travel   35
+--------------
+Total    425`],
+java:[`Live project: Library books`,`Borrow books using classes and lists.`,`<p>Use classes, objects, ArrayList and methods to model a small library.</p><h2>What you will build</h2><ul><li>A <code>Book</code> class with a title and an availability flag</li><li>A <code>borrow</code> method that searches the shelf</li><li>Messages for borrowed, already borrowed and missing books</li></ul><h2>Steps</h2><ol><li>Read the <code>Book</code> class.</li><li>Read <code>borrow</code>: it loops through the shelf.</li><li>Press Run and read the messages.</li><li>Add more books and borrow them.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a <code>giveBack</code> method.</li><li>Print all available titles.</li></ul>`,`import java.util.ArrayList;
+
+class Main {
+  static void borrow(ArrayList<Book> shelf, String title) {
+    for (Book b : shelf) {
+      if (b.title.equals(title)) {
+        if (b.available) {
+          b.available = false;
+          System.out.println("Borrowed: " + title);
+        } else {
+          System.out.println("Already borrowed: " + title);
+        }
+        return;
+      }
+    }
+    System.out.println("Not found: " + title);
+  }
+
+  public static void main(String[] args) {
+    ArrayList<Book> shelf = new ArrayList<>();
+    shelf.add(new Book("Java Basics"));
+    shelf.add(new Book("Data Structures"));
+    borrow(shelf, "Java Basics");
+    borrow(shelf, "Java Basics");
+    borrow(shelf, "Algorithms");
+    int free = 0;
+    for (Book b : shelf) if (b.available) free++;
+    System.out.println("Available books: " + free);
+  }
+}
+
+class Book {
+  String title;
+  boolean available = true;
+  Book(String title) { this.title = title; }
+}`,`Borrowed: Java Basics
+Already borrowed: Java Basics
+Not found: Algorithms
+Available books: 1`],
+cobol:[`Live project: Payroll calculator`,`Calculate an employee's pay with COBOL.`,`<p>Use the divisions, data items, <code>COMPUTE</code> and <code>DISPLAY</code> to print a pay slip.</p><h2>What you will build</h2><ul><li>Data items for hours, rate and pay</li><li>A calculation with <code>COMPUTE</code></li><li>A printed pay slip</li></ul><h2>Steps</h2><ol><li>Read WORKING-STORAGE: <code>PIC 99</code> holds two digits.</li><li><code>COMPUTE PAY = HOURS * RATE</code> does the maths.</li><li>Press Run to see the pay slip.</li><li>Change HOURS and RATE and run again.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add overtime pay for hours above 40.</li><li>Add a tax amount.</li></ul>`,`       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PAYROLL.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 HOURS PIC 99 VALUE 40.
+       01 RATE  PIC 99 VALUE 15.
+       01 PAY   PIC 9999 VALUE 0.
+       PROCEDURE DIVISION.
+           COMPUTE PAY = HOURS * RATE.
+           DISPLAY "Employee: Asha".
+           DISPLAY "Hours: " HOURS.
+           DISPLAY "Rate: " RATE.
+           DISPLAY "Pay: " PAY.
+           STOP RUN.
+`,`Employee: Asha
+Hours: 40
+Rate: 15
+Pay: 0600`],
+nodejs:[`Live project: Mini task API`,`Build a small JSON API with the http module.`,`<p>Use the http module, routes, JSON and promises to build and call an API.</p><h2>What you will build</h2><ul><li>A server with a <code>/tasks</code> route that returns JSON</li><li>A 404 answer for unknown routes</li><li>A client that calls the server and prints the answers</li></ul><h2>Steps</h2><ol><li>Read the server: it checks <code>req.url</code>.</li><li>Read <code>get</code>: it wraps http.get in a promise.</li><li>Press Run to see both answers.</li><li>Add a new task to the array.</li></ol><h2>Run it</h2><p>Press Run to see the project work. Then change the data in the editor and run it again.</p><h2>Challenge</h2><ul><li>Add a <code>/tasks/1</code> route.</li><li>Accept new tasks with a POST request.</li></ul>`,`const http = require("http");
+const tasks = [
+  { id: 1, title: "Learn Node.js", done: true },
+  { id: 2, title: "Build an API", done: false }
+];
+
+const server = http.createServer(function (req, res) {
+  if (req.url === "/tasks") {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(tasks));
+  } else {
+    res.statusCode = 404;
+    res.end("Not found");
+  }
+});
+
+function get(port, path) {
+  return new Promise(function (resolve) {
+    http.get({ port: port, path: path }, function (r) {
+      let d = "";
+      r.on("data", function (c) { d += c; });
+      r.on("end", function () { resolve(r.statusCode + " " + d); });
+    });
+  });
+}
+
+server.listen(0, async function () {
+  const port = server.address().port;
+  console.log(await get(port, "/tasks"));
+  console.log(await get(port, "/missing"));
+  server.close();
+});`,`200 [{"id":1,"title":"Learn Node.js","done":true},{"id":2,"title":"Build an API","done":false}]
+404 Not found`]};
+(function(){Object.keys(PROJ).forEach(function(k){if(!L[k])return;var v=PROJ[k];L[k].items.push(["project",v[0],v[1],v[2],v[3],v[4]])})})();
 function show(){parse();var it=L[cur.l].items[cur.i];var x=lt(cur.l,it);$("t").textContent=x[0];$("d").textContent=x[1];$("body").innerHTML=cmdHtml(x[2]);autoT(it);$("ed").value=it[4];document.title=x[0]+" | Learn Web";tabs();side();idle();
 var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i});$("prev").disabled=p<=0;$("next").disabled=p>=f.length-1;window.scrollTo(0,0)}
 function go(d){var f=flat(),p=f.findIndex(function(x){return x[0]===cur.l&&x[1]===cur.i})+d;if(f[p])location.hash=f[p][0]+"-"+L[f[p][0]].items[f[p][1]][0]}
@@ -2400,7 +3182,7 @@ $("prev").onclick=function(){go(-1)};$("next").onclick=function(){go(1)};$("run"
 var tm;$("ed").oninput=function(){};
 $("ed").onkeydown=function(e){if(e.key==="Tab"){e.preventDefault();var s=this.selectionStart;this.value=this.value.slice(0,s)+"  "+this.value.slice(this.selectionEnd);this.selectionStart=this.selectionEnd=s+2}};
 
-var Q={nodejs:[["Which function loads a CommonJS module?",["import()","require()","load()","include()"],1],["Which module reads and writes files?",["http","path","fs","events"],2],["Which command installs a package?",["node install","npm get","node add","npm install"],3],["Which file lists a project's dependencies?",["package.json","index.html","node.config","modules.txt"],0],["Which keyword pauses an async function until a promise settles?",["stop","await","pause","yield"],1]],html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
+var Q={docker:[["What is a Docker container?",["A text editor", "A running instance of an image", "A type of database", "A web browser"],1],["What is an image?",["A read-only template for containers", "A screenshot", "A running process", "A network"],0],["Which command starts a container?",["docker start-new", "docker run", "docker open", "docker go"],1],["What does -p 8080:80 do?",["Sets a password", "Maps host port 8080 to container port 80", "Pauses the container", "Pulls version 8080"],1],["Which file describes how to build an image?",["compose.json", "Makefile", "Dockerfile", "image.txt"],2],["Which Dockerfile instruction picks the base image?",["BASE", "FROM", "START", "IMAGE"],1],["How do you keep data after a container is removed?",["Use a volume", "Use more RAM", "Use docker pause", "Use --rm"],0],["Which tool runs several containers from one YAML file?",["Docker Compose", "Docker Scout", "Docker Hub", "Docker Stats"],0],["Which command shows what a container printed?",["docker see", "docker logs", "docker echo", "docker out"],1],["Which command lists running containers?",["docker ps", "docker ls-all", "docker list-run", "docker top-all"],0]],kubernetes:[["What does Kubernetes mainly do?",["Edits images", "Runs and manages containers", "Hosts databases only", "Compiles code"],1],["What is the smallest unit Kubernetes runs?",["Node", "Service", "Pod", "Namespace"],2],["Which object keeps several identical Pods running?",["Deployment", "ConfigMap", "Ingress", "Secret"],0],["Which command applies a YAML file?",["kubectl run -f", "kubectl apply -f", "kubectl push -f", "kubectl load -f"],1],["What gives a group of Pods one stable address?",["Label", "Volume", "Service", "Job"],2],["How does a Service find its Pods?",["By file name", "By label selector", "By node name", "By image size"],1],["Which object stores passwords and tokens?",["ConfigMap", "Namespace", "Secret", "Node"],2],["Which command changes the number of replicas?",["kubectl scale", "kubectl grow", "kubectl count", "kubectl size"],0],["Which status often means a wrong image name?",["Running", "Completed", "ImagePullBackOff", "Ready"],2],["Which tool installs packaged apps called charts?",["Docker", "Helm", "Git", "Make"],1]],mainframe:[["Which JCL statement starts a job?",["EXEC","DD","JOB","PROC"],2],["Which statement connects a dataset to a step?",["DD","JOB","SET","PEND"],0],["Which program does nothing and is used to create or delete datasets?",["SORT","IDCAMS","IEFBR14","IEBGENER"],2],["What does a return code of 0 mean?",["Severe error","Warning","Success","Abend"],2],["Which utility defines and manages VSAM datasets?",["REXX","ISPF","IEFBR14","IDCAMS"],3]],nodejs:[["Which function loads a CommonJS module?",["import()","require()","load()","include()"],1],["Which module reads and writes files?",["http","path","fs","events"],2],["Which command installs a package?",["node install","npm get","node add","npm install"],3],["Which file lists a project's dependencies?",["package.json","index.html","node.config","modules.txt"],0],["Which keyword pauses an async function until a promise settles?",["stop","await","pause","yield"],1]],html:[["Which tag creates the largest heading?",["h6","h1","head","header"],1],["Which attribute describes an image?",["src","href","alt","title"],2],["Which tag makes a numbered list?",["ul","ol","li","dl"],1],["Which attribute makes a form field mandatory?",["required","must","check","valid"],0],["What does <!DOCTYPE html> declare?",["The CSS version","An HTML5 document","A comment","A script"],1]],
 css:[["Which selector targets class card?",["#card",".card","card","*card"],1],["Which property adds space inside the border?",["margin","padding","gap","outline"],1],["Which declaration makes a flex container?",["display:flex","flex:on","position:flex","float:flex"],0],["Which property rounds corners?",["border-style","border-radius","corner","box-round"],1],["box-sizing:border-box makes width include...",["margin only","padding and border","nothing","content only"],1]],
 js:[["Which keyword declares a changeable block-scoped variable?",["var","let","const","def"],1],["What does typeof 42 return?",["number","int","numeric","object"],0],["Which method adds an item to the end of an array?",["push","pop","shift","add"],0],["Which operator checks value and type?",["==","=","===","!="],2],["Which method selects an element by id?",["querySelectorAll","getElementById","getElementsByTag","findId"],1]],
 c:[["Which header is needed for printf?",["stdlib.h","stdio.h","string.h","math.h"],1],["Which symbol gets a variable's address?",["*","&","#","@"],1],["What ends a C statement?",["period","colon","semicolon","comma"],2],["An array index starts at...",["1","0","-1","2"],1],["Which function returns string length?",["size","len","strlen","length"],2]],
@@ -2480,8 +3262,21 @@ Z("doctype",`Tells the browser this is an HTML5 document.`,`Сообщает б�
 Z("heading",`Heading level {1} (h1 is the biggest).`,`Заголовок уровня {1} (h1 — самый большой).`,`Encabezado de nivel {1} (h1 es el más grande).`,`हेडिंग लेवल {1} (h1 सबसे बड़ी होती है)।`);
 Z("sel",`Selector {1}: the styles below apply to these elements.`,`Селектор {1}: стили ниже применяются к этим элементам.`,`Selector {1}: los estilos siguientes se aplican a estos elementos.`,`सेलेक्टर {1}: नीचे की स्टाइल इन एलिमेंट्स पर लगती हैं।`);
 Z("prop",`Sets {1} to {2}.`,`Устанавливает {1} равным {2}.`,`Establece {1} en {2}.`,`{1} को {2} पर सेट करता है।`);
+Z("jcljob",`JOB statement: starts the job named {1}.`,`Оператор JOB: начинает задание {1}.`,`Sentencia JOB: inicia el trabajo {1}.`,`JOB स्टेटमेंट: जॉब {1} शुरू करता है।`);
+Z("jclexec",`EXEC statement: runs the step {1} (a program or a procedure).`,`Оператор EXEC: запускает шаг {1} (программу или процедуру).`,`Sentencia EXEC: ejecuta el paso {1} (un programa o un procedimiento).`,`EXEC स्टेटमेंट: स्टेप {1} चलाता है (प्रोग्राम या प्रोसीजर)।`);
+Z("jcldd",`DD statement: connects the dataset or output named {1} to the step.`,`Оператор DD: подключает к шагу набор данных или вывод {1}.`,`Sentencia DD: conecta el conjunto de datos o la salida {1} al paso.`,`DD स्टेटमेंट: डेटासेट या आउटपुट {1} को स्टेप से जोड़ता है।`);
+Z("jcleof",`End of in-stream data (or the end marker of the job).`,`Конец данных в потоке задания.`,`Fin de los datos incluidos en el trabajo.`,`जॉब के अंदर के डेटा का अंत।`);
 Z("phptag",`Opens or closes a PHP code section.`,`Открывает или закрывает блок PHP-кода.`,`Abre o cierra una sección de código PHP.`,`PHP कोड का हिस्सा खोलता या बंद करता है।`);
 var SQM={select:[`chooses the columns to read`,`выбирает столбцы для чтения`,`elige las columnas a leer`,`पढ़ने के लिए कॉलम चुनता है`],from:[`the table to read data from`,`таблица, из которой читаются данные`,`la tabla de la que se leen los datos`,`वह टेबल जिससे डेटा पढ़ा जाता है`],where:[`keeps only the rows that match the condition`,`оставляет только строки, подходящие под условие`,`conserva solo las filas que cumplen la condición`,`सिर्फ़ वही पंक्तियाँ रखता है जो शर्त पूरी करें`],insert:[`adds a new row to a table`,`добавляет новую строку в таблицу`,`agrega una fila nueva a la tabla`,`टेबल में नई पंक्ति जोड़ता है`],update:[`changes values in existing rows`,`изменяет значения в существующих строках`,`cambia valores de filas existentes`,`मौजूदा पंक्तियों के मान बदलता है`],delete:[`removes rows from a table`,`удаляет строки из таблицы`,`elimina filas de una tabla`,`टेबल से पंक्तियाँ हटाता है`],create:[`creates a new table`,`создаёт новую таблицу`,`crea una tabla nueva`,`नई टेबल बनाता है`],"order by":[`sorts the result`,`сортирует результат`,`ordena el resultado`,`नतीजे को क्रम में लगाता है`],"group by":[`groups rows so you can count or total them`,`группирует строки для подсчёта и сумм`,`agrupa filas para contar o sumar`,`पंक्तियों को समूह में बाँटता है ताकि गिनती या जोड़ हो सके`],join:[`combines rows from two tables`,`объединяет строки двух таблиц`,`combina filas de dos tablas`,`दो टेबल की पंक्तियों को जोड़ता है`]};
+Z("k8cmd",`Runs the command {1} to talk to the cluster.`,`Запускает команду {1} для работы с кластером.`,`Ejecuta el comando {1} para comunicarse con el clúster.`,`क्लस्टर से बात करने के लिए कमांड {1} चलाता है।`);
+Z("k8api",`Sets the API version ({1}) used for this object.`,`Задаёт версию API ({1}) для этого объекта.`,`Fija la versión de API ({1}) de este objeto.`,`इस ऑब्जेक्ट के लिए API वर्ज़न ({1}) तय करता है।`);
+Z("k8kind",`Says what type of object this is: {1}.`,`Указывает тип объекта: {1}.`,`Indica qué tipo de objeto es: {1}.`,`बताता है कि यह किस प्रकार का ऑब्जेक्ट है: {1}।`);
+Z("k8sec",`Starts the section {1}, which holds the indented settings below it.`,`Начинает раздел {1} с вложенными ниже настройками.`,`Inicia la sección {1}, que contiene los ajustes con sangría de debajo.`,`सेक्शन {1} शुरू करता है, जिसमें नीचे इंडेंट की गई सेटिंग्स होती हैं।`);
+Z("k8val",`Sets {1} to {2}.`,`Задаёт {1} значение {2}.`,`Establece {1} en {2}.`,`{1} को {2} पर सेट करता है।`);
+Z("k8doc",`Separates one object from the next in the same file.`,`Отделяет один объект от следующего в том же файле.`,`Separa un objeto del siguiente en el mismo archivo.`,`एक ही फ़ाइल में एक ऑब्जेक्ट को अगले से अलग करता है।`);
+Z("dkcmd",`Runs the docker command {1}.`,`Запускает команду docker {1}.`,`Ejecuta el comando docker {1}.`,`docker कमांड {1} चलाता है।`);
+Z("dkfrom",`Picks the base image {1} to build on.`,`Выбирает базовый образ {1} для сборки.`,`Elige la imagen base {1} sobre la que construir.`,`बिल्ड के लिए बेस इमेज {1} चुनता है।`);
+Z("dkins",`Dockerfile instruction {1} with: {2}`,`Инструкция Dockerfile {1} со значением: {2}`,`Instrucción {1} de Dockerfile con: {2}`,`Dockerfile निर्देश {1}, मान: {2}`);
 var DC=/^(const\s+)?(unsigned\s+)?(int|float|double|char|long|bool|string|auto|size_t)\s+\*?([\w\[\]]+)/;
 var R={html:[[/^<!doctype/i,"doctype"],[/^<h([1-6])\b/i,"heading"],[/^<\/(\w+)/,"ctag"],[/^<(\w+)/,"tag"]],
 css:[[/^([^{}]+)\{(\s*|.+\})$/,"sel"],[/^([\w-]+)\s*:\s*([^;]+);?$/,"prop"]],
@@ -2491,13 +3286,16 @@ php:[[/^(?:<\?php|\?>)/,"phptag"],[/^(?:echo|print)\s+(.*?);?$/,"print"],[/^func
 sql:[[/^(select|from|where|insert|update|delete|create|order by|group by|(?:inner |left |right )?join)\b/i,"sql"]]};
 R.c=[[/^#include\s*(\S+)/,"imp"],[/^using namespace\s+(\w+)/,"ns"],[/^(?:int|void)\s+main\b/,"main"],[/^(?:printf|puts)\s*\((.*)\)/,"print"],[/^(?:std::)?cout\s*<<\s*(.*?);?$/,"print"],[/^(?:scanf|(?:std::)?cin|getline)\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:if|else if)\s*\((.*)\)/,"if"],[/^else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:int|void|float|double|char|bool|string|auto)\s+(\w+)\s*\(.*\)\s*\{?$/,"func"],[DC,"var",4]];R.cpp=R.c;
 R.nodejs=R.js;
+R.kubernetes=[[/^kubectl\s+([\w-]+)/,"k8cmd"],[/^helm\s+([\w-]+)/,"k8cmd"],[/^apiVersion:\s*(\S+)/,"k8api"],[/^kind:\s*(\w+)/,"k8kind"],[/^(?:-\s+)?([\w.\/-]+):\s*$/,"k8sec"],[/^(?:-\s+)?([\w.\/-]+):\s*(.+)/,"k8val"],[/^---/,"k8doc"]];
+R.docker=[[/^docker(?:\s+compose)?\s+([\w-]+)/,"dkcmd"],[/^FROM\s+(\S+)/,"dkfrom"],[/^(RUN|CMD|ENTRYPOINT|COPY|ADD|WORKDIR|EXPOSE|ENV|ARG|USER|VOLUME|LABEL|HEALTHCHECK)\b\s*(.*)/,"dkins"],[/^(?:-\s+)?([\w.\/-]+):\s*$/,"k8sec"],[/^(?:-\s+)?([\w.\/-]+):\s*(.+)/,"k8val"]];
+R.mainframe=[[/^\/\/\*/,"cmt"],[/^\/\*.*\*\/$/,"cmt"],[/^\/\*/,"jcleof"],[/^\/\/(\S*)\s+JOB\b/,"jcljob"],[/^\/\/(\S*)\s+EXEC\b.*?(?:PGM=)?(\w+)/,"jclexec"],[/^\/\/(\S*)\s+DD\b/,"jcldd"],[/^SAY\b\s*(.*)/i,"print"],[/^(?:DO|IF)\b/i,"loop"],[/^SELECT\b/i,"print"]];
 R.cobol=[[/^\*>/,"cmt"],[/^(IDENTIFICATION|ENVIRONMENT|DATA|PROCEDURE)\s+DIVISION/i,"cbdiv"],[/^PROGRAM-ID\.?\s*([\w-]+)/i,"cbpid"],[/^([\w-]+\s+SECTION)/i,"cbsec"],[/^DISPLAY\b\s*(.*?)\.?$/i,"print"],[/^ACCEPT\b/i,"input"],[/^STOP\s+RUN/i,"cbstop"],[/^END-[\w-]+/i,"cbend"],[/^(?:IF|ELSE\s+IF)\s+(.*)/i,"if"],[/^ELSE\b/i,"else"],[/^EVALUATE\b\s*(.*)/i,"cbeval"],[/^WHEN\b\s*(.*)/i,"cbwhen"],[/^PERFORM\b\s*(.*?)\.?$/i,"loop"],[/^(?:ADD|SUBTRACT|MULTIPLY|DIVIDE|COMPUTE)\b\s*(.*)/i,"cbarith"],[/^(?:MOVE|SET|INITIALIZE)\b\s*(.*)/i,"cbmove"],[/^(?:STRING|UNSTRING|INSPECT)\b/i,"cbstr"],[/^(?:OPEN|CLOSE|READ|WRITE|SELECT|FD)\b\s*(.*)/i,"cbfile"],[/^\d\d\s+([\w-]+)/,"cbpic"],[/^([\w-]+)\.$/,"cbpara"]];
 R.java=[[/^(?:import|package)\s+(?:static\s+)?([^;\s]+)/,"imp"],[/^(?:public\s+|protected\s+|private\s+|abstract\s+|final\s+|static\s+)*(?:class|interface|enum|record)\s+(\w+)/,"jcls"],[/^public\s+static\s+void\s+main\b/,"main"],[/^System\.out\.(?:println|print|printf)\((.*)\);?$/,"print"],[/^Scanner\b/,"input"],[/^return\b\s*(.*?);?$/,"ret"],[/^(?:\}\s*)?(?:else\s+)?if\s*\((.*)\)/,"if"],[/^(?:\}\s*)?else\b/,"else"],[/^(?:for|while)\s*\((.*)\)/,"loop"],[/^(?:public\s+|private\s+|protected\s+)?(?:static\s+)?(?:final\s+)?(?:abstract\s+)?[\w<>\[\],]+\s+(\w+)\s*\(.*\)\s*(?:throws\s+[\w, ]+)?\{?\s*;?$/,"func"],[/^(?:final\s+)?(?:int|long|double|float|char|boolean|byte|short|var|String|[A-Z]\w*(?:<[^>]*>)?)(?:\[\])*\s+(\w+)\s*(?:=|;)/,"var"],[/^([\w.\[\]]+)\s*[+\-*\/%]?=[^=]/,"var"]];
 function fm(k,m,ix){var t=M[k][LI()],g=function(i){return String(m[i]||"").trim().slice(0,50)};return t.replace("{1}",ix?g(ix):g(1)).replace("{2}",g(2))}
 function LI(){return["en","ru","es","hi"].indexOf(lang)}
-function desc(t,l){if(!t)return M.empty[LI()];if(/^(\/\/|#(?!include)|--|\/\*|\*(\s|\/)|<!--)/.test(t))return M.cmt[LI()];if(/^[})\]]+[;,)]*$/.test(t))return M.close[LI()];
+function desc(t,l){if(!t)return M.empty[LI()];if(l!=="mainframe"&&/^(\/\/|#(?!include)|--|\/\*|\*(\s|\/)|<!--)/.test(t))return M.cmt[LI()];if(/^[})\]]+[;,)]*$/.test(t))return M.close[LI()];
 var r=R[l]||[];for(var i=0;i<r.length;i++){var m=r[i][0].exec(t);if(m){if(r[i][1]==="sql"){var k=m[1].toLowerCase();if(/join/.test(k))k="join";return k.toUpperCase()+": "+SQM[k][LI()]}return fm(r[i][1],m,r[i][2])}}return M.other[LI()]}
-function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l==="php"?"#":l==="sql"?"--":l==="cobol"?"*>":"//";if(l==="html")return E;
+function chk(code,l){var E=[],st=[],i=0,ln=1,n=code.length,c,lc=l==="python"||l==="php"||l==="kubernetes"||l==="docker"?"#":l==="sql"?"--":l==="cobol"?"*>":"//";if(l==="html"||l==="mainframe")return E;
 while(i<n){c=code[i];if(c==="\n"){ln++;i++;continue}
 if(c==="/"&&code[i+1]==="*"){var e=code.indexOf("*/",i+2);if(e<0)break;ln+=(code.slice(i,e).match(/\n/g)||[]).length;i=e+2;continue}
 if(code.substr(i,lc.length)===lc){i=code.indexOf("\n",i);if(i<0)break;continue}
