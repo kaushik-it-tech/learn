@@ -29,6 +29,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .cert{border:8px double #87ceeb;padding:28px;text-align:center;background:#fff;color:#14213d;margin:14px 0}.cert h1{font-size:30px}
 @media print{body>*:not(#ex){display:none!important}#ex{position:static;background:none;padding:0}.exb{max-height:none;overflow:visible;padding:0}.noprint{display:none!important}}
 .cmd{border:1px solid var(--line);border-radius:8px;padding:6px 14px 12px;margin:10px 0}.cmd h4{margin:8px 0 4px}.cmd p{margin:6px 0}.cmd textarea{display:block;width:100%;background:var(--code);color:var(--codeink);border:1px solid var(--line);padding:10px;border-radius:6px;font:14px "JetBrains Mono",monospace;resize:vertical;margin:4px 0 8px}.cmd iframe{display:block;width:100%;height:110px;border:1px solid var(--line);border-radius:6px;margin-top:8px;background:#fff}.cmd pre{background:var(--code);color:var(--codeink);padding:10px;border-radius:6px;overflow:auto;margin:4px 0 8px;font:14px "JetBrains Mono",monospace}
+.course-links{display:block;max-width:1100px;margin:20px auto 0;padding:14px 16px;border-top:1px solid var(--line)}.course-links h2{font-size:16px;margin:0 0 10px}.course-links ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}.course-links a{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);text-decoration:none}.course-links a:hover{background:var(--hl)}
 #q{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:180px}
 .wrap{display:grid;grid-template-columns:250px 1fr;max-width:1200px;margin:0 auto}
 aside{padding:20px;border-right:1px solid var(--line);position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto}
@@ -61,15 +62,19 @@ main table{max-width:100%}main pre,.cmd pre{max-width:100%;overflow-x:auto}ifram
 @media (max-width:800px){
 header{position:static;padding:8px 12px;gap:8px}
 .logo{order:1;font-size:18px}.logo img{height:32px}
-.spacer{order:2;flex:1}
-#exbtn{order:3}#lang{order:4}
-nav#tabs{order:5;width:100%;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:6px}
-nav#tabs button{padding:6px 8px;white-space:nowrap;display:flex;align-items:center;justify-content:center}
-#q{order:6;flex:1 1 0;width:auto;min-width:0}#menu{order:7;display:inline-block}
+.spacer{display:none}
+#exbtn{order:4}#lang{order:5;max-width:104px}
+nav#tabs{order:2;width:100%;min-width:0;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+nav#tabs::-webkit-scrollbar{display:none}
+nav#tabs button{flex:none;white-space:nowrap;padding:6px 14px}
+#q{order:3;flex:1 1 120px;width:auto;min-width:0}#menu{display:inline-flex;align-items:center;position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:60;padding:6px 12px;background:var(--panel);box-shadow:0 2px 10px rgba(0,0,0,.22);white-space:nowrap}
+header::before{content:"";order:0;flex:none;width:var(--mw,72px)}
 #q,#lang,#exn,.cmd textarea,#ed{font-size:16px}
 nav button,.run,.nx,#lang,#q{min-height:42px}
-aside{display:none;padding:12px;max-height:60vh;overflow:auto;border-bottom:1px solid var(--line)}
-body.mopen aside{display:block}
+aside{display:none}
+body.mopen{overflow:hidden}
+body.mopen::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:50}
+body.mopen aside{display:block;position:fixed;top:calc(56px + env(safe-area-inset-top,0px));left:0;width:min(86vw,340px);height:calc(100vh - 64px);height:calc(100dvh - 64px);max-height:none;overflow:auto;overscroll-behavior:contain;z-index:55;background:var(--bg);padding:12px;box-shadow:4px 0 18px rgba(0,0,0,.3);border:0}
 aside a{padding:10px 12px}
 main{padding:18px 14px}
 main table{display:block;overflow-x:auto}
@@ -106,6 +111,7 @@ main table{display:block;overflow-x:auto}
 <div class="pn"><button class="nx" id="prev">Previous</button><button class="nx" id="next">Next lesson</button></div>
 </main>
 </div>
+<section class="course-links" aria-label="All courses"><h2 id="clh">All courses</h2><ul><li><a href="#html-welcome">HTML</a></li><li><a href="#css-welcome">CSS</a></li><li><a href="#js-welcome">JavaScript</a></li><li><a href="#c-welcome">C</a></li><li><a href="#cpp-welcome">C++</a></li><li><a href="#php-welcome">PHP</a></li><li><a href="#sql-welcome">SQL</a></li><li><a href="#python-welcome">Python</a></li><li><a href="#java-welcome">Java</a></li><li><a href="#cobol-welcome">COBOL</a></li><li><a href="#nodejs-welcome">Node.js</a></li><li><a href="#mainframe-welcome">Mainframe</a></li><li><a href="#kubernetes-welcome">Kubernetes</a></li><li><a href="#docker-welcome">Docker</a></li></ul></section>
 <footer id="vf"></footer>
 <div id="ex" hidden role="dialog" aria-modal="true"><div class="exb" id="exb"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
@@ -2473,7 +2479,7 @@ function applyUI(){var u=UI[lang];document.documentElement.lang=lang;$("lang").v
 
 function flat(){var a=[];for(var k in L)L[k].items.forEach(function(it,i){a.push([k,i])});return a}
 function parse(){var h=location.hash.slice(1).split("-");var l=h.shift(),s=h.join("-");if(L[l]){var i=L[l].items.findIndex(function(x){return x[0]===s});cur={l:l,i:i<0?0:i}}else cur={l:"html",i:0}}
-function tabs(){$("tabs").innerHTML="";for(var k in L){(function(k){var b=document.createElement("button");b.innerHTML='<i style="background:'+L[k].c+'"></i>'+L[k].n;b.setAttribute("aria-current",k===cur.l);b.onclick=function(){location.hash=k+"-"+L[k].items[0][0]};$("tabs").appendChild(b)})(k)}}
+function tabs(){$("tabs").innerHTML="";for(var k in L){(function(k){var b=document.createElement("button");b.innerHTML='<i style="background:'+L[k].c+'"></i>'+L[k].n;b.setAttribute("aria-current",k===cur.l);b.onclick=function(){location.hash=k+"-"+L[k].items[0][0]};$("tabs").appendChild(b)})(k)}var ac=document.querySelector('#tabs button[aria-current="true"]'),tb=$("tabs");if(ac&&tb.scrollWidth>tb.clientWidth)tb.scrollLeft=Math.max(0,ac.getBoundingClientRect().left-tb.getBoundingClientRect().left+tb.scrollLeft-12)}
 function side(){var q=$("q").value.toLowerCase(),box=$("list");box.innerHTML="";$("ah").textContent=L[cur.l].n+" "+UI.en.tut;
 L[cur.l].items.forEach(function(it,i){if(q&&(it[1]+it[2]+lt(cur.l,it)[0]).toLowerCase().indexOf(q)<0)return;var a=document.createElement("a");a.href="#"+cur.l+"-"+it[0];a.textContent=lt(cur.l,it)[0];if(i===cur.i)a.setAttribute("aria-current","page");box.appendChild(a)})}
 var IH={en:"Press Run to see the output.",ru:"Нажмите «Запустить», чтобы увидеть результат.",es:"Pulsa «Ejecutar código» para ver el resultado.",hi:"आउटपुट देखने के लिए «कोड चलाएँ» दबाएँ।"};
@@ -3347,10 +3353,14 @@ if(cache&&cache.length===T.length){T.forEach(function(k,i){if(cache[i])k.set(cac
 B.style.opacity=".6";
 Promise.all(T.map(function(k){return tr(k.t,tl)})).then(function(res){B.style.opacity="";if(tok!==AT)return;var good=1;res.forEach(function(r,i){if(!(r&&T[i].set(r)))good=0});if(good){try{localStorage.setItem(key,JSON.stringify(res))}catch(e){}}})}
 var MN={en:`Lessons`,ru:`Уроки`,es:`Lecciones`,hi:`पाठ`};
-function setM(){var b=$("menu");if(b)b.textContent="\u2630 "+(MN[lang]||MN.en)}
+var CLH={en:`All courses`,ru:`Все курсы`,es:`Todos los cursos`,hi:`सभी कोर्स`};
+function setM(){var b=$("menu");if(b){b.textContent="\u2630 "+(MN[lang]||MN.en);document.documentElement.style.setProperty("--mw",(b.offsetWidth+10)+"px")}var h=$("clh");if(h)h.textContent=CLH[lang]||CLH.en}
+window.addEventListener("resize",setM);window.addEventListener("load",setM);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(setM);
 var _aU=applyUI;applyUI=function(){_aU();setM()};
 $("menu").onclick=function(){var o=document.body.classList.toggle("mopen");this.setAttribute("aria-expanded",o?"true":"false")};
 document.querySelector("aside").id="lessons";
+document.addEventListener("click",function(e){if(document.body.classList.contains("mopen")&&!e.target.closest("aside,#menu")){document.body.classList.remove("mopen");$("menu").setAttribute("aria-expanded","false")}});
+document.querySelector(".course-links").addEventListener("click",function(e){if(e.target.closest("a"))setTimeout(function(){window.scrollTo(0,0)},0)});
 $("tabs").addEventListener("click",function(){document.body.classList.remove("mopen");$("menu").setAttribute("aria-expanded","false")});
 window.addEventListener("hashchange",function(){document.body.classList.remove("mopen");$("menu").setAttribute("aria-expanded","false");if(innerWidth<=800)setTimeout(function(){$("t").scrollIntoView()},0)});
 $("lang").onchange=function(){lang=this.value;try{localStorage.setItem("lw-lang",lang)}catch(e){}applyUI();show()};
