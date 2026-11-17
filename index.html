@@ -86,7 +86,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;padding:8px 1
 nav#tabs{order:3;flex:1 1 calc(100% - var(--mw,100px));width:auto;min-width:0;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
 nav#tabs::-webkit-scrollbar{display:none}
 nav#tabs button{flex:none;white-space:nowrap;padding:6px 14px}
-#q{order:4;flex:1 1 120px;width:auto;min-width:0}#menu{order:2;display:inline-flex;align-items:center;flex:none;padding:6px 12px;white-space:nowrap}
+#q{order:4;flex:1 1 60px;width:auto;min-width:0}#menu{order:2;display:inline-flex;align-items:center;flex:none;padding:6px 12px;white-space:nowrap}
 body.scrolled .logo,body.scrolled #q,body.scrolled #exbtn,body.scrolled #lang{display:none}
 #q,#lang,#exn,.cmd textarea,#ed{font-size:16px}
 nav button,.run,.nx,#lang,#q{min-height:42px}
@@ -138,6 +138,15 @@ aside a[aria-current=page]{background:var(--hl);color:var(--ink);border-left:4px
 .vb{background:linear-gradient(90deg,var(--b1),var(--b2))}
 .cert{border-color:var(--bd)}
 #thbtn{padding:6px 12px;font-size:18px;line-height:1}
+.cc{display:inline-block;min-width:28px;text-align:center;font:600 11px/1.7 system-ui,sans-serif;letter-spacing:.03em;background:var(--hl);color:var(--ink);border-radius:6px;margin-right:6px;padding:0 4px}
+html,body{overflow-x:clip}
+@media (min-width:801px){
+header{position:static;gap:10px 14px}
+.logo{order:1}.spacer{order:2}#q{order:3}#exbtn{order:4}#lang{order:5}#thbtn{order:6}
+nav#tabs{order:7;flex:1 1 100%;flex-wrap:wrap;min-width:0;max-width:100%}
+nav#tabs button{padding:6px 14px;font-size:14px}
+aside{top:12px;max-height:calc(100vh - 24px)}
+}
 #thp{position:fixed;top:70px;right:12px;z-index:70;width:min(310px,calc(100vw - 24px));background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 14px 40px rgba(0,0,0,.25)}
 #thp[hidden]{display:none}
 #thp h4{margin:12px 0 6px;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}#thp h4:first-child{margin-top:0}
@@ -146,7 +155,7 @@ aside a[aria-current=page]{background:var(--hl);color:var(--ink);border-left:4px
 .thopt[aria-pressed=true]{background:linear-gradient(180deg,var(--b1),var(--b2));color:#fff;border-color:var(--b2)}
 .sw{width:30px;height:30px;border-radius:50%;border:2px solid var(--panel);background:var(--c);cursor:pointer;padding:0;box-shadow:0 0 0 1px var(--line)}
 .sw[aria-pressed=true]{box-shadow:0 0 0 3px var(--ink)}
-@media (max-width:800px){#thbtn{order:7}body.scrolled #thbtn{display:none}#thp{top:auto}}
+@media (max-width:800px){#thbtn{order:7;padding:6px 10px}#exbtn{padding:6px 12px}#lang{max-width:92px;padding-left:8px;padding-right:4px}body.scrolled #thbtn{display:none}#thp{top:auto}}
 </style>
 <script>(function(){try{var o=JSON.parse(localStorage.getItem("cgk-theme"))||{},r=document.documentElement;if(o.mode&&o.mode!=="auto")r.setAttribute("data-theme",o.mode);r.setAttribute("data-accent",o.accent||"blue");r.setAttribute("data-bg",o.bg||"dots")}catch(e){}})()</script>
 </head>
@@ -3561,16 +3570,20 @@ var VNS=("lw-"+(location.host+location.pathname).toLowerCase().replace(/[^a-z0-9
 VC="IN US GB CA AU DE FR RU ES BR ID PK BD NP LK AE SA SG MY JP IT NL TR MX NG ZA EG PH VN KR".split(" ");
 function vget(k){return fetch(VA+"get/"+VNS+"/"+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(d){return d.value||0}).catch(function(){return null})}
 function vhit(k){return fetch(VA+"hit/"+VNS+"/"+k).then(function(r){return r.json()}).then(function(d){return d.value}).catch(function(){return null})}
-function vcountry(){return fetch("https://ipwho.is/").then(function(r){return r.json()}).then(function(d){if(!d.country_code)throw 0;return d.country_code}).catch(function(){return fetch("https://api.country.is/").then(function(r){return r.json()}).then(function(d){return d.country}).catch(function(){return null})})}
-function flag(c){return c.length===2?String.fromCodePoint.apply(null,c.toUpperCase().split("").map(function(x){return 127397+x.charCodeAt(0)})):""}
-function vname(c){if(c==="OTHER")return VS[lang].o;try{return new Intl.DisplayNames([lang],{type:"region"}).of(c)}catch(e){return c}}
+var VU={en:`Unknown`,ru:`Неизвестно`,es:`Desconocido`,hi:`अज्ञात`};
+function vcountry(){var ok=function(c){return c&&/^[A-Za-z]{2}$/.test(c)},P=[function(){return fetch("https://ipwho.is/").then(function(r){return r.json()}).then(function(d){return d.country_code})},function(){return fetch("https://api.country.is/").then(function(r){return r.json()}).then(function(d){return d.country})},function(){return fetch("https://get.geojs.io/v1/ip/country.json").then(function(r){return r.json()}).then(function(d){return d.country})}];
+return P.reduce(function(pr,f){return pr.then(function(c){return ok(c)?c:f().catch(function(){return null})})},Promise.resolve(null)).then(function(c){return ok(c)?c.toUpperCase():null})}
+function flag(c){return c.length===2?'<span class="cc">'+c.toUpperCase()+'</span>':""}
+function vname(c){if(c==="OTHER")return VS[lang].o;if(c==="UNKNOWN")return VU[lang]||VU.en;try{return new Intl.DisplayNames([lang],{type:"region"}).of(c)}catch(e){return c}}
 function vrender(){var f=$("vf"),v=VS[lang];if(!f)return;f.innerHTML=VT===null?'':'<span>\u{1F465} '+v.v+': <b>'+VT+'</b></span><button class="nx" id="vcb">'+v.c+'</button>';var b=$("vcb");if(b)b.onclick=vopen}
 function vopen(){var v=VS[lang];$("ex").hidden=false;box('<h2>'+v.t+'</h2><p>...</p>');
-Promise.all(VC.concat("OTHER").map(function(k){return vget("c-"+k).then(function(n){return[k,n]})})).then(function(a){var r=a.filter(function(x){return x[1]}).sort(function(p,q){return q[1]-p[1]}),mx=r.length?r[0][1]:1;
-box('<h2>'+v.t+'</h2>'+(r.length?'<table class="vt">'+r.map(function(x){return'<tr><td>'+flag(x[0])+' '+esc(vname(x[0]))+'</td><td style="width:40%"><div class="vb" style="width:'+Math.round(x[1]*100/mx)+'%"></div></td><td><b>'+x[1]+'</b></td></tr>'}).join("")+'</table>':'<p>'+v.na+'</p>')+'<p><button class="nx" id="exx">'+EX[lang].cl+'</button></p>');$("exx").onclick=exClose})}
-function vinit(){var seen=0;try{seen=localStorage.getItem("lw-seen")}catch(e){}
-if(seen){vget("total").then(function(t){VT=t;vrender()});return}
-Promise.all([vhit("total"),vcountry()]).then(function(a){VT=a[0];if(a[0]!==null){try{localStorage.setItem("lw-seen","1")}catch(e){}if(a[1])vhit("c-"+(VC.indexOf(a[1])>=0?a[1]:"OTHER"))}vrender()})}
+Promise.all(VC.concat("OTHER").map(function(k){return vget("c-"+k).then(function(n){return[k,n]})})).then(function(a){var sum=0;a.forEach(function(x){sum+=x[1]||0});var un=(VT||0)-sum;if(un>0)a.push(["UNKNOWN",un]);
+var r=a.filter(function(x){return x[1]}).sort(function(p,q){return q[1]-p[1]}),mx=r.length?r[0][1]:1;
+box('<h2>'+v.t+'</h2>'+(VT!==null?'<p><b>'+v.v+': '+VT+'</b></p>':'')+(r.length?'<table class="vt">'+r.map(function(x){return'<tr><td>'+flag(x[0])+' '+esc(vname(x[0]))+'</td><td style="width:40%"><div class="vb" style="width:'+Math.round(x[1]*100/mx)+'%"></div></td><td><b>'+x[1]+'</b></td></tr>'}).join("")+'</table>':'<p>'+v.na+'</p>')+'<p><button class="nx" id="exx">'+EX[lang].cl+'</button></p>');$("exx").onclick=exClose})}
+function vinit(){var ls=function(k){try{return localStorage.getItem(k)}catch(e){return null}},ss=function(k,v){try{localStorage.setItem(k,v)}catch(e){}},seen=ls("lw-seen"),cc=ls("lw-cc");
+function country(){vcountry().then(function(c){if(c){vhit("c-"+(VC.indexOf(c)>=0?c:"OTHER")).then(function(n){ss("lw-cc",n!==null?"1":"pending")})}else ss("lw-cc","pending")})}
+if(seen){if(!cc)ss("lw-cc","1");else if(cc==="pending")country();vget("total").then(function(t){VT=t;vrender()});return}
+vhit("total").then(function(t){VT=t;if(t!==null){ss("lw-seen","1");country()}vrender()})}
 vinit();
 var AT=0;
 function tr(t,tl){if(t.length>1500)return Promise.resolve(null);
