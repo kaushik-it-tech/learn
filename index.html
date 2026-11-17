@@ -3575,12 +3575,14 @@ function vcountry(){var ok=function(c){return c&&/^[A-Za-z]{2}$/.test(c)},P=[fun
 return P.reduce(function(pr,f){return pr.then(function(c){return ok(c)?c:f().catch(function(){return null})})},Promise.resolve(null)).then(function(c){return ok(c)?c.toUpperCase():null})}
 function flag(c){return c.length===2?'<span class="cc">'+c.toUpperCase()+'</span>':""}
 function vname(c){if(c==="OTHER")return VS[lang].o;if(c==="UNKNOWN")return VU[lang]||VU.en;try{return new Intl.DisplayNames([lang],{type:"region"}).of(c)}catch(e){return c}}
-function vrender(){var f=$("vf"),v=VS[lang];if(!f)return;f.innerHTML=VT===null?'':'<span>\u{1F465} '+v.v+': <b>'+VT+'</b></span><button class="nx" id="vcb">'+v.c+'</button>';var b=$("vcb");if(b)b.onclick=vopen}
+var VO=null,VOL={en:`Total opens`,ru:`Всего открытий`,es:`Aperturas totales`,hi:`कुल बार खुला`};
+function vnum(n){try{return Number(n).toLocaleString(lang==="hi"?"hi-IN":lang==="ru"?"ru-RU":lang==="es"?"es-ES":"en-IN")}catch(e){return n}}
+function vrender(){var f=$("vf"),v=VS[lang],lb=VOL[lang]||VOL.en,h="";if(!f)return;if(VO!==null)h+='<span>\u{1F441} '+lb+': <b>'+vnum(VO)+'</b></span>';if(VT!==null)h+='<span>\u{1F465} '+v.v+': <b>'+vnum(VT)+'</b></span><button class="nx" id="vcb">'+v.c+'</button>';f.innerHTML=h;var b=$("vcb");if(b)b.onclick=vopen}
 function vopen(){var v=VS[lang];$("ex").hidden=false;box('<h2>'+v.t+'</h2><p>...</p>');
 Promise.all(VC.concat("OTHER").map(function(k){return vget("c-"+k).then(function(n){return[k,n]})})).then(function(a){var sum=0;a.forEach(function(x){sum+=x[1]||0});var un=(VT||0)-sum;if(un>0)a.push(["UNKNOWN",un]);
 var r=a.filter(function(x){return x[1]}).sort(function(p,q){return q[1]-p[1]}),mx=r.length?r[0][1]:1;
-box('<h2>'+v.t+'</h2>'+(VT!==null?'<p><b>'+v.v+': '+VT+'</b></p>':'')+(r.length?'<table class="vt">'+r.map(function(x){return'<tr><td>'+flag(x[0])+' '+esc(vname(x[0]))+'</td><td style="width:40%"><div class="vb" style="width:'+Math.round(x[1]*100/mx)+'%"></div></td><td><b>'+x[1]+'</b></td></tr>'}).join("")+'</table>':'<p>'+v.na+'</p>')+'<p><button class="nx" id="exx">'+EX[lang].cl+'</button></p>');$("exx").onclick=exClose})}
-function vinit(){var ls=function(k){try{return localStorage.getItem(k)}catch(e){return null}},ss=function(k,v){try{localStorage.setItem(k,v)}catch(e){}},seen=ls("lw-seen"),cc=ls("lw-cc");
+box('<h2>'+v.t+'</h2>'+(VO!==null?'<p><b>'+(VOL[lang]||VOL.en)+': '+vnum(VO)+'</b></p>':'')+(VT!==null?'<p><b>'+v.v+': '+vnum(VT)+'</b></p>':'')+(r.length?'<table class="vt">'+r.map(function(x){return'<tr><td>'+flag(x[0])+' '+esc(vname(x[0]))+'</td><td style="width:40%"><div class="vb" style="width:'+Math.round(x[1]*100/mx)+'%"></div></td><td><b>'+x[1]+'</b></td></tr>'}).join("")+'</table>':'<p>'+v.na+'</p>')+'<p><button class="nx" id="exx">'+EX[lang].cl+'</button></p>');$("exx").onclick=exClose})}
+function vinit(){vhit("opens").then(function(n){VO=n;vrender()});var ls=function(k){try{return localStorage.getItem(k)}catch(e){return null}},ss=function(k,v){try{localStorage.setItem(k,v)}catch(e){}},seen=ls("lw-seen"),cc=ls("lw-cc");
 function country(){vcountry().then(function(c){if(c){vhit("c-"+(VC.indexOf(c)>=0?c:"OTHER")).then(function(n){ss("lw-cc",n!==null?"1":"pending")})}else ss("lw-cc","pending")})}
 if(seen){if(!cc)ss("lw-cc","1");else if(cc==="pending")country();vget("total").then(function(t){VT=t;vrender()});return}
 vhit("total").then(function(t){VT=t;if(t!==null){ss("lw-seen","1");country()}vrender()})}
