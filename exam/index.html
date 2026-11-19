@@ -1,1 +1,1933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codegurukool.com — Multi-Subject Global Certification Exam Portal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for Multi-script Crisp Rendering (Latin, Devanagari, Cyrillic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Cyrillic:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jsPDF & html2canvas for Direct High-Res PDF Certificate Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Cyrillic', sans-serif;
+            background-color: #f8fafc;
+        }
+        .cert-serif {
+            font-family: 'Playfair Display', 'Noto Sans Devanagari', 'Noto Sans Cyrillic', serif;
+        }
+        /* Custom Scrollbar for Question Palette */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .code-pill {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9em;
+        }
+        /* Subject Pill Active Royal Blue Gradient matching codegurukool.com */
+        .subject-pill-active {
+            background: linear-gradient(135deg, #0066cc 0%, #0284c7 60%, #004c99 100%);
+            color: #ffffff;
+            border-color: #0066cc;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- ==================== TOP NAVIGATION BAR (codegurukool.com Clean White Header) ==================== -->
+    <header class="bg-white text-slate-800 border-b border-slate-200 shadow-xs sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[70px] flex items-center justify-between gap-3">
+            <!-- Left: codegurukool.com SVG Emblem + Wordmark + Active Subject Badge -->
+            <div class="flex items-center space-x-3">
+                <a href="#top" onclick="retakeExam(); return false;" class="flex items-center space-x-2.5 group focus:outline-none">
+                    <!-- Circular Blue & Orange 'G' Graduating Student Emblem SVG -->
+                    <svg class="w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 transition-transform duration-200 group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="codegurukool.com logo">
+                        <defs>
+                            <linearGradient id="cgBlueArc" x1="15" y1="10" x2="80" y2="85" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#0ea5e9"/>
+                                <stop offset="55%" stop-color="#0066cc"/>
+                                <stop offset="100%" stop-color="#004499"/>
+                            </linearGradient>
+                            <linearGradient id="cgOrangeArc" x1="35" y1="45" x2="92" y2="88" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#ff9e2c"/>
+                                <stop offset="55%" stop-color="#f5820d"/>
+                                <stop offset="100%" stop-color="#d96200"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Inner Sky Disc -->
+                        <circle cx="50" cy="50" r="42" fill="#f0f9ff"/>
+                        <!-- Outer Royal Blue 'G' Ring -->
+                        <path d="M84 34C77.5 19.8 63.4 10 47 10C24.9 10 7 27.9 7 50C7 72.1 24.9 90 47 90C66.8 90 83.2 75.6 86.4 56.6H53V67H73.5C69.2 74.8 59.1 80 47 80C30.4 80 17 66.6 17 50C17 33.4 30.4 20 47 20C58.6 20 68.7 26.6 73.7 36.2L84 34Z" fill="url(#cgBlueArc)"/>
+                        <!-- Lower-Right Signature Orange Swoosh of 'G' -->
+                        <path d="M51 52H89C89 74.5 71.2 92 48.5 92C33.5 92 20.3 84.2 13.2 72.4L22.4 66.8C27.8 75.8 37.5 81.8 48.5 81.8C64.2 81.8 77.1 70.1 78.8 54.8H51V52Z" fill="url(#cgOrangeArc)"/>
+                        <!-- Reaching Student Silhouette -->
+                        <circle cx="43" cy="46" r="5.5" fill="#0066cc"/>
+                        <path d="M31 69L38 54L50 53L63 39L66.5 42.5L53 58L49 71H42L43 61L37 71L31 69Z" fill="#0066cc"/>
+                        <path d="M36 56L28 49L31 46L40 53L36 56Z" fill="#0284c7"/>
+                        <!-- Graduation Mortarboard Cap -->
+                        <polygon points="43,32 56,36.5 43,41 30,36.5" fill="#004c99"/>
+                        <rect x="36" y="38.5" width="14" height="3.5" rx="1" fill="#0066cc"/>
+                        <line x1="54" y1="37" x2="54" y2="44" stroke="#f5820d" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Golden/Orange Star Reached For -->
+                        <polygon points="71,26 73.2,31.5 79,32 74.5,35.8 75.8,41.5 71,38.4 66.2,41.5 67.5,35.8 63,32 68.8,31.5" fill="#f5820d"/>
+                    </svg>
+
+                    <!-- Wordmark: code (#0066cc) + gurukool (#f5820d) + .com (#64748b) -->
+                    <div class="flex flex-col">
+                        <div class="text-xl sm:text-2xl font-extrabold tracking-tight leading-none select-none">
+                            <span class="text-[#0066cc]">code</span><span class="text-[#f5820d]">gurukool</span><span class="text-[#64748b] font-bold">.com</span>
+                        </div>
+                        <p id="nav-brand-sub" class="text-[11px] text-slate-500 hidden sm:block mt-0.5">14 Subjects • 28,000 Questions • Global Assessment</p>
+                    </div>
+                </a>
+
+                <!-- Subtle Active Subject Exam Badge -->
+                <div class="hidden lg:flex items-center pl-3 border-l border-slate-200">
+                    <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-200/80 text-[#0066cc] text-xs font-bold">
+                        <i id="nav-brand-icon" class="fa-brands fa-html5 text-sm text-[#f5820d]"></i>
+                        <span id="nav-brand-title">HTML Certification Portal</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right: Pool Status & Clean 4-Language Switcher (EN, हिन्दी, RU, ES) -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <span id="pool-badge" class="hidden md:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-orange-50 text-[#c26100] border border-orange-200/80">
+                    <i class="fa-solid fa-database mr-1.5 text-[#f5820d]"></i> <span id="pool-count-text">HTML: 2,000 Qs</span>
+                </span>
+
+                <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+                    <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-[#0066cc] text-white shadow-2xs">EN</button>
+                    <button type="button" onclick="setLanguage('hi')" id="lang-btn-hi" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-[#0066cc]">हिन्दी</button>
+                    <button type="button" onclick="setLanguage('ru')" id="lang-btn-ru" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-[#0066cc]">RU</button>
+                    <button type="button" onclick="setLanguage('es')" id="lang-btn-es" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-[#0066cc]">ES</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== CUSTOM TOAST / MODAL NOTIFICATION ==================== -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="flex items-center space-x-3 mb-4">
+                <div id="modal-icon-box" class="w-10 h-10 rounded-full bg-orange-100 text-[#f5820d] flex items-center justify-center flex-shrink-0">
+                    <i id="modal-icon" class="fa-solid fa-triangle-exclamation text-lg"></i>
+                </div>
+                <h3 id="modal-title" class="text-lg font-bold text-slate-900">Notice</h3>
+            </div>
+            <p id="modal-message" class="text-sm text-slate-600 mb-6 leading-relaxed"></p>
+            <div id="modal-actions" class="flex justify-end space-x-3">
+                <button type="button" id="modal-cancel-btn" onclick="closeModal()" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Cancel</button>
+                <button type="button" id="modal-confirm-btn" class="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-[#0066cc] hover:bg-[#0052a3] shadow-sm transition">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- VIEW 1: REGISTRATION & EXAM LOBBY -->
+        <section id="view-lobby" class="max-w-5xl mx-auto">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden">
+                <!-- Banner (CodeGurukool Royal Blue + Signature Orange Accent) -->
+                <div class="bg-gradient-to-r from-[#004499] via-[#0066cc] to-[#0284c7] px-6 py-8 sm:px-10 sm:py-9 text-white relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span class="inline-block px-3 py-1 rounded-full bg-[#f5820d] text-white text-xs font-bold tracking-wider uppercase shadow-2xs" id="lobby-badge">
+                                CODEGURUKOOL.COM OFFICIAL ASSESSMENT
+                            </span>
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white text-xs font-semibold">
+                                14 Subjects × 2,000 Qs = 28,000 Questions
+                            </span>
+                        </div>
+                        <h2 id="lobby-title" class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-2.5">
+                            HTML Professional Certification Exam
+                        </h2>
+                        <p id="lobby-subtitle" class="text-sky-100 text-sm sm:text-base max-w-3xl">
+                            Select any of the 14 technology tracks below. 100 unique questions are randomly drawn from that subject's dedicated 2,000-question repository.
+                        </p>
+                    </div>
+                    <i id="lobby-bg-icon" class="fa-brands fa-html5 text-9xl text-white/10 absolute -right-4 -bottom-6 pointer-events-none"></i>
+                </div>
+
+                <!-- 14-SUBJECT INTERACTIVE SELECTOR BAR -->
+                <div class="px-6 py-5 sm:px-10 bg-slate-50/90 border-b border-slate-200/80">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <label id="subject-selector-label" class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center">
+                            <i class="fa-solid fa-layer-group text-[#f5820d] mr-2"></i> Choose Certification Subject (14 Tracks Available):
+                        </label>
+                        <span id="selected-subject-pill-indicator" class="text-xs font-bold text-[#0066cc] bg-sky-100 px-3 py-0.5 rounded-full">
+                            Active: HTML (2,000 Qs)
+                        </span>
+                    </div>
+                    <div id="subject-pills-container" class="flex flex-wrap items-center gap-2.5">
+                        <!-- Dynamically rendered 14 Subject Pills -->
+                    </div>
+                </div>
+
+                <!-- Key Specs Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 border-b border-slate-100 bg-white">
+                    <div class="p-4 sm:p-5 text-center border-r border-b sm:border-b-0 border-slate-200/70">
+                        <div class="text-[#0066cc] text-xl mb-1"><i class="fa-solid fa-database"></i></div>
+                        <div id="stat-bank-count" class="text-lg font-bold text-slate-900">2,000 / Subject</div>
+                        <div id="stat-bank-label" class="text-xs text-slate-500 font-medium">Question Bank</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center sm:border-r border-b sm:border-b-0 border-slate-200/70">
+                        <div class="text-[#f5820d] text-xl mb-1"><i class="fa-solid fa-shuffle"></i></div>
+                        <div class="text-lg font-bold text-slate-900">100 MCQs</div>
+                        <div id="stat-random-label" class="text-xs text-slate-500 font-medium">Random Per Exam</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center border-r border-slate-200/70">
+                        <div class="text-amber-500 text-xl mb-1"><i class="fa-regular fa-clock"></i></div>
+                        <div class="text-lg font-bold text-slate-900">03:00:00</div>
+                        <div id="stat-time-label" class="text-xs text-slate-500 font-medium">Duration (3 Hours)</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center">
+                        <div class="text-emerald-600 text-xl mb-1"><i class="fa-solid fa-award"></i></div>
+                        <div class="text-lg font-bold text-slate-900">PDF + Grade</div>
+                        <div id="stat-cert-label" class="text-xs text-slate-500 font-medium">Instant Certificate</div>
+                    </div>
+                </div>
+
+                <!-- Registration Form & Instructions -->
+                <div class="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Form -->
+                    <div class="lg:col-span-7 space-y-5">
+                        <h3 id="reg-heading" class="text-lg font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-user-graduate text-[#0066cc] mr-2"></i> Candidate Registration
+                        </h3>
+
+                        <div>
+                            <label id="label-fullname" class="block text-sm font-semibold text-slate-700 mb-1.5">Candidate Full Name (Printed on Certificate) *</label>
+                            <input type="text" id="input-name" placeholder="e.g., Aarav Sharma / Elena Petrova / Carlos Ruiz" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0066cc] focus:border-[#0066cc] outline-none transition text-slate-900 font-medium">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label id="label-email" class="block text-sm font-semibold text-slate-700 mb-1.5">Email or Roll ID *</label>
+                                <input type="text" id="input-email" placeholder="candidate@codegurukool.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0066cc] focus:border-[#0066cc] outline-none transition text-slate-900">
+                            </div>
+                            <div>
+                                <label id="label-lang-select" class="block text-sm font-semibold text-slate-700 mb-1.5">Exam & Certificate Language</label>
+                                <select id="select-exam-lang" onchange="setLanguage(this.value)" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0066cc] focus:border-[#0066cc] outline-none transition bg-white font-medium text-slate-900">
+                                    <option value="en">English (International)</option>
+                                    <option value="hi">हिन्दी (Hindi)</option>
+                                    <option value="ru">Русский (Russian)</option>
+                                    <option value="es">Español (Spanish)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="button" onclick="startExam()" id="btn-start-exam" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#0066cc] via-[#0284c7] to-[#f5820d] hover:from-[#0052a3] hover:to-[#e07000] text-white font-bold text-base shadow-lg shadow-sky-600/25 transition transform active:scale-[0.99] flex items-center justify-center space-x-2">
+                                <span id="btn-start-text">Start 3-Hour HTML Certification Exam</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Admin / Teacher JSON Import -->
+                        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+                            <span id="json-helper-text"><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Active Pool: <b>2,000</b> Verified HTML Questions</span>
+                            <label class="cursor-pointer inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">
+                                <i class="fa-solid fa-file-import mr-1.5 text-[#0066cc]"></i>
+                                <span id="btn-import-json">Import Custom JSON Bank</span>
+                                <input type="file" id="json-file-input" accept=".json" class="hidden" onchange="handleJsonUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Instructions Panel -->
+                    <div class="lg:col-span-5 bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-200/80 flex flex-col justify-between">
+                        <div>
+                            <h4 id="inst-heading" class="font-bold text-slate-900 mb-3 flex items-center">
+                                <i class="fa-solid fa-clipboard-list text-[#f5820d] mr-2"></i> Exam Guidelines
+                            </h4>
+                            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-600">
+                                <li class="flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-[#0066cc] mt-1"></i>
+                                    <span id="inst-1">100 unique questions are randomly selected from the 2,000-question database using Fisher-Yates randomization.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-[#0066cc] mt-1"></i>
+                                    <span id="inst-2">Each question carries 1 mark with 4 options (A, B, C, D). No negative marking.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-[#0066cc] mt-1"></i>
+                                    <span id="inst-3">Total time allowed is 3 Hours (180 minutes). The exam auto-submits when the timer reaches 00:00:00.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-[#0066cc] mt-1"></i>
+                                    <span id="inst-4">Grading: A+ (90%+), A (80%+), B (70%+), C (60%+), D (50%+). Instant PDF Certificate upon completion.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-5 p-3 rounded-xl bg-sky-50 border border-sky-200/70 text-xs text-[#004c99] flex items-center space-x-2.5">
+                            <i class="fa-solid fa-shield-halved text-[#0066cc] text-base"></i>
+                            <span id="inst-note">Ensure your name is spelled accurately before starting; it will appear on your official codegurukool.com PDF certificate.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: ACTIVE EXAM INTERFACE -->
+        <section id="view-exam" class="hidden">
+            <!-- Top Exam Status Bar -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-sky-100 text-[#0066cc] font-bold flex items-center justify-center" id="candidate-avatar">
+                        U
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm font-bold text-slate-900" id="exam-candidate-name">Candidate Name</span>
+                            <span class="px-2 py-0.5 rounded-md bg-orange-100 text-[#c26100] text-[11px] font-bold" id="exam-active-subject-badge">HTML</span>
+                        </div>
+                        <div class="text-xs text-slate-500" id="exam-candidate-id">ID: EXAM-2026</div>
+                    </div>
+                </div>
+
+                <!-- Live Countdown Timer -->
+                <div class="flex items-center space-x-3 bg-[#004499] text-white px-4 py-2.5 rounded-xl shadow-inner">
+                    <i class="fa-regular fa-clock text-[#ff9e2c] animate-pulse"></i>
+                    <div>
+                        <div id="timer-label" class="text-[10px] uppercase tracking-wider text-sky-200 leading-none">Time Remaining</div>
+                        <div id="exam-timer" class="text-lg sm:text-xl font-mono font-bold tracking-wider text-amber-300 leading-tight">03:00:00</div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" onclick="confirmSubmitExam()" id="btn-top-submit" class="px-5 py-2.5 rounded-xl bg-[#f5820d] hover:bg-[#d96b00] text-white font-bold text-sm shadow-md transition flex items-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span id="btn-submit-text">Submit Exam</span>
+                </button>
+            </div>
+
+            <!-- Main Exam Grid: Question Card (Left) + Navigation Palette (Right) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Question Area -->
+                <div class="lg:col-span-8 flex flex-col justify-between bg-white rounded-3xl shadow-md border border-slate-200 p-5 sm:p-8 min-h-[480px]">
+                    <div>
+                        <!-- Question Header -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-slate-100">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-3 py-1 rounded-lg bg-[#0066cc] text-white text-xs font-bold" id="q-number-badge">Question 1 / 100</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold" id="q-category-badge">HTML5 Core</span>
+                                <span class="text-xs text-slate-400 font-mono" id="q-bank-id">#DB-001</span>
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg" id="q-marks-badge">+1.0 Mark</span>
+                        </div>
+
+                        <!-- Question Prompt -->
+                        <div id="question-text" class="text-base sm:text-lg font-semibold text-slate-900 leading-relaxed mb-6">
+                            Loading question...
+                        </div>
+
+                        <!-- 4 Options -->
+                        <div id="options-container" class="space-y-3">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action Controls -->
+                    <div class="pt-8 mt-8 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center space-x-2">
+                            <button type="button" onclick="prevQuestion()" id="btn-prev" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition disabled:opacity-40">
+                                <i class="fa-solid fa-chevron-left mr-1"></i> <span id="btn-prev-text">Previous</span>
+                            </button>
+                            <button type="button" onclick="clearResponse()" id="btn-clear" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-semibold text-sm transition">
+                                <i class="fa-solid fa-eraser mr-1"></i> <span id="btn-clear-text">Clear</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button type="button" onclick="toggleMarkReview()" id="btn-review" class="px-4 py-2.5 rounded-xl bg-orange-100 hover:bg-orange-200 text-[#c26100] font-semibold text-sm transition">
+                                <i class="fa-solid fa-bookmark mr-1"></i> <span id="btn-review-text">Mark for Review</span>
+                            </button>
+                            <button type="button" onclick="nextQuestion()" id="btn-next" class="px-5 py-2.5 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-semibold text-sm shadow-sm transition">
+                                <span id="btn-next-text">Save & Next</span> <i class="fa-solid fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Navigation Palette (1 - 100) -->
+                <div class="lg:col-span-4 bg-white rounded-3xl shadow-md border border-slate-200 p-5 flex flex-col">
+                    <h3 id="palette-heading" class="font-bold text-slate-900 text-sm uppercase tracking-wider mb-3 flex items-center justify-between">
+                        <span>Question Palette (1–100)</span>
+                        <span id="palette-progress" class="text-xs font-semibold text-[#0066cc]">0/100</span>
+                    </h3>
+
+                    <!-- Legend -->
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3.5 h-3.5 rounded bg-emerald-500 inline-block"></span>
+                            <span id="leg-answered" class="text-slate-600">Answered (<b id="count-answered">0</b>)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3.5 h-3.5 rounded bg-[#f5820d] inline-block"></span>
+                            <span id="leg-review" class="text-slate-600">Review (<b id="count-review">0</b>)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3.5 h-3.5 rounded bg-[#0066cc] inline-block"></span>
+                            <span id="leg-current" class="text-slate-600">Current</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3.5 h-3.5 rounded bg-slate-200 inline-block"></span>
+                            <span id="leg-unanswered" class="text-slate-600">Remaining (<b id="count-unanswered">100</b>)</span>
+                        </div>
+                    </div>
+
+                    <!-- 100 Buttons Grid -->
+                    <div id="palette-grid" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 xl:grid-cols-6 gap-1.5 max-h-[360px] overflow-y-auto pr-1">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: RESULTS, GRADING & PDF CERTIFICATE -->
+        <section id="view-results" class="hidden space-y-8">
+            
+            <!-- Scorecard Summary Card -->
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#004499] via-[#0066cc] to-[#0284c7] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-[#f5820d] text-white text-xs font-bold uppercase tracking-wider" id="res-status-badge">
+                            Assessment Completed
+                        </span>
+                        <h2 id="res-heading" class="text-2xl sm:text-3xl font-extrabold mt-2">Official Examination Scorecard</h2>
+                        <p id="res-candidate-meta" class="text-sky-100 text-sm mt-1">Candidate: — | Date: —</p>
+                    </div>
+                    <div class="flex items-center space-x-4 bg-white/15 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/25">
+                        <div class="text-center">
+                            <div id="res-grade-label" class="text-xs uppercase tracking-wider text-sky-100">Final Grade</div>
+                            <div id="res-grade-value" class="text-4xl font-black text-amber-300">A+</div>
+                        </div>
+                        <div class="h-10 w-px bg-white/25"></div>
+                        <div class="text-center">
+                            <div id="res-percent-label" class="text-xs uppercase tracking-wider text-sky-100">Score</div>
+                            <div id="res-percent-value" class="text-3xl font-extrabold text-white">92%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics Breakdown -->
+                <div class="grid grid-cols-2 sm:grid-cols-6 border-b border-slate-100">
+                    <div class="p-4 sm:p-5 text-center border-r border-b sm:border-b-0 border-slate-100">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-subject-lbl">Subject</div>
+                        <div class="text-lg font-extrabold text-[#0066cc] mt-1" id="metric-subject-val">HTML</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center sm:border-r border-b sm:border-b-0 border-slate-100">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-total-lbl">Total Questions</div>
+                        <div class="text-2xl font-extrabold text-slate-900 mt-1">100</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center border-r border-b sm:border-b-0 border-slate-100">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-attempted-lbl">Attempted</div>
+                        <div class="text-2xl font-extrabold text-[#0066cc] mt-1" id="metric-attempted">0</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center sm:border-r border-b sm:border-b-0 border-slate-100">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-correct-lbl">Correct</div>
+                        <div class="text-2xl font-extrabold text-emerald-600 mt-1" id="metric-correct">0</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center border-r border-slate-100">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-wrong-lbl">Wrong</div>
+                        <div class="text-2xl font-extrabold text-rose-600 mt-1" id="metric-wrong">0</div>
+                    </div>
+                    <div class="p-4 sm:p-5 text-center">
+                        <div class="text-xs font-semibold text-slate-500 uppercase" id="metric-result-lbl">Status</div>
+                        <div class="text-lg font-extrabold text-emerald-600 mt-1" id="metric-status">PASSED</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="p-6 bg-slate-50 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button type="button" onclick="downloadPDFCertificate()" id="btn-download-pdf" class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#f5820d] to-orange-600 hover:from-[#e07000] hover:to-orange-700 text-white font-bold text-sm shadow-lg shadow-orange-500/25 transition flex items-center space-x-2">
+                            <i class="fa-solid fa-file-pdf text-lg"></i>
+                            <span id="btn-pdf-text">Download Official PDF Certificate</span>
+                        </button>
+                        <button type="button" onclick="toggleAnswerReview()" id="btn-toggle-review" class="px-5 py-3 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-800 font-semibold text-sm transition flex items-center space-x-2">
+                            <i class="fa-solid fa-list-check text-[#0066cc]"></i>
+                            <span id="btn-review-answers-text">Review All 100 Answers</span>
+                        </button>
+                    </div>
+
+                    <button type="button" onclick="retakeExam()" id="btn-retake" class="px-5 py-3 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-semibold text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span id="btn-retake-text">Take New Random Test</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- OFFICIAL CERTIFICATE PREVIEW (Rendered to PDF via html2canvas + jsPDF) -->
+            <div class="bg-white rounded-3xl shadow-lg border border-slate-200 p-4 sm:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 id="cert-preview-heading" class="font-bold text-slate-900 flex items-center">
+                        <i class="fa-solid fa-certificate text-[#f5820d] mr-2"></i> Verified codegurukool.com Certificate Preview
+                    </h3>
+                    <span class="text-xs text-slate-500 font-mono" id="cert-id-display">ID: CERT-HTML-000000</span>
+                </div>
+
+                <!-- Scrollable wrapper for responsive viewing while preserving A4 Landscape proportions for PDF export -->
+                <div class="overflow-x-auto pb-2">
+                    <div id="certificate-node" class="w-[1000px] h-[700px] mx-auto bg-[#ffffff] relative p-10 text-slate-900 select-none shadow-inner border-[12px] border-double border-[#0066cc] flex flex-col justify-between">
+                        <!-- Inner Decorative Orange & Blue Frame -->
+                        <div class="absolute inset-3 border-2 border-[#f5820d] pointer-events-none"></div>
+                        <div class="absolute inset-5 border border-sky-200 pointer-events-none"></div>
+
+                        <!-- Corner Ornaments -->
+                        <div class="absolute top-6 left-6 w-8 h-8 border-t-4 border-l-4 border-[#f5820d]"></div>
+                        <div class="absolute top-6 right-6 w-8 h-8 border-t-4 border-r-4 border-[#f5820d]"></div>
+                        <div class="absolute bottom-6 left-6 w-8 h-8 border-b-4 border-l-4 border-[#f5820d]"></div>
+                        <div class="absolute bottom-6 right-6 w-8 h-8 border-b-4 border-r-4 border-[#f5820d]"></div>
+
+                        <!-- Header with codegurukool.com Logo & Authority Title -->
+                        <div class="text-center pt-2 relative z-10">
+                            <div class="inline-flex items-center justify-center space-x-2.5 mb-2">
+                                <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="42" fill="#f0f9ff"/>
+                                    <path d="M84 34C77.5 19.8 63.4 10 47 10C24.9 10 7 27.9 7 50C7 72.1 24.9 90 47 90C66.8 90 83.2 75.6 86.4 56.6H53V67H73.5C69.2 74.8 59.1 80 47 80C30.4 80 17 66.6 17 50C17 33.4 30.4 20 47 20C58.6 20 68.7 26.6 73.7 36.2L84 34Z" fill="#0066cc"/>
+                                    <path d="M51 52H89C89 74.5 71.2 92 48.5 92C33.5 92 20.3 84.2 13.2 72.4L22.4 66.8C27.8 75.8 37.5 81.8 48.5 81.8C64.2 81.8 77.1 70.1 78.8 54.8H51V52Z" fill="#f5820d"/>
+                                    <circle cx="43" cy="46" r="5.5" fill="#0066cc"/>
+                                    <path d="M31 69L38 54L50 53L63 39L66.5 42.5L53 58L49 71H42L43 61L37 71L31 69Z" fill="#0066cc"/>
+                                    <polygon points="43,32 56,36.5 43,41 30,36.5" fill="#004c99"/>
+                                    <polygon points="71,26 73.2,31.5 79,32 74.5,35.8 75.8,41.5 71,38.4 66.2,41.5 67.5,35.8 63,32 68.8,31.5" fill="#f5820d"/>
+                                </svg>
+                                <span class="text-2xl font-extrabold tracking-tight">
+                                    <span class="text-[#0066cc]">code</span><span class="text-[#f5820d]">gurukool</span><span class="text-[#64748b]">.com</span>
+                                </span>
+                            </div>
+                            <div class="inline-flex items-center justify-center space-x-2 text-[#0066cc] font-bold tracking-[0.18em] text-xs uppercase mb-1.5">
+                                <span>★</span>
+                                <span id="cert-org">CODEGURUKOOL.COM — GLOBAL TECHNOLOGY & SOFTWARE CERTIFICATION AUTHORITY</span>
+                                <span>★</span>
+                            </div>
+                            <h1 id="cert-main-title" class="cert-serif text-4xl font-bold text-slate-900 tracking-wide uppercase">
+                                CERTIFICATE OF ACHIEVEMENT
+                            </h1>
+                            <div class="w-56 h-1 bg-gradient-to-r from-[#0066cc] via-[#f5820d] to-[#0066cc] mx-auto mt-2.5 rounded-full"></div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="text-center my-auto px-12 relative z-10">
+                            <p id="cert-presented-to" class="text-base italic text-slate-600 mb-3">
+                                This is to proudly certify that
+                            </p>
+                            <div id="cert-candidate-name" class="cert-serif text-4xl font-bold text-[#004499] border-b-2 border-[#f5820d]/70 inline-block px-10 pb-2 mb-4">
+                                Candidate Full Name
+                            </div>
+                            <p id="cert-description" class="text-base text-slate-700 max-w-2xl mx-auto leading-relaxed">
+                                has successfully completed the comprehensive 3-Hour HTML Professional Certification Examination consisting of 100 randomized assessments from the 2,000-question global repository.
+                            </p>
+
+                            <!-- Grade & Score Badges -->
+                            <div class="mt-6 inline-flex items-center space-x-8 bg-sky-50/80 border border-[#0066cc]/25 rounded-2xl px-8 py-3">
+                                <div class="text-center">
+                                    <span id="cert-lbl-score" class="block text-[11px] uppercase tracking-wider text-slate-500 font-bold">Final Score</span>
+                                    <span id="cert-val-score" class="text-xl font-extrabold text-slate-900">92 / 100 (92%)</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-300"></div>
+                                <div class="text-center">
+                                    <span id="cert-lbl-grade" class="block text-[11px] uppercase tracking-wider text-slate-500 font-bold">Grade Awarded</span>
+                                    <span id="cert-val-grade" class="text-2xl font-black text-[#f5820d]">A+</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-300"></div>
+                                <div class="text-center">
+                                    <span id="cert-lbl-course" class="block text-[11px] uppercase tracking-wider text-slate-500 font-bold">Credential</span>
+                                    <span id="cert-val-course" class="text-sm font-bold text-[#0066cc]">HTML Specialist</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer / Signatures / Seal -->
+                        <div class="grid grid-cols-3 items-end px-8 pb-3 relative z-10">
+                            <div class="text-center">
+                                <div id="cert-date-val" class="text-sm font-bold text-slate-800 pb-1 border-b border-slate-400 w-44 mx-auto">November 19, 2026</div>
+                                <div id="cert-lbl-date" class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Date of Issue</div>
+                            </div>
+
+                            <!-- Royal Blue & Signature Orange Emblem Seal -->
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[#0066cc] via-[#0284c7] to-[#f5820d] p-1 shadow-lg flex items-center justify-center">
+                                    <div class="w-full h-full rounded-full border-2 border-dashed border-white/90 flex flex-col items-center justify-center text-white text-center p-1">
+                                        <i id="cert-seal-icon" class="fa-brands fa-html5 text-2xl"></i>
+                                        <span class="text-[9px] font-extrabold tracking-widest uppercase mt-0.5">VERIFIED</span>
+                                        <span class="text-[7px] font-bold tracking-tight">codegurukool.com</span>
+                                    </div>
+                                </div>
+                                <span id="cert-serial-footer" class="text-[10px] font-mono text-slate-500 mt-1.5">ID: CERT-HTML-882910</span>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="cert-serif italic text-lg font-bold text-slate-800 pb-1 border-b border-slate-400 w-44 mx-auto">Dr. A. Vance</div>
+                                <div id="cert-lbl-director" class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Chief Examination Controller</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETAILED ANSWER REVIEW SECTION (Collapsible) -->
+            <div id="answer-review-section" class="hidden bg-white rounded-3xl shadow-lg border border-slate-200 p-6 sm:p-8">
+                <h3 id="review-section-title" class="text-xl font-bold text-slate-900 mb-6 flex items-center">
+                    <i class="fa-solid fa-magnifying-glass-chart text-[#0066cc] mr-2"></i> Detailed Question & Answer Analysis
+                </h3>
+                <div id="review-list-container" class="space-y-4">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-white border-t border-slate-200 py-5 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+            <div>© 2026 <strong class="text-[#0066cc]">code</strong><strong class="text-[#f5820d]">gurukool</strong><strong class="text-[#64748b]">.com</strong> • Global Multi-Subject Certification Assessment System • 14 Tracks • 28,000 Questions (EN / HI / RU / ES)</div>
+            <div>2,000 Qs Per Subject • Fisher-Yates Randomizer • PDF Certificate Generator</div>
+        </div>
+    </footer>
+
+    <!-- ==================== APPLICATION LOGIC & 14-SUBJECT (28,000 Qs) ENGINE ==================== -->
+    <script>
+        /* =========================================================================
+           0. 14 SUBJECT DEFINITIONS
+           ========================================================================= */
+        const SUBJECTS = [
+            { id: 'HTML',       name: 'HTML',       dotColor: '#f5820d', icon: 'fa-brands fa-html5' },
+            { id: 'CSS',        name: 'CSS',        dotColor: '#0066cc', icon: 'fa-brands fa-css3-alt' },
+            { id: 'JavaScript', name: 'JavaScript', dotColor: '#eab308', icon: 'fa-brands fa-js' },
+            { id: 'C',          name: 'C',          dotColor: '#7e22ce', icon: 'fa-solid fa-c' },
+            { id: 'C++',        name: 'C++',        dotColor: '#1d4ed8', icon: 'fa-solid fa-code' },
+            { id: 'PHP',        name: 'PHP',        dotColor: '#6366f1', icon: 'fa-brands fa-php' },
+            { id: 'SQL',        name: 'SQL',        dotColor: '#ea580c', icon: 'fa-solid fa-database' },
+            { id: 'Python',     name: 'Python',     dotColor: '#2563eb', icon: 'fa-brands fa-python' },
+            { id: 'Java',       name: 'Java',       dotColor: '#dc2626', icon: 'fa-brands fa-java' },
+            { id: 'COBOL',      name: 'COBOL',      dotColor: '#1e40af', icon: 'fa-solid fa-terminal' },
+            { id: 'Node.js',    name: 'Node.js',    dotColor: '#16a34a', icon: 'fa-brands fa-node-js' },
+            { id: 'Mainframe',  name: 'Mainframe',  dotColor: '#2563eb', icon: 'fa-solid fa-server' },
+            { id: 'Kubernetes', name: 'Kubernetes', dotColor: '#3b82f6', icon: 'fa-solid fa-dharmachakra' },
+            { id: 'Docker',     name: 'Docker',     dotColor: '#0284c7', icon: 'fa-brands fa-docker' }
+        ];
+
+        /* =========================================================================
+           1. MULTILINGUAL UI & CERTIFICATE DICTIONARY (English, Hindi, Russian, Spanish)
+           ========================================================================= */
+        const I18N = {
+            en: {
+                navTitleSuffix: "Certification Portal",
+                navSub: "14 Subjects • 28,000 Questions • Global Assessment",
+                lobbyBadge: "CODEGURUKOOL.COM OFFICIAL ASSESSMENT",
+                lobbyTitleSuffix: "Professional Certification Exam",
+                lobbySubTpl: "Validate your mastery of {SUB}. 100 unique questions are dynamically drawn from our verified 2,000-question {SUB} repository.",
+                subjectSelectLbl: "Choose Certification Subject (14 Tracks Available):",
+                statBank: "Question Bank",
+                statRandom: "Random Per Exam",
+                statTime: "Duration (3 Hours)",
+                statCert: "Instant Certificate",
+                regHeading: "Candidate Registration",
+                lblName: "Candidate Full Name (Printed on Certificate) *",
+                lblEmail: "Email or Roll ID *",
+                lblLangSelect: "Exam & Certificate Language",
+                btnStartTpl: "Start 3-Hour {SUB} Certification Exam",
+                btnImport: "Import Custom JSON Bank",
+                instHeading: "Exam Guidelines",
+                inst1Tpl: "100 unique {SUB} questions are randomly selected from the 2,000-question database using Fisher-Yates randomization.",
+                inst2: "Each question carries 1 mark with 4 options (A, B, C, D). No negative marking.",
+                inst3: "Total time allowed is 3 Hours (180 minutes). The exam auto-submits when the timer reaches 00:00:00.",
+                inst4: "Grading: A+ (90%+), A (80%+), B (70%+), C (60%+), D (50%+). Instant PDF Certificate upon completion.",
+                instNote: "Ensure your name is spelled accurately before starting; it will appear on your official codegurukool.com PDF certificate.",
+                timeRemaining: "Time Remaining",
+                submitExam: "Submit Exam",
+                questionWord: "Question",
+                markWord: "+1.0 Mark",
+                prevBtn: "Previous",
+                clearBtn: "Clear",
+                reviewBtn: "Mark for Review",
+                unmarkReviewBtn: "Unmark Review",
+                nextBtn: "Save & Next",
+                paletteHeading: "Question Palette (1–100)",
+                legAnswered: "Answered",
+                legReview: "Review",
+                legCurrent: "Current",
+                legRemaining: "Remaining",
+                resStatusBadge: "Assessment Completed",
+                resHeading: "Official Examination Scorecard",
+                resGradeLabel: "Final Grade",
+                resPercentLabel: "Score",
+                metricSubject: "Subject",
+                metricTotal: "Total Questions",
+                metricAttempted: "Attempted",
+                metricCorrect: "Correct",
+                metricWrong: "Wrong",
+                metricStatus: "Status",
+                passedText: "PASSED",
+                failedText: "NEEDS RETRY",
+                btnDownloadPdf: "Download Official PDF Certificate",
+                btnReviewAnswers: "Review All 100 Answers",
+                btnRetake: "Take New Random Test",
+                certPreviewHeading: "Verified codegurukool.com Certificate Preview",
+                certOrg: "CODEGURUKOOL.COM — GLOBAL TECHNOLOGY & SOFTWARE CERTIFICATION AUTHORITY",
+                certMainTitle: "CERTIFICATE OF ACHIEVEMENT",
+                certPresentedTo: "This is to proudly certify that",
+                certDescTpl: "has successfully completed the comprehensive 3-Hour {SUB} Professional Certification Examination consisting of 100 randomized assessments from the 2,000-question global repository.",
+                certLblScore: "Final Score",
+                certLblGrade: "Grade Awarded",
+                certLblCourse: "Credential",
+                certCourseSuffix: "Specialist",
+                certLblDate: "Date of Issue",
+                certLblDirector: "Chief Examination Controller",
+                modalWarnTitle: "Validation Required",
+                modalEnterName: "Please enter your Full Name and Email/ID to register for the certification exam.",
+                modalSubmitTitle: "Submit Certification Exam?",
+                modalSubmitMsg: "Are you sure you want to submit your exam now? Once submitted, you cannot change your answers.",
+                modalCancel: "Continue Exam",
+                modalConfirm: "Yes, Submit Now",
+                reviewTitle: "Detailed Question & Answer Analysis",
+                yourAns: "Your Answer:",
+                correctAns: "Correct Answer:",
+                notAnswered: "Not Answered"
+            },
+            hi: {
+                navTitleSuffix: "प्रमाणन परीक्षा पोर्टल",
+                navSub: "14 विषय • 28,000 प्रश्न • वैश्विक मूल्यांकन",
+                lobbyBadge: "CODEGURUKOOL.COM आधिकारिक मूल्यांकन प्रणाली",
+                lobbyTitleSuffix: "प्रोफेशनल सर्टिफिकेशन परीक्षा",
+                lobbySubTpl: "{SUB} में अपनी दक्षता प्रमाणित करें। हमारे 2,000 {SUB} प्रश्नों के संग्रह से हर बार 100 रैंडम प्रश्न चुने जाते हैं।",
+                subjectSelectLbl: "सर्टिफिकेशन विषय चुनें (14 विषय उपलब्ध):",
+                statBank: "कुल प्रश्न बैंक",
+                statRandom: "प्रति परीक्षा प्रश्न",
+                statTime: "अवधि (3 घंटे)",
+                statCert: "तत्काल पीडीएफ़ सर्टिफिकेट",
+                regHeading: "अभ्यर्थी पंजीकरण (Registration)",
+                lblName: "अभ्यर्थी का पूरा नाम (सर्टिफिकेट पर मुद्रित होगा) *",
+                lblEmail: "ईमेल या रोल नंबर / आईडी *",
+                lblLangSelect: "परीक्षा और सर्टिफिकेट की भाषा",
+                btnStartTpl: "3 घंटे की {SUB} सर्टिफिकेशन परीक्षा शुरू करें",
+                btnImport: "कस्टम JSON प्रश्न बैंक अपलोड करें",
+                instHeading: "परीक्षा के निर्देश",
+                inst1Tpl: "{SUB} के 2,000 प्रश्नों के डेटाबेस में से 100 अद्वितीय प्रश्न रैंडम (Random) रूप से प्रदर्शित किए जाएंगे।",
+                inst2: "प्रत्येक प्रश्न के 4 विकल्प (A, B, C, D) हैं और प्रत्येक सही उत्तर के लिए 1 अंक निर्धारित है।",
+                inst3: "कुल समय 3 घंटे (180 मिनट) है। समय समाप्त होने पर परीक्षा स्वतः सबमिट हो जाएगी।",
+                inst4: "ग्रेड प्रणाली: A+ (90%+), A (80%+), B (70%+), C (60%+), D (50%+)। अंत में ग्रेड के साथ PDF सर्टिफिकेट मिलेगा।",
+                instNote: "कृपया अपना नाम सही लिखें, यही नाम आपके आधिकारिक codegurukool.com PDF सर्टिफिकेट पर जारी किया जाएगा।",
+                timeRemaining: "शेष समय",
+                submitExam: "परीक्षा सबमिट करें",
+                questionWord: "प्रश्न",
+                markWord: "+1.0 अंक",
+                prevBtn: "पिछला",
+                clearBtn: "उत्तर हटाएं",
+                reviewBtn: "समीक्षा हेतु चिह्नित करें",
+                unmarkReviewBtn: "समीक्षा चिह्न हटाएं",
+                nextBtn: "सहेजें और अगला",
+                paletteHeading: "प्रश्न पैलेट (1–100)",
+                legAnswered: "उत्तर दिया",
+                legReview: "समीक्षा",
+                legCurrent: "वर्तमान",
+                legRemaining: "शेष",
+                resStatusBadge: "परीक्षा पूर्ण हुई",
+                resHeading: "आधिकारिक परीक्षा स्कोरकार्ड",
+                resGradeLabel: "अंतिम ग्रेड",
+                resPercentLabel: "प्रतिशत स्कोर",
+                metricSubject: "विषय",
+                metricTotal: "कुल प्रश्न",
+                metricAttempted: "हल किए गए",
+                metricCorrect: "सही उत्तर",
+                metricWrong: "गलत उत्तर",
+                metricStatus: "परिणाम",
+                passedText: "उत्तीर्ण (PASSED)",
+                failedText: "पुनः प्रयास करें",
+                btnDownloadPdf: "आधिकारिक PDF सर्टिफिकेट डाउनलोड करें",
+                btnReviewAnswers: "सभी 100 उत्तरों की समीक्षा करें",
+                btnRetake: "नई रैंडम परीक्षा दें",
+                certPreviewHeading: "सत्यापित codegurukool.com सर्टिफिकेट पूर्वावलोकन",
+                certOrg: "CODEGURUKOOL.COM — वैश्विक प्रौद्योगिकी और सॉफ्टवेयर प्रमाणन प्राधिकरण",
+                certMainTitle: "उपलब्धि प्रमाण पत्र",
+                certPresentedTo: "यह प्रमाणित किया जाता है कि",
+                certDescTpl: "ने 2,000 प्रश्नों के वैश्विक भंडार से चयनित 100 रैंडम प्रश्नों की 3-घंटे की व्यापक {SUB} प्रोफेशनल सर्टिफिकेशन परीक्षा सफलतापूर्वक पूर्ण की है।",
+                certLblScore: "कुल प्राप्तांक",
+                certLblGrade: "प्राप्त ग्रेड",
+                certLblCourse: "प्रमाणन",
+                certCourseSuffix: "विशेषज्ञ",
+                certLblDate: "जारी करने की तिथि",
+                certLblDirector: "मुख्य परीक्षा नियंत्रक",
+                modalWarnTitle: "जानकारी आवश्यक",
+                modalEnterName: "कृपया परीक्षा शुरू करने से पहले अपना पूरा नाम और ईमेल/आईडी दर्ज करें।",
+                modalSubmitTitle: "क्या आप परीक्षा सबमिट करना चाहते हैं?",
+                modalSubmitMsg: "क्या आप वाकई अपनी परीक्षा अभी सबमिट करना चाहते हैं? सबमिट करने के बाद आप उत्तर नहीं बदल पाएंगे।",
+                modalCancel: "परीक्षा जारी रखें",
+                modalConfirm: "हाँ, सबमिट करें",
+                reviewTitle: "विस्तृत प्रश्न एवं उत्तर विश्लेषण",
+                yourAns: "आपका उत्तर:",
+                correctAns: "सही उत्तर:",
+                notAnswered: "उत्तर नहीं दिया गया"
+            },
+            ru: {
+                navTitleSuffix: "Портал сертификации",
+                navSub: "14 предметов • 28 000 вопросов • Глобальный экзамен",
+                lobbyBadge: "CODEGURUKOOL.COM — ОФИЦИАЛЬНАЯ СИСТЕМА ТЕСТИРОВАНИЯ",
+                lobbyTitleSuffix: "Профессиональный сертификационный экзамен",
+                lobbySubTpl: "Подтвердите знание {SUB}. 100 случайных вопросов выбираются из проверенной базы в 2000 вопросов по {SUB}.",
+                subjectSelectLbl: "Выберите предмет сертификации (доступно 14 направлений):",
+                statBank: "База вопросов",
+                statRandom: "Вопросов в тесте",
+                statTime: "Длительность (3 часа)",
+                statCert: "PDF-сертификат",
+                regHeading: "Регистрация кандидата",
+                lblName: "Полное имя кандидата (для сертификата) *",
+                lblEmail: "Email или ID студента *",
+                lblLangSelect: "Язык экзамена и сертификата",
+                btnStartTpl: "Начать 3-часовой экзамен по {SUB}",
+                btnImport: "Загрузить свой JSON банк",
+                instHeading: "Правила экзамена",
+                inst1Tpl: "100 уникальных вопросов по {SUB} случайным образом выбираются из базы в 2000 вопросов методом Фишера-Йетса.",
+                inst2: "Каждый вопрос имеет 4 варианта ответа (A, B, C, D) и оценивается в 1 балл.",
+                inst3: "Общее время — 3 часа (180 минут). По истечении таймера экзамен завершится автоматически.",
+                inst4: "Оценки: A+ (90%+), A (80%+), B (70%+), C (60%+), D (50%+). Мгновенный PDF-сертификат после сдачи.",
+                instNote: "Проверьте правильность написания имени — оно будет указано в вашем официальном PDF-сертификате codegurukool.com.",
+                timeRemaining: "Осталось времени",
+                submitExam: "Завершить экзамен",
+                questionWord: "Вопрос",
+                markWord: "+1.0 балл",
+                prevBtn: "Назад",
+                clearBtn: "Очистить",
+                reviewBtn: "На проверку",
+                unmarkReviewBtn: "Снять отметку",
+                nextBtn: "Сохранить и далее",
+                paletteHeading: "Навигация по вопросам (1–100)",
+                legAnswered: "Отвечено",
+                legReview: "На проверке",
+                legCurrent: "Текущий",
+                legRemaining: "Осталось",
+                resStatusBadge: "Экзамен завершен",
+                resHeading: "Официальные результаты экзамена",
+                resGradeLabel: "Итоговая оценка",
+                resPercentLabel: "Результат",
+                metricSubject: "Предмет",
+                metricTotal: "Всего вопросов",
+                metricAttempted: "Отвечено",
+                metricCorrect: "Верно",
+                metricWrong: "Ошибки",
+                metricStatus: "Статус",
+                passedText: "СДАНО (PASSED)",
+                failedText: "НЕ СДАНО",
+                btnDownloadPdf: "Скачать официальный PDF-сертификат",
+                btnReviewAnswers: "Просмотр всех 100 ответов",
+                btnRetake: "Пройти новый случайный тест",
+                certPreviewHeading: "Предпросмотр сертификата codegurukool.com",
+                certOrg: "CODEGURUKOOL.COM — ГЛОБАЛЬНЫЙ ЦЕНТР СЕРТИФИКАЦИИ ТЕХНОЛОГИЙ И ПО",
+                certMainTitle: "СЕРТИФИКАТ О ДОСТИЖЕНИИ",
+                certPresentedTo: "Настоящим удостоверяется, что",
+                certDescTpl: "успешно сдал(а) комплексный 3-часовой профессиональный сертификационный экзамен по {SUB}, состоящий из 100 случайных вопросов из глобальной базы в 2000 заданий.",
+                certLblScore: "Итоговый балл",
+                certLblGrade: "Оценка",
+                certLblCourse: "Квалификация",
+                certCourseSuffix: "Специалист",
+                certLblDate: "Дата выдачи",
+                certLblDirector: "Председатель комиссии",
+                modalWarnTitle: "Требуются данные",
+                modalEnterName: "Пожалуйста, введите ваше полное имя и Email/ID перед началом экзамена.",
+                modalSubmitTitle: "Завершить экзамен?",
+                modalSubmitMsg: "Вы уверены, что хотите завершить экзамен сейчас? После отправки изменить ответы будет невозможно.",
+                modalCancel: "Продолжить тест",
+                modalConfirm: "Да, завершить",
+                reviewTitle: "Детальный разбор вопросов и ответов",
+                yourAns: "Ваш ответ:",
+                correctAns: "Правильный ответ:",
+                notAnswered: "Нет ответа"
+            },
+            es: {
+                navTitleSuffix: "Portal de Certificación",
+                navSub: "14 Materias • 28,000 Preguntas • Evaluación Global",
+                lobbyBadge: "CODEGURUKOOL.COM — SISTEMA OFICIAL DE EVALUACIÓN",
+                lobbyTitleSuffix: "Examen de Certificación Profesional",
+                lobbySubTpl: "Valida tu dominio de {SUB}. 100 preguntas aleatorias seleccionadas de nuestro banco verificado de 2,000 preguntas de {SUB}.",
+                subjectSelectLbl: "Elige la Materia de Certificación (14 Disponibles):",
+                statBank: "Banco de Preguntas",
+                statRandom: "Aleatorias por Examen",
+                statTime: "Duración (3 Horas)",
+                statCert: "Certificado PDF",
+                regHeading: "Registro del Candidato",
+                lblName: "Nombre Completo del Candidato (Para el Certificado) *",
+                lblEmail: "Correo Electrónico o ID *",
+                lblLangSelect: "Idioma del Examen y Certificado",
+                btnStartTpl: "Iniciar Examen de Certificación {SUB} (3 Horas)",
+                btnImport: "Importar Banco JSON Personalizado",
+                instHeading: "Instrucciones del Examen",
+                inst1Tpl: "Se seleccionan 100 preguntas únicas de {SUB} al azar de la base de datos de 2,000 preguntas mediante aleatorización Fisher-Yates.",
+                inst2: "Cada pregunta vale 1 punto y tiene 4 opciones (A, B, C, D). Sin penalización por errores.",
+                inst3: "El tiempo total es de 3 horas (180 minutos). El examen se enviará automáticamente al llegar a 00:00:00.",
+                inst4: "Calificación: A+ (90%+), A (80%+), B (70%+), C (60%+), D (50%+). Certificado PDF instantáneo al finalizar.",
+                instNote: "Asegúrate de escribir tu nombre correctamente; aparecerá exactamente así en tu certificado PDF oficial de codegurukool.com.",
+                timeRemaining: "Tiempo Restante",
+                submitExam: "Finalizar Examen",
+                questionWord: "Pregunta",
+                markWord: "+1.0 Punto",
+                prevBtn: "Anterior",
+                clearBtn: "Borrar",
+                reviewBtn: "Marcar para Revisión",
+                unmarkReviewBtn: "Desmarcar Revisión",
+                nextBtn: "Guardar y Siguiente",
+                paletteHeading: "Paleta de Preguntas (1–100)",
+                legAnswered: "Respondida",
+                legReview: "Revisión",
+                legCurrent: "Actual",
+                legRemaining: "Pendiente",
+                resStatusBadge: "Evaluación Completada",
+                resHeading: "Boleta Oficial de Calificaciones",
+                resGradeLabel: "Calificación Final",
+                resPercentLabel: "Puntaje",
+                metricSubject: "Materia",
+                metricTotal: "Total Preguntas",
+                metricAttempted: "Respondidas",
+                metricCorrect: "Correctas",
+                metricWrong: "Incorrectas",
+                metricStatus: "Estado",
+                passedText: "APROBADO",
+                failedText: "NO APROBADO",
+                btnDownloadPdf: "Descargar Certificado PDF Oficial",
+                btnReviewAnswers: "Revisar las 100 Respuestas",
+                btnRetake: "Tomar Nuevo Examen Aleatorio",
+                certPreviewHeading: "Vista Previa del Certificado codegurukool.com",
+                certOrg: "CODEGURUKOOL.COM — AUTORIDAD GLOBAL DE CERTIFICACIÓN TECNOLÓGICA Y SOFTWARE",
+                certMainTitle: "CERTIFICADO DE LOGRO",
+                certPresentedTo: "Por la presente se certifica con orgullo que",
+                certDescTpl: "ha completado satisfactoriamente el Examen de Certificación Profesional de {SUB} de 3 horas, compuesto por 100 evaluaciones aleatorias del repositorio global de 2,000 preguntas.",
+                certLblScore: "Puntaje Final",
+                certLblGrade: "Calificación",
+                certLblCourse: "Credencial",
+                certCourseSuffix: "Especialista",
+                certLblDate: "Fecha de Emisión",
+                certLblDirector: "Controlador Jefe de Exámenes",
+                modalWarnTitle: "Datos Requeridos",
+                modalEnterName: "Por favor ingresa tu Nombre Completo y Correo/ID antes de comenzar el examen.",
+                modalSubmitTitle: "¿Enviar Examen de Certificación?",
+                modalSubmitMsg: "¿Estás seguro de que deseas enviar tu examen ahora? Una vez enviado, no podrás modificar tus respuestas.",
+                modalCancel: "Continuar Examen",
+                modalConfirm: "Sí, Enviar Ahora",
+                reviewTitle: "Análisis Detallado de Preguntas y Respuestas",
+                yourAns: "Tu Respuesta:",
+                correctAns: "Respuesta Correcta:",
+                notAnswered: "Sin Responder"
+            }
+        };
+
+        /* =========================================================================
+           2. 14-SUBJECT DOMAIN KNOWLEDGE MATRICES (2,000 QUESTIONS PER SUBJECT)
+           ========================================================================= */
+        const SUBJECT_FACTS = {
+            "HTML": [
+                { cat: "Document Structure", term: "<!DOCTYPE html>", en: "the mandatory first-line declaration that triggers HTML5 standards mode", hi: "मानक मोड सक्रिय करने के लिए अनिवार्य प्रथम-पंक्ति घोषणा", ru: "обязательное объявление в первой строке для включения стандартного режима HTML5", es: "la declaración obligatoria en primera línea que activa el modo estándar HTML5" },
+                { cat: "Semantics", term: "<article>", en: "self-contained content distributable independently such as a blog post or news story", hi: "स्वतंत्र रूप से वितरित की जा सकने वाली सामग्री जैसे ब्लॉग पोस्ट या समाचार", ru: "независимый контент, такой как статья или пост в блоге", es: "contenido independiente distribuible por separado como un artículo o noticia" },
+                { cat: "Semantics", term: "<aside>", en: "tangentially related sidebar or callout content", hi: "मुख्य सामग्री से आंशिक रूप से संबंधित साइडबार सामग्री", ru: "косвенно связанный контент или боковая панель", es: "contenido relacionado tangencialmente o barra lateral" },
+                { cat: "Forms", term: "pattern", en: "the input attribute specifying a regular expression for client-side validation", hi: "क्लाइंट-साइड सत्यापन के लिए रेगुलर एक्सप्रेशन निर्दिष्ट करने वाला इनपुट एट्रिब्यूट", ru: "атрибут поля ввода, задающий регулярное выражение для проверки", es: "el atributo de entrada que especifica una expresión regular para validación" },
+                { cat: "Multimedia", term: "<source>", en: "the element specifying multiple media resources inside <video> or <audio>", hi: "<video> या <audio> के अंदर एकाधिक मीडिया संसाधन निर्दिष्ट करने वाला एलिमेंट", ru: "элемент для указания нескольких медиаресурсов внутри <video> или <audio>", es: "el elemento que especifica múltiples recursos multimedia dentro de <video> o <audio>" },
+                { cat: "Graphics", term: "getContext('2d')", en: "the JavaScript method called on <canvas> to obtain its 2D rendering context", hi: "<canvas> पर 2D रेंडरिंग कॉन्टेक्स्ट प्राप्त करने के लिए कॉल किया जाने वाला मेथड", ru: "метод JavaScript у <canvas> для получения контекста 2D-рисования", es: "el método JavaScript en <canvas> para obtener su contexto de renderizado 2D" },
+                { cat: "Storage API", term: "localStorage", en: "the Web Storage object that persists key-value data with no expiration date", hi: "बिना किसी समाप्ति तिथि के की-वैल्यू डेटा सहेजने वाला वेब स्टोरेज ऑब्जेक्ट", ru: "объект Web Storage, сохраняющий данные без срока действия", es: "el objeto Web Storage que guarda datos sin fecha de caducidad" },
+                { cat: "Accessibility", term: "alt", en: "the mandatory <img> attribute providing descriptive fallback text for screen readers", hi: "स्क्रीन रीडर के लिए वर्णनात्मक टेक्स्ट प्रदान करने वाला अनिवार्य <img> एट्रिब्यूट", ru: "обязательный атрибут <img>, предоставляющий текстовое описание для скринридеров", es: "el atributo obligatorio en <img> que proporciona texto descriptivo" },
+                { cat: "Performance", term: "defer", en: "the <script> attribute that downloads scripts in parallel and executes after HTML parsing", hi: "स्क्रिप्ट को समानांतर डाउनलोड कर HTML पार्सिंग के बाद निष्पादित करने वाला <script> एट्रिब्यूट", ru: "атрибут <script>, выполняющий скрипт после полного разбора HTML", es: "el atributo de <script> que ejecuta el script tras analizar el HTML" },
+                { cat: "Interactive", term: "<dialog>", en: "the native HTML5 element representing a modal or non-modal dialog box", hi: "नेटिव मोडल या नॉन-मोडल डायलॉग बॉक्स का प्रतिनिधित्व करने वाला HTML5 एलिमेंट", ru: "нативный элемент HTML5 для создания модального диалогового окна", es: "el elemento nativo HTML5 que representa un cuadro de diálogo modal" },
+                { cat: "Forms", term: "<datalist>", en: "the element providing predefined autocomplete <option> items for an <input>", hi: "<input> के लिए पूर्वनिर्धारित ऑटोकम्प्लीट विकल्प प्रदान करने वाला एलिमेंट", ru: "элемент с предопределенными вариантами автозаполнения для <input>", es: "el elemento que proporciona opciones predefinidas de autocompletado" },
+                { cat: "Security", term: "sandbox", en: "the <iframe> attribute applying strict security restrictions to embedded content", hi: "एम्बेडेड सामग्री पर सख्त सुरक्षा प्रतिबंध लागू करने वाला <iframe> एट्रिब्यूट", ru: "атрибут <iframe>, применяющий строгие ограничения безопасности", es: "el atributo de <iframe> que aplica restricciones estrictas de seguridad" }
+            ],
+            "CSS": [
+                { cat: "Flexbox", term: "justify-content", en: "the Flexbox property that aligns flex items along the main axis", hi: "मुख्य अक्ष (main axis) के साथ फ्लेक्स आइटम संरेखित करने वाली प्रॉपर्टी", ru: "свойство Flexbox для выравнивания элементов вдоль главной оси", es: "la propiedad Flexbox que alinea los elementos a lo largo del eje principal" },
+                { cat: "CSS Grid", term: "grid-template-columns", en: "the CSS Grid property defining explicit column track sizes", hi: "स्पष्ट कॉलम ट्रैक आकार परिभाषित करने वाली CSS Grid प्रॉपर्टी", ru: "свойство CSS Grid, определяющее размеры столбцов сетки", es: "la propiedad CSS Grid que define el tamaño de las columnas" },
+                { cat: "Box Model", term: "box-sizing: border-box", en: "the declaration including padding and border inside an element's specified width and height", hi: "निर्दिष्ट चौड़ाई और ऊंचाई के अंदर पैडिंग और बॉर्डर शामिल करने वाली घोषणा", ru: "объявление, включающее padding и border в заданную ширину и высоту", es: "la declaración que incluye padding y borde dentro del ancho y alto" },
+                { cat: "Positioning", term: "position: sticky", en: "the positioning scheme toggling between relative and fixed based on scroll offset", hi: "स्क्रॉल ऑफ़सेट के आधार पर रिलेटिव और फिक्स्ड के बीच टॉगल करने वाली पोजीशनिंग", ru: "позиционирование, переключающееся между relative и fixed при прокрутке", es: "el posicionamiento que alterna entre relativo y fijo según el desplazamiento" },
+                { cat: "Selectors", term: ":nth-child()", en: "the pseudo-class matching elements based on their index among siblings", hi: "भाई-बहन एलिमेंट्स के बीच अनुक्रमणिका के आधार पर मिलान करने वाली स्यूडो-क्लास", ru: "псевдокласс, выбирающий элементы по их порядковому номеру", es: "la pseudoclase que selecciona elementos según su posición entre hermanos" },
+                { cat: "Custom Properties", term: "var(--main-color)", en: "the CSS function used to insert the value of a custom CSS variable", hi: "कस्टम CSS वेरिएबल का मान डालने के लिए उपयोग किया जाने वाला CSS फ़ंक्शन", ru: "функция CSS для подстановки значения пользовательской переменной", es: "la función CSS usada para insertar el valor de una variable personalizada" },
+                { cat: "Responsive", term: "@media (min-width: 768px)", en: "the at-rule applying styles conditionally when viewport width is at least 768px", hi: "व्यूपोर्ट चौड़ाई कम से कम 768px होने पर सशर्त रूप से स्टाइल लागू करने वाला नियम", ru: "директива для применения стилей при ширине экрана от 768px", es: "la regla arroba que aplica estilos cuando el ancho es de al menos 768px" },
+                { cat: "Stacking", term: "z-index", en: "the property controlling vertical stacking order of positioned elements", hi: "पोजीशन किए गए एलिमेंट्स के ऊर्ध्वाधर स्टैकिंग क्रम को नियंत्रित करने वाली प्रॉपर्टी", ru: "свойство, управляющее порядком наложения позиционированных элементов", es: "la propiedad que controla el orden de apilamiento vertical" },
+                { cat: "Animations", term: "@keyframes", en: "the rule defining intermediate steps in a CSS keyframe animation sequence", hi: "CSS कीफ़्रेम एनीमेशन अनुक्रम में मध्यवर्ती चरणों को परिभाषित करने वाला नियम", ru: "правило, определяющее промежуточные кадры CSS-анимации", es: "la regla que define los pasos intermedios de una animación CSS" },
+                { cat: "Units", term: "rem", en: "the relative length unit proportional to the root <html> element font-size", hi: "रूट <html> एलिमेंट फ़ॉन्ट-आकार के अनुपात में सापेक्ष लंबाई इकाई", ru: "относительная единица длины, зависящая от размера шрифта корневого <html>", es: "la unidad relativa proporcional al tamaño de fuente del elemento raíz <html>" }
+            ],
+            "JavaScript": [
+                { cat: "ES6+ Variables", term: "const", en: "the block-scoped keyword declaring a read-only reference binding", hi: "रीड-ओनली रेफरेंस बाइंडिंग घोषित करने वाला ब्लॉक-स्कोप्ड कीवर्ड", ru: "блочное ключевое слово для объявления неизменяемой ссылки", es: "la palabra clave con ámbito de bloque que declara una referencia constante" },
+                { cat: "Async JS", term: "Promise.all()", en: "the method resolving when all input promises fulfill or rejecting on the first rejection", hi: "सभी इनपुट प्रॉमिस पूरे होने पर रिज़ॉल्व होने वाला मेथड", ru: "метод, ожидающий выполнения всех промисов или отклоняющийся при первой ошибке", es: "el método que se resuelve cuando todas las promesas se cumplen" },
+                { cat: "Array Methods", term: "Array.prototype.map()", en: "the higher-order method creating a new array by transforming every element", hi: "प्रत्येक एलिमेंट को रूपांतरित करके एक नया ऐरे बनाने वाला हायर-ऑर्डर मेथड", ru: "метод высшего порядка, создающий новый массив путем преобразования элементов", es: "el método de orden superior que crea un nuevo array transformando cada elemento" },
+                { cat: "Array Methods", term: "Array.prototype.filter()", en: "the method returning a shallow copy containing elements passing a predicate test", hi: "प्रेडिकेट परीक्षण पास करने वाले एलिमेंट्स वाला नया ऐरे लौटाने वाला मेथड", ru: "метод, возвращающий новый массив с элементами, прошедшими проверку", es: "el método que devuelve un nuevo array con los elementos que pasan una prueba" },
+                { cat: "DOM Events", term: "event.preventDefault()", en: "the DOM method canceling the browser's default action for an event", hi: "किसी इवेंट के लिए ब्राउज़र की डिफ़ॉल्ट क्रिया को रद्द करने वाला DOM मेथड", ru: "метод DOM, отменяющий стандартное действие браузера для события", es: "el método del DOM que cancela la acción predeterminada del navegador" },
+                { cat: "Closures & Scope", term: "Closure", en: "a function bundled together with references to its surrounding lexical environment", hi: "अपने आसपास के लेक्सिकल वातावरण के संदर्भों के साथ बंडल किया गया फ़ंक्शन", ru: "функция, запоминающая свое лексическое окружение даже после выхода из области видимости", es: "una función combinada con referencias a su entorno léxico circundante" },
+                { cat: "Operators", term: "===", en: "the strict equality operator checking both value and data type without coercion", hi: "बिना टाइप कोएर्शन के मान और डेटा प्रकार दोनों की जांच करने वाला ऑपरेटर", ru: "оператор строгого равенства, проверяющий значение и тип без приведения типов", es: "el operador de igualdad estricta que verifica valor y tipo sin coerción" },
+                { cat: "JSON", term: "JSON.parse()", en: "the static method parsing a JSON-formatted string into a JavaScript value", hi: "JSON-फ़ॉर्मेट की गई स्ट्रिंग को जावास्क्रिप्ट मान में पार्स करने वाला मेथड", ru: "метод, преобразующий строку JSON в объект JavaScript", es: "el método que analiza una cadena JSON y la convierte en un objeto JavaScript" },
+                { cat: "DOM Selection", term: "document.querySelector()", en: "the method returning the first Element matching a specified CSS selector", hi: "निर्दिष्ट CSS सेलेक्टर से मेल खाने वाला पहला एलिमेंट लौटाने वाला मेथड", ru: "метод, возвращающий первый элемент, соответствующий CSS-селектору", es: "el método que devuelve el primer elemento que coincide con un selector CSS" },
+                { cat: "Event Loop", term: "Microtask Queue", en: "the high-priority queue processing Promise .then() callbacks before macrotasks", hi: "मैक्रोटास्क से पहले Promise .then() कॉलबैक को प्रोसेस करने वाली उच्च-प्राथमिकता कतार", ru: "очередь высокого приоритета для обработки колбэков Promise до макрозадач", es: "la cola de alta prioridad que procesa callbacks de Promesas antes que macrotareas" }
+            ],
+            "C": [
+                { cat: "Pointers", term: "malloc()", en: "the <stdlib.h> function allocating uninitialized dynamic heap memory in bytes", hi: "बाइट्स में डायनेमिक हीप मेमोरी आवंटित करने वाला <stdlib.h> फ़ंक्शन", ru: "функция <stdlib.h>, выделяющая неинициализированную динамическую память в куче", es: "la función de <stdlib.h> que asigna memoria dinámica en el heap en bytes" },
+                { cat: "Memory Management", term: "free()", en: "the standard library function releasing dynamically allocated heap memory", hi: "डायनेमिक रूप से आवंटित हीप मेमोरी को मुक्त करने वाला स्टैंडर्ड लाइब्रेरी फ़ंक्शन", ru: "функция стандартной библиотеки для освобождения динамически выделенной памяти", es: "la función que libera la memoria asignada dinámicamente en el heap" },
+                { cat: "Operators", term: "sizeof", en: "the compile-time unary operator returning the storage size in bytes of a type or object", hi: "किसी प्रकार या ऑब्जेक्ट का बाइट्स में स्टोरेज आकार लौटाने वाला कंपाइल-टाइम ऑपरेटर", ru: "унарный оператор времени компиляции, возвращающий размер типа в байтах", es: "el operador unario que devuelve el tamaño en bytes de un tipo u objeto" },
+                { cat: "Storage Classes", term: "static", en: "the storage-class specifier preserving a local variable's value across function calls", hi: "फ़ंक्शन कॉल के बीच लोकल वेरिएबल का मान सुरक्षित रखने वाला स्टोरेज-क्लास स्पेसिफ़ायर", ru: "спецификатор класса хранения, сохраняющий значение локальной переменной между вызовами", es: "el especificador que preserva el valor de una variable local entre llamadas" },
+                { cat: "Preprocessor", term: "#define", en: "the preprocessor directive defining symbolic constants or macros before compilation", hi: "संकलन से पहले प्रतीकात्मक स्थिरांक या मैक्रोज़ परिभाषित करने वाला प्रीप्रोसेसर निर्देश", ru: "директива препроцессора для определения макросов и констант до компиляции", es: "la directiva del preprocesador que define constantes simbólicas o macros" },
+                { cat: "Strings", term: "'\\0'", en: "the null-terminator character marking the end of a C character string", hi: "C कैरेक्टर स्ट्रिंग के अंत को चिह्नित करने वाला नल-टर्मिनेटर कैरेक्टर", ru: "нуль-терминатор, обозначающий конец строки в языке C", es: "el carácter nulo que marca el final de una cadena de caracteres en C" },
+                { cat: "Structures", term: "union", en: "the user-defined data type where all members share the exact same memory location", hi: "उपयोगकर्ता-परिभाषित डेटा प्रकार जहाँ सभी सदस्य एक ही मेमोरी स्थान साझा करते हैं", ru: "пользовательский тип данных, в котором все поля разделяют одну область памяти", es: "el tipo de dato donde todos los miembros comparten la misma ubicación de memoria" },
+                { cat: "Pointers", term: "& (Address-of)", en: "the unary operator returning the memory address of its operand", hi: "अपने ऑपरेंड का मेमोरी एड्रेस लौटाने वाला यूनरी ऑपरेटर", ru: "унарный оператор взятия адреса переменной в памяти", es: "el operador unario que devuelve la dirección de memoria de su operando" },
+                { cat: "I/O", term: "printf()", en: "the <stdio.h> function writing formatted output to stdout", hi: "stdout पर फ़ॉर्मेट किया गया आउटपुट लिखने वाला <stdio.h> फ़ंक्शन", ru: "функция <stdio.h> для вывода форматированной строки в стандартный поток", es: "la función de <stdio.h> que escribe salida formateada en stdout" },
+                { cat: "Control Flow", term: "break", en: "the statement immediately terminating the innermost enclosing loop or switch block", hi: "सबसे भीतरी लूप या स्विच ब्लॉक को तुरंत समाप्त करने वाला स्टेटमेंट", ru: "оператор немедленного выхода из ближайшего цикла или блока switch", es: "la sentencia que termina inmediatamente el bucle o bloque switch más interno" }
+            ],
+            "C++": [
+                { cat: "OOP & Polymorphism", term: "virtual", en: "the keyword enabling runtime dynamic dispatch for overridden base-class methods", hi: "ओवरराइड किए गए बेस-क्लास मेथड्स के लिए रनटाइम डायनेमिक डिस्पैच सक्षम करने वाला कीवर्ड", ru: "ключевое слово для динамического полиморфизма и переопределения методов", es: "la palabra clave que habilita el despacho dinámico en tiempo de ejecución" },
+                { cat: "Memory & RAII", term: "std::unique_ptr", en: "the smart pointer enforcing exclusive ownership and automatic RAII cleanup", hi: "विशेष स्वामित्व और स्वचालित RAII क्लीनअप लागू करने वाला स्मार्ट पॉइंटर", ru: "умный указатель с монопольным владением и автоматическим освобождением памяти", es: "el puntero inteligente que garantiza propiedad exclusiva y limpieza automática" },
+                { cat: "STL Containers", term: "std::vector", en: "the dynamic contiguous-memory sequence container supporting O(1) amortized push_back", hi: "O(1) अमॉर्टाइज्ड push_back का समर्थन करने वाला डायनेमिक कंटेनर", ru: "динамический последовательный контейнер с непрерывным расположением элементов", es: "el contenedor dinámico de memoria contigua que soporta inserción al final" },
+                { cat: "Templates", term: "template <typename T>", en: "the syntax declaring generic type-parameterized classes or functions", hi: "जेनेरिक टाइप-पैरामीटराइज़्ड क्लास या फ़ंक्शन घोषित करने वाला सिंटैक्स", ru: "синтаксис объявления обобщенных шаблонных классов и функций", es: "la sintaxis que declara clases o funciones genéricas parametrizadas por tipo" },
+                { cat: "OOP", term: "Destructor (~ClassName)", en: "the special member function invoked automatically when an object's lifetime ends", hi: "ऑब्जेक्ट का जीवनकाल समाप्त होने पर स्वचालित रूप से कॉल होने वाला विशेष मेम्बर फ़ंक्शन", ru: "специальный метод, вызываемый автоматически при уничтожении объекта", es: "la función miembro especial invocada automáticamente al finalizar la vida de un objeto" },
+                { cat: "Modern C++", term: "std::move()", en: "the utility casting an lvalue to an rvalue reference to enable move semantics", hi: "मूव सिमेंटिक्स सक्षम करने के लिए lvalue को rvalue रेफरेंस में बदलने वाली यूटिलिटी", ru: "функция приведения к rvalue-ссылке для активации семантики перемещения", es: "la utilidad que convierte un lvalue en una referencia rvalue para semántica de movimiento" },
+                { cat: "References", term: "const T&", en: "a const lvalue reference avoiding expensive object copies while preventing mutation", hi: "म्यूटेशन को रोकते हुए महंगी ऑब्जेक्ट कॉपी से बचाने वाला const lvalue रेफरेंस", ru: "константная ссылка, позволяющая избежать копирования объекта без его изменения", es: "una referencia constante que evita copias costosas impidiendo la modificación" },
+                { cat: "Namespaces", term: "namespace", en: "the declarative region providing scope to identifiers to prevent name collisions", hi: "नाम टकराव को रोकने के लिए पहचानकर्ताओं को स्कोप प्रदान करने वाला क्षेत्र", ru: "область видимости для предотвращения конфликтов имен в крупных проектах", es: "la región declarativa que proporciona ámbito para evitar colisiones de nombres" },
+                { cat: "STL Maps", term: "std::unordered_map", en: "the hash-table associative container offering O(1) average key lookup", hi: "O(1) औसत की-लुकअप प्रदान करने वाला हैश-टेबल एसोसिएटिव कंटेनर", ru: "ассоциативный контейнер на основе хеш-таблицы со средним поиском за O(1)", es: "el contenedor asociativo basado en tabla hash con búsqueda promedio O(1)" },
+                { cat: "Inheritance", term: "override", en: "the specifier ensuring a derived method matches a virtual function in a base class", hi: "यह सुनिश्चित करने वाला स्पेसिफ़ायर कि व्युत्पन्न मेथड बेस क्लास के वर्चुअल फ़ंक्शन से मेल खाता है", ru: "спецификатор, гарантирующий переопределение виртуального метода базового класса", es: "el especificador que asegura que un método derivado sobrescribe una función virtual" }
+            ],
+            "PHP": [
+                { cat: "Superglobals", term: "$_POST", en: "the associative array containing variables passed via HTTP POST requests", hi: "HTTP POST अनुरोधों के माध्यम से भेजे गए वेरिएबल्स वाला एसोसिएटिव ऐरे", ru: "суперглобальный ассоциативный массив данных, переданных методом HTTP POST", es: "el array asociativo que contiene variables enviadas mediante peticiones HTTP POST" },
+                { cat: "Database (PDO)", term: "PDO::prepare()", en: "the method preparing SQL statements with bound parameters to prevent SQL injection", hi: "SQL इंजेक्शन को रोकने के लिए बाउंड पैरामीटर्स के साथ SQL स्टेटमेंट तैयार करने वाला मेथड", ru: "метод подготовки SQL-запросов с параметрами для защиты от SQL-инъекций", es: "el método que prepara sentencias SQL con parámetros para evitar inyección SQL" },
+                { cat: "Sessions", term: "session_start()", en: "the function initializing or resuming a server-side user session", hi: "सर्वर-साइड यूज़र सेशन शुरू या फिर से शुरू करने वाला फ़ंक्शन", ru: "функция инициализации или возобновления серверной сессии пользователя", es: "la función que inicia o reanuda una sesión de usuario en el servidor" },
+                { cat: "OOP in PHP", term: "__construct()", en: "the magic method automatically executed upon instantiating a new PHP class object", hi: "नया PHP क्लास ऑब्जेक्ट बनाते समय स्वचालित रूप से निष्पादित होने वाला मैजिक मेथड", ru: "магический метод, автоматически вызываемый при создании экземпляра класса", es: "el método mágico ejecutado automáticamente al instanciar un nuevo objeto" },
+                { cat: "Strings", term: "explode()", en: "the function splitting a string by a delimiter into an array of substrings", hi: "डिलीमीटर द्वारा स्ट्रिंग को सबस्ट्रिंग्स के ऐरे में विभाजित करने वाला फ़ंक्शन", ru: "функция разбиения строки на массив подстрок по заданному разделителю", es: "la función que divide una cadena mediante un delimitador en un array" },
+                { cat: "Dependencies", term: "Composer", en: "the standard dependency and package manager for modern PHP applications", hi: "आधुनिक PHP अनुप्रयोगों के लिए मानक डिपेंडेंसी और पैकेज मैनेजर", ru: "стандартный менеджер зависимостей и пакетов для современных PHP-приложений", es: "el gestor estándar de dependencias y paquetes para aplicaciones PHP" },
+                { cat: "Includes", term: "require_once", en: "the statement including a file once and throwing a fatal error if missing", hi: "फ़ाइल को एक बार शामिल करने और न मिलने पर घातक त्रुटि देने वाला स्टेटमेंट", ru: "инструкция однократного подключения файла с фатальной ошибкой при его отсутствии", es: "la sentencia que incluye un archivo una vez y lanza un error fatal si falta" },
+                { cat: "JSON", term: "json_encode()", en: "the function converting a PHP associative array or object into a JSON string", hi: "PHP ऐरे या ऑब्जेक्ट को JSON स्ट्रिंग में बदलने वाला फ़ंक्शन", ru: "функция преобразования массива или объекта PHP в строку формата JSON", es: "la función que convierte un array u objeto PHP en una cadena JSON" },
+                { cat: "Type Safety", term: "declare(strict_types=1);", en: "the directive enforcing strict scalar type checking on function arguments and returns", hi: "फ़ंक्शन तर्कों और रिटर्न पर सख्त स्केलर टाइप चेकिंग लागू करने वाला निर्देश", ru: "директива строгой типизации аргументов и возвращаемых значений функций", es: "la directiva que exige comprobación estricta de tipos escalares" },
+                { cat: "Namespaces", term: "use", en: "the keyword importing classes, functions, or namespaces into the current file scope", hi: "वर्तमान फ़ाइल स्कोप में क्लास या नेमस्पेस आयात करने वाला कीवर्ड", ru: "ключевое слово для импорта классов и пространств имен в текущий файл", es: "la palabra clave que importa clases o espacios de nombres al ámbito actual" }
+            ],
+            "SQL": [
+                { cat: "Joins", term: "INNER JOIN", en: "the join clause returning only rows with matching keys in both tables", hi: "दोनों तालिकाओं में मिलान करने वाली कुंजियों वाली पंक्तियाँ लौटाने वाला क्लॉज़", ru: "оператор соединения, возвращающий только совпадающие записи из обеих таблиц", es: "la cláusula que devuelve solo filas con claves coincidentes en ambas tablas" },
+                { cat: "Joins", term: "LEFT JOIN", en: "the join returning all rows from the left table and matched rows from the right table", hi: "बाईं तालिका से सभी पंक्तियाँ और दाईं तालिका से मिलान पंक्तियाँ लौटाने वाला जॉइन", ru: "соединение, возвращающее все строки из левой таблицы и совпадения из правой", es: "la unión que devuelve todas las filas de la tabla izquierda y coincidencias de la derecha" },
+                { cat: "Aggregation", term: "HAVING", en: "the clause filtering grouped records after GROUP BY aggregation is applied", hi: "GROUP BY एकत्रीकरण लागू होने के बाद समूहीकृत रिकॉर्ड फ़िल्टर करने वाला क्लॉज़", ru: "оператор фильтрации сгруппированных данных после применения GROUP BY", es: "la cláusula que filtra registros agrupados después de aplicar GROUP BY" },
+                { cat: "Constraints", term: "PRIMARY KEY", en: "the constraint uniquely identifying each row in a table and disallowing NULLs", hi: "तालिका में प्रत्येक पंक्ति की विशिष्ट पहचान करने और NULL को अस्वीकार करने वाला प्रतिबंध", ru: "ограничение, уникально идентифицирующее каждую строку и запрещающее NULL", es: "la restricción que identifica de forma única cada fila y prohíbe valores NULL" },
+                { cat: "Constraints", term: "FOREIGN KEY", en: "the constraint enforcing referential integrity between parent and child tables", hi: "पैरेंट और चाइल्ड तालिकाओं के बीच रेफरेंशियल इंटीग्रिटी लागू करने वाला प्रतिबंध", ru: "ограничение, обеспечивающее ссылочную целостность между таблицами", es: "la restricción que garantiza la integridad referencial entre tablas" },
+                { cat: "Transactions", term: "ACID", en: "the four properties guaranteeing reliable database transactions: Atomicity, Consistency, Isolation, Durability", hi: "विश्वसनीय डेटाबेस लेनदेन की गारंटी देने वाले चार गुण: Atomicity, Consistency, Isolation, Durability", ru: "четыре свойства надежных транзакций: атомарность, согласованность, изолированность, долговечность", es: "las cuatro propiedades de las transacciones: Atomicidad, Consistencia, Aislamiento y Durabilidad" },
+                { cat: "DDL vs DML", term: "TRUNCATE TABLE", en: "the DDL command rapidly removing all rows from a table without logging individual row deletes", hi: "व्यक्तिगत पंक्ति विलोपन लॉग किए बिना तालिका से सभी पंक्तियों को तेजी से हटाने वाला DDL कमांड", ru: "команда DDL для быстрой очистки всех строк таблицы без построчного логирования", es: "el comando DDL que elimina rápidamente todas las filas de una tabla" },
+                { cat: "Performance", term: "INDEX", en: "the B-Tree or Hash data structure accelerating SELECT query lookups on columns", hi: "कॉलम पर SELECT क्वेरी लुकअप को तेज़ करने वाली डेटा संरचना", ru: "структура данных для ускорения поиска записей при выполнении запросов SELECT", es: "la estructura de datos que acelera las búsquedas de consultas SELECT" },
+                { cat: "Set Operations", term: "UNION ALL", en: "the operator combining result sets of two SELECT queries while preserving duplicates", hi: "डुप्लिकेट को सुरक्षित रखते हुए दो SELECT क्वेरी के परिणामों को संयोजित करने वाला ऑपरेटर", ru: "оператор объединения результатов двух запросов SELECT с сохранением дубликатов", es: "el operador que combina resultados de dos consultas SELECT conservando duplicados" },
+                { cat: "Window Functions", term: "ROW_NUMBER()", en: "the window function assigning a unique sequential integer to each row within a partition", hi: "पार्टीशन के भीतर प्रत्येक पंक्ति को एक अद्वितीय अनुक्रमिक पूर्णांक देने वाला विंडो फ़ंक्शन", ru: "оконная функция, присваивающая уникальный порядковый номер каждой строке в разделе", es: "la función de ventana que asigna un entero secuencial único a cada fila" }
+            ],
+            "Python": [
+                { cat: "Data Structures", term: "tuple", en: "the built-in ordered, immutable sequence collection defined with parentheses", hi: "कोष्ठक के साथ परिभाषित अंतर्निहित क्रमबद्ध और अपरिवर्तनीय अनुक्रम संग्रह", ru: "встроенная упорядоченная неизменяемая коллекция в круглых скобках", es: "la colección ordenada e inmutable integrada definida con paréntesis" },
+                { cat: "Data Structures", term: "set", en: "the unordered collection storing strictly unique hashable elements with O(1) lookup", hi: "O(1) लुकअप के साथ केवल अद्वितीय हैशेबल एलिमेंट्स संग्रहीत करने वाला संग्रह", ru: "неупорядоченная коллекция уникальных элементов с поиском за O(1)", es: "la colección no ordenada que almacena elementos únicos con búsqueda O(1)" },
+                { cat: "Comprehensions", term: "[x**2 for x in nums]", en: "a concise list comprehension expression generating squared values", hi: "वर्ग मान उत्पन्न करने वाला संक्षिप्त लिस्ट कॉम्प्रिहेंशन एक्सप्रेशन", ru: "лаконичное генераторное выражение списка (list comprehension)", es: "una expresión concisa de comprensión de listas que genera cuadrados" },
+                { cat: "Functions", term: "*args and **kwargs", en: "syntax allowing functions to accept variable positional and keyword arguments", hi: "फ़ंक्शंस को परिवर्तनीय पोजिशनल और कीवर्ड तर्क स्वीकार करने की अनुमति देने वाला सिंटैक्स", ru: "синтаксис для передачи переменного числа позиционных и именованных аргументов", es: "sintaxis que permite a las funciones aceptar argumentos posicionales y con nombre variables" },
+                { cat: "Context Managers", term: "with open(...) as f:", en: "the context manager statement guaranteeing automatic file closure even on exceptions", hi: "अपवादों पर भी स्वचालित फ़ाइल बंद करने की गारंटी देने वाला कॉन्टेक्स्ट मैनेजर", ru: "менеджер контекста, гарантирующий автоматическое закрытие файла", es: "la sentencia de gestor de contexto que garantiza el cierre automático del archivo" },
+                { cat: "Decorators", term: "@decorator", en: "syntactic sugar wrapping a function to extend its behavior without modifying its source", hi: "स्रोत को संशोधित किए बिना फ़ंक्शन के व्यवहार को बढ़ाने वाला सिंटैक्टिक शुगर", ru: "синтаксический сахар для обертывания функции и расширения ее поведения", es: "azúcar sintáctico que envuelve una función para extender su comportamiento" },
+                { cat: "Generators", term: "yield", en: "the keyword suspending a generator function and returning an intermediate value lazily", hi: "जेनरेटर फ़ंक्शन को निलंबित कर आलसी रूप से मध्यवर्ती मान लौटाने वाला कीवर्ड", ru: "ключевое слово для ленивого возврата значений из функции-генератора", es: "la palabra clave que suspende una función generadora y devuelve un valor" },
+                { cat: "OOP", term: "__init__(self)", en: "the instance initializer method invoked automatically after a new object is created", hi: "नया ऑब्जेक्ट बनने के बाद स्वचालित रूप से कॉल होने वाला इंस्टेंस इनिशियलाइज़र मेथड", ru: "метод инициализации экземпляра класса при его создании", es: "el método inicializador de instancia invocado tras crear un nuevo objeto" },
+                { cat: "Concurrency", term: "GIL (Global Interpreter Lock)", en: "the mutex in CPython allowing only one native thread to execute Python bytecode at a time", hi: "CPython में म्यूटेक्स जो एक समय में केवल एक थ्रेड को बाइटकोड निष्पादित करने देता है", ru: "мьютекс в CPython, позволяющий выполнять байт-код только одному потоку одновременно", es: "el mutex en CPython que permite a un solo hilo ejecutar bytecode a la vez" },
+                { cat: "Standard Library", term: "collections.Counter", en: "the dict subclass designed for counting hashable objects effortlessly", hi: "हैशेबल ऑब्जेक्ट्स की गिनती करने के लिए डिज़ाइन किया गया डिक्ट सबक्लास", ru: "подкласс словаря для удобного подсчета количества элементов", es: "la subclase de diccionario diseñada para contar objetos fácilmente" }
+            ],
+            "Java": [
+                { cat: "JVM Architecture", term: "JVM (Java Virtual Machine)", en: "the runtime engine executing compiled Java bytecode (.class) across platforms", hi: "सभी प्लेटफ़ॉर्म पर संकलित जावा बाइटकोड (.class) निष्पादित करने वाला रनटाइम इंजन", ru: "виртуальная машина, исполняющая скомпилированный байт-код Java (.class)", es: "el motor en tiempo de ejecución que ejecuta bytecode Java (.class)" },
+                { cat: "OOP Modifiers", term: "final", en: "the keyword preventing class inheritance, method overriding, or variable reassignment", hi: "क्लास इनहेरिटेंस, मेथड ओवरराइडिंग या वेरिएबल पुनः असाइनमेंट को रोकने वाला कीवर्ड", ru: "ключевое слово, запрещающее наследование класса, переопределение метода или изменение переменной", es: "la palabra clave que impide herencia, sobrescritura de métodos o reasignación" },
+                { cat: "Collections", term: "HashMap<K, V>", en: "the Map implementation storing key-value pairs with O(1) average lookup using hashCode()", hi: "hashCode() का उपयोग करके O(1) औसत लुकअप के साथ की-वैल्यू जोड़े संग्रहीत करने वाला मैप", ru: "реализация Map для хранения пар ключ-значение со средним доступом за O(1)", es: "la implementación de Map que almacena pares clave-valor con búsqueda O(1)" },
+                { cat: "Java 8+ Streams", term: "Stream.filter().collect()", en: "the functional pipeline API for declarative processing of collections", hi: "संग्रहों के घोषणात्मक प्रसंस्करण के लिए फ़ंक्शनल पाइपलाइन API", ru: "функциональный Stream API для декларативной обработки коллекций", es: "la API funcional de flujos para el procesamiento declarativo de colecciones" },
+                { cat: "Exception Handling", term: "try-with-resources", en: "the statement automatically closing resources implementing AutoCloseable", hi: "AutoCloseable लागू करने वाले संसाधनों को स्वचालित रूप से बंद करने वाला स्टेटमेंट", ru: "конструкция для автоматического закрытия ресурсов, реализующих AutoCloseable", es: "la sentencia que cierra automáticamente recursos que implementan AutoCloseable" },
+                { cat: "Concurrency", term: "synchronized", en: "the keyword enforcing mutually exclusive thread access via intrinsic monitor locks", hi: "मॉनिटर लॉक के माध्यम से पारस्परिक रूप से अनन्य थ्रेड एक्सेस लागू करने वाला कीवर्ड", ru: "ключевое слово для синхронизации потоков с помощью монитора объекта", es: "la palabra clave que garantiza acceso exclusivo de hilos mediante bloqueos" },
+                { cat: "OOP Contracts", term: "interface", en: "the reference type defining abstract method signatures implemented by classes", hi: "क्लास द्वारा लागू किए जाने वाले एब्सट्रैक्ट मेथड सिग्नेचर को परिभाषित करने वाला संदर्भ प्रकार", ru: "ссылочный тип, определяющий контракт методов для реализации классами", es: "el tipo de referencia que define firmas de métodos abstractos" },
+                { cat: "Strings", term: "StringBuilder", en: "the mutable sequence of characters efficient for repeated string concatenation in a single thread", hi: "एकल थ्रेड में बार-बार स्ट्रिंग संयोजन के लिए कुशल परिवर्तनीय कैरेक्टर अनुक्रम", ru: "изменяемая последовательность символов для эффективной конкатенации строк", es: "la secuencia mutable de caracteres eficiente para concatenación repetida" },
+                { cat: "Memory", term: "Garbage Collector", en: "the automatic JVM subsystem reclaiming heap memory occupied by unreachable objects", hi: "अगम्य ऑब्जेक्ट्स द्वारा घेरी गई हीप मेमोरी को पुनः प्राप्त करने वाला स्वचालित JVM सबसिस्टम", ru: "подсистема JVM для автоматической очистки памяти от недостижимых объектов", es: "el subsistema automático de la JVM que libera memoria de objetos inalcanzables" },
+                { cat: "Null Safety", term: "Optional<T>", en: "the container object explicitly representing presence or absence of a non-null value", hi: "नॉन-नल मान की उपस्थिति या अनुपस्थिति को स्पष्ट रूप से दर्शाने वाला कंटेनर ऑब्जेक्ट", ru: "контейнерный класс для явного представления наличия или отсутствия значения", es: "el objeto contenedor que representa explícitamente la presencia o ausencia de un valor" }
+            ],
+            "COBOL": [
+                { cat: "Program Divisions", term: "IDENTIFICATION DIVISION", en: "the mandatory first division specifying PROGRAM-ID and program metadata", hi: "PROGRAM-ID और प्रोग्राम मेटाडेटा निर्दिष्ट करने वाला अनिवार्य पहला डिवीजन", ru: "обязательный первый раздел COBOL, содержащий PROGRAM-ID и метаданные", es: "la primera división obligatoria que especifica PROGRAM-ID y metadatos" },
+                { cat: "Program Divisions", term: "DATA DIVISION", en: "the division defining FILE SECTION and WORKING-STORAGE SECTION variables", hi: "FILE SECTION और WORKING-STORAGE SECTION वेरिएबल्स को परिभाषित करने वाला डिवीजन", ru: "раздел описания данных, содержащий FILE SECTION и WORKING-STORAGE SECTION", es: "la división que define las variables de FILE SECTION y WORKING-STORAGE" },
+                { cat: "Program Divisions", term: "PROCEDURE DIVISION", en: "the division containing executable business logic, paragraphs, and verbs", hi: "निष्पादन योग्य बिज़नेस लॉजिक, पैराग्राफ और वर्ब्स वाला डिवीजन", ru: "раздел процедур, содержащий исполняемую бизнес-логику программы", es: "la división que contiene la lógica ejecutable, párrafos y verbos" },
+                { cat: "Data Definition", term: "PIC 9(5)V99", en: "the PICTURE clause defining an unsigned 7-digit numeric field with 2 implied decimal places", hi: "2 निहित दशमलव स्थानों के साथ 7-अंकीय संख्यात्मक फ़ील्ड परिभाषित करने वाला PICTURE क्लॉज़", ru: "шаблон PICTURE для беззнакового числа из 7 цифр с 2 десятичными знаками", es: "la cláusula PICTURE que define un campo numérico de 7 dígitos con 2 decimales implícitos" },
+                { cat: "Storage Formats", term: "COMP-3 (Packed Decimal)", en: "the binary-coded decimal storage format packing two digits per byte plus sign nibble", hi: "प्रति बाइट दो अंकों और साइन निबल को पैक करने वाला बाइनरी-कोडेड दशमलव स्टोरेज", ru: "упакованный десятичный формат хранения (две цифры на байт плюс знак)", es: "el formato decimal empaquetado que almacena dos dígitos por byte más el signo" },
+                { cat: "Control Flow", term: "PERFORM ... UNTIL", en: "the structured iteration verb executing a paragraph repeatedly until a condition becomes true", hi: "शर्त सत्य होने तक पैराग्राफ को बार-बार निष्पादित करने वाला संरचित इटरेशन वर्ब", ru: "оператор цикла, выполняющий параграф до выполнения заданного условия", es: "el verbo de iteración que ejecuta un párrafo repetidamente hasta que se cumple una condición" },
+                { cat: "Conditionals", term: "EVALUATE TRUE", en: "the multi-branch selection construct equivalent to a modern switch/case statement", hi: "आधुनिक स्विच/केस स्टेटमेंट के समतुल्य बहु-शाखा चयन निर्माण", ru: "многоветвевая условная конструкция, аналогичная оператору switch/case", es: "la construcción de selección múltiple equivalente a una sentencia switch/case" },
+                { cat: "Level Numbers", term: "Level 88", en: "the special level number defining condition-names associated with specific variable values", hi: "विशिष्ट वेरिएबल मानों से जुड़े कंडीशन-नामों को परिभाषित करने वाला विशेष स्तर नंबर", ru: "специальный номер уровня для объявления имен-условий (condition-names)", es: "el número de nivel especial que define nombres de condición asociados a valores" },
+                { cat: "Data Manipulation", term: "MOVE CORRESPONDING", en: "the verb copying matching subordinate data items between two group records", hi: "दो समूह रिकॉर्ड के बीच मेल खाने वाले अधीनस्थ डेटा आइटम की प्रतिलिपि बनाने वाला वर्ब", ru: "оператор копирования одноименных полей между двумя групповыми структурами", es: "el verbo que copia elementos subordinados coincidentes entre dos registros de grupo" },
+                { cat: "Subprograms", term: "CALL ... USING", en: "the statement invoking an external subprogram and passing parameters via LINKAGE SECTION", hi: "बाहरी सबप्रोग्राम को कॉल करने और LINKAGE SECTION के माध्यम से पैरामीटर पास करने वाला स्टेटमेंट", ru: "оператор вызова внешней подпрограммы с передачей параметров через LINKAGE SECTION", es: "la sentencia que invoca un subprograma externo pasando parámetros" }
+            ],
+            "Node.js": [
+                { cat: "Architecture", term: "libuv", en: "the multi-platform C library providing Node.js with its asynchronous event loop and thread pool", hi: "Node.js को एसिंक्रोनस इवेंट लूप और थ्रेड पूल प्रदान करने वाली C लाइब्रेरी", ru: "кроссплатформенная библиотека на C, обеспечивающая цикл событий и пул потоков Node.js", es: "la biblioteca en C que proporciona a Node.js su bucle de eventos asíncrono" },
+                { cat: "Modules", term: "module.exports", en: "the CommonJS object exposing functions or values from a Node.js module", hi: "Node.js मॉड्यूल से फ़ंक्शंस या मानों को उजागर करने वाला CommonJS ऑब्जेक्ट", ru: "объект CommonJS для экспорта функций и значений из модуля Node.js", es: "el objeto CommonJS que expone funciones o valores desde un módulo Node.js" },
+                { cat: "Streams", term: "fs.createReadStream()", en: "the method reading large files in memory-efficient chunks rather than loading all at once", hi: "एक साथ लोड करने के बजाय मेमोरी-कुशल चंक्स में बड़ी फ़ाइलें पढ़ने वाला मेथड", ru: "метод потокового чтения больших файлов по частям без перегрузки памяти", es: "el método que lee archivos grandes en fragmentos eficientes en memoria" },
+                { cat: "Events", term: "EventEmitter", en: "the core class enabling custom publish-subscribe event-driven patterns via .on() and .emit()", hi: ".on() और .emit() के माध्यम से इवेंट-संचालित पैटर्न सक्षम करने वाली कोर क्लास", ru: "базовый класс для реализации событийно-ориентированной модели через .on() и .emit()", es: "la clase principal que habilita patrones basados en eventos mediante .on() y .emit()" },
+                { cat: "Globals", term: "process.env", en: "the global object containing user environment variables for runtime configuration", hi: "रनटाइम कॉन्फ़िगरेशन के लिए उपयोगकर्ता एनवायरनमेंट वेरिएबल्स वाला ग्लोबल ऑब्जेक्ट", ru: "глобальный объект, содержащий переменные окружения процесса", es: "el objeto global que contiene las variables de entorno del usuario" },
+                { cat: "Binary Data", term: "Buffer.from()", en: "the method allocating raw binary memory buffers outside the V8 heap", hi: "V8 हीप के बाहर रॉ बाइनरी मेमोरी बफ़र्स आवंटित करने वाला मेथड", ru: "метод создания буфера для работы с бинарными данными вне кучи V8", es: "el método que asigna búferes de memoria binaria sin procesar" },
+                { cat: "Path Utilities", term: "path.join()", en: "the method normalizing and joining path segments using OS-specific separators", hi: "OS-विशिष्ट विभाजकों का उपयोग करके पथ खंडों को जोड़ने वाला मेथड", ru: "метод объединения сегментов пути с учетом разделителей операционной системы", es: "el método que normaliza y une segmentos de ruta según el sistema operativo" },
+                { cat: "Scaling", term: "cluster module", en: "the module forking child worker processes that share a single server port across CPU cores", hi: "CPU कोर में एक ही सर्वर पोर्ट साझा करने वाले चाइल्ड वर्कर प्रोसेस बनाने वाला मॉड्यूल", ru: "модуль для запуска дочерних процессов, разделяющих один порт на многоядерных CPU", es: "el módulo que bifurca procesos trabajadores compartiendo un puerto en múltiples núcleos" },
+                { cat: "Package Management", term: "package-lock.json", en: "the lockfile guaranteeing deterministic, reproducible dependency tree installations", hi: "नियतात्मक और प्रतिलिपि प्रस्तुत करने योग्य डिपेंडेंसी ट्री इंस्टॉलेशन की गारंटी देने वाली फ़ाइल", ru: "файл блокировки версий, гарантирующий воспроизводимую установку зависимостей", es: "el archivo de bloqueo que garantiza instalaciones deterministas de dependencias" },
+                { cat: "Async Utilities", term: "util.promisify()", en: "the helper converting error-first callback functions into Promise-returning functions", hi: "एरर-फर्स्ट कॉलबैक फ़ंक्शंस को प्रॉमिस लौटाने वाले फ़ंक्शंस में बदलने वाला हेल्पर", ru: "утилита преобразования функций с колбэками в функции, возвращающие Promise", es: "la utilidad que convierte funciones con callbacks en funciones basadas en Promesas" }
+            ],
+            "Mainframe": [
+                { cat: "Operating Systems", term: "z/OS", en: "IBM's flagship 64-bit enterprise operating system for IBM Z mainframes", hi: "IBM Z मेनफ्रेम के लिए IBM का प्रमुख 64-बिट एंटरप्राइज़ ऑपरेटिंग सिस्टम", ru: "флагманская 64-разрядная корпоративная ОС IBM для мейнфреймов IBM Z", es: "el sistema operativo empresarial de 64 bits insignia de IBM para mainframes" },
+                { cat: "Job Control (JCL)", term: "//JOBLIB & //STEPLIB", en: "JCL DD statements specifying private load libraries searched for executable programs", hi: "निष्पादन योग्य प्रोग्राम खोजने के लिए निजी लोड लाइब्रेरी निर्दिष्ट करने वाले JCL DD स्टेटमेंट", ru: "операторы JCL DD, указывающие библиотеки загрузки для поиска программ", es: "sentencias JCL DD que especifican bibliotecas privadas de carga de programas" },
+                { cat: "JCL Parameters", term: "DISP=(NEW,CATLG,DELETE)", en: "the JCL disposition parameter creating a dataset, cataloging on success, or deleting on abend", hi: "नया डेटासेट बनाने, सफल होने पर कैटलॉग करने या विफल होने पर हटाने वाला JCL पैरामीटर", ru: "параметр JCL DISP для создания набора данных, каталогизации при успехе или удаления при сбое", es: "el parámetro JCL que crea un dataset, lo cataloga si tiene éxito o lo elimina si falla" },
+                { cat: "Storage (VSAM)", term: "KSDS (Key-Sequenced Data Set)", en: "the VSAM dataset type organizing records by a unique primary key with an index component", hi: "इंडेक्स घटक के साथ अद्वितीय प्राथमिक कुंजी द्वारा रिकॉर्ड व्यवस्थित करने वाला VSAM डेटासेट", ru: "тип набора данных VSAM с организацией записей по уникальному первичному ключу", es: "el tipo de dataset VSAM que organiza registros mediante una clave primaria indexada" },
+                { cat: "Transaction Processing", term: "CICS", en: "the high-volume online transaction processing (OLTP) middleware server on z/OS", hi: "z/OS पर उच्च-मात्रा ऑनलाइन लेनदेन प्रसंस्करण (OLTP) मिडलवेयर सर्वर", ru: "сервер транзакций в реальном времени (OLTP) для высоконагруженных систем на z/OS", es: "el servidor middleware de procesamiento de transacciones en línea (OLTP) en z/OS" },
+                { cat: "Databases", term: "DB2 for z/OS", en: "IBM's enterprise relational database management system running natively on Mainframe", hi: "मेनफ्रेम पर नेटिव रूप से चलने वाला IBM का एंटरप्राइज़ रिलेशनल डेटाबेस सिस्टम", ru: "корпоративная реляционная СУБД IBM, работающая на платформе Mainframe", es: "el sistema gestor de bases de datos relacionales empresarial de IBM en Mainframe" },
+                { cat: "Interactive Environment", term: "TSO / ISPF", en: "the interactive command-line and menu-driven productivity interface for z/OS developers", hi: "z/OS डेवलपर्स के लिए इंटरैक्टिव कमांड-लाइन और मेनू-संचालित इंटरफ़ेस", ru: "интерактивная среда и панельный интерфейс для разработчиков на z/OS", es: "la interfaz interactiva de línea de comandos y menús para desarrolladores z/OS" },
+                { cat: "JCL Statements", term: "//EXEC PGM=IEFBR14", en: "the standard IBM dummy utility used in JCL to allocate or delete datasets without custom code", hi: "बिना कस्टम कोड के डेटासेट आवंटित या हटाने के लिए JCL में प्रयुक्त मानक IBM यूटिलिटी", ru: "стандартная утилита-заглушка IBM в JCL для создания или удаления наборов данных", es: "la utilidad estándar de IBM en JCL para asignar o eliminar datasets" },
+                { cat: "Sort Utilities", term: "DFSORT / SYNCSORT", en: "high-speed mainframe utilities for sorting, merging, and copying massive flat files", hi: "विशाल फ़्लैट फ़ाइलों को सॉर्ट, मर्ज और कॉपी करने के लिए उच्च-गति मेनफ्रेम यूटिलिटीज", ru: "высокоскоростные утилиты мейнфрейма для сортировки и слияния больших файлов", es: "utilidades de alta velocidad para ordenar, combinar y copiar archivos masivos" },
+                { cat: "Security", term: "RACF", en: "the mainframe security subsystem controlling authentication and dataset access authorization", hi: "प्रमाणीकरण और डेटासेट एक्सेस प्राधिकरण को नियंत्रित करने वाला मेनफ्रेम सुरक्षा सबसिस्टम", ru: "подсистема безопасности мейнфрейма для управления доступом и аутентификацией", es: "el subsistema de seguridad que controla la autenticación y acceso a datasets" }
+            ],
+            "Kubernetes": [
+                { cat: "Core Workloads", term: "Pod", en: "the smallest deployable computing unit in Kubernetes encapsulating one or more containers", hi: "एक या अधिक कंटेनरों को समाहित करने वाली Kubernetes की सबसे छोटी परिनियोजन योग्य इकाई", ru: "наименьшая развертываемая единица в Kubernetes, содержащая один или несколько контейнеров", es: "la unidad informática desplegable más pequeña en Kubernetes que encapsula contenedores" },
+                { cat: "Controllers", term: "Deployment", en: "the declarative controller managing stateless Pod replicas, rolling updates, and rollbacks", hi: "स्टेटलेस पॉड प्रतिकृतियों, रोलिंग अपडेट और रोलबैक का प्रबंधन करने वाला कंट्रोलर", ru: "декларативный контроллер для управления репликами Pod и плавными обновлениями", es: "el controlador declarativo que gestiona réplicas de Pods y actualizaciones graduales" },
+                { cat: "Networking", term: "Service (ClusterIP)", en: "the stable internal virtual IP and DNS abstraction exposing a dynamic set of Pods", hi: "पॉड्स के गतिशील समूह को उजागर करने वाला स्थिर आंतरिक वर्चुअल IP और DNS एब्स्ट्रैक्शन", ru: "стабильный внутренний виртуальный IP и DNS для доступа к набору Pod", es: "la abstracción estable de IP virtual interna y DNS que expone un grupo de Pods" },
+                { cat: "Control Plane", term: "etcd", en: "the consistent distributed key-value store persisting all Kubernetes cluster state", hi: "सभी Kubernetes क्लस्टर स्थिति को सहेजने वाला वितरित की-वैल्यू स्टोर", ru: "распределенное хранилище ключ-значение, хранящее состояние кластера Kubernetes", es: "el almacén distribuido clave-valor que guarda todo el estado del clúster" },
+                { cat: "Configuration", term: "ConfigMap", en: "the API object decoupling non-confidential configuration key-value pairs from container images", hi: "कंटेनर छवियों से गैर-गोपनीय कॉन्फ़िगरेशन को अलग करने वाला API ऑब्जेक्ट", ru: "объект API для хранения неконфиденциальных настроек отдельно от образов контейнеров", es: "el objeto API que desacopla configuraciones no confidenciales de las imágenes" },
+                { cat: "Security", term: "Secret", en: "the Kubernetes resource storing sensitive tokens, passwords, and TLS certificates", hi: "संवेदनशील टोकन, पासवर्ड और TLS प्रमाणपत्र संग्रहीत करने वाला Kubernetes संसाधन", ru: "ресурс Kubernetes для хранения паролей, токенов и TLS-сертификатов", es: "el recurso de Kubernetes que almacena contraseñas, tokens y certificados TLS" },
+                { cat: "Stateful Workloads", term: "StatefulSet", en: "the workload controller guaranteeing stable network identities and persistent storage order", hi: "स्थिर नेटवर्क पहचान और स्थायी स्टोरेज क्रम की गारंटी देने वाला वर्कलोड कंट्रोलर", ru: "контроллер для приложений с состоянием, обеспечивающий стабильные имена и тома", es: "el controlador que garantiza identidades de red estables y almacenamiento persistente" },
+                { cat: "Traffic Routing", term: "Ingress", en: "the API object managing external HTTP/HTTPS routing rules to internal cluster Services", hi: "आंतरिक क्लस्टर सेवाओं के लिए बाहरी HTTP/HTTPS रूटिंग नियमों का प्रबंधन करने वाला ऑब्जेक्ट", ru: "объект API для маршрутизации внешнего HTTP/HTTPS-трафика к сервисам кластера", es: "el objeto API que gestiona reglas de enrutamiento HTTP/HTTPS externo a servicios" },
+                { cat: "Node Agents", term: "kubelet", en: "the primary node agent ensuring containers described in PodSpecs are running and healthy", hi: "यह सुनिश्चित करने वाला प्राइमरी नोड एजेंट कि PodSpecs में वर्णित कंटेनर स्वस्थ रूप से चल रहे हैं", ru: "агент на каждом узле, следящий за запуском и состоянием контейнеров в Pod", es: "el agente principal de nodo que asegura que los contenedores de un Pod estén sanos" },
+                { cat: "Autoscaling", term: "HorizontalPodAutoscaler (HPA)", en: "the controller automatically scaling Pod replica counts based on CPU or custom metrics", hi: "CPU या कस्टम मेट्रिक्स के आधार पर पॉड प्रतिकृति संख्या को स्वचालित रूप से स्केल करने वाला कंट्रोलर", ru: "контроллер автоматического масштабирования числа Pod по нагрузке CPU или метрикам", es: "el controlador que escala automáticamente las réplicas de Pods según CPU o métricas" }
+            ],
+            "Docker": [
+                { cat: "Dockerfile", term: "FROM", en: "the mandatory initial Dockerfile instruction specifying the base parent image", hi: "बेस पैरेंट इमेज निर्दिष्ट करने वाला अनिवार्य प्रारंभिक Dockerfile निर्देश", ru: "обязательная первая инструкция Dockerfile, задающая базовый образ", es: "la instrucción inicial obligatoria de un Dockerfile que especifica la imagen base" },
+                { cat: "Dockerfile", term: "ENTRYPOINT vs CMD", en: "ENTRYPOINT configures the fixed executable while CMD supplies default overridable arguments", hi: "ENTRYPOINT निश्चित निष्पादन योग्य सेट करता है जबकि CMD डिफ़ॉल्ट ओवरराइड करने योग्य तर्क प्रदान करता है", ru: "ENTRYPOINT задает основной исполняемый файл, а CMD — аргументы по умолчанию", es: "ENTRYPOINT configura el ejecutable fijo mientras CMD proporciona argumentos predeterminados" },
+                { cat: "Storage", term: "Named Volume", en: "the Docker-managed persistent storage mechanism surviving container removal", hi: "कंटेनर हटाने के बाद भी सुरक्षित रहने वाला Docker-प्रबंधित स्थायी स्टोरेज तंत्र", ru: "управляемое Docker постоянное хранилище данных, сохраняющееся после удаления контейнера", es: "el almacenamiento persistente gestionado por Docker que sobrevive al eliminar contenedores" },
+                { cat: "Networking", term: "bridge network", en: "the default isolated software network driver enabling containers on the same host to communicate", hi: "एक ही होस्ट पर कंटेनरों को संवाद करने में सक्षम बनाने वाला डिफ़ॉल्ट नेटवर्क ड्राइवर", ru: "сетевой драйвер по умолчанию для связи контейнеров на одном хосте", es: "el controlador de red aislado predeterminado que permite comunicación entre contenedores" },
+                { cat: "Optimization", term: "Multi-stage Build", en: "using multiple FROM statements in one Dockerfile to copy only compiled artifacts into a tiny final image", hi: "अंतिम छोटी इमेज में केवल संकलित आर्टिफैक्ट्स कॉपी करने के लिए एक Dockerfile में एकाधिक FROM का उपयोग", ru: "многоэтапная сборка с несколькими FROM для уменьшения размера итогового образа", es: "usar múltiples instrucciones FROM para copiar solo artefactos compilados a una imagen mínima" },
+                { cat: "Orchestration", term: "docker compose up -d", en: "the CLI command starting multi-container applications defined in compose.yaml in detached mode", hi: "compose.yaml में परिभाषित मल्टी-कंटेनर एप्लिकेशन को डिटैच्ड मोड में शुरू करने वाला कमांड", ru: "команда запуска многоконтейнерного приложения из compose.yaml в фоновом режиме", es: "el comando que inicia aplicaciones multicontenedor definidas en compose.yaml en segundo plano" },
+                { cat: "Build Context", term: ".dockerignore", en: "the file excluding unnecessary local files (like node_modules or .git) from the build context", hi: "बिल्ड कॉन्टेक्स्ट से अनावश्यक स्थानीय फ़ाइलों को बाहर रखने वाली फ़ाइल", ru: "файл для исключения ненужных локальных файлов из контекста сборки образа", es: "el archivo que excluye archivos locales innecesarios del contexto de construcción" },
+                { cat: "Runtime", term: "docker exec -it", en: "the command running an interactive shell session inside an already running container", hi: "पहले से चल रहे कंटेनर के अंदर इंटरैक्टिव शेल सत्र चलाने वाला कमांड", ru: "команда запуска интерактивной оболочки внутри работающего контейнера", es: "el comando que ejecuta una sesión de shell interactiva dentro de un contenedor activo" },
+                { cat: "Images", term: "Union File System (Overlay2)", en: "the layered copy-on-write filesystem stacking read-only image layers beneath a writable container layer", hi: "रीड-ओनली इमेज लेयर्स को स्टैक करने वाला लेयर्ड कॉपी-ऑन-राइट फ़ाइल सिस्टम", ru: "многослойная файловая система с механизмом copy-on-write для слоев образов", es: "el sistema de archivos en capas copy-on-write que apila capas de imagen" },
+                { cat: "Registries", term: "docker push", en: "the command uploading locally tagged container images to a remote registry like Docker Hub", hi: "स्थानीय रूप से टैग की गई कंटेनर छवियों को रिमोट रजिस्ट्री पर अपलोड करने वाला कमांड", ru: "команда отправки локальных образов в удаленный реестр, например Docker Hub", es: "el comando que sube imágenes etiquetadas localmente a un registro remoto" }
+            ]
+        };
+
+        // Cache generated 2,000-question banks per subject so switching subjects is instantaneous
+        const SUBJECT_QUESTION_BANKS = {};
+        let currentSubject = 'HTML';
+        let QUESTION_POOL = [];
+
+        /**
+         * Builds a dedicated 2,000-question multilingual repository for any of the 14 subjects
+         * using distinct question patterns, reverse lookups, scenario combinations, and rotations.
+         */
+        function build2000QuestionsForSubject(subjectName) {
+            if (SUBJECT_QUESTION_BANKS[subjectName]) {
+                return SUBJECT_QUESTION_BANKS[subjectName];
+            }
+
+            const facts = SUBJECT_FACTS[subjectName] || SUBJECT_FACTS['HTML'];
+            const pool = [];
+            let idCounter = 1;
+
+            const questionPatterns = [
+                // Pattern 0: Direct Concept Identification (Given definition -> Pick Term)
+                (n, fact) => {
+                    const d1 = facts[(n + 2) % facts.length].term;
+                    const d2 = facts[(n + 5) % facts.length].term;
+                    const d3 = facts[(n + 8) % facts.length].term;
+                    const opts = [fact.term, d1, d2, d3];
+                    const rot = n % 4;
+                    const rotated = opts.slice(rot).concat(opts.slice(0, rot));
+                    return {
+                        q: {
+                            en: `[${subjectName} #${n}] Which ${subjectName} construct or feature represents ${fact.en}?`,
+                            hi: `[${subjectName} #${n}] कौन सा ${subjectName} निर्माण या फ़ीचर ${fact.hi} का प्रतिनिधित्व करता है?`,
+                            ru: `[${subjectName} #${n}] Какая конструкция или функция ${subjectName} представляет собой ${fact.ru}?`,
+                            es: `[${subjectName} #${n}] ¿Qué construcción o característica de ${subjectName} representa ${fact.es}?`
+                        },
+                        options: rotated,
+                        ans: rotated.indexOf(fact.term)
+                    };
+                },
+                // Pattern 1: Reverse Definition Lookup (Given Term -> Pick Accurate Description)
+                (n, fact) => {
+                    const f1 = facts[(n + 3) % facts.length];
+                    const f2 = facts[(n + 6) % facts.length];
+                    const f3 = facts[(n + 9) % facts.length];
+                    const opts = [fact.en, f1.en, f2.en, f3.en];
+                    const rot = (n + 1) % 4;
+                    const rotated = opts.slice(rot).concat(opts.slice(0, rot));
+                    return {
+                        q: {
+                            en: `[${subjectName} Ref #${n}] In ${subjectName} (${fact.cat}), what is the primary technical purpose of "${fact.term}"?`,
+                            hi: `[${subjectName} संदर्भ #${n}] ${subjectName} (${fact.cat}) में, "${fact.term}" का प्राथमिक तकनीकी उद्देश्य क्या है?`,
+                            ru: `[${subjectName} Спр. #${n}] В ${subjectName} (${fact.cat}), каково основное техническое назначение "${fact.term}"?`,
+                            es: `[${subjectName} Ref #${n}] En ${subjectName} (${fact.cat}), ¿cuál es el propósito técnico principal de "${fact.term}"?`
+                        },
+                        options: rotated,
+                        ans: rotated.indexOf(fact.en)
+                    };
+                },
+                // Pattern 2: Scenario / Architecture Best-Practice Selection
+                (n, fact) => {
+                    const d1 = facts[(n + 1) % facts.length].term;
+                    const d2 = facts[(n + 4) % facts.length].term;
+                    const d3 = facts[(n + 7) % facts.length].term;
+                    const opts = [fact.term, d1, d2, d3];
+                    const rot = (n + 2) % 4;
+                    const rotated = opts.slice(rot).concat(opts.slice(0, rot));
+                    return {
+                        q: {
+                            en: `[${subjectName} Scenario #${n}] A senior ${subjectName} engineer needs ${fact.en}. Which option should be selected?`,
+                            hi: `[${subjectName} परिदृश्य #${n}] एक वरिष्ठ ${subjectName} इंजीनियर को ${fact.hi} की आवश्यकता है। कौन सा विकल्प चुना जाना चाहिए?`,
+                            ru: `[${subjectName} Сценарий #${n}] Старшему инженеру ${subjectName} требуется ${fact.ru}. Какой вариант следует выбрать?`,
+                            es: `[${subjectName} Escenario #${n}] Un ingeniero senior de ${subjectName} necesita ${fact.es}. ¿Qué opción debe elegir?`
+                        },
+                        options: rotated,
+                        ans: rotated.indexOf(fact.term)
+                    };
+                },
+                // Pattern 3: Domain Classification & Specification Check
+                (n, fact) => {
+                    const d1 = facts[(n + 3) % facts.length].term;
+                    const d2 = facts[(n + 5) % facts.length].term;
+                    const d3 = facts[(n + 9) % facts.length].term;
+                    const opts = [fact.term, d1, d2, d3];
+                    const rot = (n + 3) % 4;
+                    const rotated = opts.slice(rot).concat(opts.slice(0, rot));
+                    return {
+                        q: {
+                            en: `[${subjectName} Spec #${n}] Within the "${fact.cat}" domain of ${subjectName}, identify the exact keyword/component for ${fact.en}:`,
+                            hi: `[${subjectName} विनिर्देश #${n}] ${subjectName} के "${fact.cat}" डोमेन में, ${fact.hi} के लिए सटीक घटक की पहचान करें:`,
+                            ru: `[${subjectName} Спец. #${n}] В области "${fact.cat}" технологии ${subjectName} укажите элемент для ${fact.ru}:`,
+                            es: `[${subjectName} Espec. #${n}] Dentro del dominio "${fact.cat}" de ${subjectName}, identifique el componente para ${fact.es}:`
+                        },
+                        options: rotated,
+                        ans: rotated.indexOf(fact.term)
+                    };
+                }
+            ];
+
+            while (pool.length < 2000) {
+                const fact = facts[(idCounter - 1) % facts.length];
+                const patternFn = questionPatterns[(idCounter - 1) % questionPatterns.length];
+                const built = patternFn(idCounter, fact);
+
+                pool.push({
+                    id: idCounter,
+                    subject: subjectName,
+                    category: fact.cat,
+                    q: built.q,
+                    options: built.options,
+                    ans: built.ans
+                });
+                idCounter++;
+            }
+
+            SUBJECT_QUESTION_BANKS[subjectName] = pool;
+            return pool;
+        }
+
+        /* =========================================================================
+           3. APPLICATION STATE & EXAM CONTROLLER
+           ========================================================================= */
+        let currentLang = 'en';
+        let candidate = { name: '', email: '' };
+        let examQuestions = [];
+        let userAnswers = [];
+        let markedForReview = [];
+        let currentIndex = 0;
+        let timeRemainingSec = 10800; // 3 Hours
+        let timerInterval = null;
+        let certUniqueId = '';
+        let lastScoreSummary = null;
+
+        window.onload = function () {
+            renderSubjectPills();
+            selectSubject('HTML');
+            applyLanguageUI();
+        };
+
+        /**
+         * Renders the 14 interactive subject pills
+         */
+        function renderSubjectPills() {
+            const container = document.getElementById('subject-pills-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            SUBJECTS.forEach(sub => {
+                const isActive = sub.id === currentSubject;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectSubject(sub.id);
+
+                if (isActive) {
+                    btn.className = 'subject-pill-active px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 flex items-center space-x-2.5 transform scale-[1.02]';
+                    btn.innerHTML = `
+                        <span class="w-3 h-3 rounded-full bg-white ring-2 ring-white/40 inline-block flex-shrink-0"></span>
+                        <span>${sub.name}</span>
+                    `;
+                } else {
+                    btn.className = 'bg-white hover:bg-sky-50/70 text-slate-700 border border-slate-200/90 hover:border-[#0066cc]/50 px-4 py-2 rounded-full text-xs sm:text-sm font-medium shadow-xs transition-all duration-200 flex items-center space-x-2.5';
+                    btn.innerHTML = `
+                        <span class="w-2.5 h-2.5 rounded-full inline-block flex-shrink-0" style="background-color: ${sub.dotColor};"></span>
+                        <span>${sub.name}</span>
+                    `;
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        /**
+         * Switches active subject, loads its 2,000-question repository, and updates all UI/Certificate labels
+         */
+        function selectSubject(subjectId) {
+            currentSubject = subjectId;
+            QUESTION_POOL = build2000QuestionsForSubject(subjectId);
+
+            const subMeta = SUBJECTS.find(s => s.id === subjectId) || SUBJECTS[0];
+
+            // Update icons in header, banner, and certificate seal
+            const navIcon = document.getElementById('nav-brand-icon');
+            const bgIcon = document.getElementById('lobby-bg-icon');
+            const sealIcon = document.getElementById('cert-seal-icon');
+            if (navIcon) navIcon.className = `${subMeta.icon} text-sm text-[#f5820d]`;
+            if (bgIcon) bgIcon.className = `${subMeta.icon} text-9xl text-white/10 absolute -right-4 -bottom-6 pointer-events-none`;
+            if (sealIcon) sealIcon.className = `${subMeta.icon} text-2xl`;
+
+            renderSubjectPills();
+            updatePoolBadge();
+            applyLanguageUI();
+        }
+
+        function updatePoolBadge() {
+            const count = QUESTION_POOL.length;
+            const poolCountEl = document.getElementById('pool-count-text');
+            const pillIndEl = document.getElementById('selected-subject-pill-indicator');
+            const statBankEl = document.getElementById('stat-bank-count');
+            const jsonHelpEl = document.getElementById('json-helper-text');
+
+            if (poolCountEl) poolCountEl.textContent = `${currentSubject}: ${count.toLocaleString()} Qs`;
+            if (pillIndEl) pillIndEl.textContent = `Active: ${currentSubject} (${count.toLocaleString()} Qs)`;
+            if (statBankEl) statBankEl.textContent = `${count.toLocaleString()} / Subject`;
+            if (jsonHelpEl) jsonHelpEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Active Pool: <b>${count.toLocaleString()}</b> Verified <b>${currentSubject}</b> Questions`;
+        }
+
+        /* =========================================================================
+           4. MULTILINGUAL SWITCHER
+           ========================================================================= */
+        function setLanguage(lang) {
+            if (!I18N[lang]) return;
+            currentLang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('bg-[#0066cc]', 'text-white', 'shadow-2xs');
+                btn.classList.add('text-slate-600');
+            });
+            const activeBtn = document.getElementById(`lang-btn-${lang}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-[#0066cc]', 'text-white', 'shadow-2xs');
+                activeBtn.classList.remove('text-slate-600');
+            }
+
+            const selectEl = document.getElementById('select-exam-lang');
+            if (selectEl) selectEl.value = lang;
+
+            applyLanguageUI();
+
+            const examView = document.getElementById('view-exam');
+            const resView = document.getElementById('view-results');
+
+            if (examView && !examView.classList.contains('hidden')) {
+                renderQuestion(currentIndex);
+                updatePaletteCounts();
+            }
+            if (resView && !resView.classList.contains('hidden') && lastScoreSummary) {
+                renderResultsView(lastScoreSummary);
+                buildAnswerReviewList();
+            }
+        }
+
+        function applyLanguageUI() {
+            const t = I18N[currentLang] || I18N['en'];
+            const setText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            };
+
+            const sub = currentSubject;
+            setText('nav-brand-title', `${sub} ${t.navTitleSuffix}`);
+            setText('nav-brand-sub', t.navSub);
+            setText('lobby-badge', t.lobbyBadge);
+            setText('lobby-title', `${sub} ${t.lobbyTitleSuffix}`);
+            setText('lobby-subtitle', t.lobbySubTpl.replace(/\{SUB\}/g, sub));
+            setText('subject-selector-label', t.subjectSelectLbl);
+            setText('stat-bank-label', t.statBank);
+            setText('stat-random-label', t.statRandom);
+            setText('stat-time-label', t.statTime);
+            setText('stat-cert-label', t.statCert);
+            setText('reg-heading', t.regHeading);
+            setText('label-fullname', t.lblName);
+            setText('label-email', t.lblEmail);
+            setText('label-lang-select', t.lblLangSelect);
+            setText('btn-start-text', t.btnStartTpl.replace(/\{SUB\}/g, sub));
+            setText('btn-import-json', t.btnImport);
+            setText('inst-heading', t.instHeading);
+            setText('inst-1', t.inst1Tpl.replace(/\{SUB\}/g, sub));
+            setText('inst-2', t.inst2);
+            setText('inst-3', t.inst3);
+            setText('inst-4', t.inst4);
+            setText('inst-note', t.instNote);
+
+            // Exam Interface
+            setText('timer-label', t.timeRemaining);
+            setText('btn-submit-text', t.submitExam);
+            setText('q-marks-badge', t.markWord);
+            setText('btn-prev-text', t.prevBtn);
+            setText('btn-clear-text', t.clearBtn);
+            setText('btn-next-text', t.nextBtn);
+            setText('palette-heading', t.paletteHeading);
+
+            // Results & Certificate
+            setText('res-status-badge', t.resStatusBadge);
+            setText('res-heading', t.resHeading);
+            setText('res-grade-label', t.resGradeLabel);
+            setText('res-percent-label', t.resPercentLabel);
+            setText('metric-subject-lbl', t.metricSubject);
+            setText('metric-total-lbl', t.metricTotal);
+            setText('metric-attempted-lbl', t.metricAttempted);
+            setText('metric-correct-lbl', t.metricCorrect);
+            setText('metric-wrong-lbl', t.metricWrong);
+            setText('metric-result-lbl', t.metricStatus);
+            setText('btn-pdf-text', t.btnDownloadPdf);
+            setText('btn-review-answers-text', t.btnReviewAnswers);
+            setText('btn-retake-text', t.btnRetake);
+            setText('cert-preview-heading', t.certPreviewHeading);
+            setText('cert-org', t.certOrg);
+            setText('cert-main-title', t.certMainTitle);
+            setText('cert-presented-to', t.certPresentedTo);
+            setText('cert-description', t.certDescTpl.replace(/\{SUB\}/g, sub));
+            setText('cert-lbl-score', t.certLblScore);
+            setText('cert-lbl-grade', t.certLblGrade);
+            setText('cert-lbl-course', t.certLblCourse);
+            setText('cert-val-course', `${sub} ${t.certCourseSuffix}`);
+            setText('cert-lbl-date', t.certLblDate);
+            setText('cert-lbl-director', t.certLblDirector);
+            setText('review-section-title', t.reviewTitle);
+        }
+
+        /* =========================================================================
+           5. OPTIONAL JSON QUESTION BANK IMPORTER (PER SUBJECT)
+           ========================================================================= */
+        function handleJsonUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (!Array.isArray(parsed) || parsed.length < 100) {
+                        showModal("Invalid JSON Format", "Please upload a JSON array containing at least 100 valid question objects.");
+                        return;
+                    }
+                    const normalized = parsed.map((item, idx) => ({
+                        id: item.id || idx + 1,
+                        subject: currentSubject,
+                        category: item.category || `${currentSubject} Custom`,
+                        q: typeof item.q === 'string'
+                            ? { en: item.q, hi: item.q, ru: item.q, es: item.q }
+                            : item.q,
+                        options: item.options,
+                        ans: item.ans
+                    }));
+                    SUBJECT_QUESTION_BANKS[currentSubject] = normalized;
+                    QUESTION_POOL = normalized;
+                    updatePoolBadge();
+                    showModal("Question Bank Updated", `Successfully loaded ${QUESTION_POOL.length} custom questions for ${currentSubject}!`, false);
+                } catch (err) {
+                    showModal("JSON Parse Error", "Could not read the uploaded JSON file. Please verify valid JSON syntax.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        /* =========================================================================
+           6. FISHER-YATES SHUFFLE & EXAM SESSION START
+           ========================================================================= */
+        function pickRandom100Questions(pool) {
+            const copy = [...pool];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy.slice(0, 100);
+        }
+
+        function startExam() {
+            const nameVal = document.getElementById('input-name').value.trim();
+            const emailVal = document.getElementById('input-email').value.trim();
+            const t = I18N[currentLang] || I18N['en'];
+
+            if (!nameVal || !emailVal) {
+                showModal(t.modalWarnTitle, t.modalEnterName, false);
+                return;
+            }
+
+            if (!QUESTION_POOL || QUESTION_POOL.length === 0) {
+                QUESTION_POOL = build2000QuestionsForSubject(currentSubject);
+            }
+
+            candidate = { name: nameVal, email: emailVal };
+            examQuestions = pickRandom100Questions(QUESTION_POOL);
+            userAnswers = new Array(100).fill(null);
+            markedForReview = new Array(100).fill(false);
+            currentIndex = 0;
+            timeRemainingSec = 3 * 60 * 60; // 3 Hours (10,800 seconds)
+
+            document.getElementById('exam-candidate-name').textContent = candidate.name;
+            document.getElementById('exam-active-subject-badge').textContent = currentSubject;
+            document.getElementById('exam-candidate-id').textContent = `ID: ${candidate.email}`;
+            document.getElementById('candidate-avatar').textContent = candidate.name.charAt(0).toUpperCase();
+
+            document.getElementById('view-lobby').classList.add('hidden');
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('view-exam').classList.remove('hidden');
+
+            buildPaletteGrid();
+            renderQuestion(0);
+            startCountdownTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* =========================================================================
+           7. 3-HOUR COUNTDOWN TIMER WITH AUTO-SUBMIT
+           ========================================================================= */
+        function startCountdownTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemainingSec--;
+                updateTimerDisplay();
+
+                if (timeRemainingSec <= 0) {
+                    clearInterval(timerInterval);
+                    finalizeAndGradeExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hrs = Math.floor(timeRemainingSec / 3600);
+            const mins = Math.floor((timeRemainingSec % 3600) / 60);
+            const secs = timeRemainingSec % 60;
+
+            const formatted = [
+                String(hrs).padStart(2, '0'),
+                String(mins).padStart(2, '0'),
+                String(secs).padStart(2, '0')
+            ].join(':');
+
+            const timerEl = document.getElementById('exam-timer');
+            if (!timerEl) return;
+            timerEl.textContent = formatted;
+
+            // Turn red in final 10 minutes
+            if (timeRemainingSec <= 600) {
+                timerEl.classList.remove('text-amber-300');
+                timerEl.classList.add('text-rose-400');
+            } else {
+                timerEl.classList.add('text-amber-300');
+                timerEl.classList.remove('text-rose-400');
+            }
+        }
+
+        /* =========================================================================
+           8. QUESTION RENDERING & PALETTE NAVIGATION
+           ========================================================================= */
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function formatCodeTagsInText(text) {
+            const escaped = escapeHtml(text);
+            return escaped.replace(/(&lt;[^&]+&gt;)/g, '<span class="code-pill">$1</span>');
+        }
+
+        function renderQuestion(index) {
+            if (!examQuestions || examQuestions.length === 0) return;
+            if (index < 0 || index >= examQuestions.length) index = 0;
+
+            currentIndex = index;
+            const qObj = examQuestions[index];
+            if (!qObj) return;
+
+            const t = I18N[currentLang] || I18N['en'];
+
+            document.getElementById('q-number-badge').textContent = `${t.questionWord} ${index + 1} / 100`;
+            document.getElementById('q-category-badge').textContent = qObj.category || currentSubject;
+            document.getElementById('q-bank-id').textContent = `#DB-${String(qObj.id || (index + 1)).padStart(4, '0')}`;
+
+            const localizedPrompt = (qObj.q && (qObj.q[currentLang] || qObj.q['en'])) || '';
+            document.getElementById('question-text').innerHTML = formatCodeTagsInText(localizedPrompt);
+
+            // Render 4 Options (A, B, C, D)
+            const letters = ['A', 'B', 'C', 'D'];
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            (qObj.options || []).forEach((optText, optIdx) => {
+                const isSelected = userAnswers[index] === optIdx;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectOption(optIdx);
+
+                btn.className = isSelected
+                    ? 'w-full text-left p-4 rounded-2xl border-2 border-[#0066cc] bg-sky-50/80 flex items-center space-x-3.5 transition shadow-sm'
+                    : 'w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-[#0066cc]/60 hover:bg-slate-50 flex items-center space-x-3.5 transition';
+
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0 ${isSelected ? 'bg-[#0066cc] text-white' : 'bg-slate-100 text-slate-700'}">
+                        ${letters[optIdx]}
+                    </span>
+                    <span class="font-mono text-sm sm:text-base text-slate-800 break-all">${escapeHtml(optText)}</span>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Update Prev/Next/Review button states
+            document.getElementById('btn-prev').disabled = (index === 0);
+            document.getElementById('btn-review-text').textContent = markedForReview[index] ? t.unmarkReviewBtn : t.reviewBtn;
+
+            refreshPaletteStyles();
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentIndex] = optIdx;
+            renderQuestion(currentIndex);
+            updatePaletteCounts();
+        }
+
+        function clearResponse() {
+            userAnswers[currentIndex] = null;
+            renderQuestion(currentIndex);
+            updatePaletteCounts();
+        }
+
+        function toggleMarkReview() {
+            markedForReview[currentIndex] = !markedForReview[currentIndex];
+            renderQuestion(currentIndex);
+            updatePaletteCounts();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                renderQuestion(currentIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndex < 99) {
+                renderQuestion(currentIndex + 1);
+            } else {
+                confirmSubmitExam();
+            }
+        }
+
+        function buildPaletteGrid() {
+            const grid = document.getElementById('palette-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 100; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = `pal-btn-${i}`;
+                btn.textContent = i + 1;
+                btn.onclick = () => renderQuestion(i);
+                btn.className = 'h-9 rounded-lg font-bold text-xs transition flex items-center justify-center bg-slate-100 text-slate-700 hover:bg-slate-200';
+                grid.appendChild(btn);
+            }
+            updatePaletteCounts();
+        }
+
+        function refreshPaletteStyles() {
+            for (let i = 0; i < 100; i++) {
+                const btn = document.getElementById(`pal-btn-${i}`);
+                if (!btn) continue;
+
+                let cls = 'h-9 rounded-lg font-bold text-xs transition flex items-center justify-center ';
+                if (i === currentIndex) {
+                    cls += 'bg-[#0066cc] text-white ring-2 ring-sky-300 shadow-sm';
+                } else if (markedForReview[i]) {
+                    cls += 'bg-[#f5820d] text-white';
+                } else if (userAnswers[i] !== null) {
+                    cls += 'bg-emerald-500 text-white';
+                } else {
+                    cls += 'bg-slate-100 text-slate-700 hover:bg-slate-200';
+                }
+                btn.className = cls;
+            }
+        }
+
+        function updatePaletteCounts() {
+            const t = I18N[currentLang] || I18N['en'];
+            const answered = userAnswers.filter(a => a !== null).length;
+            const review = markedForReview.filter(Boolean).length;
+            const remaining = 100 - answered;
+
+            document.getElementById('palette-progress').textContent = `${answered}/100`;
+            document.getElementById('leg-answered').innerHTML = `${t.legAnswered} (<b>${answered}</b>)`;
+            document.getElementById('leg-review').innerHTML = `${t.legReview} (<b>${review}</b>)`;
+            document.getElementById('leg-current').textContent = t.legCurrent;
+            document.getElementById('leg-unanswered').innerHTML = `${t.legRemaining} (<b>${remaining}</b>)`;
+        }
+
+        /* =========================================================================
+           9. EXAM SUBMISSION, GRADING & CERTIFICATE POPULATION
+           ========================================================================= */
+        function confirmSubmitExam() {
+            const t = I18N[currentLang] || I18N['en'];
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const msg = `${t.modalSubmitMsg} (${answeredCount} / 100)`;
+            showModal(t.modalSubmitTitle, msg, true, () => {
+                finalizeAndGradeExam();
+            });
+        }
+
+        function calculateGrade(score) {
+            if (score >= 90) return { grade: 'A+', passed: true };
+            if (score >= 80) return { grade: 'A', passed: true };
+            if (score >= 70) return { grade: 'B', passed: true };
+            if (score >= 60) return { grade: 'C', passed: true };
+            if (score >= 50) return { grade: 'D', passed: true };
+            return { grade: 'F', passed: false };
+        }
+
+        function finalizeAndGradeExam() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let attempted = 0;
+            let correct = 0;
+            let wrong = 0;
+
+            examQuestions.forEach((q, idx) => {
+                const chosen = userAnswers[idx];
+                if (chosen !== null) {
+                    attempted++;
+                    if (chosen === q.ans) {
+                        correct++;
+                    } else {
+                        wrong++;
+                    }
+                }
+            });
+
+            const { grade, passed } = calculateGrade(correct);
+            const cleanSubCode = currentSubject.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+            certUniqueId = `CERT-${cleanSubCode}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            const dateStr = new Date().toLocaleDateString(
+                currentLang === 'hi' ? 'hi-IN' : currentLang === 'ru' ? 'ru-RU' : currentLang === 'es' ? 'es-ES' : 'en-US',
+                { year: 'numeric', month: 'long', day: 'numeric' }
+            );
+
+            lastScoreSummary = {
+                subject: currentSubject,
+                attempted,
+                correct,
+                wrong,
+                percentage: correct,
+                grade,
+                passed,
+                dateStr
+            };
+
+            document.getElementById('view-exam').classList.add('hidden');
+            document.getElementById('view-results').classList.remove('hidden');
+
+            renderResultsView(lastScoreSummary);
+            buildAnswerReviewList();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderResultsView(summary) {
+            const t = I18N[currentLang] || I18N['en'];
+
+            document.getElementById('res-candidate-meta').textContent = `${candidate.name} (${candidate.email}) • ${summary.subject} • ${summary.dateStr}`;
+            document.getElementById('res-grade-value').textContent = summary.grade;
+            document.getElementById('res-percent-value').textContent = `${summary.percentage}%`;
+
+            document.getElementById('metric-subject-val').textContent = summary.subject;
+            document.getElementById('metric-attempted').textContent = summary.attempted;
+            document.getElementById('metric-correct').textContent = summary.correct;
+            document.getElementById('metric-wrong').textContent = summary.wrong;
+
+            const statusEl = document.getElementById('metric-status');
+            statusEl.textContent = summary.passed ? t.passedText : t.failedText;
+            statusEl.className = summary.passed
+                ? 'text-lg font-extrabold text-emerald-600 mt-1'
+                : 'text-lg font-extrabold text-rose-600 mt-1';
+
+            // Populate Certificate Fields dynamically with selected Subject
+            document.getElementById('cert-id-display').textContent = `ID: ${certUniqueId}`;
+            document.getElementById('cert-serial-footer').textContent = `ID: ${certUniqueId}`;
+            document.getElementById('cert-candidate-name').textContent = candidate.name;
+            document.getElementById('cert-description').textContent = t.certDescTpl.replace(/\{SUB\}/g, summary.subject);
+            document.getElementById('cert-val-score').textContent = `${summary.correct} / 100 (${summary.percentage}%)`;
+            document.getElementById('cert-val-grade').textContent = summary.grade;
+            document.getElementById('cert-val-course').textContent = `${summary.subject} ${t.certCourseSuffix}`;
+            document.getElementById('cert-date-val').textContent = summary.dateStr;
+        }
+
+        /* =========================================================================
+           10. DIRECT HIGH-RESOLUTION PDF CERTIFICATE DOWNLOAD (html2canvas + jsPDF)
+           ========================================================================= */
+        async function downloadPDFCertificate() {
+            const btn = document.getElementById('btn-download-pdf');
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Generating PDF...`;
+
+            try {
+                const certElement = document.getElementById('certificate-node');
+                const canvas = await html2canvas(certElement, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'px',
+                    format: [1000, 700]
+                });
+
+                pdf.addImage(imgData, 'PNG', 0, 0, 1000, 700);
+                const safeFilename = candidate.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'candidate';
+                const safeSubject = currentSubject.replace(/[^a-z0-9]/gi, '_');
+                pdf.save(`codegurukool_${safeSubject}_Certificate_${safeFilename}_${certUniqueId}.pdf`);
+            } catch (err) {
+                console.error(err);
+                showModal("PDF Export Notice", "Unable to generate PDF directly in this sandbox. Please use your browser's Print to PDF feature.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        /* =========================================================================
+           11. DETAILED ANSWER REVIEW & RETAKE
+           ========================================================================= */
+        function toggleAnswerReview() {
+            const sec = document.getElementById('answer-review-section');
+            sec.classList.toggle('hidden');
+            if (!sec.classList.contains('hidden')) {
+                sec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function buildAnswerReviewList() {
+            const t = I18N[currentLang] || I18N['en'];
+            const container = document.getElementById('review-list-container');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            examQuestions.forEach((q, idx) => {
+                const chosen = userAnswers[idx];
+                const isCorrect = chosen === q.ans;
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}`;
+
+                const userText = chosen !== null
+                    ? `${letters[chosen]}. ${escapeHtml(q.options[chosen])}`
+                    : t.notAnswered;
+                const correctText = `${letters[q.ans]}. ${escapeHtml(q.options[q.ans])}`;
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-md ${isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">
+                            Q${idx + 1} • ${isCorrect ? '✓' : '✕'}
+                        </span>
+                        <span class="text-xs text-slate-400 font-mono">#DB-${String(q.id).padStart(4, '0')}</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-900 mb-2">${formatCodeTagsInText(q.q[currentLang] || q.q['en'])}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div class="p-2 rounded-lg bg-white border border-slate-200">
+                            <span class="font-bold text-slate-500">${t.yourAns}</span>
+                            <span class="font-mono ${isCorrect ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold'}">${userText}</span>
+                        </div>
+                        <div class="p-2 rounded-lg bg-white border border-emerald-200">
+                            <span class="font-bold text-slate-500">${t.correctAns}</span>
+                            <span class="font-mono text-emerald-700 font-bold">${correctText}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function retakeExam() {
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('view-exam').classList.add('hidden');
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('answer-review-section').classList.add('hidden');
+            document.getElementById('view-lobby').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* =========================================================================
+           12. CUSTOM MODAL HELPER (NO NATIVE ALERT / CONFIRM)
+           ========================================================================= */
+        function showModal(title, message, showCancel = false, onConfirm = null) {
+            const t = I18N[currentLang] || I18N['en'];
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+
+            if (showCancel) {
+                cancelBtn.classList.remove('hidden');
+                cancelBtn.textContent = t.modalCancel;
+                confirmBtn.textContent = t.modalConfirm;
+            } else {
+                cancelBtn.classList.add('hidden');
+                confirmBtn.textContent = "OK";
+            }
+
+            confirmBtn.onclick = () => {
+                closeModal();
+                if (typeof onConfirm === 'function') onConfirm();
+            };
+
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
